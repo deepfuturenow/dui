@@ -3,7 +3,8 @@ import { resolve, join } from "jsr:@std/path@^1";
 
 const PORT = 4040;
 const STATIC_DIR = resolve(import.meta.dirname!, "static");
-const ENTRY = resolve(import.meta.dirname!, "src/index.ts");
+const DOCS_ENTRY = resolve(import.meta.dirname!, "src/index.ts");
+const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 
 /**
@@ -40,6 +41,8 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/button": "./src/components/button.ts",
       "./components/switch": "./src/components/switch.ts",
       "./components/badge": "./src/components/badge.ts",
+      "./tokens": "./src/tokens.ts",
+      "./tokens-raw": "./src/tokens-raw.ts",
     },
   },
 };
@@ -74,7 +77,7 @@ const cssRawTextPlugin: esbuild.Plugin = {
 };
 
 const ctx = await esbuild.context({
-  entryPoints: [ENTRY],
+  entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
   bundle: true,
   format: "esm",
   target: "es2022",
