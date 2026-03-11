@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DUI Component Library</title>
+  <script type="module" src="/index.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: var(--background);
+      color: var(--foreground);
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h1 { margin-bottom: 1.5rem; }
+    h2 { margin-bottom: 1rem; }
+    .row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle">
+    <dui-button variant="outline" size="sm" onclick="toggleTheme()">Toggle theme</dui-button>
+  </div>
+
+  <h1>DUI Components</h1>
+
+  <section>
+    <h2>Button</h2>
+    <div class="row">
+      <dui-button>Default</dui-button>
+      <dui-button variant="secondary">Secondary</dui-button>
+      <dui-button variant="destructive">Destructive</dui-button>
+      <dui-button variant="outline">Outline</dui-button>
+      <dui-button variant="ghost">Ghost</dui-button>
+      <dui-button variant="link">Link</dui-button>
+    </div>
+    <div class="row">
+      <dui-button size="sm">Small</dui-button>
+      <dui-button size="md">Medium</dui-button>
+      <dui-button size="lg">Large</dui-button>
+    </div>
+    <div class="row">
+      <dui-button rounded>Rounded</dui-button>
+      <dui-button disabled>Disabled</dui-button>
+      <dui-button href="/example">Link button</dui-button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Switch</h2>
+    <div class="row">
+      <dui-switch>Default</dui-switch>
+    </div>
+    <div class="row">
+      <dui-switch default-checked>Default checked</dui-switch>
+    </div>
+    <div class="row">
+      <dui-switch disabled>Disabled</dui-switch>
+    </div>
+    <div class="row">
+      <dui-switch read-only default-checked>Read only</dui-switch>
+    </div>
+  </section>
+
+  <section>
+    <h2>Badge</h2>
+    <div class="row">
+      <dui-badge>Default</dui-badge>
+      <dui-badge variant="secondary">Secondary</dui-badge>
+      <dui-badge variant="destructive">Destructive</dui-badge>
+      <dui-badge variant="outline">Outline</dui-badge>
+      <dui-badge variant="success">Success</dui-badge>
+      <dui-badge variant="warning">Warning</dui-badge>
+      <dui-badge variant="info">Info</dui-badge>
+    </div>
+  </section>
+
+  <script>
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    }
+  </script>
+</body>
+</html>

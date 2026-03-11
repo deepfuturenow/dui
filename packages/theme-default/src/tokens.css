@@ -1,0 +1,302 @@
+/* =================================================================
+ * DUI Design Tokens
+ * =================================================================
+ * Combined token system: spacing, typography, borders, elevation,
+ * motion, colors, sizing, and focus.
+ *
+ * Tokens are declared on :root so they cascade through the entire
+ * document, including into shadow DOM via CSS custom property
+ * inheritance.
+ *
+ * Dark mode: apply data-theme="dark" on <html> to switch palettes.
+ * ================================================================= */
+
+:root {
+  /* -----------------------------------------------------------
+   * Spacing (Tailwind base-4 system)
+   * ----------------------------------------------------------- */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0_5: 0.125rem; /* 2px */
+  --space-1: 0.25rem; /* 4px */
+  --space-1_5: 0.375rem; /* 6px */
+  --space-2: 0.5rem; /* 8px */
+  --space-2_5: 0.625rem; /* 10px */
+  --space-3: 0.75rem; /* 12px */
+  --space-3_5: 0.875rem; /* 14px */
+  --space-4: 1rem; /* 16px */
+  --space-4_5: 1.125rem; /* 18px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-7: 1.75rem; /* 28px */
+  --space-8: 2rem; /* 32px */
+  --space-9: 2.25rem; /* 36px */
+  --space-10: 2.5rem; /* 40px */
+  --space-11: 2.75rem; /* 44px */
+  --space-12: 3rem; /* 48px */
+  --space-14: 3.5rem; /* 56px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  --space-28: 7rem; /* 112px */
+  --space-32: 8rem; /* 128px */
+  --space-36: 9rem; /* 144px */
+  --space-40: 10rem; /* 160px */
+  --space-44: 11rem; /* 176px */
+  --space-48: 12rem; /* 192px */
+  --space-52: 13rem; /* 208px */
+  --space-56: 14rem; /* 224px */
+  --space-60: 15rem; /* 240px */
+  --space-64: 16rem; /* 256px */
+  --space-72: 18rem; /* 288px */
+  --space-80: 20rem; /* 320px */
+  --space-96: 24rem; /* 384px */
+
+  /* -----------------------------------------------------------
+   * Typography
+   * ----------------------------------------------------------- */
+  --font-sans:
+    -apple-system, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  --font-size-2xs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 0.9375rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+
+  --letter-spacing-tightest: -0.02em;
+  --letter-spacing-tighter: -0.015em;
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.006em;
+  --letter-spacing-wider: 0.012em;
+
+  --font-size-fluid-sm: clamp(0.813rem, 0.75rem + 0.315vw, 0.875rem);
+  --font-size-fluid-md: clamp(0.875rem, 0.813rem + 0.315vw, 1rem);
+  --font-size-fluid-lg: clamp(1rem, 0.938rem + 0.315vw, 1.125rem);
+  --font-size-fluid-xl: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --font-size-fluid-2xl: clamp(1.25rem, 1.125rem + 0.625vw, 1.5rem);
+  --font-size-fluid-3xl: clamp(1.5rem, 1.313rem + 0.938vw, 1.875rem);
+  --font-size-fluid-4xl: clamp(1.875rem, 1.625rem + 1.25vw, 2.25rem);
+  --font-size-fluid-5xl: clamp(2.25rem, 1.875rem + 1.875vw, 3rem);
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* -----------------------------------------------------------
+   * Borders
+   * ----------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  --border-width-hairline: 0.5px;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  /* -----------------------------------------------------------
+   * Elevation
+   * ----------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-none: 0 0 0 0 transparent;
+
+  --z-base: 0;
+  --z-dropdown: 700;
+  --z-sticky: 800;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+  --z-tooltip: 1300;
+
+  /* -----------------------------------------------------------
+   * Motion
+   * ----------------------------------------------------------- */
+  --duration-instant: 50ms;
+  --duration-faster: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 700ms;
+
+  --ease-1: cubic-bezier(0.25, 0, 0.5, 1);
+  --ease-2: cubic-bezier(0.25, 0, 0.4, 1);
+  --ease-3: cubic-bezier(0.25, 0, 0.3, 1);
+  --ease-4: cubic-bezier(0.25, 0, 0.2, 1);
+  --ease-5: cubic-bezier(0.25, 0, 0.1, 1);
+  --ease-in-1: cubic-bezier(0.25, 0, 1, 1);
+  --ease-in-2: cubic-bezier(0.5, 0, 1, 1);
+  --ease-in-3: cubic-bezier(0.7, 0, 1, 1);
+  --ease-in-4: cubic-bezier(0.9, 0, 1, 1);
+  --ease-in-5: cubic-bezier(1, 0, 1, 1);
+  --ease-out-1: cubic-bezier(0, 0, 0.75, 1);
+  --ease-out-2: cubic-bezier(0, 0, 0.5, 1);
+  --ease-out-3: cubic-bezier(0, 0, 0.3, 1);
+  --ease-out-4: cubic-bezier(0, 0, 0.1, 1);
+  --ease-out-5: cubic-bezier(0, 0, 0, 1);
+  --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
+  --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+  --ease-in-out-3: cubic-bezier(0.5, 0, 0.5, 1);
+  --ease-in-out-4: cubic-bezier(0.7, 0, 0.3, 1);
+  --ease-in-out-5: cubic-bezier(0.9, 0, 0.1, 1);
+
+  --ease-sine-in: cubic-bezier(0.47, 0, 0.745, 0.715);
+  --ease-sine-out: cubic-bezier(0.39, 0.575, 0.565, 1);
+  --ease-sine-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  --ease-quad-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --ease-quad-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-quad-in-out: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  --ease-cubic-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --ease-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-cubic-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-quart-in: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  --ease-quart-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-quart-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-quint-in: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  --ease-quint-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-quint-in-out: cubic-bezier(0.86, 0, 0.07, 1);
+  --ease-expo-in: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --ease-expo-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-expo-in-out: cubic-bezier(1, 0, 0, 1);
+  --ease-circ-in: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+  --ease-circ-out: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --ease-circ-in-out: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+  /* -----------------------------------------------------------
+   * Component Sizing
+   * ----------------------------------------------------------- */
+  --component-height-xxs: 1.25rem;
+  --component-height-xs: 1.5rem;
+  --component-height-sm: 1.75rem;
+  --component-height-md: 2rem;
+  --component-height-lg: 2.25rem;
+  --component-height-xl: 2.5rem;
+
+  /* -----------------------------------------------------------
+   * Focus Ring
+   * ----------------------------------------------------------- */
+  --focus-ring-color: var(--ring);
+  --focus-ring-width: 2px;
+  --focus-ring-style: solid;
+  --focus-ring-offset: 2px;
+  --focus-ring-duration: var(--duration-fast);
+  --focus-ring-easing: var(--ease-out-3);
+
+  /* -----------------------------------------------------------
+   * Colors: Brand (theme-independent)
+   * ----------------------------------------------------------- */
+  --brand: oklch(0.728 0.1304 73.28);
+  --brand-foreground: oklch(1 0.02 73.28);
+}
+
+/* =================================================================
+ * LIGHT THEME (default)
+ * ================================================================= */
+:root:not([data-theme="dark"]) {
+  --background: oklch(0.97 0 0);
+  --foreground: oklch(0.145 0.005 286);
+  --muted: oklch(0.965 0.002 286);
+  --muted-foreground: oklch(0.556 0.016 286);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.145 0.005 286);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0.005 286);
+  --primary: oklch(0.205 0.042 265);
+  --primary-foreground: oklch(0.985 0.002 248);
+  --secondary: oklch(0.93 0.002 286);
+  --secondary-foreground: oklch(0.3 0.042 265);
+  --accent: oklch(0.93 0.04 62);
+  --accent-foreground: oklch(0.32 0.06 55);
+  --destructive: oklch(0.6 0.19 25);
+  --destructive-foreground: oklch(0.995 0.06 25);
+  --success: oklch(0.5 0.15 150);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.72 0.15 75);
+  --warning-foreground: oklch(0.28 0.06 55);
+  --info: oklch(0.53 0.16 245);
+  --info-foreground: oklch(0.985 0 0);
+  --input: oklch(0.922 0.004 286);
+  --input-bg: oklch(0.97 0.002 286);
+  --border: oklch(0.922 0.004 286);
+  --ring: oklch(0.551 0.2 245);
+  --meter-track: oklch(0.965 0.002 286);
+  --meter-fill: oklch(0.205 0.042 265);
+  --scrim: oklch(0 0 0 / 0.5);
+  --chart-1: oklch(0.58 0.17 35);
+  --chart-2: oklch(0.55 0.13 185);
+  --chart-3: oklch(0.52 0.14 265);
+  --chart-4: oklch(0.62 0.15 85);
+  --chart-5: oklch(0.55 0.16 310);
+}
+
+/* =================================================================
+ * DARK THEME
+ * ================================================================= */
+:root[data-theme="dark"] {
+  --background: oklch(0.26 0.019 243);
+  --foreground: oklch(0.9353 0.0173 243);
+  --muted: oklch(0.27 0.03 243);
+  --muted-foreground: oklch(0.9353 0.0173 243 / 0.4);
+  --card: oklch(0.29 0.028 243);
+  --card-foreground: oklch(0.985 0.002 243);
+  --popover: oklch(0.309 0.032 243);
+  --popover-foreground: oklch(0.985 0.002 243);
+  --primary: oklch(0.985 0.002 243);
+  --primary-foreground: oklch(0.205 0.042 243);
+  --secondary: oklch(0.826 0.041 243 / 0.2);
+  --secondary-foreground: oklch(0.9353 0.0173 243 / 1);
+  --accent: oklch(0.7001 0.1329 62.25);
+  --accent-foreground: oklch(1 0.1 62.25);
+  --destructive: oklch(0.63 0.2 25);
+  --destructive-foreground: oklch(0.99 0.1 25);
+  --success: oklch(0.65 0.17 145);
+  --success-foreground: oklch(1 0.1 145);
+  --warning: oklch(0.78 0.15 80);
+  --warning-foreground: oklch(1 0.05 80);
+  --info: oklch(0.64 0.16 245);
+  --info-foreground: oklch(1 0.1 245);
+  --input: oklch(0.826 0.041 202 / 0.2);
+  --input-bg: oklch(0.826 0.041 202 / 0.08);
+  --border: oklch(0.826 0.041 202 / 0.14);
+  --ring: oklch(0.55 0.16 245);
+  --meter-track: oklch(0.269 0.007 286);
+  --meter-fill: oklch(0.985 0.002 248);
+  --scrim: oklch(0.18 0.017 244 / 0.6);
+  --chart-1: oklch(0.58 0.17 264);
+  --chart-2: oklch(0.62 0.15 162);
+  --chart-3: oklch(0.7 0.16 80);
+  --chart-4: oklch(0.6 0.19 303);
+  --chart-5: oklch(0.62 0.18 16);
+}

@@ -1,0 +1,19 @@
+{
+  "workspace": [
+    "./packages/core",
+    "./packages/components",
+    "./packages/theme-default",
+    "./packages/docs"
+  ],
+  "unstable": ["raw-imports"],
+  "compilerOptions": {
+    "lib": [
+      "deno.ns",
+      "DOM",
+      "DOM.Iterable",
+      "DOM.AsyncIterable",
+      "ESNext"
+    ]
+  },
+  "nodeModulesDir": "auto"
+}

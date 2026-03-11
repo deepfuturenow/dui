@@ -1,0 +1,18 @@
+{
+  "name": "@dui/core",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./event": "./src/event.ts",
+    "./base": "./src/base.ts",
+    "./apply-theme": "./src/apply-theme.ts",
+    "./popup-coordinator": "./src/popup-coordinator.ts",
+    "./floating-popup-utils": "./src/floating-popup-utils.ts",
+    "./floating-portal-controller": "./src/floating-portal-controller.ts",
+    "./layout-types": "./src/layout-types.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2",
+    "@floating-ui/dom": "npm:@floating-ui/dom@^1.7.4"
+  }
+}

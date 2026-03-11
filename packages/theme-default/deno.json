@@ -1,0 +1,13 @@
+{
+  "name": "@dui/theme-default",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./components/button": "./src/components/button.ts",
+    "./components/switch": "./src/components/switch.ts",
+    "./components/badge": "./src/components/badge.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2"
+  }
+}
