@@ -1,6 +1,6 @@
 export { base } from "./base.ts";
 export { customEvent } from "./event.ts";
-export { applyTheme } from "./apply-theme.ts";
+export { applyTheme, getActiveTheme } from "./apply-theme.ts";
 export type { DuiTheme, ApplyThemeOptions } from "./apply-theme.ts";
 export { notifyPopupOpening, notifyPopupClosing } from "./popup-coordinator.ts";
 export {

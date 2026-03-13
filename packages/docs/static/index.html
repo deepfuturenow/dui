@@ -1,22 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DUI Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <script type="module" src="/index.js"></script>
   <style>
+    :root {
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Fira Code', ui-monospace, monospace;
+    }
     body {
       margin: 0;
-      padding: 2rem;
-      background: var(--background);
+      padding: 3rem 2rem 4rem;
+      background-color: var(--background);
+      background-image:
+        radial-gradient(ellipse at 10% 10%, oklch(0.55 0.08 180 / 0.08), transparent 50%),
+        radial-gradient(ellipse at 90% 90%, oklch(0.6 0.07 70 / 0.06), transparent 50%);
       color: var(--foreground);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+    }
+    body > *:not(.theme-toggle) {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
     section {
       margin-bottom: 2rem;
     }
-    h1 { margin-bottom: 1.5rem; }
-    h2 { margin-bottom: 1rem; }
+    h1 {
+      font-size: var(--font-size-fluid-3xl, 2.5rem);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tighter, -0.03em);
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-sm, 0.875rem);
+      color: var(--muted-foreground);
+      margin: 0 0 2.5rem;
+    }
+    h2 {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xl);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wider, 0.05em);
+      color: var(--primary);
+      margin: 3rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
     .row {
       display: flex;
       gap: 0.75rem;
@@ -26,8 +65,9 @@
     }
     .theme-toggle {
       position: fixed;
-      top: 1rem;
-      right: 1rem;
+      top: 1.25rem;
+      right: 1.5rem;
+      z-index: 10;
     }
   </style>
 </head>
@@ -37,111 +77,125 @@
   </div>
 
   <h1>DUI Components</h1>
+  <p class="subtitle">Unstyled web components · composable themes · built with Lit</p>
 
   <section>
     <h2>Accordion</h2>
 
-    <h3>Single mode (default)</h3>
-    <dui-accordion default-value='["item-1"]'>
-      <dui-accordion-item value="item-1">
-        <span slot="trigger">Is it accessible?</span>
-        Yes. It adheres to the WAI-ARIA design pattern.
-      </dui-accordion-item>
-      <dui-accordion-item value="item-2">
-        <span slot="trigger">Is it styled?</span>
-        Yes. It comes with default styles via the theme system.
-      </dui-accordion-item>
-      <dui-accordion-item value="item-3">
-        <span slot="trigger">Is it animated?</span>
-        Yes. It uses height transitions with reduced-motion support.
-      </dui-accordion-item>
-    </dui-accordion>
+    <dui-docs-demo label="Single mode (default)">
+      <dui-accordion default-value='["item-1"]'>
+        <dui-accordion-item value="item-1">
+          <span slot="trigger">Is it accessible?</span>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </dui-accordion-item>
+        <dui-accordion-item value="item-2">
+          <span slot="trigger">Is it styled?</span>
+          Yes. It comes with default styles via the theme system.
+        </dui-accordion-item>
+        <dui-accordion-item value="item-3">
+          <span slot="trigger">Is it animated?</span>
+          Yes. It uses height transitions with reduced-motion support.
+        </dui-accordion-item>
+      </dui-accordion>
+    </dui-docs-demo>
 
-    <h3>Multiple mode</h3>
-    <dui-accordion multiple default-value='["m-1","m-2"]'>
-      <dui-accordion-item value="m-1">
-        <span slot="trigger">First section</span>
-        Multiple items can be open at once.
-      </dui-accordion-item>
-      <dui-accordion-item value="m-2">
-        <span slot="trigger">Second section</span>
-        This one starts open too.
-      </dui-accordion-item>
-      <dui-accordion-item value="m-3">
-        <span slot="trigger">Third section</span>
-        Try opening all three.
-      </dui-accordion-item>
-    </dui-accordion>
+    <dui-docs-demo label="Multiple mode">
+      <dui-accordion multiple default-value='["m-1","m-2"]'>
+        <dui-accordion-item value="m-1">
+          <span slot="trigger">First section</span>
+          Multiple items can be open at once.
+        </dui-accordion-item>
+        <dui-accordion-item value="m-2">
+          <span slot="trigger">Second section</span>
+          This one starts open too.
+        </dui-accordion-item>
+        <dui-accordion-item value="m-3">
+          <span slot="trigger">Third section</span>
+          Try opening all three.
+        </dui-accordion-item>
+      </dui-accordion>
+    </dui-docs-demo>
 
-    <h3>Disabled</h3>
-    <dui-accordion disabled>
-      <dui-accordion-item value="d-1">
-        <span slot="trigger">Disabled globally</span>
-        You cannot open this.
-      </dui-accordion-item>
-    </dui-accordion>
+    <dui-docs-demo label="Disabled">
+      <dui-accordion disabled>
+        <dui-accordion-item value="d-1">
+          <span slot="trigger">Disabled globally</span>
+          You cannot open this.
+        </dui-accordion-item>
+      </dui-accordion>
 
-    <dui-accordion>
-      <dui-accordion-item value="di-1" disabled>
-        <span slot="trigger">Disabled per-item</span>
-        Only this item is disabled.
-      </dui-accordion-item>
-      <dui-accordion-item value="di-2">
-        <span slot="trigger">This one works</span>
-        This item is enabled.
-      </dui-accordion-item>
-    </dui-accordion>
+      <dui-accordion>
+        <dui-accordion-item value="di-1" disabled>
+          <span slot="trigger">Disabled per-item</span>
+          Only this item is disabled.
+        </dui-accordion-item>
+        <dui-accordion-item value="di-2">
+          <span slot="trigger">This one works</span>
+          This item is enabled.
+        </dui-accordion-item>
+      </dui-accordion>
+    </dui-docs-demo>
   </section>
 
   <section>
     <h2>Button</h2>
-    <div class="row">
-      <dui-button>Default</dui-button>
-      <dui-button variant="secondary">Secondary</dui-button>
-      <dui-button variant="destructive">Destructive</dui-button>
-      <dui-button variant="outline">Outline</dui-button>
-      <dui-button variant="ghost">Ghost</dui-button>
-      <dui-button variant="link">Link</dui-button>
-    </div>
-    <div class="row">
-      <dui-button size="sm">Small</dui-button>
-      <dui-button size="md">Medium</dui-button>
-      <dui-button size="lg">Large</dui-button>
-    </div>
-    <div class="row">
-      <dui-button rounded>Rounded</dui-button>
-      <dui-button disabled>Disabled</dui-button>
-      <dui-button href="/example">Link button</dui-button>
-    </div>
+    <dui-docs-demo label="Variants">
+      <div class="row">
+        <dui-button>Default</dui-button>
+        <dui-button variant="secondary">Secondary</dui-button>
+        <dui-button variant="destructive">Destructive</dui-button>
+        <dui-button variant="outline">Outline</dui-button>
+        <dui-button variant="ghost">Ghost</dui-button>
+        <dui-button variant="link">Link</dui-button>
+      </div>
+    </dui-docs-demo>
+    <dui-docs-demo label="Sizes">
+      <div class="row">
+        <dui-button size="sm">Small</dui-button>
+        <dui-button size="md">Medium</dui-button>
+        <dui-button size="lg">Large</dui-button>
+      </div>
+    </dui-docs-demo>
+    <dui-docs-demo label="Rounded / Disabled / Link">
+      <div class="row">
+        <dui-button rounded>Rounded</dui-button>
+        <dui-button disabled>Disabled</dui-button>
+        <dui-button href="/example">Link button</dui-button>
+      </div>
+    </dui-docs-demo>
   </section>
 
   <section>
     <h2>Switch</h2>
-    <div class="row">
-      <dui-switch>Default</dui-switch>
-    </div>
-    <div class="row">
-      <dui-switch default-checked>Default checked</dui-switch>
-    </div>
-    <div class="row">
-      <dui-switch disabled>Disabled</dui-switch>
-    </div>
-    <div class="row">
-      <dui-switch read-only default-checked>Read only</dui-switch>
-    </div>
+    <dui-docs-demo label="States">
+      <div class="row">
+        <dui-switch>Default</dui-switch>
+      </div>
+      <div class="row">
+        <dui-switch default-checked>Default checked</dui-switch>
+      </div>
+      <div class="row">
+        <dui-switch disabled>Disabled</dui-switch>
+      </div>
+      <div class="row">
+        <dui-switch read-only default-checked>Read only</dui-switch>
+      </div>
+    </dui-docs-demo>
   </section>
 
   <section>
     <h2>Badge</h2>
-    <div class="row">
-      <dui-badge>Default</dui-badge>
-      <dui-badge variant="secondary">Secondary</dui-badge>
-      <dui-badge variant="destructive">Destructive</dui-badge>
-      <dui-badge variant="outline">Outline</dui-badge>
-      <dui-badge variant="success">Success</dui-badge>
-      <dui-badge variant="warning">Warning</dui-badge>
-      <dui-badge variant="info">Info</dui-badge>
-    </div>
+    <dui-docs-demo label="Variants">
+      <div class="row">
+        <dui-badge>Default</dui-badge>
+        <dui-badge variant="secondary">Secondary</dui-badge>
+        <dui-badge variant="destructive">Destructive</dui-badge>
+        <dui-badge variant="outline">Outline</dui-badge>
+        <dui-badge variant="success">Success</dui-badge>
+        <dui-badge variant="warning">Warning</dui-badge>
+        <dui-badge variant="info">Info</dui-badge>
+      </div>
+    </dui-docs-demo>
   </section>
 
   <script>

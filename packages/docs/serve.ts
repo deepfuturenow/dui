@@ -79,6 +79,21 @@ const cssRawTextPlugin: esbuild.Plugin = {
   },
 };
 
+/** Import any file with a `?raw` suffix as a raw text string. */
+const rawTextPlugin: esbuild.Plugin = {
+  name: "raw-text",
+  setup(build) {
+    build.onResolve({ filter: /\?raw$/ }, (args) => {
+      const filePath = resolve(args.resolveDir, args.path.replace(/\?raw$/, ""));
+      return { path: filePath, namespace: "raw-text" };
+    });
+    build.onLoad({ filter: /.*/, namespace: "raw-text" }, async (args) => {
+      const text = await Deno.readTextFile(args.path);
+      return { contents: text, loader: "text" };
+    });
+  },
+};
+
 const ctx = await esbuild.context({
   entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
   bundle: true,
@@ -86,7 +101,7 @@ const ctx = await esbuild.context({
   target: "es2022",
   outdir: STATIC_DIR,
   write: false,
-  plugins: [duiWorkspacePlugin, cssRawTextPlugin],
+  plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
   nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
 });
 

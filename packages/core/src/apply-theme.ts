@@ -21,7 +21,14 @@ export interface ApplyThemeOptions {
   components: Array<typeof LitElement & { tagName: string }>;
 }
 
+let activeTheme: DuiTheme | null = null;
+
+export function getActiveTheme(): DuiTheme | null {
+  return activeTheme;
+}
+
 export function applyTheme({ theme, components }: ApplyThemeOptions): void {
+  activeTheme = theme;
   // 1. Inject tokens into document (idempotent)
   if (!document.adoptedStyleSheets.includes(theme.tokens)) {
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, theme.tokens];
