@@ -10,6 +10,12 @@
     "./components/badge": "./src/components/badge.ts",
     "./components/scroll-area": "./src/components/scroll-area.ts",
     "./components/combobox": "./src/components/combobox.ts",
+    "./components/menu": "./src/components/menu.ts",
+    "./components/menu-item": "./src/components/menu-item.ts",
+    "./components/popover": "./src/components/popover.ts",
+    "./components/popover-popup": "./src/components/popover-popup.ts",
+    "./components/tooltip": "./src/components/tooltip.ts",
+    "./components/tooltip-popup": "./src/components/tooltip-popup.ts",
     "./tokens": "./src/tokens.ts",
     "./tokens-raw": "./src/tokens-raw.ts"
   },

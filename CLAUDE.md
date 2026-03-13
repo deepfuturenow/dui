@@ -48,6 +48,16 @@ This is a Deno workspace. The root `deno.json` declares all four packages.
 - Do not put aesthetic styles in components — those belong in the theme
 - Do not use `querySelector` to reach into another component's Shadow DOM from outside
 
+## Docs site
+
+The docs dev server (`packages/docs`) is a multi-page site with sidebar navigation, hash routing, and per-component demo pages.
+
+- Adding a component to docs: use the `/add-to-docs` skill
+- Component metadata: `packages/docs/src/component-registry.ts` (drives nav, API tables, and `llms.txt`)
+- Shell + routing: `packages/docs/src/docs-app.ts` + `docs-router.ts`
+- Per-component pages: `packages/docs/src/pages/docs-page-{name}.ts`
+- `llms.txt` auto-generates from the registry at server startup
+
 ## Detailed conventions
 
 - Architecture & mental model: `docs/architecture.md`
