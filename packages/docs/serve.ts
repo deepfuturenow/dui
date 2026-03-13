@@ -29,6 +29,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
   "@dui/components": {
     dir: join(WORKSPACE_ROOT, "packages/components"),
     exports: {
+      "./accordion": "./src/accordion/index.ts",
       "./button": "./src/button/index.ts",
       "./switch": "./src/switch/index.ts",
       "./badge": "./src/badge/index.ts",
@@ -38,6 +39,8 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
     dir: join(WORKSPACE_ROOT, "packages/theme-default"),
     exports: {
       ".": "./src/index.ts",
+      "./components/accordion": "./src/components/accordion.ts",
+      "./components/accordion-item": "./src/components/accordion-item.ts",
       "./components/button": "./src/components/button.ts",
       "./components/switch": "./src/components/switch.ts",
       "./components/badge": "./src/components/badge.ts",

@@ -1,10 +1,11 @@
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
+import { DuiAccordion, DuiAccordionItem } from "@dui/components/accordion";
+import { DuiBadge } from "@dui/components/badge";
 import { DuiButton } from "@dui/components/button";
 import { DuiSwitch } from "@dui/components/switch";
-import { DuiBadge } from "@dui/components/badge";
 
 applyTheme({
   theme: defaultTheme,
-  components: [DuiButton, DuiSwitch, DuiBadge],
+  components: [DuiAccordion, DuiAccordionItem, DuiBadge, DuiButton, DuiSwitch],
 });

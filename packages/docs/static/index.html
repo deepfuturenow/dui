@@ -39,6 +39,61 @@
   <h1>DUI Components</h1>
 
   <section>
+    <h2>Accordion</h2>
+
+    <h3>Single mode (default)</h3>
+    <dui-accordion default-value='["item-1"]'>
+      <dui-accordion-item value="item-1">
+        <span slot="trigger">Is it accessible?</span>
+        Yes. It adheres to the WAI-ARIA design pattern.
+      </dui-accordion-item>
+      <dui-accordion-item value="item-2">
+        <span slot="trigger">Is it styled?</span>
+        Yes. It comes with default styles via the theme system.
+      </dui-accordion-item>
+      <dui-accordion-item value="item-3">
+        <span slot="trigger">Is it animated?</span>
+        Yes. It uses height transitions with reduced-motion support.
+      </dui-accordion-item>
+    </dui-accordion>
+
+    <h3>Multiple mode</h3>
+    <dui-accordion multiple default-value='["m-1","m-2"]'>
+      <dui-accordion-item value="m-1">
+        <span slot="trigger">First section</span>
+        Multiple items can be open at once.
+      </dui-accordion-item>
+      <dui-accordion-item value="m-2">
+        <span slot="trigger">Second section</span>
+        This one starts open too.
+      </dui-accordion-item>
+      <dui-accordion-item value="m-3">
+        <span slot="trigger">Third section</span>
+        Try opening all three.
+      </dui-accordion-item>
+    </dui-accordion>
+
+    <h3>Disabled</h3>
+    <dui-accordion disabled>
+      <dui-accordion-item value="d-1">
+        <span slot="trigger">Disabled globally</span>
+        You cannot open this.
+      </dui-accordion-item>
+    </dui-accordion>
+
+    <dui-accordion>
+      <dui-accordion-item value="di-1" disabled>
+        <span slot="trigger">Disabled per-item</span>
+        Only this item is disabled.
+      </dui-accordion-item>
+      <dui-accordion-item value="di-2">
+        <span slot="trigger">This one works</span>
+        This item is enabled.
+      </dui-accordion-item>
+    </dui-accordion>
+  </section>
+
+  <section>
     <h2>Button</h2>
     <div class="row">
       <dui-button>Default</dui-button>

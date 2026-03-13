@@ -4,6 +4,7 @@
   "exports": {
     "./button": "./src/button/index.ts",
     "./switch": "./src/switch/index.ts",
+    "./accordion": "./src/accordion/index.ts",
     "./badge": "./src/badge/index.ts"
   },
   "imports": {
