@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Deno check:*",
+      "Deno fmt:*",
+      "Deno lint:*",
+      "Deno test:*",
+      "Deno run:*",
+      "Deno build:*",
+      "Deno install:*",
+      "Deno uninstall:*",
+      "Deno update:*",
+      "Bash(git -C:*)",
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "WebFetch",
+      "WebSearch",
+      "Read",
+      "Glob",
+      "Grep"
+    ]
+  }
+}

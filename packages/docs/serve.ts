@@ -1,5 +1,6 @@
 import * as esbuild from "esbuild";
 import { resolve, join } from "jsr:@std/path@^1";
+import { componentRegistry } from "./src/component-registry.ts";
 
 const PORT = 4040;
 const STATIC_DIR = resolve(import.meta.dirname!, "static");
@@ -33,6 +34,9 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./button": "./src/button/index.ts",
       "./switch": "./src/switch/index.ts",
       "./badge": "./src/badge/index.ts",
+      "./icon": "./src/icon/index.ts",
+      "./scroll-area": "./src/scroll-area/index.ts",
+      "./combobox": "./src/combobox/index.ts",
     },
   },
   "@dui/theme-default": {
@@ -44,6 +48,8 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/button": "./src/components/button.ts",
       "./components/switch": "./src/components/switch.ts",
       "./components/badge": "./src/components/badge.ts",
+      "./components/scroll-area": "./src/components/scroll-area.ts",
+      "./components/combobox": "./src/components/combobox.ts",
       "./tokens": "./src/tokens.ts",
       "./tokens-raw": "./src/tokens-raw.ts",
     },
@@ -93,6 +99,71 @@ const rawTextPlugin: esbuild.Plugin = {
     });
   },
 };
+
+// Generate llms.txt from component registry
+function generateLlmsTxt(): string {
+  const lines: string[] = [
+    "# DUI — Unstyled Lit Component Library",
+    "",
+    "> Unstyled web components + composable themes. Components provide structure",
+    "> and behavior; themes provide aesthetics.",
+    "",
+    "## Getting Started",
+    "",
+    "Install: (Deno workspace package)",
+    'Import: import { DuiButton } from "@dui/components/button";',
+    "Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });",
+    "",
+    "## Components",
+    "",
+  ];
+
+  for (const c of componentRegistry) {
+    lines.push(`### ${c.name}`);
+    lines.push(`- Tag: \`<${c.tagName}>\``);
+    lines.push(`- Import: \`${c.importPath}\``);
+    lines.push(`- Description: ${c.description}`);
+
+    if (c.properties.length > 0) {
+      const props = c.properties
+        .map((p) => `${p.name} (${p.type}${p.default ? `, ${p.default}` : ""})`)
+        .join(", ");
+      lines.push(`- Properties: ${props}`);
+    }
+
+    if (c.events.length > 0) {
+      const events = c.events
+        .map((e) => `${e.name}${e.detail ? ` (${e.detail})` : ""}`)
+        .join(", ");
+      lines.push(`- Events: ${events}`);
+    } else {
+      lines.push("- Events: none");
+    }
+
+    if (c.slots.length > 0) {
+      const slots = c.slots
+        .map((s) => `${s.name} (${s.description})`)
+        .join(", ");
+      lines.push(`- Slots: ${slots}`);
+    }
+
+    if (c.cssProperties.length > 0) {
+      const cssProps = c.cssProperties
+        .map((p) => `${p.name} (${p.description})`)
+        .join(", ");
+      lines.push(`- CSS Properties: ${cssProps}`);
+    }
+
+    lines.push("");
+  }
+
+  return lines.join("\n");
+}
+
+// Write llms.txt before starting the server
+const llmsTxt = generateLlmsTxt();
+await Deno.writeTextFile(join(STATIC_DIR, "llms.txt"), llmsTxt);
+console.log("Generated llms.txt");
 
 const ctx = await esbuild.context({
   entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],

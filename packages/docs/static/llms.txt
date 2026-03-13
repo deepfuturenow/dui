@@ -1,0 +1,77 @@
+# DUI — Unstyled Lit Component Library
+
+> Unstyled web components + composable themes. Components provide structure
+> and behavior; themes provide aesthetics.
+
+## Getting Started
+
+Install: (Deno workspace package)
+Import: import { DuiButton } from "@dui/components/button";
+Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
+
+## Components
+
+### Accordion
+- Tag: `<dui-accordion>`
+- Import: `@dui/components/accordion`
+- Description: Vertically stacked sections with expandable/collapsible panels.
+- Properties: value (string[] | undefined), defaultValue (string[], []), disabled (boolean, false), multiple (boolean, false), loopFocus (boolean, true), orientation ("vertical" | "horizontal", "vertical"), keepMounted (boolean, false)
+- Events: value-change (string[])
+- Slots: default (Container for dui-accordion-item children)
+
+### Accordion Item
+- Tag: `<dui-accordion-item>`
+- Import: `@dui/components/accordion`
+- Description: Individual collapsible item within an accordion.
+- Properties: value (string, ""), disabled (boolean, false)
+- Events: open-change ({ value: string; open: boolean })
+- Slots: trigger (Header/trigger content), default (Panel content)
+
+### Button
+- Tag: `<dui-button>`
+- Import: `@dui/components/button`
+- Description: A button with variant, size, and link support.
+- Properties: variant (string, "default"), size (string, "md"), rounded (boolean, false), square (boolean, false), disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Events: dui-navigate ({ href: string })
+- Slots: default (Button label content)
+
+### Switch
+- Tag: `<dui-switch>`
+- Import: `@dui/components/switch`
+- Description: A toggle switch with checked, disabled, and read-only states.
+- Properties: checked (boolean | undefined), defaultChecked (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string, "on")
+- Events: checked-change ({ checked: boolean })
+- Slots: default (Label content)
+- CSS Properties: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+
+### Badge
+- Tag: `<dui-badge>`
+- Import: `@dui/components/badge`
+- Description: A small status indicator with multiple variants.
+- Properties: variant (string, "default")
+- Events: none
+- Slots: default (Badge content)
+
+### Icon
+- Tag: `<dui-icon>`
+- Import: `@dui/components/icon`
+- Description: Material Symbols icon with configurable size and color.
+- Properties: icon (string, ""), color (string | undefined), size (string | undefined)
+- Events: none
+- CSS Properties: --icon-size (Icon dimensions), --icon-fg (Icon color)
+
+### Scroll Area
+- Tag: `<dui-scroll-area>`
+- Import: `@dui/components/scroll-area`
+- Description: Custom scrollbar overlay with fade support.
+- Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
+- Events: scrolled-to-bottom, scrolled-from-bottom
+- Slots: default (Scrollable content)
+- CSS Properties: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+
+### Combobox
+- Tag: `<dui-combobox>`
+- Import: `@dui/components/combobox`
+- Description: Searchable dropdown with single and multi-select modes.
+- Properties: options (SelectOption[], []), value (string, ""), values (Set<string>, new Set()), multiple (boolean, false), placeholder (string, "Search..."), disabled (boolean, false), name (string, "")
+- Events: value-change ({ value: string; option: SelectOption }), values-change ({ value: string; selected: boolean; values: Set<string> })

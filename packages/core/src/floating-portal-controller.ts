@@ -250,6 +250,7 @@ export class FloatingPortalController implements ReactiveController {
     positioner.style.zIndex = "1000";
     positioner.style.pointerEvents = "none";
     positioner.setAttribute("data-floating-portal", "");
+    positioner.setAttribute("data-dui-portal-for", this.#host.tagName.toLowerCase());
 
     if (this.#styles) {
       const shadow = positioner.attachShadow({ mode: "open" });
