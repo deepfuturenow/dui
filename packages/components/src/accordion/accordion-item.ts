@@ -91,6 +91,7 @@ export class DuiAccordionItem extends LitElement {
   accessor #visible = false;
 
   #prevOpen: boolean | undefined = undefined;
+  #animGen = 0;
 
   get #open(): boolean {
     return this._ctx?.openValues.includes(this.value) ?? false;
@@ -139,24 +140,27 @@ export class DuiAccordionItem extends LitElement {
   }
 
   #startOpenAnimation(): void {
+    const gen = ++this.#animGen;
+    this.#ending = false;
     this.#visible = true;
     this.#starting = true;
     this.#panelHeight = "0";
 
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const panel = this.shadowRoot?.querySelector(
-          "[part='panel']",
-        ) as HTMLElement | null;
-        if (panel) {
-          this.#panelHeight = `${panel.scrollHeight}px`;
-        }
-        this.#starting = false;
-      });
+      if (this.#animGen !== gen) return;
+      const panel = this.shadowRoot?.querySelector(
+        "[part='panel']",
+      ) as HTMLElement | null;
+      if (panel) {
+        this.#panelHeight = `${panel.scrollHeight}px`;
+      }
+      this.#starting = false;
     });
   }
 
   #startCloseAnimation(): void {
+    const gen = ++this.#animGen;
+    this.#starting = false;
     const panel = this.shadowRoot?.querySelector(
       "[part='panel']",
     ) as HTMLElement | null;
@@ -165,7 +169,9 @@ export class DuiAccordionItem extends LitElement {
     }
 
     requestAnimationFrame(() => {
+      if (this.#animGen !== gen) return;
       this.#ending = true;
+      this.#panelHeight = "0";
     });
   }
 
