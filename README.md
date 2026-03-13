@@ -13,22 +13,47 @@ Components provide structure and behavior with zero visual opinions. Themes prov
 | `@dui/theme-default` | Design tokens, themed base, per-component aesthetic styles |
 | `@dui/docs` | Dev server for visual testing |
 
+## Components
+
+| Component | Tag |
+|-----------|-----|
+| Accordion | `<dui-accordion>`, `<dui-accordion-item>` |
+| Badge | `<dui-badge>` |
+| Button | `<dui-button>` |
+| Combobox | `<dui-combobox>` |
+| Icon | `<dui-icon>` |
+| Menu | `<dui-menu>`, `<dui-menu-item>` |
+| Popover | `<dui-popover>`, `<dui-popover-trigger>`, `<dui-popover-popup>`, `<dui-popover-close>` |
+| Scroll Area | `<dui-scroll-area>` |
+| Switch | `<dui-switch>` |
+| Tooltip | `<dui-tooltip>`, `<dui-tooltip-trigger>`, `<dui-tooltip-popup>` |
+
 ## Quick start
 
 ```bash
 # Run the docs dev server (port 4040)
-cd packages/docs && deno task dev
+deno task dev
 ```
 
 ```typescript
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { DuiButton } from "@dui/components/button";
+import { DuiTooltip, DuiTooltipTrigger, DuiTooltipPopup } from "@dui/components/tooltip";
 
 applyTheme({
   theme: defaultTheme,
-  components: [DuiButton],
+  components: [DuiButton, DuiTooltip, DuiTooltipTrigger, DuiTooltipPopup],
 });
+```
+
+```html
+<dui-tooltip>
+  <dui-tooltip-trigger>
+    <dui-button>Hover me</dui-button>
+  </dui-tooltip-trigger>
+  <dui-tooltip-popup>Extra context here</dui-tooltip-popup>
+</dui-tooltip>
 ```
 
 ## How it works
@@ -48,7 +73,7 @@ Style composition order: component structural CSS → theme base → theme compo
 A visual dev tool for editing design token values in real time. Renders a sidebar with token controls alongside an iframe preview of the component gallery.
 
 ```bash
-cd packages/docs && deno task dev
+deno task dev
 # Navigate to http://localhost:4040/theme-editor.html
 ```
 
@@ -65,3 +90,6 @@ cd packages/docs && deno task dev
 - [Creating components](docs/creating-components.md) — step-by-step guide for adding new components
 - [Theming](docs/theming.md) — theme system, design tokens, writing component styles
 - [Consuming](docs/consuming.md) — integrating dui into an app
+- [Porting](docs/porting.md) — porting components from other libraries
+- [Accessibility](docs/accessibility.md) — accessibility patterns and guidelines
+- [Next steps](docs/next-steps.md) — roadmap and planned work
