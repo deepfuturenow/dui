@@ -43,6 +43,22 @@ Style composition order: component structural CSS → theme base → theme compo
 - UI framework: [Lit](https://lit.dev)
 - Build: [esbuild](https://esbuild.github.io)
 
+## Theme Editor
+
+A visual dev tool for editing design token values in real time. Renders a sidebar with token controls alongside an iframe preview of the component gallery.
+
+```bash
+cd packages/docs && deno task dev
+# Navigate to http://localhost:4040/theme-editor.html
+```
+
+- Edit color tokens with OKLCH sliders (Lightness, Chroma, Hue, Alpha)
+- Edit non-color tokens (spacing, typography, borders, etc.) with text inputs
+- Changes update the iframe preview instantly
+- Modified tokens are marked with a blue dot
+- "Copy tokens.css" exports a complete `tokens.css` with your overrides applied
+- Overrides persist across page reloads via localStorage
+
 ## Documentation
 
 - [Architecture](docs/architecture.md) — mental model, package responsibilities, design decisions

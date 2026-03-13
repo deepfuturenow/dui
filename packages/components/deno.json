@@ -5,7 +5,10 @@
     "./button": "./src/button/index.ts",
     "./switch": "./src/switch/index.ts",
     "./accordion": "./src/accordion/index.ts",
-    "./badge": "./src/badge/index.ts"
+    "./badge": "./src/badge/index.ts",
+    "./icon": "./src/icon/index.ts",
+    "./scroll-area": "./src/scroll-area/index.ts",
+    "./combobox": "./src/combobox/index.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",
