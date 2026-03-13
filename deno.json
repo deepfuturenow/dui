@@ -15,5 +15,8 @@
       "ESNext"
     ]
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "dev": "deno run --allow-all packages/docs/serve.ts"
+  }
 }

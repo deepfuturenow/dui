@@ -8,7 +8,10 @@
     "./badge": "./src/badge/index.ts",
     "./icon": "./src/icon/index.ts",
     "./scroll-area": "./src/scroll-area/index.ts",
-    "./combobox": "./src/combobox/index.ts"
+    "./combobox": "./src/combobox/index.ts",
+    "./menu": "./src/menu/index.ts",
+    "./popover": "./src/popover/index.ts",
+    "./tooltip": "./src/tooltip/index.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",

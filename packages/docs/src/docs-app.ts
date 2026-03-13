@@ -121,7 +121,7 @@ export class DocsApp extends LitElement {
 
   // Unique component names (skip accordion-item — it's shown on the accordion page)
   get #navComponents() {
-    return componentRegistry.filter((c) => c.tagName !== "dui-accordion-item");
+    return componentRegistry.filter((c) => !c.parent);
   }
 
   override render() {
@@ -192,6 +192,9 @@ export class DocsApp extends LitElement {
         case "icon": return html`<docs-page-icon></docs-page-icon>`;
         case "scroll-area": return html`<docs-page-scroll-area></docs-page-scroll-area>`;
         case "combobox": return html`<docs-page-combobox></docs-page-combobox>`;
+        case "menu": return html`<docs-page-menu></docs-page-menu>`;
+        case "popover": return html`<docs-page-popover></docs-page-popover>`;
+        case "tooltip": return html`<docs-page-tooltip></docs-page-tooltip>`;
       }
     }
 

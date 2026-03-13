@@ -3,6 +3,8 @@ export interface ComponentMeta {
   name: string;
   description: string;
   importPath: string;
+  /** Tag name of the parent component. Sub-components are hidden from nav. */
+  parent?: string;
   properties: { name: string; type: string; default?: string; description: string }[];
   events: { name: string; detail?: string; description: string }[];
   slots: { name: string; description: string }[];
@@ -37,6 +39,7 @@ export const componentRegistry: ComponentMeta[] = [
     name: "Accordion Item",
     description: "Individual collapsible item within an accordion.",
     importPath: "@dui/components/accordion",
+    parent: "dui-accordion",
     properties: [
       { name: "value", type: "string", default: '""', description: "Unique identifier for this item" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable this item" },
@@ -170,6 +173,148 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "values-change", detail: "{ value: string; selected: boolean; values: Set<string> }", description: "Fired on multi-select change" },
     ],
     slots: [],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-menu",
+    name: "Menu",
+    description: "A popup menu triggered by a slotted element with keyboard navigation.",
+    importPath: "@dui/components/menu",
+    properties: [],
+    events: [],
+    slots: [
+      { name: "trigger", description: "The element that opens the menu on click" },
+      { name: "default", description: "dui-menu-item children" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-menu-item",
+    name: "Menu Item",
+    description: "An item within a dui-menu.",
+    importPath: "@dui/components/menu",
+    parent: "dui-menu",
+    properties: [
+      { name: "variant", type: '"default" | "danger"', default: '"default"', description: "Visual variant" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the item" },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Item content" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-popover",
+    name: "Popover",
+    description: "A popover with trigger, popup, and close sub-components.",
+    importPath: "@dui/components/popover",
+    properties: [
+      { name: "open", type: "boolean", default: "false", description: "Controlled open state" },
+      { name: "defaultOpen", type: "boolean", default: "false", description: "Initial open state" },
+      { name: "side", type: '"top" | "bottom"', default: '"bottom"', description: "Popup side" },
+      { name: "sideOffset", type: "number", default: "8", description: "Offset from trigger (px)" },
+    ],
+    events: [
+      { name: "open-change", detail: "{ open: boolean }", description: "Fired when popover opens/closes" },
+    ],
+    slots: [
+      { name: "default", description: "dui-popover-trigger and dui-popover-popup" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-popover-trigger",
+    name: "Popover Trigger",
+    description: "Click-to-toggle trigger for the popover.",
+    importPath: "@dui/components/popover",
+    parent: "dui-popover",
+    properties: [],
+    events: [],
+    slots: [
+      { name: "default", description: "Content that triggers the popover" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-popover-popup",
+    name: "Popover Popup",
+    description: "The popover popup content container.",
+    importPath: "@dui/components/popover",
+    parent: "dui-popover",
+    properties: [
+      { name: "showArrow", type: "boolean", default: "true", description: "Show arrow pointing to trigger" },
+      { name: "closeOnClick", type: "boolean", default: "false", description: "Close on content click" },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Popover content" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-popover-close",
+    name: "Popover Close",
+    description: "A close button wrapper for the popover.",
+    importPath: "@dui/components/popover",
+    parent: "dui-popover",
+    properties: [],
+    events: [],
+    slots: [
+      { name: "default", description: "Content that closes the popover" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-tooltip",
+    name: "Tooltip",
+    description: "A tooltip with hover/focus trigger and configurable delay.",
+    importPath: "@dui/components/tooltip",
+    properties: [
+      { name: "open", type: "boolean", default: "false", description: "Controlled open state" },
+      { name: "defaultOpen", type: "boolean", default: "false", description: "Initial open state" },
+      { name: "side", type: '"top" | "bottom"', default: '"top"', description: "Popup side" },
+      { name: "sideOffset", type: "number", default: "6", description: "Offset from trigger (px)" },
+      { name: "delay", type: "number", default: "500", description: "Open delay (ms)" },
+      { name: "closeDelay", type: "number", default: "0", description: "Close delay (ms)" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the tooltip" },
+    ],
+    events: [
+      { name: "open-change", detail: "{ open: boolean }", description: "Fired when tooltip opens/closes" },
+    ],
+    slots: [
+      { name: "default", description: "dui-tooltip-trigger and dui-tooltip-popup" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-tooltip-trigger",
+    name: "Tooltip Trigger",
+    description: "The element that triggers the tooltip on hover/focus.",
+    importPath: "@dui/components/tooltip",
+    parent: "dui-tooltip",
+    properties: [
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the trigger" },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Content that triggers the tooltip" },
+    ],
+    cssProperties: [],
+  },
+  {
+    tagName: "dui-tooltip-popup",
+    name: "Tooltip Popup",
+    description: "The tooltip popup content container.",
+    importPath: "@dui/components/tooltip",
+    parent: "dui-tooltip",
+    properties: [
+      { name: "showArrow", type: "boolean", default: "true", description: "Show arrow pointing to trigger" },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Tooltip content" },
+    ],
     cssProperties: [],
   },
 ];

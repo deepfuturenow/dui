@@ -75,3 +75,72 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Searchable dropdown with single and multi-select modes.
 - Properties: options (SelectOption[], []), value (string, ""), values (Set<string>, new Set()), multiple (boolean, false), placeholder (string, "Search..."), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption }), values-change ({ value: string; selected: boolean; values: Set<string> })
+
+### Menu
+- Tag: `<dui-menu>`
+- Import: `@dui/components/menu`
+- Description: A popup menu triggered by a slotted element with keyboard navigation.
+- Events: none
+- Slots: trigger (The element that opens the menu on click), default (dui-menu-item children)
+
+### Menu Item
+- Tag: `<dui-menu-item>`
+- Import: `@dui/components/menu`
+- Description: An item within a dui-menu.
+- Properties: variant ("default" | "danger", "default"), disabled (boolean, false)
+- Events: none
+- Slots: default (Item content)
+
+### Popover
+- Tag: `<dui-popover>`
+- Import: `@dui/components/popover`
+- Description: A popover with trigger, popup, and close sub-components.
+- Properties: open (boolean, false), defaultOpen (boolean, false), side ("top" | "bottom", "bottom"), sideOffset (number, 8)
+- Events: open-change ({ open: boolean })
+- Slots: default (dui-popover-trigger and dui-popover-popup)
+
+### Popover Trigger
+- Tag: `<dui-popover-trigger>`
+- Import: `@dui/components/popover`
+- Description: Click-to-toggle trigger for the popover.
+- Events: none
+- Slots: default (Content that triggers the popover)
+
+### Popover Popup
+- Tag: `<dui-popover-popup>`
+- Import: `@dui/components/popover`
+- Description: The popover popup content container.
+- Properties: showArrow (boolean, true), closeOnClick (boolean, false)
+- Events: none
+- Slots: default (Popover content)
+
+### Popover Close
+- Tag: `<dui-popover-close>`
+- Import: `@dui/components/popover`
+- Description: A close button wrapper for the popover.
+- Events: none
+- Slots: default (Content that closes the popover)
+
+### Tooltip
+- Tag: `<dui-tooltip>`
+- Import: `@dui/components/tooltip`
+- Description: A tooltip with hover/focus trigger and configurable delay.
+- Properties: open (boolean, false), defaultOpen (boolean, false), side ("top" | "bottom", "top"), sideOffset (number, 6), delay (number, 500), closeDelay (number, 0), disabled (boolean, false)
+- Events: open-change ({ open: boolean })
+- Slots: default (dui-tooltip-trigger and dui-tooltip-popup)
+
+### Tooltip Trigger
+- Tag: `<dui-tooltip-trigger>`
+- Import: `@dui/components/tooltip`
+- Description: The element that triggers the tooltip on hover/focus.
+- Properties: disabled (boolean, false)
+- Events: none
+- Slots: default (Content that triggers the tooltip)
+
+### Tooltip Popup
+- Tag: `<dui-tooltip-popup>`
+- Import: `@dui/components/tooltip`
+- Description: The tooltip popup content container.
+- Properties: showArrow (boolean, true)
+- Events: none
+- Slots: default (Tooltip content)
