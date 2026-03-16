@@ -1,0 +1,16 @@
+export { DuiSidebarProvider, openChangeEvent } from "./sidebar-provider.ts";
+export type { SidebarOpenChangeDetail } from "./sidebar-provider.ts";
+export { DuiSidebar } from "./sidebar.ts";
+export { DuiSidebarTrigger } from "./sidebar-trigger.ts";
+export { DuiSidebarContent } from "./sidebar-content.ts";
+export { DuiSidebarHeader } from "./sidebar-header.ts";
+export { DuiSidebarFooter } from "./sidebar-footer.ts";
+export { DuiSidebarGroup } from "./sidebar-group.ts";
+export { DuiSidebarGroupLabel } from "./sidebar-group-label.ts";
+export { DuiSidebarMenu } from "./sidebar-menu.ts";
+export { DuiSidebarMenuItem } from "./sidebar-menu-item.ts";
+export { DuiSidebarMenuButton } from "./sidebar-menu-button.ts";
+export type { SidebarMenuButtonSize } from "./sidebar-menu-button.ts";
+export { DuiSidebarSeparator } from "./sidebar-separator.ts";
+export { DuiSidebarInset } from "./sidebar-inset.ts";
+export type { SidebarContext } from "./sidebar-context.ts";
