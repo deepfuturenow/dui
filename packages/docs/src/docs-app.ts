@@ -223,6 +223,12 @@ export class DocsApp extends LitElement {
         case "data-table": return html`<docs-page-data-table></docs-page-data-table>`;
         case "command": return html`<docs-page-command></docs-page-command>`;
         case "sidebar-provider": return html`<docs-page-sidebar></docs-page-sidebar>`;
+        case "separator": return html`<docs-page-separator></docs-page-separator>`;
+        case "progress": return html`<docs-page-progress></docs-page-progress>`;
+        case "toggle": return html`<docs-page-toggle></docs-page-toggle>`;
+        case "number-field": return html`<docs-page-number-field></docs-page-number-field>`;
+        case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
+        case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
       }
     }
 
