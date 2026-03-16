@@ -66,6 +66,13 @@ import sidebarMenuItemSrc from "../../components/src/sidebar/sidebar-menu-item.t
 import sidebarMenuButtonSrc from "../../components/src/sidebar/sidebar-menu-button.ts?raw";
 import sidebarSeparatorSrc from "../../components/src/sidebar/sidebar-separator.ts?raw";
 import sidebarInsetSrc from "../../components/src/sidebar/sidebar-inset.ts?raw";
+import separatorSrc from "../../components/src/separator/separator.ts?raw";
+import progressSrc from "../../components/src/progress/progress.ts?raw";
+import toggleSrc from "../../components/src/toggle/toggle.ts?raw";
+import toggleGroupSrc from "../../components/src/toggle/toggle-group.ts?raw";
+import numberFieldSrc from "../../components/src/number-field/number-field.ts?raw";
+import menubarSrc from "../../components/src/menubar/menubar.ts?raw";
+import calendarSrc from "../../components/src/calendar/calendar.ts?raw";
 
 export const componentSources = new Map<string, string>([
   ["dui-accordion", accordionSrc],
@@ -136,4 +143,11 @@ export const componentSources = new Map<string, string>([
   ["dui-sidebar-menu-button", sidebarMenuButtonSrc],
   ["dui-sidebar-separator", sidebarSeparatorSrc],
   ["dui-sidebar-inset", sidebarInsetSrc],
+  ["dui-separator", separatorSrc],
+  ["dui-progress", progressSrc],
+  ["dui-toggle", toggleSrc],
+  ["dui-toggle-group", toggleGroupSrc],
+  ["dui-number-field", numberFieldSrc],
+  ["dui-menubar", menubarSrc],
+  ["dui-calendar", calendarSrc],
 ]);
