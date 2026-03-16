@@ -9,7 +9,8 @@
     "./popup-coordinator": "./src/popup-coordinator.ts",
     "./floating-popup-utils": "./src/floating-popup-utils.ts",
     "./floating-portal-controller": "./src/floating-portal-controller.ts",
-    "./layout-types": "./src/layout-types.ts"
+    "./layout-types": "./src/layout-types.ts",
+    "./dom": "./src/dom.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",

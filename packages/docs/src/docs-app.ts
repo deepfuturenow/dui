@@ -121,7 +121,9 @@ export class DocsApp extends LitElement {
 
   // Unique component names (skip accordion-item — it's shown on the accordion page)
   get #navComponents() {
-    return componentRegistry.filter((c) => !c.parent);
+    return componentRegistry
+      .filter((c) => !c.parent)
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   override render() {
@@ -195,6 +197,32 @@ export class DocsApp extends LitElement {
         case "menu": return html`<docs-page-menu></docs-page-menu>`;
         case "popover": return html`<docs-page-popover></docs-page-popover>`;
         case "tooltip": return html`<docs-page-tooltip></docs-page-tooltip>`;
+        case "dialog": return html`<docs-page-dialog></docs-page-dialog>`;
+        case "alert-dialog": return html`<docs-page-alert-dialog></docs-page-alert-dialog>`;
+        case "breadcrumb": return html`<docs-page-breadcrumb></docs-page-breadcrumb>`;
+        case "checkbox": return html`<docs-page-checkbox></docs-page-checkbox>`;
+        case "collapsible": return html`<docs-page-collapsible></docs-page-collapsible>`;
+        case "toolbar": return html`<docs-page-toolbar></docs-page-toolbar>`;
+        case "slider": return html`<docs-page-slider></docs-page-slider>`;
+        case "spinner": return html`<docs-page-spinner></docs-page-spinner>`;
+        case "tabs": return html`<docs-page-tabs></docs-page-tabs>`;
+        case "textarea": return html`<docs-page-textarea></docs-page-textarea>`;
+        case "trunc": return html`<docs-page-trunc></docs-page-trunc>`;
+        case "center": return html`<docs-page-center></docs-page-center>`;
+        case "hstack": return html`<docs-page-hstack></docs-page-hstack>`;
+        case "vstack": return html`<docs-page-vstack></docs-page-vstack>`;
+        case "page-inset": return html`<docs-page-page-inset></docs-page-page-inset>`;
+        case "link": return html`<docs-page-link></docs-page-link>`;
+        case "avatar": return html`<docs-page-avatar></docs-page-avatar>`;
+        case "portal": return html`<docs-page-portal></docs-page-portal>`;
+        case "input": return html`<docs-page-input></docs-page-input>`;
+        case "radio-group": return html`<docs-page-radio></docs-page-radio>`;
+        case "dropzone": return html`<docs-page-dropzone></docs-page-dropzone>`;
+        case "select": return html`<docs-page-select></docs-page-select>`;
+        case "preview-card": return html`<docs-page-preview-card></docs-page-preview-card>`;
+        case "data-table": return html`<docs-page-data-table></docs-page-data-table>`;
+        case "command": return html`<docs-page-command></docs-page-command>`;
+        case "sidebar-provider": return html`<docs-page-sidebar></docs-page-sidebar>`;
       }
     }
 

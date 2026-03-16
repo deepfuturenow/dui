@@ -1,4 +1,11 @@
 export { base } from "./base.ts";
+export {
+  getRootDocument,
+  getComposedFocusableElements,
+  queryComposedTree,
+  queryComposedAutofocus,
+} from "./dom.ts";
+export type { GetRootDocumentOptions } from "./dom.ts";
 export { customEvent } from "./event.ts";
 export { applyTheme, getActiveTheme } from "./apply-theme.ts";
 export type { DuiTheme, ApplyThemeOptions } from "./apply-theme.ts";
