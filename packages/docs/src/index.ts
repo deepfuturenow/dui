@@ -45,6 +45,7 @@ import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-colors.ts";
 import "./pages/docs-page-blocks.ts";
+import "./create/docs-page-create.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { DuiAccordion, DuiAccordionItem } from "@dui/components/accordion";
