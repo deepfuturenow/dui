@@ -31,7 +31,7 @@ type IframeTarget = {
 };
 
 const IFRAME_TARGETS: IframeTarget[] = [
-  { label: "DUI Docs", url: "/index.html" },
+  { label: "DUI Docs", url: "./index.html" },
 ];
 
 // Semantic sub-groups for color tokens within a theme
