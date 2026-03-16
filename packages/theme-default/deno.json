@@ -76,7 +76,14 @@
     "./components/sidebar-menu-item": "./src/components/sidebar-menu-item.ts",
     "./components/sidebar-menu-button": "./src/components/sidebar-menu-button.ts",
     "./components/sidebar-separator": "./src/components/sidebar-separator.ts",
-    "./components/sidebar-inset": "./src/components/sidebar-inset.ts"
+    "./components/sidebar-inset": "./src/components/sidebar-inset.ts",
+    "./components/separator": "./src/components/separator.ts",
+    "./components/progress": "./src/components/progress.ts",
+    "./components/toggle": "./src/components/toggle.ts",
+    "./components/toggle-group": "./src/components/toggle-group.ts",
+    "./components/number-field": "./src/components/number-field.ts",
+    "./components/menubar": "./src/components/menubar.ts",
+    "./components/calendar": "./src/components/calendar.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2"

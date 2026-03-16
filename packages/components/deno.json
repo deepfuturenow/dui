@@ -38,7 +38,13 @@
     "./preview-card": "./src/preview-card/index.ts",
     "./data-table": "./src/data-table/index.ts",
     "./command": "./src/command/index.ts",
-    "./sidebar": "./src/sidebar/index.ts"
+    "./sidebar": "./src/sidebar/index.ts",
+    "./separator": "./src/separator/index.ts",
+    "./progress": "./src/progress/index.ts",
+    "./toggle": "./src/toggle/index.ts",
+    "./number-field": "./src/number-field/index.ts",
+    "./menubar": "./src/menubar/index.ts",
+    "./calendar": "./src/calendar/index.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",
