@@ -17,6 +17,7 @@
   },
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "deno run --allow-all packages/docs/serve.ts"
+    "dev": "deno run --allow-all packages/docs/serve.ts",
+    "build:docs": "deno run --allow-all packages/docs/serve.ts --build"
   }
 }

@@ -261,20 +261,38 @@ const llmsTxt = generateLlmsTxt();
 await Deno.writeTextFile(join(STATIC_DIR, "llms.txt"), llmsTxt);
 console.log("Generated llms.txt");
 
-const ctx = await esbuild.context({
-  entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
-  bundle: true,
-  format: "esm",
-  target: "es2022",
-  outdir: STATIC_DIR,
-  write: false,
-  plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
-  nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
-});
+const buildMode = Deno.args.includes("--build");
 
-const { port } = await ctx.serve({
-  port: PORT,
-  servedir: STATIC_DIR,
-});
+if (buildMode) {
+  await esbuild.build({
+    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
+    bundle: true,
+    format: "esm",
+    target: "es2022",
+    outdir: STATIC_DIR,
+    write: true,
+    minify: true,
+    plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
+    nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
+  });
+  console.log("Build complete → packages/docs/static/");
+  esbuild.stop();
+} else {
+  const ctx = await esbuild.context({
+    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
+    bundle: true,
+    format: "esm",
+    target: "es2022",
+    outdir: STATIC_DIR,
+    write: false,
+    plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
+    nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
+  });
 
-console.log(`DUI docs → http://localhost:${port}`);
+  const { port } = await ctx.serve({
+    port: PORT,
+    servedir: STATIC_DIR,
+  });
+
+  console.log(`DUI docs → http://localhost:${port}`);
+}
