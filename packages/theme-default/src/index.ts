@@ -72,6 +72,13 @@ import { sidebarMenuItemStyles } from "./components/sidebar-menu-item.ts";
 import { sidebarMenuButtonStyles } from "./components/sidebar-menu-button.ts";
 import { sidebarSeparatorStyles } from "./components/sidebar-separator.ts";
 import { sidebarInsetStyles } from "./components/sidebar-inset.ts";
+import { separatorStyles } from "./components/separator.ts";
+import { progressStyles } from "./components/progress.ts";
+import { toggleStyles } from "./components/toggle.ts";
+import { toggleGroupStyles } from "./components/toggle-group.ts";
+import { numberFieldStyles } from "./components/number-field.ts";
+import { menubarStyles } from "./components/menubar.ts";
+import { calendarStyles } from "./components/calendar.ts";
 import { tokenSheet } from "./tokens.ts";
 
 export const defaultTheme: DuiTheme = {
@@ -150,6 +157,13 @@ export const defaultTheme: DuiTheme = {
     ["dui-sidebar-menu-button", sidebarMenuButtonStyles],
     ["dui-sidebar-separator", sidebarSeparatorStyles],
     ["dui-sidebar-inset", sidebarInsetStyles],
+    ["dui-separator", separatorStyles],
+    ["dui-progress", progressStyles],
+    ["dui-toggle", toggleStyles],
+    ["dui-toggle-group", toggleGroupStyles],
+    ["dui-number-field", numberFieldStyles],
+    ["dui-menubar", menubarStyles],
+    ["dui-calendar", calendarStyles],
   ]),
 };
 
@@ -226,3 +240,10 @@ export { sidebarMenuItemStyles } from "./components/sidebar-menu-item.ts";
 export { sidebarMenuButtonStyles } from "./components/sidebar-menu-button.ts";
 export { sidebarSeparatorStyles } from "./components/sidebar-separator.ts";
 export { sidebarInsetStyles } from "./components/sidebar-inset.ts";
+export { separatorStyles } from "./components/separator.ts";
+export { progressStyles } from "./components/progress.ts";
+export { toggleStyles } from "./components/toggle.ts";
+export { toggleGroupStyles } from "./components/toggle-group.ts";
+export { numberFieldStyles } from "./components/number-field.ts";
+export { menubarStyles } from "./components/menubar.ts";
+export { calendarStyles } from "./components/calendar.ts";
