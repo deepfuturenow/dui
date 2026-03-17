@@ -61,7 +61,7 @@ export const sidebarMenuButtonStyles = css`
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
     --icon-size: var(--smb-icon-size);
-    --icon-fg: var(--sidebar-muted-fg);
+    --icon-color: var(--sidebar-muted-fg);
   }
 
   .Button:focus-visible {
@@ -78,6 +78,6 @@ export const sidebarMenuButtonStyles = css`
   :host([active]) .Button {
     color: var(--sidebar-fg);
     font-weight: var(--font-weight-medium);
-    --icon-fg: var(--sidebar-fg);
+    --icon-color: var(--sidebar-fg);
   }
 `;

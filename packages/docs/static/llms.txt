@@ -180,10 +180,10 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 ### Icon
 - Tag: `<dui-icon>`
 - Import: `@dui/components/icon`
-- Description: Material Symbols icon with configurable size and color.
-- Properties: icon (string, ""), color (string | undefined), size (string | undefined)
+- Description: Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
 - Events: none
-- CSS Properties: --icon-size (Icon dimensions), --icon-fg (Icon color)
+- Slots: default (SVG element to display)
+- CSS Properties: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
 
 ### Menu
 - Tag: `<dui-menu>`
@@ -625,3 +625,58 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Main content area that adjusts its width based on the sidebar state.
 - Events: none
 - Slots: default (Main content)
+
+### Separator
+- Tag: `<dui-separator>`
+- Import: `@dui/components/separator`
+- Description: A visual divider between content sections. Supports horizontal and vertical orientation.
+- Properties: orientation ("horizontal" | "vertical", "horizontal")
+- Events: none
+
+### Progress
+- Tag: `<dui-progress>`
+- Import: `@dui/components/progress`
+- Description: A progress bar indicating completion status. Supports determinate and indeterminate states.
+- Properties: value (number | null, null), min (number, 0), max (number, 100)
+- Events: none
+- CSS Properties: --progress-value (Computed progress percentage (set internally))
+
+### Toggle
+- Tag: `<dui-toggle>`
+- Import: `@dui/components/toggle`
+- Description: A two-state toggle button. Works standalone or inside a toggle group.
+- Properties: pressed (boolean | undefined), defaultPressed (boolean, false), disabled (boolean, false), value (string | undefined)
+- Events: pressed-change ({ pressed: boolean })
+- Slots: default (Toggle content (text and/or icons))
+
+### Toggle Group
+- Tag: `<dui-toggle-group>`
+- Import: `@dui/components/toggle`
+- Description: Groups toggle buttons with shared single or multi selection state.
+- Properties: value (string[] | undefined), defaultValue (string[], []), type ("single" | "multiple", "single"), orientation ("horizontal" | "vertical", "horizontal"), disabled (boolean, false), loop (boolean, true)
+- Events: value-change ({ value: string[] })
+- Slots: default (dui-toggle children)
+
+### Number Field
+- Tag: `<dui-number-field>`
+- Import: `@dui/components/number-field`
+- Description: A numeric input with increment/decrement buttons and keyboard controls.
+- Properties: value (number | undefined), defaultValue (number | undefined), min (number | undefined), max (number | undefined), step (number, 1), largeStep (number, 10), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined)
+- Events: value-change ({ value: number })
+- Slots: decrement (Custom decrement button content), increment (Custom increment button content)
+
+### Menubar
+- Tag: `<dui-menubar>`
+- Import: `@dui/components/menubar`
+- Description: A horizontal bar of menus with coordinated open/close behavior.
+- Properties: loop (boolean, true), orientation ("horizontal" | "vertical", "horizontal")
+- Events: none
+- Slots: default (dui-menu children)
+
+### Calendar
+- Tag: `<dui-calendar>`
+- Import: `@dui/components/calendar`
+- Description: A date picker calendar grid with keyboard navigation and locale support.
+- Properties: value (string | undefined), defaultValue (string | undefined), min (string | undefined), max (string | undefined), locale (string, "en-US"), disabled (boolean, false), readOnly (boolean, false)
+- Events: value-change ({ value: string })
+- Slots: prev (Custom previous month button content), next (Custom next month button content)

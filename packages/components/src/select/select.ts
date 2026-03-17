@@ -391,7 +391,9 @@ export class DuiSelect extends LitElement {
         @mouseenter="${() => this.#onItemMouseEnter(index)}"
       >
         <span class="ItemIndicator">
-          ${isSelected ? html`<dui-icon icon="check"></dui-icon>` : nothing}
+          ${isSelected
+            ? html`<dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></dui-icon>`
+            : nothing}
         </span>
         <span class="ItemText">${option.label}</span>
       </div>
@@ -432,7 +434,7 @@ export class DuiSelect extends LitElement {
           ${hasValue ? this.#displayValue : this.placeholder}
         </span>
         <span class="Icon">
-          <dui-icon icon="keyboard_arrow_down"></dui-icon>
+          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></dui-icon>
         </span>
       </div>
 
