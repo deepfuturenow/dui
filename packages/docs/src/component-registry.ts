@@ -381,18 +381,16 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-icon",
     name: "Icon",
-    description: "Material Symbols icon with configurable size and color.",
+    description: "Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.",
     importPath: "@dui/components/icon",
-    properties: [
-      { name: "icon", type: "string", default: '""', description: "Material Symbols icon name" },
-      { name: "color", type: "string | undefined", description: "Icon color as CSS value" },
-      { name: "size", type: "string | undefined", description: "Icon size as CSS length" },
-    ],
+    properties: [],
     events: [],
-    slots: [],
+    slots: [
+      { name: "default", description: "SVG element to display" },
+    ],
     cssProperties: [
-      { name: "--icon-size", description: "Icon dimensions" },
-      { name: "--icon-fg", description: "Icon color" },
+      { name: "--icon-size", description: "Icon dimensions (default: 1em)" },
+      { name: "--icon-color", description: "Icon color (default: currentColor)" },
     ],
   },
   {

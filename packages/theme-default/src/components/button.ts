@@ -79,7 +79,7 @@ export const buttonStyles = css`
 
   [part="root"] {
     --icon-size: var(--button-icon-size);
-    --icon-fg: var(--button-fg);
+    --icon-color: var(--button-fg);
     gap: var(--button-gap);
     padding: var(--button-padding-y) var(--button-padding-x);
     width: var(--button-width);
