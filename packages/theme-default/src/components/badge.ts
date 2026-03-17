@@ -41,7 +41,7 @@ export const badgeStyles = css`
 
   [part="root"] {
     --icon-size: var(--badge-icon-size);
-    --icon-fg: var(--badge-fg);
+    --icon-color: var(--badge-fg);
     gap: var(--space-1);
     height: var(--space-5);
     padding: 0 var(--space-2);

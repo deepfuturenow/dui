@@ -180,10 +180,10 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 ### Icon
 - Tag: `<dui-icon>`
 - Import: `@dui/components/icon`
-- Description: Material Symbols icon with configurable size and color.
-- Properties: icon (string, ""), color (string | undefined), size (string | undefined)
+- Description: Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
 - Events: none
-- CSS Properties: --icon-size (Icon dimensions), --icon-fg (Icon color)
+- Slots: default (SVG element to display)
+- CSS Properties: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
 
 ### Menu
 - Tag: `<dui-menu>`
