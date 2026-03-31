@@ -7,8 +7,8 @@ import { live } from "lit/directives/live.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
 import { FloatingPortalController } from "@dui/core/floating-portal-controller";
-import "../icon/register.ts";
-import "../scroll-area/register.ts";
+
+
 
 export type SelectOption = {
   label: string;

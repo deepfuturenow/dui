@@ -51,11 +51,12 @@ export class BlockTypography extends LitElement {
       display: flex;
       flex-direction: column;
       gap: var(--space-1);
+      min-width: 0;
     }
 
     .swatch {
       width: 100%;
-      aspect-ratio: 2 / 1;
+      height: var(--space-10, 2.5rem);
       border-radius: var(--radius-md, 0.5rem);
       border: var(--border-width-thin, 1px) solid var(--border);
     }
@@ -65,6 +66,9 @@ export class BlockTypography extends LitElement {
       color: var(--muted-foreground);
       text-align: center;
       text-transform: capitalize;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   `;
 

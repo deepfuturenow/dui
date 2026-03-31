@@ -2,7 +2,7 @@
 
 import { css, html, LitElement, type TemplateResult } from "lit";
 import { base } from "@dui/core/base";
-import "../scroll-area/register.ts";
+
 
 const styles = css`
   :host {
