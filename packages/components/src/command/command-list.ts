@@ -5,7 +5,7 @@ import { state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { type CommandContext, commandContext } from "./command-context.ts";
-import "../scroll-area/register.ts";
+
 
 const styles = css`
   :host {

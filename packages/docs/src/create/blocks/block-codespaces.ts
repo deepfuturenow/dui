@@ -90,15 +90,15 @@ export class BlockCodespaces extends LitElement {
             </div>
             <div class="header-actions">
               <dui-button variant="ghost" size="icon-sm">
-                <dui-icon name="plus" size="16"></dui-icon>
+                <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></dui-icon>
               </dui-button>
               <dui-button variant="ghost" size="icon-sm">
-                <dui-icon name="ellipsis" size="16"></dui-icon>
+                <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></dui-icon>
               </dui-button>
             </div>
           </div>
           <div class="empty-state">
-            <dui-icon name="code" size="32"></dui-icon>
+            <dui-icon style="--icon-size: 32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></dui-icon>
             <h4>No codespaces</h4>
             <p>
               You don't have any codespaces yet. Create one to get started with
@@ -113,7 +113,7 @@ export class BlockCodespaces extends LitElement {
         </dui-tabs-panel>
         <dui-tabs-panel value="local">
           <div class="empty-state">
-            <dui-icon name="terminal" size="32"></dui-icon>
+            <dui-icon style="--icon-size: 32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></dui-icon>
             <h4>Clone locally</h4>
             <p>Clone the repository to get started with local development.</p>
             <dui-button size="sm" variant="outline">Copy command</dui-button>

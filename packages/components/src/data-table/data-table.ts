@@ -6,7 +6,7 @@ import { repeat } from "lit/directives/repeat.js";
 import { styleMap, type StyleInfo } from "lit/directives/style-map.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
-import "../icon/register.ts";
+
 
 // ── Types ──────────────────────────────────────────────────────────────
 

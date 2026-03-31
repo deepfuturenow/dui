@@ -78,13 +78,12 @@ const portalPopupStyles = [
     }
 
     .Arrow .arrow-fill {
-      fill: var(--popover);
+      fill: color-mix(in oklch, var(--foreground) 90%, oklch(0 0 0 / 0));
     }
 
     .Arrow .arrow-stroke {
       fill: none;
-      stroke: var(--border);
-      stroke-width: 1px;
+      stroke: none;
     }
   `,
 ];
