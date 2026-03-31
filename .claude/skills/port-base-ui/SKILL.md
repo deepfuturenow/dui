@@ -18,6 +18,15 @@ Base UI is an unstyled React component library with composable "parts" (e.g. `Sw
 
 Base UI is already unstyled, so the decomposition is more natural than ShadCN — the CSS Modules demo styles map cleanly to DUI's theme styles.
 
+## References
+
+These docs contain the full conventions. This skill focuses on Base-UI-specific porting logic and references the docs for shared patterns.
+
+- `docs/creating-components.md` — file structure, properties, events, lifecycle, validation checklist
+- `docs/porting.md` — structural vs aesthetic decomposition, React → Lit mapping
+- `docs/theming.md` — theme interface, token categories, component style patterns (hover, focus ring, disabled)
+- `docs/accessibility.md` — ARIA patterns, keyboard interactions, focus management, disabled patterns, hidden form inputs
+
 ---
 
 ## Step 1 — Fetch the Base UI docs
@@ -45,53 +54,17 @@ Extract:
 
 ## Step 2 — Decompose CSS into structural vs aesthetic
 
-Base UI's CSS Modules demo contains both structural and aesthetic properties. Split them:
+Split Base UI's CSS Modules demo into structural (component) and aesthetic (theme) CSS. See `docs/porting.md` for the full structural vs aesthetic property classification and `docs/creating-components.md` for examples.
 
-### Structural CSS (component file)
+Key Base-UI-specific notes:
+- Base UI's CSS Modules demo values map directly to DUI theme styles
+- Convert hardcoded values to design tokens (see `docs/theming.md` for token categories)
+- Use the component-scoped CSS variable pattern: define on `:host`, override in `:host([attr])`, consume in `[part]`
 
-```css
-:host {
-  display: inline-block;
-}
-
-[part="root"] {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  transition-property: background-color, box-shadow;
-}
-```
-
-### Aesthetic CSS (theme file)
-
-Convert Base UI's hardcoded values to design tokens:
-
-```css
-/* Base UI original */
-.Switch {
-  width: 2.5rem;
-  height: 1.5rem;
-  border-radius: 1.5rem;
-  background-color: var(--color-gray-300);
-}
-
-/* DUI theme translation */
-:host {
-  --switch-width: var(--space-9);
-  --switch-height: var(--space-5);
-}
-
-[part="root"] {
-  width: var(--switch-width);
-  height: var(--switch-height);
-  border-radius: calc(var(--switch-height) / 2);
-  background-color: color-mix(in oklch, var(--input) 50%, transparent);
-}
-```
+Standard theme patterns to apply (see `docs/theming.md` for full details):
+- **Hover:** `color-mix(in oklch, var(--button-bg) 95%, var(--foreground))` for perceptually correct hover effects
+- **Focus ring:** double `box-shadow` approach — `0 0 0 var(--space-0_5) var(--background), 0 0 0 var(--space-1) var(--ring)`
+- **Disabled:** `opacity: 0.2; cursor: not-allowed` on `[part]:disabled, [part][aria-disabled="true"]`
 
 ---
 
@@ -111,7 +84,7 @@ override render(): TemplateResult {
       ?data-checked=${this.#checked}
       ?data-unchecked=${!this.#checked}
       ?data-disabled=${this.#isDisabled}
-      tabindex="0"
+      tabindex="${isDisabled ? nothing : "0"}"
       @click=${this.#handleClick}
       @keydown=${this.#handleKeyDown}
     >
@@ -135,7 +108,7 @@ Theme styles target these attributes:
 
 ### Variant/size styling
 
-For custom variants not from Base UI, use `:host([attr])` in theme styles (same as ShadCN port):
+For custom variants not from Base UI, use `:host([attr])` in theme styles:
 
 ```css
 :host([variant="destructive"]) {
@@ -145,18 +118,15 @@ For custom variants not from Base UI, use `:host([attr])` in theme styles (same 
 
 ### React → Lit
 
-| React | Lit |
-|-------|-----|
-| `useState(x)` | `@state() accessor #x` |
-| `useRef()` | `@query() accessor #el` |
-| `useEffect(fn, [])` | `protected override firstUpdated()` |
-| `useEffect(fn, [dep])` | `protected override updated(changed)` |
-| `useEffect` cleanup | `override disconnectedCallback()` |
-| `useContext` | `@consume({ context, subscribe: true })` |
+See `docs/porting.md` for the complete React → Lit pattern mapping table.
+
+Base-UI-specific patterns:
+
+| Base UI | DUI |
+|---------|-----|
+| `data-checked`, `data-disabled`, etc. | Preserved on internal elements via `?data-checked=${...}` |
 | `onCheckedChange` | `customEvent("checked-change", ...)` |
 | `onValueChange` | `customEvent("value-change", ...)` |
-| `className` | `class` in template |
-| `children` | `<slot></slot>` |
 | `<Component.Portal>` | Not needed in shadow DOM (or use floating portal) |
 
 ### Controlled/uncontrolled
@@ -256,7 +226,62 @@ Theme CSS targets these unchanged:
 
 ---
 
-## Step 6 — Create the files
+## Step 6 — Accessibility
+
+Follow `docs/accessibility.md` for full patterns. Key decisions per component:
+
+### Focus management
+
+- **Components wrapping native `<button>`:** Use `delegatesFocus` so focusing the host delegates to the inner button:
+  ```typescript
+  static override shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+  ```
+- **Non-native focusable elements** (e.g., `<span role="switch">`): Add `tabindex="0"` and remove when disabled:
+  ```typescript
+  tabindex="${isDisabled ? nothing : "0"}"
+  ```
+
+### Conditional ARIA attributes
+
+Use Lit's `nothing` sentinel — don't render `aria-disabled="false"`:
+
+```typescript
+aria-disabled="${this.disabled ? "true" : nothing}"
+```
+
+### Disabled pattern selection
+
+- **Native `disabled`** (default): Element removed from tab order, cannot be activated
+- **`aria-disabled` + `focusableWhenDisabled`**: Element stays in tab order for screen reader discoverability (e.g., disabled button with explanatory tooltip)
+
+See `docs/accessibility.md` for the full `focusableWhenDisabled` implementation pattern.
+
+### Hidden form inputs
+
+For controls that participate in native `<form>` submission (switch, checkbox, slider, etc.), render a hidden `<input>` inside shadow DOM:
+
+```typescript
+<input
+  type="checkbox"
+  name="${this.name ?? nothing}"
+  value="${isChecked ? this.value : this.uncheckedValue}"
+  .checked="${isChecked}"
+  ?disabled="${isDisabled}"
+  ?required="${this.required}"
+  class="HiddenInput"
+  aria-hidden="true"
+  tabindex="-1"
+/>
+```
+
+See `docs/accessibility.md` for the full hidden input pattern and structural CSS.
+
+---
+
+## Step 7 — Create the files
 
 Create all files using the standard DUI structure. See `/add-component` skill for the full file list and configuration updates.
 
@@ -268,7 +293,7 @@ Add provenance comment:
 
 ---
 
-## Step 7 — Field context integration
+## Step 8 — Field context integration
 
 For form control components (checkbox, input, switch, slider, etc.), consume `FieldContext`:
 
@@ -283,9 +308,11 @@ accessor #fieldCtx!: FieldContext;
 
 Use definite assignment (`!`), not `| undefined`. Access with optional chaining: `this.#fieldCtx?.disabled`.
 
+See `docs/accessibility.md` for the full FieldContext shape and ARIA wiring patterns.
+
 ---
 
-## Step 8 — Add to docs, verify
+## Step 9 — Add to docs, verify
 
 Use `/add-to-docs` to wire into the docs dev server. Run `deno check` from the repo root.
 
@@ -293,23 +320,47 @@ Use `/add-to-docs` to wire into the docs dev server. Run `deno check` from the r
 
 ## Validation checklist
 
+### Component structure
 - [ ] Provenance comment: `/** Ported from Base UI: ... */`
-- [ ] Component has structural CSS only — no colors, fonts, spacing
-- [ ] Theme styles use design tokens — no hardcoded `px` or color values
-- [ ] `data-*` attributes on internal elements match Base UI originals
+- [ ] Extends `LitElement` — not a custom base class
 - [ ] `static tagName` with `as const` — no `@customElement`
 - [ ] `static override styles = [base, styles]`
 - [ ] `part="root"` on root element, other `part` attributes match Base UI anatomy
-- [ ] Properties use `accessor` keyword
-- [ ] Private methods use `#private` syntax
+- [ ] Structural CSS only — no colors, fonts, spacing in the component
+- [ ] Reflected properties for variant/size (`@property({ reflect: true })`)
+- [ ] All decorated properties use `accessor` keyword
+- [ ] All internal state uses `@state() accessor #name` (native private)
+- [ ] All private methods use `#private` syntax
+- [ ] All lifecycle overrides use the `override` keyword
 - [ ] Events use `customEvent()` factory with `bubbles: true, composed: true`
-- [ ] Controlled/uncontrolled patterns supported where applicable
-- [ ] Keyboard interactions match Base UI docs
+- [ ] JSDoc with `@slot`, `@csspart`, `@fires` as needed
+
+### Exports and registration
+- [ ] `index.ts` re-exports class + types
+- [ ] `register.ts` provides standalone registration
+- [ ] Package exports added to components `deno.json`
+- [ ] Theme exports added to theme's `deno.json`
+- [ ] Theme styles registered in `defaultTheme.styles` map
+
+### Theme styles
+- [ ] All token values use design tokens — no hardcoded `px` or `rem`
+- [ ] Component-scoped CSS variables defined on `:host`, consumed in `[part]`
+- [ ] Hover styles use `color-mix(in oklch, ...)` pattern
+- [ ] Focus ring uses double `box-shadow` pattern
+- [ ] Disabled styles use `opacity: 0.2; cursor: not-allowed`
+
+### Accessibility
+- [ ] `data-*` attributes on internal elements match Base UI originals
 - [ ] ARIA attributes correct (role, aria-checked, aria-expanded, etc.)
+- [ ] `nothing` sentinel used for conditional ARIA attributes
+- [ ] `delegatesFocus` set when wrapping native `<button>`
+- [ ] `tabindex` managed for non-native focusable elements (removed when disabled)
+- [ ] Hidden form `<input>` for form-participating controls
+- [ ] Keyboard interactions match Base UI docs
+
+### Behavior
+- [ ] Controlled/uncontrolled patterns supported where applicable
 - [ ] Animation uses `data-starting-style` / `data-ending-style` on internal elements
 - [ ] Compound components use Lit Context (not imperative coordination)
 - [ ] Context updates are immutable (spread, not mutation)
-- [ ] `index.ts` re-exports, `register.ts` provides standalone registration
-- [ ] Config updates in both `deno.json` files
-- [ ] Theme styles registered in `defaultTheme.styles` map
 - [ ] `deno check` passes

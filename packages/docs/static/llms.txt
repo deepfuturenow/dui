@@ -27,22 +27,102 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Events: open-change ({ value: string; open: boolean })
 - Slots: trigger (Header/trigger content), default (Panel content)
 
-### Button
-- Tag: `<dui-button>`
-- Import: `@dui/components/button`
-- Description: A button with variant, size, and link support.
-- Properties: variant (string, "default"), size (string, "md"), rounded (boolean, false), square (boolean, false), disabled (boolean, false), type (string, "button"), href (string | undefined)
-- Events: dui-navigate ({ href: string })
-- Slots: default (Button label content)
+### Alert Dialog
+- Tag: `<dui-alert-dialog>`
+- Import: `@dui/components/alert-dialog`
+- Description: A modal dialog for critical actions. Does NOT close on backdrop click — requires explicit user action.
+- Properties: open (boolean | undefined), defaultOpen (boolean, false)
+- Events: open-change ({ open: boolean })
+- Slots: default (dui-alert-dialog-trigger and dui-alert-dialog-popup)
 
-### Switch
-- Tag: `<dui-switch>`
-- Import: `@dui/components/switch`
-- Description: A toggle switch with checked, disabled, and read-only states.
-- Properties: checked (boolean | undefined), defaultChecked (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string, "on")
-- Events: checked-change ({ checked: boolean })
+### Alert Dialog Trigger
+- Tag: `<dui-alert-dialog-trigger>`
+- Import: `@dui/components/alert-dialog`
+- Description: Behavioral wrapper that opens the alert dialog on click.
+- Events: none
+- Slots: default (Content that triggers the alert dialog)
+
+### Alert Dialog Popup
+- Tag: `<dui-alert-dialog-popup>`
+- Import: `@dui/components/alert-dialog`
+- Description: The alert dialog overlay with backdrop, centered popup, focus trap, and animation.
+- Properties: keepMounted (boolean, false), initialFocus (string | undefined), finalFocus (string | undefined)
+- Events: none
+- Slots: title (Alert dialog title (rendered as h2)), description (Alert dialog description (rendered as p)), default (Dialog content (actions, etc.))
+
+### Alert Dialog Close
+- Tag: `<dui-alert-dialog-close>`
+- Import: `@dui/components/alert-dialog`
+- Description: A close button wrapper that closes the alert dialog on click.
+- Events: none
+- Slots: default (Content that closes the alert dialog)
+
+### Breadcrumb
+- Tag: `<dui-breadcrumb>`
+- Import: `@dui/components/breadcrumb`
+- Description: Navigation breadcrumb trail showing the current page location.
+- Events: none
+- Slots: default (Breadcrumb items and separators)
+
+### Breadcrumb Item
+- Tag: `<dui-breadcrumb-item>`
+- Import: `@dui/components/breadcrumb`
+- Description: List item wrapper for a single breadcrumb entry.
+- Events: none
+- Slots: default (A breadcrumb link, page, or ellipsis)
+
+### Breadcrumb Link
+- Tag: `<dui-breadcrumb-link>`
+- Import: `@dui/components/breadcrumb`
+- Description: Styled wrapper for a clickable breadcrumb link.
+- Events: none
+- Slots: default (An <a> element for navigation)
+
+### Breadcrumb Page
+- Tag: `<dui-breadcrumb-page>`
+- Import: `@dui/components/breadcrumb`
+- Description: Current page indicator (not clickable).
+- Events: none
+- Slots: default (The current page label text)
+
+### Breadcrumb Separator
+- Tag: `<dui-breadcrumb-separator>`
+- Import: `@dui/components/breadcrumb`
+- Description: Visual separator between breadcrumb items. Defaults to "/".
+- Events: none
+- Slots: default (Custom separator content (defaults to "/"))
+
+### Breadcrumb Ellipsis
+- Tag: `<dui-breadcrumb-ellipsis>`
+- Import: `@dui/components/breadcrumb`
+- Description: Collapsed breadcrumb indicator. Defaults to "…".
+- Events: none
+- Slots: default (Custom ellipsis content (defaults to "…"))
+
+### Checkbox
+- Tag: `<dui-checkbox>`
+- Import: `@dui/components/checkbox`
+- Description: A checkbox input with optional indeterminate state and group support.
+- Properties: checked (boolean | undefined), defaultChecked (boolean, false), indeterminate (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string | undefined), parent (boolean, false)
+- Events: checked-change ({ checked: boolean; indeterminate: boolean })
 - Slots: default (Label content)
-- CSS Properties: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+- CSS Properties: --checkbox-size (Size of the checkbox box)
+
+### Checkbox Group
+- Tag: `<dui-checkbox-group>`
+- Import: `@dui/components/checkbox`
+- Description: Groups multiple checkboxes with shared state management.
+- Properties: value (string[] | undefined), defaultValue (string[], []), allValues (string[], []), disabled (boolean, false)
+- Events: value-change (string[])
+- Slots: default (dui-checkbox children)
+
+### Collapsible
+- Tag: `<dui-collapsible>`
+- Import: `@dui/components/collapsible`
+- Description: A standalone disclosure widget with animated open/close transitions.
+- Properties: open (boolean, false), defaultOpen (boolean, false), disabled (boolean, false), keepMounted (boolean, false)
+- Events: open-change ({ open: boolean })
+- Slots: trigger (Trigger label content), default (Panel content)
 
 ### Badge
 - Tag: `<dui-badge>`
@@ -52,22 +132,13 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Events: none
 - Slots: default (Badge content)
 
-### Icon
-- Tag: `<dui-icon>`
-- Import: `@dui/components/icon`
-- Description: Material Symbols icon with configurable size and color.
-- Properties: icon (string, ""), color (string | undefined), size (string | undefined)
-- Events: none
-- CSS Properties: --icon-size (Icon dimensions), --icon-fg (Icon color)
-
-### Scroll Area
-- Tag: `<dui-scroll-area>`
-- Import: `@dui/components/scroll-area`
-- Description: Custom scrollbar overlay with fade support.
-- Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
-- Events: scrolled-to-bottom, scrolled-from-bottom
-- Slots: default (Scrollable content)
-- CSS Properties: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+### Button
+- Tag: `<dui-button>`
+- Import: `@dui/components/button`
+- Description: A button with variant, size, and link support.
+- Properties: variant (string, "default"), size (string, "md"), rounded (boolean, false), square (boolean, false), disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Events: dui-navigate ({ href: string })
+- Slots: default (Button label content)
 
 ### Combobox
 - Tag: `<dui-combobox>`
@@ -75,6 +146,44 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Searchable dropdown with single and multi-select modes.
 - Properties: options (SelectOption[], []), value (string, ""), values (Set<string>, new Set()), multiple (boolean, false), placeholder (string, "Search..."), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption }), values-change ({ value: string; selected: boolean; values: Set<string> })
+
+### Dialog
+- Tag: `<dui-dialog>`
+- Import: `@dui/components/dialog`
+- Description: A modal dialog with backdrop, focus trap, and open/close animation. Closes on backdrop click.
+- Properties: open (boolean | undefined), defaultOpen (boolean, false)
+- Events: open-change ({ open: boolean })
+- Slots: default (dui-dialog-trigger and dui-dialog-popup)
+
+### Dialog Trigger
+- Tag: `<dui-dialog-trigger>`
+- Import: `@dui/components/dialog`
+- Description: Behavioral wrapper that opens the dialog on click.
+- Events: none
+- Slots: default (Content that triggers the dialog)
+
+### Dialog Popup
+- Tag: `<dui-dialog-popup>`
+- Import: `@dui/components/dialog`
+- Description: The dialog overlay with backdrop, centered popup, focus trap, and animation.
+- Properties: keepMounted (boolean, false), initialFocus (string | undefined), finalFocus (string | undefined), width (string | undefined)
+- Events: none
+- Slots: title (Dialog title (rendered as h2)), description (Dialog description (rendered as p)), default (Dialog content (actions, form fields, etc.))
+
+### Dialog Close
+- Tag: `<dui-dialog-close>`
+- Import: `@dui/components/dialog`
+- Description: A close button wrapper that closes the dialog on click.
+- Events: none
+- Slots: default (Content that closes the dialog)
+
+### Icon
+- Tag: `<dui-icon>`
+- Import: `@dui/components/icon`
+- Description: Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
+- Events: none
+- Slots: default (SVG element to display)
+- CSS Properties: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
 
 ### Menu
 - Tag: `<dui-menu>`
@@ -121,6 +230,159 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Events: none
 - Slots: default (Content that closes the popover)
 
+### Scroll Area
+- Tag: `<dui-scroll-area>`
+- Import: `@dui/components/scroll-area`
+- Description: Custom scrollbar overlay with fade support.
+- Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
+- Events: scrolled-to-bottom, scrolled-from-bottom
+- Slots: default (Scrollable content)
+- CSS Properties: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+
+### Slider
+- Tag: `<dui-slider>`
+- Import: `@dui/components/slider`
+- Description: A slider for selecting numeric values within a range.
+- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, "")
+- Events: value-change ({ value: number }), value-committed ({ value: number })
+- CSS Properties: --slider-track-height (Height of the track), --slider-thumb-size (Size of the thumb)
+
+### Spinner
+- Tag: `<dui-spinner>`
+- Import: `@dui/components/spinner`
+- Description: A loading indicator with multiple animation variants and sizes.
+- Properties: size ("sm" | "md" | "lg", "sm"), variant ("pulse" | "lucide-loader" | "lucide-loader-circle", "pulse")
+- Events: none
+- CSS Properties: --spinner-size (Override spinner dimensions), --spinner-color (Override spinner color (defaults to currentColor))
+
+### Switch
+- Tag: `<dui-switch>`
+- Import: `@dui/components/switch`
+- Description: A toggle switch with checked, disabled, and read-only states.
+- Properties: checked (boolean | undefined), defaultChecked (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string, "on")
+- Events: checked-change ({ checked: boolean })
+- Slots: default (Label content)
+- CSS Properties: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+
+### Tabs
+- Tag: `<dui-tabs>`
+- Import: `@dui/components/tabs`
+- Description: A tabbed interface with animated indicator and keyboard navigation.
+- Properties: value (string | undefined), defaultValue (string | undefined), orientation ("horizontal" | "vertical", "horizontal"), controls ("header" | "footer", "header")
+- Events: value-change (string)
+- Slots: default (Tab list and tab panels)
+
+### Tabs List
+- Tag: `<dui-tabs-list>`
+- Import: `@dui/components/tabs`
+- Description: Container for tab triggers. Manages indicator positioning.
+- Events: none
+- Slots: default (dui-tab elements and optional dui-tabs-indicator)
+
+### Tab
+- Tag: `<dui-tab>`
+- Import: `@dui/components/tabs`
+- Description: Individual tab trigger button.
+- Properties: value (string, ""), disabled (boolean, false)
+- Events: none
+- Slots: default (Tab label content)
+
+### Tabs Panel
+- Tag: `<dui-tabs-panel>`
+- Import: `@dui/components/tabs`
+- Description: Content panel for a tab. Shown when the matching tab is active.
+- Properties: value (string, ""), keepMounted (boolean, false)
+- Events: none
+- Slots: default (Panel content)
+
+### Tabs Indicator
+- Tag: `<dui-tabs-indicator>`
+- Import: `@dui/components/tabs`
+- Description: Animated background indicator for the active tab.
+- Events: none
+
+### Textarea
+- Tag: `<dui-textarea>`
+- Import: `@dui/components/textarea`
+- Description: A multi-line text input with resize modes including auto-grow.
+- Properties: value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), rows (number | undefined), minLength (number | undefined), maxLength (number | undefined), name (string, ""), variant ("default" | "ghost", "default"), resize ("none" | "vertical" | "horizontal" | "both" | "auto", "vertical"), maxHeight (string | undefined)
+- Events: textarea-change ({ value: string })
+
+### Toolbar
+- Tag: `<dui-toolbar>`
+- Import: `@dui/components/toolbar`
+- Description: A 3-column toolbar layout with left, center, and right slots. CSS grid keeps the center slot centered regardless of left/right content width.
+- Properties: size ("sm" | "md" | "lg" | "xl"), inset (boolean, false), hasButtonLeft (boolean, false), hasButtonRight (boolean, false)
+- Events: none
+- Slots: left (Content aligned to the start), center (Content centered in the toolbar), right (Content aligned to the end)
+
+### Trunc
+- Tag: `<dui-trunc>`
+- Import: `@dui/components/trunc`
+- Description: Text truncation with ellipsis. Single-line by default, or multi-line clamping with max-lines.
+- Properties: maxWidth (string, "20rem"), maxLines (number | undefined)
+- Events: none
+- Slots: default (Text content to truncate)
+
+### Avatar
+- Tag: `<dui-avatar>`
+- Import: `@dui/components/avatar`
+- Description: Image display with fallback content and loading state management.
+- Properties: src (string | undefined), alt (string, ""), size (string | undefined), fallbackDelay (number | undefined)
+- Events: loading-status-change ({ status: ImageStatus })
+- Slots: default (Fallback content (e.g. initials or icon))
+- CSS Properties: --avatar-size (Avatar dimensions (width and height)), --avatar-bg (Background color for fallback state), --avatar-fg (Text/icon color for fallback state)
+
+### Center
+- Tag: `<dui-center>`
+- Import: `@dui/components/center`
+- Description: Centers content horizontally and vertically within container query dimensions.
+- Events: none
+- Slots: default (Content to center)
+
+### HStack
+- Tag: `<dui-hstack>`
+- Import: `@dui/components/hstack`
+- Description: Horizontal stack layout with configurable gap, alignment, and justification.
+- Properties: gap (StackGap, "4"), align ("start" | "center" | "end" | "stretch" | "baseline", "center"), justify ("start" | "center" | "end" | "between" | "around" | "evenly" | "stretch", "stretch")
+- Events: none
+- Slots: default (Stack content)
+- CSS Properties: --hstack-gap (Override gap between items), --hstack-align (Override align-items), --hstack-justify (Override justify-content)
+
+### Link
+- Tag: `<dui-link>`
+- Import: `@dui/components/link`
+- Description: Layout-transparent SPA link. Dispatches spa-navigate on click; modifier-clicks fall through for new-tab behavior.
+- Properties: href (string, "")
+- Events: spa-navigate ({ href: string })
+- Slots: default (Link content)
+
+### Page Inset
+- Tag: `<dui-page-inset>`
+- Import: `@dui/components/page-inset`
+- Description: Centers content with max-width constraints and configurable padding.
+- Properties: maxWidth (string | undefined), minWidth (string | undefined), padX (string | undefined), padY (string | undefined)
+- Events: none
+- Slots: default (Content to be centered)
+- CSS Properties: --page-inset-pad-x (Horizontal padding (default: var(--space-16))), --page-inset-pad-y (Vertical padding (default: var(--space-12))), --page-inset-max-width (Max width of inner content (default: 48rem)), --page-inset-min-width (Min width of inner content (default: auto))
+
+### Portal
+- Tag: `<dui-portal>`
+- Import: `@dui/components/portal`
+- Description: Teleports light DOM children to a target container elsewhere in the document.
+- Properties: target (string, "body"), targetRoot ("shadow" | "document", "document"), targetElement (HTMLElement | undefined)
+- Events: none
+- Slots: default (Content to teleport)
+
+### VStack
+- Tag: `<dui-vstack>`
+- Import: `@dui/components/vstack`
+- Description: Vertical stack layout with configurable gap spacing.
+- Properties: gap (StackGap, "4")
+- Events: none
+- Slots: default (Stack content)
+- CSS Properties: --vstack-gap (Override gap between items)
+
 ### Tooltip
 - Tag: `<dui-tooltip>`
 - Import: `@dui/components/tooltip`
@@ -144,3 +406,277 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: showArrow (boolean, true)
 - Events: none
 - Slots: default (Tooltip content)
+
+### Input
+- Tag: `<dui-input>`
+- Import: `@dui/components/input`
+- Description: A native input element that integrates with dui-field for accessible labeling and validation.
+- Properties: type (string, "text"), value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), minLength (number | undefined), maxLength (number | undefined), pattern (string | undefined), name (string, ""), autocomplete (string | undefined), autofocus (boolean, false)
+- Events: input-change ({ value: string })
+
+### Radio Group
+- Tag: `<dui-radio-group>`
+- Import: `@dui/components/radio`
+- Description: Groups multiple radio buttons with shared state. Only one radio can be selected at a time.
+- Properties: name (string | undefined), value (string | undefined), defaultValue (string | undefined), disabled (boolean, false), readOnly (boolean, false), required (boolean, false)
+- Events: value-change ({ value: string })
+- Slots: default (dui-radio children)
+
+### Radio
+- Tag: `<dui-radio>`
+- Import: `@dui/components/radio`
+- Description: A radio button input. Must be used within a dui-radio-group.
+- Properties: value (string, ""), disabled (boolean, false), readOnly (boolean, false)
+- Events: none
+- Slots: default (Label content)
+- CSS Properties: --radio-size (Size of the radio button)
+
+### Dropzone
+- Tag: `<dui-dropzone>`
+- Import: `@dui/components/dropzone`
+- Description: A drag-and-drop file upload area with validation for file type, size, and count.
+- Properties: accept (string | undefined), multiple (boolean, false), disabled (boolean, false), maxFiles (number, Infinity), maxSize (number, Infinity), minSize (number, 0), autoFocus (boolean, false), noStyle (boolean, false)
+- Events: drop ({ acceptedFiles: File[]; rejectedFiles: RejectedFile[] }), drop-accepted ({ acceptedFiles: File[] }), drop-rejected ({ rejectedFiles: RejectedFile[] }), dropzone-error ({ error: unknown; code: string })
+- Slots: default (Custom content for the dropzone area)
+
+### Select
+- Tag: `<dui-select>`
+- Import: `@dui/components/select`
+- Description: A dropdown select for choosing from a list of predefined options.
+- Properties: options (SelectOption[], []), value (string, ""), placeholder (string, "Select..."), disabled (boolean, false), name (string, "")
+- Events: value-change ({ value: string; option: SelectOption })
+
+### Preview Card
+- Tag: `<dui-preview-card>`
+- Import: `@dui/components/preview-card`
+- Description: A hover card that shows rich preview content. Stays open when cursor moves to the popup.
+- Properties: open (boolean, false), defaultOpen (boolean, false), side ("top" | "bottom", "top"), sideOffset (number, 8), delay (number, 400), closeDelay (number, 300)
+- Events: open-change ({ open: boolean })
+- Slots: default (dui-preview-card-trigger and dui-preview-card-popup)
+
+### Preview Card Trigger
+- Tag: `<dui-preview-card-trigger>`
+- Import: `@dui/components/preview-card`
+- Description: The element that triggers the preview card on hover/focus.
+- Events: none
+- Slots: default (Content that triggers the preview card (e.g. a link))
+
+### Preview Card Popup
+- Tag: `<dui-preview-card-popup>`
+- Import: `@dui/components/preview-card`
+- Description: The preview card popup content container. Stays open on hover.
+- Properties: showArrow (boolean, true)
+- Events: none
+- Slots: default (Preview card content)
+
+### Data Table
+- Tag: `<dui-data-table>`
+- Import: `@dui/components/data-table`
+- Description: A sortable, paginated data table with column definitions and custom cell renderers.
+- Properties: columns (ColumnDef<T>[], []), data (T[], []), pageSize (number, 10), rowKey (((row: T) => string) | undefined), emptyText (string, "No results.")
+- Events: sort-change (SortState | null), page-change (PageState)
+
+### Command
+- Tag: `<dui-command>`
+- Import: `@dui/components/command`
+- Description: A searchable command palette with keyboard navigation, filtering, and grouped items.
+- Properties: loop (boolean, false), shouldFilter (boolean, true), value (string | undefined), filter (FilterFn | undefined)
+- Events: select (string), search-change (string), escape
+- Slots: default (Command input, list, groups, and items)
+
+### Command Input
+- Tag: `<dui-command-input>`
+- Import: `@dui/components/command`
+- Description: Search input for the command palette.
+- Properties: placeholder (string, "Search...")
+- Events: none
+
+### Command List
+- Tag: `<dui-command-list>`
+- Import: `@dui/components/command`
+- Description: Scrollable list container for command items and groups.
+- Events: none
+- Slots: default (Command groups, items, separators, and empty state)
+
+### Command Group
+- Tag: `<dui-command-group>`
+- Import: `@dui/components/command`
+- Description: Groups related command items with an optional heading. Hides when no items match the search.
+- Properties: heading (string, "")
+- Events: none
+- Slots: default (Command items)
+
+### Command Item
+- Tag: `<dui-command-item>`
+- Import: `@dui/components/command`
+- Description: A selectable item within a command group or list.
+- Properties: value (string, ""), keywords (string[], []), disabled (boolean, false)
+- Events: none
+- Slots: default (Item content)
+
+### Command Empty
+- Tag: `<dui-command-empty>`
+- Import: `@dui/components/command`
+- Description: Shown when no command items match the search query.
+- Events: none
+- Slots: default (Empty state content)
+
+### Command Separator
+- Tag: `<dui-command-separator>`
+- Import: `@dui/components/command`
+- Description: A visual separator between command groups or items.
+- Events: none
+
+### Command Shortcut
+- Tag: `<dui-command-shortcut>`
+- Import: `@dui/components/command`
+- Description: Displays a keyboard shortcut hint within a command item.
+- Events: none
+- Slots: default (Shortcut text (e.g. ⌘K))
+
+### Sidebar
+- Tag: `<dui-sidebar-provider>`
+- Import: `@dui/components/sidebar`
+- Description: Root state manager for the sidebar. Manages open/close state, mobile detection, and provides context.
+- Properties: open (boolean | undefined), defaultOpen (boolean, true), side ("left" | "right", "left"), variant ("sidebar" | "floating" | "inset", "sidebar"), collapsible ("offcanvas" | "icon" | "none", "offcanvas")
+- Events: open-change ({ open: boolean })
+- Slots: default (Sidebar and content areas)
+
+### Sidebar Panel
+- Tag: `<dui-sidebar>`
+- Import: `@dui/components/sidebar`
+- Description: The sidebar panel itself. Renders desktop or mobile layout based on viewport.
+- Events: none
+- Slots: default (Sidebar content (header, content, footer))
+
+### Sidebar Trigger
+- Tag: `<dui-sidebar-trigger>`
+- Import: `@dui/components/sidebar`
+- Description: Toggle button for the sidebar.
+- Events: none
+- Slots: default (Override the default icon)
+
+### Sidebar Content
+- Tag: `<dui-sidebar-content>`
+- Import: `@dui/components/sidebar`
+- Description: Scrollable content section of the sidebar.
+- Events: none
+- Slots: default (Groups, menus, etc.)
+
+### Sidebar Header
+- Tag: `<dui-sidebar-header>`
+- Import: `@dui/components/sidebar`
+- Description: Header section at the top of the sidebar.
+- Events: none
+- Slots: default (Header content)
+
+### Sidebar Footer
+- Tag: `<dui-sidebar-footer>`
+- Import: `@dui/components/sidebar`
+- Description: Footer section at the bottom of the sidebar.
+- Events: none
+- Slots: default (Footer content)
+
+### Sidebar Group
+- Tag: `<dui-sidebar-group>`
+- Import: `@dui/components/sidebar`
+- Description: Section container within the sidebar for grouping related items.
+- Events: none
+- Slots: label (Group label (use dui-sidebar-group-label)), default (Group content)
+
+### Sidebar Group Label
+- Tag: `<dui-sidebar-group-label>`
+- Import: `@dui/components/sidebar`
+- Description: Heading for a sidebar group. Hides in icon-collapsed mode.
+- Events: none
+- Slots: default (Label text)
+
+### Sidebar Menu
+- Tag: `<dui-sidebar-menu>`
+- Import: `@dui/components/sidebar`
+- Description: Navigation menu container within a sidebar group.
+- Events: none
+- Slots: default (Menu items)
+
+### Sidebar Menu Item
+- Tag: `<dui-sidebar-menu-item>`
+- Import: `@dui/components/sidebar`
+- Description: Individual item within a sidebar menu.
+- Events: none
+- Slots: default (Menu button or content)
+
+### Sidebar Menu Button
+- Tag: `<dui-sidebar-menu-button>`
+- Import: `@dui/components/sidebar`
+- Description: Interactive button or link within a sidebar menu. Renders as anchor when href is set.
+- Properties: size ("default" | "sm" | "lg", "default"), active (boolean, false), disabled (boolean, false), tooltip (string, ""), href (string | undefined)
+- Events: spa-navigate ({ href: string })
+- Slots: icon (Icon slot, shown before the label), default (Label text), suffix (Suffix slot, shown after the label)
+
+### Sidebar Separator
+- Tag: `<dui-sidebar-separator>`
+- Import: `@dui/components/sidebar`
+- Description: A visual separator within the sidebar.
+- Events: none
+
+### Sidebar Inset
+- Tag: `<dui-sidebar-inset>`
+- Import: `@dui/components/sidebar`
+- Description: Main content area that adjusts its width based on the sidebar state.
+- Events: none
+- Slots: default (Main content)
+
+### Separator
+- Tag: `<dui-separator>`
+- Import: `@dui/components/separator`
+- Description: A visual divider between content sections. Supports horizontal and vertical orientation.
+- Properties: orientation ("horizontal" | "vertical", "horizontal")
+- Events: none
+
+### Progress
+- Tag: `<dui-progress>`
+- Import: `@dui/components/progress`
+- Description: A progress bar indicating completion status. Supports determinate and indeterminate states.
+- Properties: value (number | null, null), min (number, 0), max (number, 100)
+- Events: none
+- CSS Properties: --progress-value (Computed progress percentage (set internally))
+
+### Toggle
+- Tag: `<dui-toggle>`
+- Import: `@dui/components/toggle`
+- Description: A two-state toggle button. Works standalone or inside a toggle group.
+- Properties: pressed (boolean | undefined), defaultPressed (boolean, false), disabled (boolean, false), value (string | undefined)
+- Events: pressed-change ({ pressed: boolean })
+- Slots: default (Toggle content (text and/or icons))
+
+### Toggle Group
+- Tag: `<dui-toggle-group>`
+- Import: `@dui/components/toggle`
+- Description: Groups toggle buttons with shared single or multi selection state.
+- Properties: value (string[] | undefined), defaultValue (string[], []), type ("single" | "multiple", "single"), orientation ("horizontal" | "vertical", "horizontal"), disabled (boolean, false), loop (boolean, true)
+- Events: value-change ({ value: string[] })
+- Slots: default (dui-toggle children)
+
+### Number Field
+- Tag: `<dui-number-field>`
+- Import: `@dui/components/number-field`
+- Description: A numeric input with increment/decrement buttons and keyboard controls.
+- Properties: value (number | undefined), defaultValue (number | undefined), min (number | undefined), max (number | undefined), step (number, 1), largeStep (number, 10), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined)
+- Events: value-change ({ value: number })
+- Slots: decrement (Custom decrement button content), increment (Custom increment button content)
+
+### Menubar
+- Tag: `<dui-menubar>`
+- Import: `@dui/components/menubar`
+- Description: A horizontal bar of menus with coordinated open/close behavior.
+- Properties: loop (boolean, true), orientation ("horizontal" | "vertical", "horizontal")
+- Events: none
+- Slots: default (dui-menu children)
+
+### Calendar
+- Tag: `<dui-calendar>`
+- Import: `@dui/components/calendar`
+- Description: A date picker calendar grid with keyboard navigation and locale support.
+- Properties: value (string | undefined), defaultValue (string | undefined), min (string | undefined), max (string | undefined), locale (string, "en-US"), disabled (boolean, false), readOnly (boolean, false)
+- Events: value-change ({ value: string })
+- Slots: prev (Custom previous month button content), next (Custom next month button content)

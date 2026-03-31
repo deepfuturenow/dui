@@ -1,2 +1,7 @@
 node_modules/
 .DS_Store
+
+# Build artifacts
+packages/docs/static/index.js
+packages/docs/static/theme-editor.js
+packages/docs/static/llms.txt
