@@ -6,6 +6,7 @@ const PORT = 4040;
 const STATIC_DIR = resolve(import.meta.dirname!, "static");
 const DOCS_ENTRY = resolve(import.meta.dirname!, "src/index.ts");
 const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
+const INSPECTOR_ENTRY = resolve(import.meta.dirname!, "src/inspector.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 
 /**
@@ -175,7 +176,7 @@ await Deno.writeTextFile(join(STATIC_DIR, "llms.txt"), llmsTxt);
 console.log("Generated llms.txt");
 
 const ctx = await esbuild.context({
-  entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY],
+  entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY],
   bundle: true,
   format: "esm",
   target: "es2022",
