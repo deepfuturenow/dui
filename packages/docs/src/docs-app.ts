@@ -1,16 +1,136 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { componentRegistry } from "./component-registry.ts";
-import { currentRoute, onRouteChange, type Route } from "./docs-router.ts";
+import { currentRoute, onRouteChange, navigate, type Route } from "./docs-router.ts";
+import { FONT_OPTIONS } from "./create/create-config.ts";
+import { loadGoogleFont } from "./create/font-loader.ts";
+import "./create/create-controls.ts";
 
 @customElement("docs-app")
 export class DocsApp extends LitElement {
   static override styles = css`
     :host {
       display: flex;
+      flex-direction: column;
       min-height: 100vh;
     }
 
+    /* ── Top bar ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky, 40);
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-4);
+      border-bottom: var(--border-width-thin, 1px) solid var(--border);
+      background: var(--background);
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6, 1.5rem);
+    }
+
+    .top-bar-logo {
+      font-size: var(--font-size-base, 1rem);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tight, -0.01em);
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    .top-bar-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .top-bar-link {
+      font-size: var(--font-size-sm, 0.875rem);
+      color: var(--muted-foreground);
+      text-decoration: none;
+      padding: var(--space-1_5, 0.375rem) var(--space-2_5, 0.625rem);
+      border-radius: var(--radius-sm, 0.25rem);
+      cursor: pointer;
+      transition: color 0.15s, background-color 0.15s;
+    }
+
+    .top-bar-link:hover {
+      color: var(--foreground);
+      background: var(--secondary, oklch(0.5 0 0 / 0.05));
+    }
+
+    .top-bar-link[aria-current="page"] {
+      color: var(--foreground);
+      font-weight: 600;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .search-trigger {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-1_5, 0.375rem) var(--space-3, 0.75rem);
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-md, 0.5rem);
+      background: var(--muted);
+      color: var(--muted-foreground);
+      font-size: var(--font-size-sm, 0.875rem);
+      cursor: pointer;
+      min-width: 200px;
+      transition: border-color 0.15s;
+    }
+
+    .search-trigger:hover {
+      border-color: var(--foreground);
+    }
+
+    .search-trigger kbd {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs, 0.75rem);
+      background: var(--background);
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-sm, 0.25rem);
+      padding: 1px var(--space-1);
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-sm, 0.25rem);
+      background: transparent;
+      color: var(--foreground);
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--secondary, oklch(0.5 0 0 / 0.05));
+    }
+
+    /* ── Body ── */
+    .body {
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      flex: 1;
+    }
+
+
+    /* ── Sidebar ── */
     .sidebar {
       width: 240px;
       min-width: 240px;
@@ -19,30 +139,30 @@ export class DocsApp extends LitElement {
       padding: var(--space-4) 0;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: calc(100vh - 48px);
       position: sticky;
-      top: 0;
+      top: 48px;
       overflow-y: auto;
     }
 
-    .sidebar-header {
-      padding: 0 var(--space-4) var(--space-4);
-      border-bottom: var(--border-width-thin, 1px) solid var(--border);
-      margin-bottom: var(--space-4);
+    /* 2-column: drop farside when viewport can't fit all three */
+    @media (max-width: 1279px) {
+      .body {
+        grid-template-columns: 240px 1fr;
+      }
+      .farside {
+        display: none;
+      }
     }
 
-    .sidebar-title {
-      font-size: var(--font-size-lg, 1.125rem);
-      font-weight: 700;
-      margin: 0;
-      letter-spacing: var(--letter-spacing-tight, -0.01em);
-    }
-
-    .sidebar-subtitle {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
-      margin: var(--space-1) 0 0;
+    /* Mobile: hide sidebar, show only content */
+    @media (max-width: 767px) {
+      .body {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
     }
 
     .section-label {
@@ -54,6 +174,10 @@ export class DocsApp extends LitElement {
       color: var(--muted-foreground);
       padding: var(--space-2) var(--space-4);
       margin-top: var(--space-2);
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
     }
 
     .nav-link {
@@ -68,13 +192,13 @@ export class DocsApp extends LitElement {
 
     .nav-link:hover {
       color: var(--foreground);
-      background: var(--accent, oklch(0.5 0 0 / 0.05));
+      background: var(--secondary, oklch(0.5 0 0 / 0.05));
     }
 
     .nav-link[aria-current="page"] {
       color: var(--foreground);
       font-weight: 600;
-      background: var(--accent, oklch(0.5 0 0 / 0.08));
+      background: var(--secondary, oklch(0.5 0 0 / 0.08));
     }
 
     .sidebar-footer {
@@ -83,16 +207,135 @@ export class DocsApp extends LitElement {
       border-top: var(--border-width-thin, 1px) solid var(--border);
     }
 
+    /* ── Farside (right spacer column) ── */
+    .farside {
+      /* Empty balancing column — same width as sidebar */
+    }
+
+    /* ── Content ── */
     .content {
-      flex: 1;
       min-width: 0;
       padding: var(--space-8, 2rem) var(--space-8, 2rem) var(--space-12, 3rem);
-      max-width: 900px;
+      max-width: 44rem;
+      width: 100%;
+      box-sizing: border-box;
+      justify-self: center;
+    }
+
+    /* Create page: full width */
+    .content--create {
+      max-width: none;
+    }
+
+    /* ── Search dialog ── */
+    .search-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-modal, 50);
+      background: oklch(0 0 0 / 0.5);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 20vh;
+    }
+
+    .search-panel {
+      width: 500px;
+      max-height: 400px;
+      background: var(--background);
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-lg, 0.75rem);
+      box-shadow: var(--shadow-lg, 0 10px 30px oklch(0 0 0 / 0.2));
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .search-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3, 0.75rem) var(--space-4);
+      border-bottom: var(--border-width-thin, 1px) solid var(--border);
+    }
+
+    .search-input-wrapper dui-icon {
+      color: var(--muted-foreground);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: var(--font-size-sm, 0.875rem);
+      color: var(--foreground);
+      font-family: inherit;
+    }
+
+    .search-input::placeholder {
+      color: var(--muted-foreground);
+    }
+
+    .search-results {
+      overflow-y: auto;
+      padding: var(--space-2);
+    }
+
+    .search-group-label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs, 0.75rem);
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: var(--space-2) var(--space-2) var(--space-1);
+    }
+
+    .search-item {
+      display: block;
+      padding: var(--space-2) var(--space-3, 0.75rem);
+      font-size: var(--font-size-sm, 0.875rem);
+      color: var(--foreground);
+      text-decoration: none;
+      border-radius: var(--radius-sm, 0.25rem);
+      cursor: pointer;
+      transition: background-color 0.1s;
+    }
+
+    .search-item:hover,
+    .search-item[data-active] {
+      background: var(--secondary, oklch(0.5 0 0 / 0.08));
+    }
+
+    .search-empty {
+      padding: var(--space-6) var(--space-4);
+      text-align: center;
+      color: var(--muted-foreground);
+      font-size: var(--font-size-sm, 0.875rem);
     }
   `;
 
   @state()
   accessor #route: Route = currentRoute();
+
+  @state()
+  accessor #searchOpen = false;
+
+  @state()
+  accessor #searchQuery = "";
+
+  @state()
+  accessor #activeIndex = 0;
+
+  /* ── Create page state ── */
+  @state()
+  accessor #selectedFont = "Geist";
+
+  @state()
+  accessor #selectedRadius = "0.5rem";
+
+  @state()
+  accessor #selectedIconLib = "Lucide";
 
   #cleanup?: () => void;
 
@@ -103,41 +346,203 @@ export class DocsApp extends LitElement {
     this.#cleanup = onRouteChange((route) => {
       this.#route = route;
     });
+    document.addEventListener("keydown", this.#handleGlobalKeydown);
+    // Preload the default font for the Create page
+    const opt = FONT_OPTIONS.find((f) => f.family === this.#selectedFont);
+    if (opt) loadGoogleFont(opt.family, opt.weights);
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.#cleanup?.();
+    document.removeEventListener("keydown", this.#handleGlobalKeydown);
   }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    if (this.#searchOpen) {
+      const input = this.shadowRoot?.querySelector<HTMLInputElement>(".search-input");
+      if (input && document.activeElement !== input) {
+        requestAnimationFrame(() => input.focus());
+      }
+    }
+  }
+
+  #handleGlobalKeydown = (e: KeyboardEvent): void => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      this.#searchOpen = !this.#searchOpen;
+      this.#searchQuery = "";
+      this.#activeIndex = 0;
+    }
+    if (e.key === "Escape" && this.#searchOpen) {
+      this.#searchOpen = false;
+    }
+  };
 
   #toggleTheme(): void {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
     document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
   }
 
+  #onControlChange(e: CustomEvent<{ prop: string; value: string }>): void {
+    const { prop, value } = e.detail;
+    switch (prop) {
+      case "font": {
+        this.#selectedFont = value;
+        const opt = FONT_OPTIONS.find((f) => f.family === value);
+        if (opt) loadGoogleFont(opt.family, opt.weights);
+        break;
+      }
+      case "radius":
+        this.#selectedRadius = value;
+        break;
+      case "iconLib":
+        this.#selectedIconLib = value;
+        break;
+    }
+  }
+
+  #computeRadiusScale(base: string): Record<string, string> {
+    const val = parseFloat(base);
+    return {
+      "--radius-sm": `${Math.max(val - 0.25, 0)}rem`,
+      "--radius-md": base === "0" ? "0" : base,
+      "--radius-lg": `${val + 0.25}rem`,
+    };
+  }
+
+  #isTopNavActive(section: string): boolean {
+    return this.#route.section === section;
+  }
+
   #isActive(section: string, component?: string): boolean {
     return this.#route.section === section && this.#route.component === component;
   }
 
-  // Unique component names (skip accordion-item — it's shown on the accordion page)
   get #navComponents() {
-    return componentRegistry.filter((c) => !c.parent);
+    return componentRegistry
+      .filter((c) => !c.parent)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  get #searchResults() {
+    const q = this.#searchQuery.toLowerCase().trim();
+    if (!q) return this.#navComponents;
+    return this.#navComponents.filter(
+      (c) =>
+        c.name.toLowerCase().includes(q) ||
+        c.tagName.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q),
+    );
+  }
+
+  #onSearchInput(e: Event): void {
+    this.#searchQuery = (e.target as HTMLInputElement).value;
+    this.#activeIndex = 0;
+  }
+
+  #onSearchKeydown(e: KeyboardEvent): void {
+    const results = this.#searchResults;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      this.#activeIndex = Math.min(this.#activeIndex + 1, results.length - 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      this.#activeIndex = Math.max(this.#activeIndex - 1, 0);
+    } else if (e.key === "Enter" && results[this.#activeIndex]) {
+      e.preventDefault();
+      const c = results[this.#activeIndex];
+      const slug = c.tagName.replace("dui-", "");
+      navigate(`#/components/${slug}`);
+      this.#searchOpen = false;
+    }
+  }
+
+  #selectSearchResult(tagName: string): void {
+    const slug = tagName.replace("dui-", "");
+    navigate(`#/components/${slug}`);
+    this.#searchOpen = false;
   }
 
   override render() {
+    const isCreate = this.#route.section === "create";
+
+    // When on create page, apply font/radius overrides to the content area
+    let contentStyle = "";
+    if (isCreate) {
+      const radii = this.#computeRadiusScale(this.#selectedRadius);
+      contentStyle = [
+        `--font-sans: '${this.#selectedFont}', system-ui, sans-serif`,
+        ...Object.entries(radii).map(([k, v]) => `${k}: ${v}`),
+      ].join("; ");
+    }
+
+    return html`
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <a class="top-bar-logo" href="#/components">DUI</a>
+          <nav class="top-bar-nav">
+            <a class="top-bar-link"
+              href="#/components"
+              aria-current=${this.#isTopNavActive("components") ? "page" : "false"}>
+              Components
+            </a>
+            <a class="top-bar-link"
+              href="#/colors"
+              aria-current=${this.#isTopNavActive("colors") ? "page" : "false"}>
+              Colors
+            </a>
+            <a class="top-bar-link"
+              href="#/blocks"
+              aria-current=${this.#isTopNavActive("blocks") ? "page" : "false"}>
+              Blocks
+            </a>
+            <a class="top-bar-link"
+              href="#/create"
+              aria-current=${this.#isTopNavActive("create") ? "page" : "false"}>
+              Create
+            </a>
+          </nav>
+        </div>
+        <div class="top-bar-right">
+          <button class="search-trigger" @click=${() => { this.#searchOpen = true; this.#searchQuery = ""; this.#activeIndex = 0; }}>
+            <dui-icon name="search" size="14"></dui-icon>
+            Search...
+            <kbd>${navigator.platform.includes("Mac") ? "\u2318" : "Ctrl"}K</kbd>
+          </button>
+          <button class="theme-toggle" @click=${this.#toggleTheme} title="Toggle theme">
+            <dui-icon name="sun" size="16"></dui-icon>
+          </button>
+        </div>
+      </header>
+
+      <div class="body">
+        ${this.#renderSidebar()}
+        <main class="content ${isCreate ? "content--create" : ""}" style=${contentStyle}>
+          ${this.#renderPage()}
+        </main>
+        <div class="farside"></div>
+      </div>
+
+      ${this.#searchOpen ? this.#renderSearch() : nothing}
+    `;
+  }
+
+  #renderSidebar() {
+    if (this.#route.section === "create") {
+      return html`
+        <nav class="sidebar" @control-change=${this.#onControlChange}>
+          <create-controls
+            selectedFont=${this.#selectedFont}
+            selectedRadius=${this.#selectedRadius}
+            selectedIconLib=${this.#selectedIconLib}
+          ></create-controls>
+        </nav>
+      `;
+    }
+
     return html`
       <nav class="sidebar">
-        <div class="sidebar-header">
-          <h1 class="sidebar-title">DUI</h1>
-          <p class="sidebar-subtitle">Component Library</p>
-        </div>
-
-        <div class="section-label">Components</div>
-        <a class="nav-link"
-          href="#/components"
-          aria-current=${this.#isActive("components", undefined) ? "page" : "false"}>
-          Overview
-        </a>
         ${this.#navComponents.map((c) => {
           const slug = c.tagName.replace("dui-", "");
           return html`
@@ -149,31 +554,49 @@ export class DocsApp extends LitElement {
           `;
         })}
 
-        <div class="section-label">Design</div>
-        <a class="nav-link"
-          href="#/colors"
-          aria-current=${this.#route.section === "colors" ? "page" : "false"}>
-          Colors
-        </a>
-
-        <div class="section-label">Patterns</div>
-        <a class="nav-link"
-          href="#/blocks"
-          aria-current=${this.#route.section === "blocks" ? "page" : "false"}>
-          Blocks
-        </a>
-
         <div class="sidebar-footer">
           <a class="nav-link" href="/llms.txt" target="_blank">llms.txt</a>
-          <dui-button variant="outline" size="sm" @click=${this.#toggleTheme}>
-            Toggle theme
-          </dui-button>
         </div>
       </nav>
+    `;
+  }
 
-      <main class="content">
-        ${this.#renderPage()}
-      </main>
+  #renderSearch() {
+    const results = this.#searchResults;
+    return html`
+      <div class="search-overlay" @click=${(e: Event) => {
+        if (e.target === e.currentTarget) this.#searchOpen = false;
+      }}>
+        <div class="search-panel">
+          <div class="search-input-wrapper">
+            <dui-icon name="search" size="16"></dui-icon>
+            <input
+              class="search-input"
+              type="text"
+              placeholder="Search components..."
+              .value=${this.#searchQuery}
+              @input=${this.#onSearchInput}
+              @keydown=${this.#onSearchKeydown}
+              autofocus
+            />
+          </div>
+          <div class="search-results">
+            <div class="search-group-label">Components</div>
+            ${results.length === 0
+              ? html`<div class="search-empty">No results found.</div>`
+              : results.map(
+                  (c, i) => html`
+                    <div
+                      class="search-item"
+                      ?data-active=${i === this.#activeIndex}
+                      @click=${() => this.#selectSearchResult(c.tagName)}>
+                      ${c.name}
+                    </div>
+                  `,
+                )}
+          </div>
+        </div>
+      </div>
     `;
   }
 
@@ -182,6 +605,7 @@ export class DocsApp extends LitElement {
 
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
     if (section === "blocks") return html`<docs-page-blocks></docs-page-blocks>`;
+    if (section === "create") return html`<docs-page-create></docs-page-create>`;
 
     if (section === "components" && component) {
       switch (component) {
@@ -195,6 +619,38 @@ export class DocsApp extends LitElement {
         case "menu": return html`<docs-page-menu></docs-page-menu>`;
         case "popover": return html`<docs-page-popover></docs-page-popover>`;
         case "tooltip": return html`<docs-page-tooltip></docs-page-tooltip>`;
+        case "dialog": return html`<docs-page-dialog></docs-page-dialog>`;
+        case "alert-dialog": return html`<docs-page-alert-dialog></docs-page-alert-dialog>`;
+        case "breadcrumb": return html`<docs-page-breadcrumb></docs-page-breadcrumb>`;
+        case "checkbox": return html`<docs-page-checkbox></docs-page-checkbox>`;
+        case "collapsible": return html`<docs-page-collapsible></docs-page-collapsible>`;
+        case "toolbar": return html`<docs-page-toolbar></docs-page-toolbar>`;
+        case "slider": return html`<docs-page-slider></docs-page-slider>`;
+        case "spinner": return html`<docs-page-spinner></docs-page-spinner>`;
+        case "tabs": return html`<docs-page-tabs></docs-page-tabs>`;
+        case "textarea": return html`<docs-page-textarea></docs-page-textarea>`;
+        case "trunc": return html`<docs-page-trunc></docs-page-trunc>`;
+        case "center": return html`<docs-page-center></docs-page-center>`;
+        case "hstack": return html`<docs-page-hstack></docs-page-hstack>`;
+        case "vstack": return html`<docs-page-vstack></docs-page-vstack>`;
+        case "page-inset": return html`<docs-page-page-inset></docs-page-page-inset>`;
+        case "link": return html`<docs-page-link></docs-page-link>`;
+        case "avatar": return html`<docs-page-avatar></docs-page-avatar>`;
+        case "portal": return html`<docs-page-portal></docs-page-portal>`;
+        case "input": return html`<docs-page-input></docs-page-input>`;
+        case "radio-group": return html`<docs-page-radio></docs-page-radio>`;
+        case "dropzone": return html`<docs-page-dropzone></docs-page-dropzone>`;
+        case "select": return html`<docs-page-select></docs-page-select>`;
+        case "preview-card": return html`<docs-page-preview-card></docs-page-preview-card>`;
+        case "data-table": return html`<docs-page-data-table></docs-page-data-table>`;
+        case "command": return html`<docs-page-command></docs-page-command>`;
+        case "sidebar-provider": return html`<docs-page-sidebar></docs-page-sidebar>`;
+        case "separator": return html`<docs-page-separator></docs-page-separator>`;
+        case "progress": return html`<docs-page-progress></docs-page-progress>`;
+        case "toggle": return html`<docs-page-toggle></docs-page-toggle>`;
+        case "number-field": return html`<docs-page-number-field></docs-page-number-field>`;
+        case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
+        case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
       }
     }
 

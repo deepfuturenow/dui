@@ -33,12 +33,16 @@ export const buttonStyles = css`
     --button-fg: var(--foreground);
     --button-border: var(--input);
     --button-bg: var(--input-bg);
+    --button-hover-bg: var(--muted);
+    --button-active-bg: var(--muted);
   }
 
   :host([variant="ghost"]) {
     --button-bg: transparent;
     --button-fg: var(--foreground);
     --button-border: transparent;
+    --button-hover-bg: var(--muted);
+    --button-active-bg: var(--muted);
   }
 
   :host([variant="link"]) {
@@ -79,7 +83,7 @@ export const buttonStyles = css`
 
   [part="root"] {
     --icon-size: var(--button-icon-size);
-    --icon-fg: var(--button-fg);
+    --icon-color: var(--button-fg);
     gap: var(--button-gap);
     padding: var(--button-padding-y) var(--button-padding-x);
     width: var(--button-width);
