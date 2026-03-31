@@ -8,7 +8,7 @@ import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
 import { FloatingPortalController } from "@dui/core/floating-portal-controller";
 import { type FieldContext, fieldContext } from "../field/field-context.ts";
-import "../icon/register.ts";
+
 
 export type SelectOption = {
   label: string;
@@ -91,11 +91,10 @@ const portalPopupStyles = [
     }
 
     .Item {
-      height: var(--component-height-md);
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      padding: var(--space-2) var(--space-2);
+      padding: var(--space-1_5) var(--space-2);
       border-radius: var(--radius-sm);
       font-size: var(--font-size-sm);
       font-family: var(--font-sans);

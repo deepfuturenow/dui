@@ -4,8 +4,7 @@ import { css, html, LitElement, type TemplateResult } from "lit";
 import { ContextConsumer } from "@lit/context";
 import { base } from "@dui/core/base";
 import { sidebarContext } from "./sidebar-context.ts";
-import "../button/register.ts";
-import "../icon/register.ts";
+
 
 const styles = css`
   :host {

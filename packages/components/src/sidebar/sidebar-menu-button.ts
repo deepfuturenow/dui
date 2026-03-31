@@ -5,8 +5,7 @@ import { property } from "lit/decorators.js";
 import { ContextConsumer } from "@lit/context";
 import { base } from "@dui/core/base";
 import { sidebarContext } from "./sidebar-context.ts";
-import "../tooltip/register.ts";
-import "../icon/register.ts";
+
 
 const styles = css`
   :host {
