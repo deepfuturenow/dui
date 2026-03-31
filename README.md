@@ -84,6 +84,56 @@ deno task dev
 - "Copy tokens.css" exports a complete `tokens.css` with your overrides applied
 - Overrides persist across page reloads via localStorage
 
+## Inspector
+
+A built-in dev tool for inspecting DUI components at runtime. It provides both a visual overlay UI and a programmatic API designed for LLM agents via Chrome DevTools.
+
+### Visual UI
+
+Toggle with **Ctrl+Shift+I**. When active:
+
+1. **Hover** any DUI component to see a highlight overlay with its tag name
+2. **Click** to open a detail panel showing:
+   - **Properties** — Lit reactive properties with current values and types
+   - **Design Tokens** — all CSS custom properties used in the component's shadow styles, with resolved computed values and color swatches
+   - **Style Layers** — the adopted stylesheet stack (`base-reset` → `structural` → `theme-base` → `theme-component`) with the CSS properties each layer sets
+   - **Slots** — named slots and how many nodes are assigned
+   - **CSS Parts** — exposed `::part()` names and their target elements
+   - **Shadow Summary** — child count, slot count, part count
+3. **Esc** closes the panel first, then deactivates the inspector on a second press
+
+### Programmatic API
+
+The inspector exposes `window.__dui_inspect()` for use by LLM agents via Chrome DevTools MCP `evaluate_script`:
+
+```js
+// Inspect all DUI components on the page
+__dui_inspect()
+// → { timestamp, themeMode, componentCount, components: [...] }
+
+// Inspect a specific component by selector
+__dui_inspect("dui-button")
+// → { tagName, className, properties, tokens, styleLayers, slots, parts, shadowSummary }
+```
+
+The introspection functions are also available as ES module exports:
+
+```typescript
+import { inspectPage, inspectElement, discoverComponents } from "./inspector";
+```
+
+### How it's built
+
+The inspector is a self-contained module at `packages/docs/src/inspector/` with three layers:
+
+| Layer | Files | Role |
+|-------|-------|------|
+| **Lib** | `introspect.ts`, `style-layers.ts`, `types.ts` | Pure functions that walk the DOM, read Lit's `elementProperties`, scan `adoptedStyleSheets` for tokens, and map stylesheets to named layers |
+| **Components** | `inspector-overlay.ts`, `inspector-panel.ts` | Lit elements for the highlight overlay and the detail panel |
+| **View** | `inspector-view.ts` | Root orchestrator — handles keyboard shortcuts, mouse/pointer/focus events, and composes the overlay + panel |
+
+The entry point (`packages/docs/src/inspector.ts`) mounts `<inspector-view>` onto the page and wires up the `window.__dui_inspect` global. It's bundled as a separate esbuild entry point (`inspector.js`) alongside the docs app, loaded via a `<script>` tag in `index.html`.
+
 ## Documentation
 
 - [Architecture](docs/architecture.md) — mental model, package responsibilities, design decisions
