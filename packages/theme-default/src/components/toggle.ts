@@ -13,15 +13,15 @@ export const toggleStyles = css`
   }
 
   @media (hover: hover) {
-    [part="root"]:hover:not(:disabled) {
+    [part="root"]:hover:not(:disabled):not([data-pressed]) {
       background-color: var(--muted);
       color: var(--foreground);
     }
   }
 
   [part="root"][data-pressed] {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: var(--secondary);
+    color: var(--foreground);
   }
 
   [part="root"]:focus-visible {

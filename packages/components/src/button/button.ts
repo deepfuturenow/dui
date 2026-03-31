@@ -25,6 +25,17 @@ const styles = css`
     display: inline-block;
   }
 
+  button, a {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+  }
+
   [part="root"] {
     display: inline-flex;
     align-items: center;
