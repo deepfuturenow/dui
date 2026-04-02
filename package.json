@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "pi-web-access": "^0.10.4"
+  },
+  "devDependencies": {
+    "typescript": "5.7"
   }
 }

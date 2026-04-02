@@ -1,0 +1,59 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # Deno needs node_modules for npm deps (lit, etc.)
+      - name: Install npm dependencies
+        run: deno install
+
+      - name: Build packages
+        run: deno run --allow-all scripts/build.ts
+
+      - name: Build CDN bundle
+        run: deno run --allow-all scripts/build-cdn.ts
+
+      - name: Publish @deepfuture/dui-core
+        run: npm publish --access public
+        working-directory: dist/dui-core
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @deepfuture/dui-components
+        run: npm publish --access public
+        working-directory: dist/dui-components
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @deepfuture/dui-theme-default
+        run: npm publish --access public
+        working-directory: dist/dui-theme-default
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @deepfuture/dui-cdn
+        run: npm publish --access public
+        working-directory: dist/dui-cdn
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

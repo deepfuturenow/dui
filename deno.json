@@ -18,6 +18,12 @@
   "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run --allow-all packages/docs/serve.ts",
-    "build:docs": "deno run --allow-all packages/docs/serve.ts --build"
+    "build:docs": "deno run --allow-all packages/docs/serve.ts --build",
+    "build": "deno run --allow-all scripts/build.ts",
+    "build:cdn": "deno run --allow-all scripts/build-cdn.ts",
+    "build:all": "deno run --allow-all scripts/build.ts && deno run --allow-all scripts/build-cdn.ts",
+    "version": "deno run --allow-all scripts/version.ts",
+    "publish": "deno run --allow-all scripts/publish.ts",
+    "publish:live": "deno run --allow-all scripts/publish.ts --publish"
   }
 }

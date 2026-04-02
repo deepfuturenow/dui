@@ -10,7 +10,8 @@
     "./floating-popup-utils": "./src/floating-popup-utils.ts",
     "./floating-portal-controller": "./src/floating-portal-controller.ts",
     "./layout-types": "./src/layout-types.ts",
-    "./dom": "./src/dom.ts"
+    "./dom": "./src/dom.ts",
+    "./setup": "./src/setup.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",

@@ -44,7 +44,8 @@
     "./toggle": "./src/toggle/index.ts",
     "./number-field": "./src/number-field/index.ts",
     "./menubar": "./src/menubar/index.ts",
-    "./calendar": "./src/calendar/index.ts"
+    "./calendar": "./src/calendar/index.ts",
+    "./all": "./src/all.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2",
