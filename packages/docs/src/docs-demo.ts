@@ -26,31 +26,21 @@ export class DuiDocsDemo extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      
-      margin-bottom: var(--space-7);
+      margin-bottom: var(--space-8);
       overflow: hidden;
       --demo-width: fit-content;
     }
-
-    /* .label {
-      padding: var(--space-2) var(--space-3);
-      font-weight: 500;
-      font-size: var(--font-size-sm);
-      border-bottom: var(--border-width-thin) solid var(--border);
-      color: var(--foreground);
-    } */
 
     .label {
       font-weight: 600;
       font-size: var(--font-size-sm);
       border: none;
-      color: var(--secondary-foreground);
+      color: var(--foreground);
       margin-bottom: var(--space-3);
     }
 
-
     .demo {
-      padding: var(--space-5);
+      padding: var(--space-6);
       background: var(--card);
       border: var(--border-width-thin) solid var(--border);
       border-bottom: none;
@@ -68,6 +58,7 @@ export class DuiDocsDemo extends LitElement {
     dui-tabs {
       border: var(--border-width-thin) solid var(--border);
       border-radius: 0 0 var(--radius-md) var(--radius-md);
+      background: var(--muted);
     }
 
     dui-tab::part(tab) {
@@ -79,13 +70,6 @@ export class DuiDocsDemo extends LitElement {
       padding: var(--space-0_5) var(--space-1_5);
       border-bottom: var(--border-width-thin) solid var(--border);
     }
-
-    /*
-    dui-tabs-list::part(list) {
-      padding-inline: var(--space-4);
-      gap: 0;
-      box-shadow: none;
-    }*/
 
     dui-tabs-panel {
     }
@@ -99,14 +83,17 @@ export class DuiDocsDemo extends LitElement {
     .code-only {
       padding: var(--space-3) var(--space-4);
       overflow-x: auto;
-      border-top: var(--border-width-thin) solid var(--border);
+      border: var(--border-width-thin) solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      background: var(--muted);
     }
 
     pre {
       margin: 0;
       font-family: var(--font-mono);
       font-size: var(--font-size-2xs);
-      line-height: 1.6;
+      line-height: 1.7;
       white-space: pre;
     }
 

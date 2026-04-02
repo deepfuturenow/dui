@@ -20,31 +20,36 @@ export class DocsPageLayout extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-xl);
+      font-size: var(--font-size-2xl, 1.5rem);
       font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter, -0.03em);
+      letter-spacing: var(--letter-spacing-tighter, -0.02em);
+      line-height: var(--line-height-tight, 1.25);
       margin: 0 0 var(--space-2);
+      color: var(--foreground);
     }
 
     .description {
-      font-size: var(--font-size-sm);
+      font-size: var(--font-size-base, 0.9375rem);
       color: var(--muted-foreground);
+      line-height: var(--line-height-relaxed, 1.625);
       margin: 0 0 var(--space-8, 2rem);
     }
 
     .section-heading {
       font-size: var(--font-size-lg, 1.125rem);
       font-weight: 600;
-      letter-spacing: var(--letter-spacing-wider, 0.05em);
-      color: var(--primary);
-      margin: var(--space-12) 0 var(--space-4);
+      letter-spacing: var(--letter-spacing-tight, -0.01em);
+      color: var(--foreground);
+      margin: var(--space-14, 3.5rem) 0 var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: var(--border-width-thin, 1px) solid var(--border);
     }
 
     .api-section-label {
       font-size: var(--font-size-sm, 0.875rem);
       font-weight: 600;
-      color: var(--secondary-foreground);
-      margin: var(--space-4) 0 var(--space-2);
+      color: var(--foreground);
+      margin: var(--space-5) 0 var(--space-2);
     }
 
     .api-table {
@@ -60,20 +65,21 @@ export class DocsPageLayout extends LitElement {
 
     .api-table th {
       text-align: left;
-      font-family: var(--font-mono);
       font-size: var(--font-size-xs, 0.75rem);
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: var(--letter-spacing-wider, 0.05em);
+      letter-spacing: 0.06em;
       color: var(--muted-foreground);
-      padding: var(--space-2) var(--space-3);
+      padding: var(--space-2_5) var(--space-3);
       border-bottom: var(--border-width-thin, 1px) solid var(--border);
+      background: var(--muted);
     }
 
     .api-table td {
-      padding: var(--space-1_5) var(--space-3);
+      padding: var(--space-2) var(--space-3);
       border-bottom: var(--border-width-thin, 1px) solid var(--border);
       vertical-align: top;
+      line-height: var(--line-height-relaxed, 1.625);
     }
 
     .api-table tr:last-child td {
@@ -84,6 +90,7 @@ export class DocsPageLayout extends LitElement {
       font-family: var(--font-mono);
       font-size: var(--font-size-xs, 0.75rem);
       background: var(--muted);
+      padding: 0.125em 0.375em;
       border-radius: var(--radius-sm, 0.25rem);
     }
   `;
