@@ -19,14 +19,10 @@ Thumbs.db
 .vscode/
 *.code-workspace
 
-# Tools
-busytown/
-
-# Planning (internal only)
-plans/
-
-# Worktrees
+# Tools and local development
+.busytown/
 .worktrees/
+.plans/
 
 # Environment
 .env
