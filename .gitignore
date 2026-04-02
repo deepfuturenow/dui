@@ -23,6 +23,7 @@ Thumbs.db
 .busytown/
 .worktrees/
 .plans/
+.claude/worktrees/
 
 # Environment
 .env
