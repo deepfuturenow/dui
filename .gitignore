@@ -20,13 +20,9 @@ Thumbs.db
 *.code-workspace
 
 # Tools
-busytown/
-
-# Planning (internal only)
-plans/
-
-# Worktrees
+.busytown/
 .worktrees/
+plans/
 
 # Environment
 .env
