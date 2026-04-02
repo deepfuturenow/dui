@@ -19,8 +19,14 @@ Thumbs.db
 .vscode/
 *.code-workspace
 
+# Tools
+busytown/
+
 # Planning (internal only)
 plans/
+
+# Worktrees
+.worktrees/
 
 # Environment
 .env
