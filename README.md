@@ -134,6 +134,143 @@ The inspector is a self-contained module at `packages/docs/src/inspector/` with 
 
 The entry point (`packages/docs/src/inspector.ts`) mounts `<inspector-view>` onto the page and wires up the `window.__dui_inspect` global. It's bundled as a separate esbuild entry point (`inspector.js`) alongside the docs app, loaded via a `<script>` tag in `index.html`.
 
+## Distribution & Packaging
+
+DUI publishes four scoped npm packages under `@deepfuture`. The source workspace maps nearly 1:1 to the published packages — no import rewriting or assembly needed by consumers.
+
+### npm packages
+
+| Package | What's inside | Install size |
+|---------|---------------|-------------|
+| `@deepfuture/dui-core` | `applyTheme()`, `setup()`, event factory, base styles | ~8 KB |
+| `@deepfuture/dui-components` | All unstyled component classes (structural CSS only) | ~100 KB |
+| `@deepfuture/dui-theme-default` | Design tokens (`tokens.css`) + per-component aesthetic styles | ~22 KB |
+| `@deepfuture/dui-cdn` | Pre-bundled: all components + default theme + Lit inlined | ~184 KB (78 KB gzip) |
+
+### Install
+
+**npm / pnpm / yarn** (recommended for bundled apps):
+
+```bash
+npm install @deepfuture/dui-core @deepfuture/dui-components @deepfuture/dui-theme-default
+```
+
+**Deno** via `npm:` specifiers:
+
+```typescript
+import { applyTheme } from "npm:@deepfuture/dui-core/apply-theme";
+import { defaultTheme } from "npm:@deepfuture/dui-theme-default";
+import { allComponents } from "npm:@deepfuture/dui-components/all";
+
+applyTheme({ theme: defaultTheme, components: allComponents });
+```
+
+**CDN** (zero setup, script tag):
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@deepfuture/dui-cdn/dui.min.js"></script>
+
+<!-- All components are registered automatically -->
+<dui-button variant="primary">Click me</dui-button>
+```
+
+### What gets published
+
+Following [Lit's publishing guidance](https://lit.dev/docs/tools/publishing/):
+
+- **Compiled JS + `.d.ts`** — TypeScript is compiled, but output is not bundled or minified. Consumer bundlers (Vite, Rollup, webpack) handle tree-shaking and deduplication of shared deps like Lit.
+- **ES modules only** — `"type": "module"` with proper `exports` maps.
+- **`HTMLElementTagNameMap`** — `@deepfuture/dui-components` ships a `global.d.ts` so `document.querySelector("dui-button")` is type-safe.
+- **CSS tokens inlined** — `tokens.css` is inlined as a string in the JS module so no special CSS loader is needed. The raw `.css` file is also included for consumers who want it.
+
+The CDN package (`@deepfuture/dui-cdn`) is the exception — it bundles everything with esbuild, inlines Lit and all dependencies, and auto-registers all components on import. Intended for prototyping and script-tag usage.
+
+### Dependency graph
+
+```
+@deepfuture/dui-cdn  (zero deps — everything inlined)
+
+@deepfuture/dui-components  →  @deepfuture/dui-core
+                                ├── lit
+                                └── @floating-ui/dom
+
+@deepfuture/dui-theme-default  →  @deepfuture/dui-core
+                                   └── lit
+```
+
+### Build scripts
+
+All build scripts live in `scripts/` and run with Deno:
+
+| Command | What it does |
+|---------|-------------|
+| `deno task build` | Compile all three packages → `dist/dui-core/`, `dist/dui-components/`, `dist/dui-theme-default/` |
+| `deno task build:cdn` | Build CDN bundle → `dist/dui-cdn/dui.min.js` + `dui.js` |
+| `deno task build:all` | Both of the above |
+| `deno task publish` | Build + dry-run `npm publish` for all four packages |
+| `deno task publish:live` | Build + real `npm publish` (requires `npm login` to `@deepfuture`) |
+| `deno task version <bump>` | Lockstep version bump across all packages (`patch`, `minor`, `major`, or `x.y.z`) |
+
+#### `scripts/build.ts`
+
+Compiles each source package with `tsc`:
+1. Runs `tsc` with `experimentalDecorators` to emit JS + `.d.ts` files
+2. Rewrites all `@dui/*` workspace imports → `@deepfuture/dui-*`
+3. Rewrites `.ts` import extensions → `.js`
+4. Inlines `tokens.css` into the theme's JS modules (replaces `import ... with { type: "text" }`)
+5. Generates `package.json` with proper `exports` map derived from each package's `deno.json`
+6. Copies `global.d.ts` (HTMLElementTagNameMap) into the components output
+
+#### `scripts/build-cdn.ts`
+
+Creates a single pre-bundled ES module with esbuild:
+1. Generates a virtual entry that imports all components + default theme and calls `applyTheme()`
+2. Bundles with all deps inlined (Lit, @floating-ui/dom, etc.)
+3. Outputs minified (`dui.min.js`) and unminified (`dui.js`) versions
+4. Reports sizes including gzip estimate
+
+#### `scripts/version.ts`
+
+Updates `version` in all four `packages/*/deno.json` files simultaneously. All packages share the same version number (lockstep).
+
+#### `scripts/publish.ts`
+
+Orchestrates the full publish flow:
+1. Runs `build.ts` and `build-cdn.ts`
+2. Verifies all four `dist/*/package.json` files exist
+3. Publishes in dependency order: core → components → theme-default → cdn
+
+Dry-run by default. Pass `--publish` for real.
+
+### CI publish
+
+`.github/workflows/publish.yml` triggers on `v*` tags:
+
+```bash
+# To release:
+deno task version 0.2.0
+git add -A && git commit -m "chore: bump to 0.2.0"
+git tag v0.2.0
+git push && git push --tags
+# CI builds and publishes all four packages
+```
+
+Requires an `NPM_TOKEN` secret configured in GitHub repo settings.
+
+### Key source files
+
+| File | Purpose |
+|------|--------|
+| `packages/components/src/all.ts` | Barrel export of all components + `allComponents` array |
+| `packages/components/src/global.d.ts` | `HTMLElementTagNameMap` declarations for all DUI tags |
+| `packages/core/src/setup.ts` | Convenience `setup()` function (alias for `applyTheme`) |
+| `scripts/build.ts` | Main build: tsc → JS + .d.ts per package |
+| `scripts/build-cdn.ts` | CDN bundle: esbuild → single file with all deps |
+| `scripts/version.ts` | Lockstep version bump |
+| `scripts/publish.ts` | Build + npm publish orchestrator |
+
+---
+
 ## Documentation
 
 - [Architecture](docs/architecture.md) — mental model, package responsibilities, design decisions
