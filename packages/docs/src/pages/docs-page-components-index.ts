@@ -10,44 +10,47 @@ export class DocsPageComponentsIndex extends LitElement {
     }
 
     h1 {
-      font-size: var(--font-size-fluid-3xl, 2.5rem);
+      font-size: var(--font-size-2xl, 1.5rem);
       font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter, -0.03em);
+      letter-spacing: var(--letter-spacing-tighter, -0.02em);
+      line-height: var(--line-height-tight, 1.25);
       margin: 0 0 var(--space-2);
     }
 
     .subtitle {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-base, 0.9375rem);
       color: var(--muted-foreground);
       margin: 0 0 var(--space-8, 2rem);
+      line-height: var(--line-height-relaxed, 1.625);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: var(--space-4);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-3);
     }
 
     .card {
       display: block;
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-md, 0.5rem);
-      padding: var(--space-4);
+      padding: var(--space-4) var(--space-5);
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      background: var(--card);
+      transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease, transform var(--duration-fast) ease;
     }
 
     .card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px var(--primary);
+      border-color: var(--muted-foreground);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
     }
 
     .card-name {
       font-weight: 600;
-      font-size: var(--font-size-base, 1rem);
-      margin: 0 0 var(--space-1);
+      font-size: var(--font-size-sm, 0.875rem);
+      margin: 0 0 var(--space-0_5);
     }
 
     .card-tag {
@@ -61,7 +64,7 @@ export class DocsPageComponentsIndex extends LitElement {
       font-size: var(--font-size-sm, 0.875rem);
       color: var(--muted-foreground);
       margin: 0;
-      line-height: var(--line-height-relaxed, 1.6);
+      line-height: var(--line-height-relaxed, 1.625);
     }
   `;
 
@@ -72,7 +75,7 @@ export class DocsPageComponentsIndex extends LitElement {
   override render() {
     return html`
       <h1>Components</h1>
-      <p class="subtitle">Unstyled web components · composable themes · built with Lit</p>
+      <p class="subtitle">Unstyled web components + composable themes. Built with Lit.</p>
 
       <div class="grid">
         ${this.#uniqueComponents.map((c) => {

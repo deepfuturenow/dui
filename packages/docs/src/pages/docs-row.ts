@@ -7,7 +7,7 @@ export class DocsRow extends LitElement {
   static override styles = css`
     :host {
       display: flex;
-      gap: 0.75rem;
+      gap: var(--space-3, 0.75rem);
       align-items: center;
       flex-wrap: wrap;
     }

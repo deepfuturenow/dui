@@ -6,6 +6,51 @@ import { FONT_OPTIONS } from "./create/create-config.ts";
 import { loadGoogleFont } from "./create/font-loader.ts";
 import "./create/create-controls.ts";
 
+/** Sidebar navigation groups for the Components section. */
+const NAV_GROUPS: { label: string; slugs: string[] }[] = [
+  {
+    label: "General",
+    slugs: [
+      "button", "badge", "icon", "link", "separator", "spinner",
+      "progress", "toggle", "avatar",
+    ],
+  },
+  {
+    label: "Forms",
+    slugs: [
+      "input", "textarea", "checkbox", "radio-group", "select",
+      "combobox", "switch", "slider", "number-field", "dropzone",
+      "calendar",
+    ],
+  },
+  {
+    label: "Layout",
+    slugs: [
+      "accordion", "collapsible", "tabs", "scroll-area", "toolbar",
+      "sidebar-provider", "hstack", "vstack", "center", "page-inset",
+    ],
+  },
+  {
+    label: "Overlays",
+    slugs: [
+      "dialog", "alert-dialog", "popover", "tooltip", "menu",
+      "menubar", "command", "preview-card",
+    ],
+  },
+  {
+    label: "Navigation",
+    slugs: ["breadcrumb"],
+  },
+  {
+    label: "Data",
+    slugs: ["data-table"],
+  },
+  {
+    label: "Utility",
+    slugs: ["portal", "trunc"],
+  },
+];
+
 @customElement("docs-app")
 export class DocsApp extends LitElement {
   static override styles = css`
@@ -13,7 +58,7 @@ export class DocsApp extends LitElement {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      background: var(--muted);
+      background: var(--background);
     }
 
     /* ── Top bar ── */
@@ -21,13 +66,15 @@ export class DocsApp extends LitElement {
       position: sticky;
       top: 0;
       z-index: var(--z-sticky, 40);
-      height: 48px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 var(--space-4);
+      padding: 0 var(--space-5);
       border-bottom: var(--border-width-thin, 1px) solid var(--border);
       background: var(--background);
+      backdrop-filter: blur(12px) saturate(1.5);
+      -webkit-backdrop-filter: blur(12px) saturate(1.5);
     }
 
     .top-bar-left {
@@ -44,10 +91,17 @@ export class DocsApp extends LitElement {
       text-decoration: none;
     }
 
+    .top-bar-logo span {
+      color: var(--muted-foreground);
+      font-weight: 400;
+      margin-left: var(--space-1);
+      font-size: var(--font-size-xs, 0.75rem);
+    }
+
     .top-bar-nav {
       display: flex;
       align-items: center;
-      gap: var(--space-1);
+      gap: var(--space-0_5);
     }
 
     .top-bar-link {
@@ -55,9 +109,9 @@ export class DocsApp extends LitElement {
       color: var(--muted-foreground);
       text-decoration: none;
       padding: var(--space-1_5, 0.375rem) var(--space-2_5, 0.625rem);
-      border-radius: var(--radius-sm, 0.25rem);
+      border-radius: var(--radius-md, 0.5rem);
       cursor: pointer;
-      transition: color 0.15s, background-color 0.15s;
+      transition: color var(--duration-fast) ease, background var(--duration-fast) ease;
     }
 
     .top-bar-link:hover {
@@ -68,6 +122,7 @@ export class DocsApp extends LitElement {
     .top-bar-link[aria-current="page"] {
       color: var(--foreground);
       font-weight: 600;
+      background: var(--secondary, oklch(0.5 0 0 / 0.06));
     }
 
     .top-bar-right {
@@ -86,13 +141,15 @@ export class DocsApp extends LitElement {
       background: var(--muted);
       color: var(--muted-foreground);
       font-size: var(--font-size-sm, 0.875rem);
+      font-family: inherit;
       cursor: pointer;
       min-width: 200px;
-      transition: border-color 0.15s;
+      transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
     }
 
     .search-trigger:hover {
-      border-color: var(--foreground);
+      border-color: var(--muted-foreground);
+      box-shadow: var(--shadow-xs);
     }
 
     .search-trigger kbd {
@@ -103,51 +160,35 @@ export class DocsApp extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-sm, 0.25rem);
       padding: 1px var(--space-1);
+      line-height: 1;
     }
 
-    .theme-toggle {
+    .icon-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-sm, 0.25rem);
+      border-radius: var(--radius-md, 0.5rem);
       background: transparent;
-      color: var(--foreground);
+      color: var(--muted-foreground);
       cursor: pointer;
-      transition: background-color 0.15s;
+      transition: color var(--duration-fast) ease, background var(--duration-fast) ease, border-color var(--duration-fast) ease;
     }
 
-    .theme-toggle:hover {
-      background: var(--secondary, oklch(0.5 0 0 / 0.05));
-    }
-
-    /* ── Sidebar toggle ── */
-    .sidebar-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-sm, 0.25rem);
-      background: transparent;
+    .icon-btn:hover {
       color: var(--foreground);
-      cursor: pointer;
-      transition: background-color 0.15s;
-    }
-
-    .sidebar-toggle:hover {
       background: var(--secondary, oklch(0.5 0 0 / 0.05));
+      border-color: var(--muted-foreground);
     }
 
     /* ── Body ── */
     .body {
       display: grid;
-      grid-template-columns: 240px 1fr 240px;
+      grid-template-columns: 260px 1fr 260px;
       flex: 1;
-      transition: grid-template-columns 0.2s ease;
+      transition: grid-template-columns 0.25s var(--ease-out-3);
     }
 
     :host([sidebar-closed]) .body {
@@ -156,19 +197,31 @@ export class DocsApp extends LitElement {
 
     /* ── Sidebar ── */
     .sidebar {
-      width: 240px;
+      width: 260px;
       min-width: 0;
       border-right: var(--border-width-thin, 1px) solid var(--border);
-      background: var(--muted);
+      background: var(--background);
       padding: var(--space-4) 0;
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 48px);
+      height: calc(100vh - 52px);
       position: sticky;
-      top: 48px;
+      top: 52px;
       overflow-y: auto;
       overflow-x: hidden;
-      transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
+      transition: width 0.25s var(--ease-out-3), opacity 0.2s ease, padding 0.25s var(--ease-out-3);
+    }
+
+    /* Custom scrollbar for sidebar */
+    .sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: var(--radius-full);
     }
 
     :host([sidebar-closed]) .sidebar {
@@ -182,7 +235,7 @@ export class DocsApp extends LitElement {
     /* 2-column: drop farside when viewport can't fit all three */
     @media (max-width: 1279px) {
       .body {
-        grid-template-columns: 240px 1fr;
+        grid-template-columns: 260px 1fr;
       }
       :host([sidebar-closed]) .body {
         grid-template-columns: 0px 1fr;
@@ -200,20 +253,33 @@ export class DocsApp extends LitElement {
       .sidebar {
         display: none;
       }
-      .sidebar-toggle {
+      .icon-btn.sidebar-toggle {
         display: none;
+      }
+      .search-trigger {
+        min-width: 0;
+      }
+      .search-trigger .search-text {
+        display: none;
+      }
+      .top-bar-nav {
+        gap: 0;
+      }
+      .top-bar-link {
+        font-size: var(--font-size-xs, 0.75rem);
+        padding: var(--space-1) var(--space-1_5);
       }
     }
 
     .section-label {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: 0.6875rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: var(--letter-spacing-wider, 0.05em);
+      letter-spacing: 0.06em;
       color: var(--muted-foreground);
-      padding: var(--space-2) var(--space-4);
+      padding: var(--space-3) var(--space-5) var(--space-1_5);
       margin-top: var(--space-2);
+      user-select: none;
     }
 
     .section-label:first-child {
@@ -222,29 +288,37 @@ export class DocsApp extends LitElement {
 
     .nav-link {
       display: block;
-      padding: var(--space-1_5, 0.375rem) var(--space-4);
+      padding: var(--space-1, 0.25rem) var(--space-5);
       font-size: var(--font-size-sm, 0.875rem);
+      line-height: var(--line-height-relaxed, 1.625);
       color: var(--muted-foreground);
       text-decoration: none;
       cursor: pointer;
-      transition: color 0.15s, background-color 0.15s;
+      transition: color var(--duration-fast) ease, background var(--duration-fast) ease;
+      border-left: 2px solid transparent;
     }
 
     .nav-link:hover {
       color: var(--foreground);
-      background: var(--secondary, oklch(0.5 0 0 / 0.05));
     }
 
     .nav-link[aria-current="page"] {
       color: var(--foreground);
       font-weight: 600;
-      background: var(--secondary, oklch(0.5 0 0 / 0.08));
+      border-left-color: var(--foreground);
     }
 
     .sidebar-footer {
       margin-top: auto;
-      padding: var(--space-4);
+      padding: var(--space-3) var(--space-5);
       border-top: var(--border-width-thin, 1px) solid var(--border);
+    }
+
+    .sidebar-footer .nav-link {
+      font-size: var(--font-size-xs, 0.75rem);
+      color: var(--muted-foreground);
+      padding: var(--space-1) 0;
+      border-left: none;
     }
 
     /* ── Farside (right spacer column) ── */
@@ -255,11 +329,17 @@ export class DocsApp extends LitElement {
     /* ── Content ── */
     .content {
       min-width: 0;
-      padding: var(--space-8, 2rem) var(--space-8, 2rem) var(--space-12, 3rem);
-      max-width: 44rem;
+      padding: var(--space-10, 2.5rem) var(--space-8, 2rem) var(--space-16, 4rem);
+      max-width: 48rem;
       width: 100%;
       box-sizing: border-box;
       justify-self: center;
+      animation: content-fade-in 0.2s ease;
+    }
+
+    @keyframes content-fade-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* Create page: full width */
@@ -272,23 +352,36 @@ export class DocsApp extends LitElement {
       position: fixed;
       inset: 0;
       z-index: var(--z-modal, 50);
-      background: oklch(0 0 0 / 0.5);
+      background: var(--scrim, oklch(0 0 0 / 0.5));
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding-top: 20vh;
+      padding-top: 15vh;
+      animation: overlay-fade-in 0.15s ease;
+    }
+
+    @keyframes overlay-fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     .search-panel {
-      width: 500px;
-      max-height: 400px;
+      width: 540px;
+      max-width: calc(100vw - var(--space-8));
+      max-height: 420px;
       background: var(--background);
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
-      box-shadow: var(--shadow-lg, 0 10px 30px oklch(0 0 0 / 0.2));
+      box-shadow: var(--shadow-xl, 0 20px 40px oklch(0 0 0 / 0.15));
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      animation: panel-slide-in 0.2s var(--ease-out-3);
+    }
+
+    @keyframes panel-slide-in {
+      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .search-input-wrapper {
@@ -299,7 +392,7 @@ export class DocsApp extends LitElement {
       border-bottom: var(--border-width-thin, 1px) solid var(--border);
     }
 
-    .search-input-wrapper dui-icon {
+    .search-input-wrapper svg {
       color: var(--muted-foreground);
       flex-shrink: 0;
     }
@@ -324,20 +417,23 @@ export class DocsApp extends LitElement {
     }
 
     .search-group-label {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: 0.6875rem;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: var(--muted-foreground);
       padding: var(--space-2) var(--space-2) var(--space-1);
     }
 
     .search-item {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
       padding: var(--space-2) var(--space-3, 0.75rem);
       font-size: var(--font-size-sm, 0.875rem);
       color: var(--foreground);
       text-decoration: none;
-      border-radius: var(--radius-sm, 0.25rem);
+      border-radius: var(--radius-md, 0.5rem);
       cursor: pointer;
       transition: background-color 0.1s;
     }
@@ -345,6 +441,13 @@ export class DocsApp extends LitElement {
     .search-item:hover,
     .search-item[data-active] {
       background: var(--secondary, oklch(0.5 0 0 / 0.08));
+    }
+
+    .search-item-tag {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs, 0.75rem);
+      color: var(--muted-foreground);
+      margin-left: auto;
     }
 
     .search-empty {
@@ -483,6 +586,22 @@ export class DocsApp extends LitElement {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  /** Build grouped sidebar entries from NAV_GROUPS. */
+  get #groupedNav() {
+    const bySlug = new Map(
+      this.#navComponents.map((c) => [c.tagName.replace("dui-", ""), c]),
+    );
+    return NAV_GROUPS.map((g) => ({
+      label: g.label,
+      items: g.slugs
+        .map((slug) => {
+          const meta = bySlug.get(slug);
+          return meta ? { slug, name: meta.name } : null;
+        })
+        .filter((x): x is { slug: string; name: string } => x !== null),
+    })).filter((g) => g.items.length > 0);
+  }
+
   get #searchResults() {
     const q = this.#searchQuery.toLowerCase().trim();
     if (!q) return this.#navComponents;
@@ -538,7 +657,7 @@ export class DocsApp extends LitElement {
     return html`
       <header class="top-bar">
         <div class="top-bar-left">
-          <a class="top-bar-logo" href="#/components">DUI</a>
+          <a class="top-bar-logo" href="#/components">DUI<span>v0.1</span></a>
           <nav class="top-bar-nav">
             <a class="top-bar-link"
               href="#/components"
@@ -570,16 +689,16 @@ export class DocsApp extends LitElement {
         <div class="top-bar-right">
           <button class="search-trigger" @click=${() => { this.#searchOpen = true; this.#searchQuery = ""; this.#activeIndex = 0; }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            Search...
+            <span class="search-text">Search components…</span>
             <kbd>${navigator.platform.includes("Mac") ? "\u2318" : "Ctrl"}K</kbd>
           </button>
-          <button class="sidebar-toggle" @click=${this.#toggleSidebar} title="Toggle sidebar">
+          <button class="icon-btn sidebar-toggle" @click=${this.#toggleSidebar} title="Toggle sidebar">
             ${this.#sidebarClosed
               ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>`
               : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>`
             }
           </button>
-          <button class="theme-toggle" @click=${this.#toggleTheme} title="Toggle theme">
+          <button class="icon-btn" @click=${this.#toggleTheme} title="Toggle theme">
             ${document.documentElement.getAttribute("data-theme") === "dark"
               ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`
               : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
@@ -615,16 +734,16 @@ export class DocsApp extends LitElement {
 
     return html`
       <nav class="sidebar">
-        ${this.#navComponents.map((c) => {
-          const slug = c.tagName.replace("dui-", "");
-          return html`
+        ${this.#groupedNav.map((group) => html`
+          <div class="section-label">${group.label}</div>
+          ${group.items.map((item) => html`
             <a class="nav-link"
-              href="#/components/${slug}"
-              aria-current=${this.#isActive("components", slug) ? "page" : "false"}>
-              ${c.name}
+              href="#/components/${item.slug}"
+              aria-current=${this.#isActive("components", item.slug) ? "page" : "false"}>
+              ${item.name}
             </a>
-          `;
-        })}
+          `)}
+        `)}
 
         <div class="sidebar-footer">
           <a class="nav-link" href="/llms.txt" target="_blank">llms.txt</a>
@@ -663,6 +782,7 @@ export class DocsApp extends LitElement {
                       ?data-active=${i === this.#activeIndex}
                       @click=${() => this.#selectSearchResult(c.tagName)}>
                       ${c.name}
+                      <span class="search-item-tag">&lt;${c.tagName}&gt;</span>
                     </div>
                   `,
                 )}

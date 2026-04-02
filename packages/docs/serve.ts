@@ -2,7 +2,7 @@ import * as esbuild from "esbuild";
 import { resolve, join } from "jsr:@std/path@^1";
 import { componentRegistry } from "./src/component-registry.ts";
 
-const PORT = 4040;
+const DEFAULT_PORT = 4040;
 const STATIC_DIR = resolve(import.meta.dirname!, "static");
 const DOCS_ENTRY = resolve(import.meta.dirname!, "src/index.ts");
 const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
@@ -361,10 +361,19 @@ if (buildMode) {
 
   await ctx.watch();
 
-  const { port } = await ctx.serve({
-    port: PORT,
-    servedir: STATIC_DIR,
-  });
+  let port: number;
+  try {
+    ({ port } = await ctx.serve({
+      port: DEFAULT_PORT,
+      servedir: STATIC_DIR,
+    }));
+  } catch {
+    // Default port in use — pick a random one
+    ({ port } = await ctx.serve({
+      port: 0,
+      servedir: STATIC_DIR,
+    }));
+  }
 
   console.log(`DUI docs → http://localhost:${port} (live reload enabled)`);
 }
