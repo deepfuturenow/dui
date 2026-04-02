@@ -1,11 +1,27 @@
+# Dependencies
 node_modules/
-.DS_Store
 
 # Build artifacts
+dist/
 packages/docs/static/index.js
 packages/docs/static/theme-editor.js
 packages/docs/static/llms.txt
-dist/
 
-# Planning
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Planning (internal only)
 plans/
+
+# Environment
+.env
+.env.local
