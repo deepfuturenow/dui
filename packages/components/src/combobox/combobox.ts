@@ -158,7 +158,7 @@ const portalPopupStyles = [
 
     .Item:hover,
     .Item[data-highlighted] {
-      background-color: var(--secondary);
+      background: var(--secondary);
       color: var(--foreground);
     }
 

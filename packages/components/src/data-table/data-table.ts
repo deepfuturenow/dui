@@ -177,7 +177,7 @@ const componentStyles = css`
   }
 
   tbody tr {
-    transition-property: background-color;
+    transition-property: background, filter, transform;
   }
 
   .Pagination {

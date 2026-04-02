@@ -10,7 +10,7 @@ export const commandItemStyles = css`
   }
 
   .Item[data-selected] {
-    background-color: var(--secondary);
+    background: var(--secondary);
     color: var(--foreground);
   }
 

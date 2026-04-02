@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-number-field")
 export class DocsPageNumberField extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-number-field")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-number-field">
+        <dui-docs-demo label="Default">
         <dui-number-field default-value="5"></dui-number-field>
       </dui-docs-demo>
 
@@ -36,9 +30,7 @@ export class DocsPageNumberField extends LitElement {
       <dui-docs-demo label="Disabled">
         <dui-number-field default-value="42" disabled></dui-number-field>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

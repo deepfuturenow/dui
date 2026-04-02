@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-toolbar")
 export class DocsPageToolbar extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-toolbar")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Basic 3-column layout">
+      <docs-page-layout tag="dui-toolbar">
+        <dui-docs-demo label="Basic 3-column layout">
         <dui-toolbar size="lg">
           <span slot="left">Left</span>
           <span slot="center">Center</span>
@@ -60,9 +54,7 @@ export class DocsPageToolbar extends LitElement {
           <dui-button slot="right" variant="outline" size="sm">Action</dui-button>
         </dui-toolbar>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

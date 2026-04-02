@@ -1,7 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-data-table")
 export class DocsPageDataTable extends LitElement {
@@ -48,14 +46,10 @@ export class DocsPageDataTable extends LitElement {
   }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-data-table")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default (10 rows/page)">
+      <docs-page-layout tag="dui-data-table">
+        <dui-docs-demo label="Default (10 rows/page)">
         <dui-data-table></dui-data-table>
       </dui-docs-demo>
 
@@ -66,9 +60,7 @@ export class DocsPageDataTable extends LitElement {
       <dui-docs-demo label="No pagination">
         <dui-data-table id="table-no-pagination"></dui-data-table>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

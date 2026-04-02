@@ -20,7 +20,7 @@ export const collapsibleStyles = css`
 
   @media (hover: hover) {
     [part="trigger"]:hover {
-      background-color: color-mix(in oklch, var(--muted) 50%, transparent);
+      background: color-mix(in oklch, var(--muted) 50%, transparent);
     }
   }
 

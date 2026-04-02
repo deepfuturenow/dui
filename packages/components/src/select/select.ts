@@ -42,7 +42,7 @@ const componentStyles = css`
     cursor: pointer;
     user-select: none;
     box-sizing: border-box;
-    transition-property: border-color, box-shadow;
+    transition-property: border-color, box-shadow, background, filter, transform;
   }
 
   .Trigger[data-disabled] {
@@ -104,7 +104,7 @@ const portalPopupStyles = [
 
     .Item:hover,
     .Item[data-highlighted] {
-      background-color: var(--secondary);
+      background: var(--secondary);
       color: var(--foreground);
     }
 

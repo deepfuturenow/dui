@@ -25,7 +25,7 @@ const styles = css`
     white-space: nowrap;
     word-break: keep-all;
     cursor: pointer;
-    transition-property: color, box-shadow;
+    transition-property: color, box-shadow, background, filter, transform;
   }
 
   [part="tab"][data-disabled] {

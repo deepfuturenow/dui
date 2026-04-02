@@ -9,6 +9,7 @@ export interface ComponentMeta {
   events: { name: string; detail?: string; description: string }[];
   slots: { name: string; description: string }[];
   cssProperties: { name: string; description: string }[];
+  cssParts?: { name: string; description: string }[];
 }
 
 export const componentRegistry: ComponentMeta[] = [
@@ -52,6 +53,13 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Panel content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "item", description: "The item container" },
+      { name: "trigger", description: "The expand/collapse button" },
+      { name: "indicator", description: "The chevron indicator" },
+      { name: "panel", description: "The collapsible panel wrapper" },
+      { name: "content", description: "The panel content area" },
+    ],
   },
   {
     tagName: "dui-alert-dialog",
@@ -101,6 +109,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Dialog content (actions, etc.)" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "backdrop", description: "The overlay backdrop" },
+      { name: "popup", description: "The dialog panel" },
+      { name: "title", description: "The dialog title" },
+      { name: "description", description: "The dialog description" },
+    ],
   },
   {
     tagName: "dui-alert-dialog-close",
@@ -126,6 +140,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Breadcrumb items and separators" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The breadcrumb nav container" },
+    ],
   },
   {
     tagName: "dui-breadcrumb-item",
@@ -217,6 +234,10 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [
       { name: "--checkbox-size", description: "Size of the checkbox box" },
     ],
+    cssParts: [
+      { name: "root", description: "The checkbox control" },
+      { name: "indicator", description: "The check/indeterminate icon" },
+    ],
   },
   {
     tagName: "dui-checkbox-group",
@@ -257,6 +278,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Panel content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "trigger", description: "The expand/collapse button" },
+      { name: "indicator", description: "The chevron indicator" },
+      { name: "panel", description: "The collapsible panel wrapper" },
+      { name: "content", description: "The panel content area" },
+    ],
   },
   {
     tagName: "dui-badge",
@@ -271,6 +298,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Badge content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The badge element" },
+    ],
   },
   {
     tagName: "dui-button",
@@ -280,8 +310,6 @@ export const componentRegistry: ComponentMeta[] = [
     properties: [
       { name: "variant", type: "string", default: '"default"', description: 'Button variant: "default" | "primary" | "secondary" | "destructive" | "outline" | "ghost" | "link"' },
       { name: "size", type: "string", default: '"md"', description: 'Button size: "sm" | "md" | "lg"' },
-      { name: "rounded", type: "boolean", default: "false", description: "Apply rounded styling" },
-      { name: "square", type: "boolean", default: "false", description: "Apply square aspect ratio" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the button" },
       { name: "type", type: "string", default: '"button"', description: 'Button type: "button" | "submit" | "reset"' },
       { name: "href", type: "string | undefined", description: "When set, renders as an anchor" },
@@ -292,7 +320,24 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Button label content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--button-bg", description: "Background (supports gradients, images, and color)" },
+      { name: "--button-fg", description: "Text and icon color" },
+      { name: "--button-border", description: "Border color" },
+      { name: "--button-hover-bg", description: "Hover background (derived from --button-bg by default)" },
+      { name: "--button-active-bg", description: "Active/pressed background (derived from --button-bg by default)" },
+      { name: "--button-height", description: "Component height" },
+      { name: "--button-width", description: "Component width" },
+      { name: "--button-padding-y", description: "Vertical padding" },
+      { name: "--button-padding-x", description: "Horizontal padding" },
+      { name: "--button-gap", description: "Gap between icon and label" },
+      { name: "--button-radius", description: "Border radius" },
+      { name: "--button-font-size", description: "Font size" },
+      { name: "--button-icon-size", description: "Icon size" },
+    ],
+    cssParts: [
+      { name: "root", description: "The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc." },
+    ],
   },
   {
     tagName: "dui-combobox",
@@ -364,6 +409,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Dialog content (actions, form fields, etc.)" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "backdrop", description: "The overlay backdrop" },
+      { name: "popup", description: "The dialog panel" },
+      { name: "title", description: "The dialog title" },
+      { name: "description", description: "The dialog description" },
+    ],
   },
   {
     tagName: "dui-dialog-close",
@@ -405,6 +456,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "dui-menu-item children" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The menu popup panel" },
+    ],
   },
   {
     tagName: "dui-menu-item",
@@ -505,6 +559,13 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--scroll-area-thumb-color", description: "Scrollbar thumb color" },
       { name: "--scroll-fade-color", description: "Fade overlay color" },
     ],
+    cssParts: [
+      { name: "viewport", description: "The scrollable viewport" },
+      { name: "scrollbar-vertical", description: "Vertical scrollbar track" },
+      { name: "scrollbar-horizontal", description: "Horizontal scrollbar track" },
+      { name: "thumb-vertical", description: "Vertical scrollbar thumb" },
+      { name: "thumb-horizontal", description: "Horizontal scrollbar thumb" },
+    ],
   },
   {
     tagName: "dui-slider",
@@ -527,6 +588,12 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [
       { name: "--slider-track-height", description: "Height of the track" },
       { name: "--slider-thumb-size", description: "Size of the thumb" },
+    ],
+    cssParts: [
+      { name: "root", description: "The slider container" },
+      { name: "track", description: "The track background" },
+      { name: "indicator", description: "The filled portion of the track" },
+      { name: "thumb", description: "The draggable thumb" },
     ],
   },
   {
@@ -569,6 +636,10 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--switch-thumb-offset", description: "Thumb inset offset" },
       { name: "--switch-checked-offset", description: "Checked state thumb offset" },
     ],
+    cssParts: [
+      { name: "root", description: "The switch track" },
+      { name: "thumb", description: "The switch thumb" },
+    ],
   },
   {
     tagName: "dui-tabs",
@@ -601,6 +672,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "dui-tab elements and optional dui-tabs-indicator" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "list", description: "The tab list container" },
+    ],
   },
   {
     tagName: "dui-tab",
@@ -617,6 +691,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Tab label content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "tab", description: "The tab trigger button" },
+    ],
   },
   {
     tagName: "dui-tabs-panel",
@@ -633,6 +710,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Panel content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "panel", description: "The tab panel content area" },
+    ],
   },
   {
     tagName: "dui-tabs-indicator",
@@ -669,6 +749,9 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [],
     cssProperties: [],
+    cssParts: [
+      { name: "textarea", description: "The native textarea element" },
+    ],
   },
   {
     tagName: "dui-toolbar",
@@ -688,6 +771,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "right", description: "Content aligned to the end" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The toolbar container" },
+      { name: "left", description: "Left-aligned slot container" },
+      { name: "center", description: "Center-aligned slot container" },
+      { name: "right", description: "Right-aligned slot container" },
+    ],
   },
   {
     tagName: "dui-trunc",
@@ -725,6 +814,11 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--avatar-size", description: "Avatar dimensions (width and height)" },
       { name: "--avatar-bg", description: "Background color for fallback state" },
       { name: "--avatar-fg", description: "Text/icon color for fallback state" },
+    ],
+    cssParts: [
+      { name: "root", description: "The avatar container" },
+      { name: "image", description: "The avatar image element" },
+      { name: "fallback", description: "The fallback content (initials/icon)" },
     ],
   },
   {
@@ -905,6 +999,9 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [],
     cssProperties: [],
+    cssParts: [
+      { name: "input", description: "The native input element" },
+    ],
   },
   {
     tagName: "dui-radio-group",
@@ -945,6 +1042,10 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [
       { name: "--radio-size", description: "Size of the radio button" },
     ],
+    cssParts: [
+      { name: "root", description: "The radio control" },
+      { name: "dot", description: "The selected-state dot" },
+    ],
   },
   {
     tagName: "dui-dropzone",
@@ -971,6 +1072,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Custom content for the dropzone area" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The drop target area" },
+    ],
   },
   {
     tagName: "dui-select",
@@ -989,6 +1093,10 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [],
     cssProperties: [],
+    cssParts: [
+      { name: "trigger", description: "The select trigger button" },
+      { name: "value", description: "The selected value display" },
+    ],
   },
   {
     tagName: "dui-preview-card",
@@ -1057,6 +1165,12 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The outer data table container" },
+      { name: "table-window", description: "The scrollable table wrapper" },
+      { name: "table", description: "The native table element" },
+      { name: "pagination", description: "The pagination controls" },
+    ],
   },
   {
     tagName: "dui-command",
@@ -1370,6 +1484,9 @@ export const componentRegistry: ComponentMeta[] = [
     events: [],
     slots: [],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The separator element" },
+    ],
   },
   {
     tagName: "dui-progress",
@@ -1385,6 +1502,11 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [],
     cssProperties: [
       { name: "--progress-value", description: "Computed progress percentage (set internally)" },
+    ],
+    cssParts: [
+      { name: "root", description: "The progress container" },
+      { name: "track", description: "The track background" },
+      { name: "indicator", description: "The filled indicator bar" },
     ],
   },
   {
@@ -1405,6 +1527,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Toggle content (text and/or icons)" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The toggle button" },
+    ],
   },
   {
     tagName: "dui-toggle-group",
@@ -1427,6 +1552,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "dui-toggle children" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The toggle group container" },
+    ],
   },
   {
     tagName: "dui-number-field",
@@ -1453,6 +1581,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "increment", description: "Custom increment button content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The outer container" },
+      { name: "input", description: "The numeric input element" },
+      { name: "decrement", description: "The decrement button" },
+      { name: "increment", description: "The increment button" },
+    ],
   },
   {
     tagName: "dui-menubar",
@@ -1468,6 +1602,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "dui-menu children" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The menubar container" },
+    ],
   },
   {
     tagName: "dui-calendar",
@@ -1491,5 +1628,15 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "next", description: "Custom next month button content" },
     ],
     cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The calendar container" },
+      { name: "header", description: "The month/year header row" },
+      { name: "heading", description: "The month/year label" },
+      { name: "prev", description: "Previous month button" },
+      { name: "next", description: "Next month button" },
+      { name: "grid", description: "The date grid" },
+      { name: "weekday", description: "Weekday header cells" },
+      { name: "day", description: "Individual day buttons" },
+    ],
   },
 ];

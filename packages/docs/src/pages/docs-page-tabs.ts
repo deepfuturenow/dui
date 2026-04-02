@@ -1,25 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-tabs")
 export class DocsPageTabs extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-tabs")!;
-    const listMeta = componentRegistry.find((c) => c.tagName === "dui-tabs-list")!;
-    const tabMeta = componentRegistry.find((c) => c.tagName === "dui-tab")!;
-    const panelMeta = componentRegistry.find((c) => c.tagName === "dui-tabs-panel")!;
-    const indicatorMeta = componentRegistry.find((c) => c.tagName === "dui-tabs-indicator")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-tabs" .additionalTags=${["dui-tabs-list","dui-tab","dui-tabs-panel","dui-tabs-indicator"]}>
+        <dui-docs-demo label="Default">
         <dui-tabs default-value="account">
           <dui-tabs-list>
             <dui-tab value="account">Account</dui-tab>
@@ -58,21 +48,7 @@ export class DocsPageTabs extends LitElement {
           </dui-tabs-panel>
         </dui-tabs>
       </dui-docs-demo>
-
-      <h2>API Reference — Tabs</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Tabs List</h2>
-      ${renderApiTable(listMeta)}
-
-      <h2>API Reference — Tab</h2>
-      ${renderApiTable(tabMeta)}
-
-      <h2>API Reference — Tabs Panel</h2>
-      ${renderApiTable(panelMeta)}
-
-      <h2>API Reference — Tabs Indicator</h2>
-      ${renderApiTable(indicatorMeta)}
+      </docs-page-layout>
     `;
   }
 }

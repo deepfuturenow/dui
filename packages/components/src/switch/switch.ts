@@ -33,7 +33,7 @@ const styles = css`
     margin-inline: 0;
     border: none;
     cursor: pointer;
-    transition-property: background-color, outline-color, box-shadow;
+    transition-property: background, outline-color, box-shadow, filter, transform;
   }
 
   [part="thumb"] {

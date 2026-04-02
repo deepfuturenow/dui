@@ -24,7 +24,7 @@ const portalPopupStyles = [
       box-sizing: border-box;
       padding: var(--space-1);
       border-radius: var(--radius-md);
-      background-color: var(--popover);
+      background: var(--popover);
       color: var(--popover-foreground);
       font-family: var(--font-sans);
       font-size: var(--font-size-sm);

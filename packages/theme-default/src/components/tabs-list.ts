@@ -2,9 +2,8 @@ import { css } from "lit";
 
 export const tabsListStyles = css`
   [part="list"] {
-    padding-inline: var(--space-1);
-    gap: var(--space-1);
-    box-shadow: inset 0 -1px var(--border);
+    padding-inline: 0;
+    gap: 0;
   }
 
   [part="list"][data-orientation="vertical"] {

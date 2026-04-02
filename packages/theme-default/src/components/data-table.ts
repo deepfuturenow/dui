@@ -24,7 +24,7 @@ export const dataTableStyles = css`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xs);
     color: var(--muted-foreground);
-    background-color: var(--muted);
+    background: var(--muted);
     border-bottom: var(--border-width-thin) solid var(--border);
   }
 
@@ -58,7 +58,7 @@ export const dataTableStyles = css`
   }
 
   tbody tr:hover {
-    background-color: var(--muted);
+    background: var(--muted);
   }
 
   td {
@@ -93,12 +93,12 @@ export const dataTableStyles = css`
     border-radius: var(--radius-md);
     color: var(--foreground);
     font-size: var(--font-size-sm);
-    transition-property: background-color;
+    transition-property: background;
     transition-duration: var(--duration-fast);
   }
 
   .PageButton:hover:not(:disabled) {
-    background-color: var(--muted);
+    background: var(--muted);
   }
 
   .PageButton:disabled {

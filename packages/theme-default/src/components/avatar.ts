@@ -10,7 +10,7 @@ export const avatarStyles = css`
     --icon-size: calc(var(--avatar-size) * 0.5);
     --icon-color: var(--avatar-fg);
     border-radius: var(--radius-full);
-    background-color: var(--avatar-bg);
+    background: var(--avatar-bg);
     color: var(--avatar-fg);
   }
 

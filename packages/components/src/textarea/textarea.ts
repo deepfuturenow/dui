@@ -26,7 +26,7 @@ const styles = css`
     font-family: inherit;
     outline: none;
     resize: vertical;
-    transition-property: border-color, box-shadow;
+    transition-property: border-color, box-shadow, background, filter, transform;
   }
 
   [part="textarea"][data-resize="none"] {

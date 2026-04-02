@@ -8,19 +8,19 @@ export const toggleStyles = css`
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--muted-foreground);
-    transition-property: background-color, color;
+    transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) {
     [part="root"]:hover:not(:disabled):not([data-pressed]) {
-      background-color: var(--muted);
+      background: var(--muted);
       color: var(--foreground);
     }
   }
 
   [part="root"][data-pressed] {
-    background-color: var(--secondary);
+    background: var(--secondary);
     color: var(--foreground);
   }
 

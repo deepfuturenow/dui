@@ -6,6 +6,8 @@ export const badgeStyles = css`
     --badge-fg: var(--primary-foreground);
     --badge-border: transparent;
     --badge-icon-size: var(--space-3);
+    --icon-size: var(--badge-icon-size);
+    --icon-color: var(--badge-fg);
   }
 
   :host([variant="secondary"]) {
@@ -40,13 +42,11 @@ export const badgeStyles = css`
   }
 
   [part="root"] {
-    --icon-size: var(--badge-icon-size);
-    --icon-color: var(--badge-fg);
     gap: var(--space-1);
     height: var(--space-5);
     padding: 0 var(--space-2);
     border-radius: var(--radius-full);
-    background-color: var(--badge-bg);
+    background: var(--badge-bg);
     color: var(--badge-fg);
     font-family: var(--font-sans);
     font-size: var(--font-size-xs);

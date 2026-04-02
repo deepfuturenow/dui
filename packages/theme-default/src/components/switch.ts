@@ -19,12 +19,12 @@ export const switchStyles = css`
     );
     border-radius: calc(var(--switch-height) / 2);
     outline: var(--border-width-thin) solid var(--input);
-    background-color: color-mix(in oklch, var(--input) 50%, transparent);
+    background: color-mix(in oklch, var(--input) 50%, transparent);
     transition-duration: var(--duration-fast);
   }
 
   [part="root"][data-checked] {
-    background-color: var(--primary);
+    background: var(--primary);
     outline-color: var(--primary);
   }
 
@@ -45,12 +45,12 @@ export const switchStyles = css`
   }
 
   [part="root"][data-invalid] {
-    background-color: color-mix(in oklch, var(--destructive) 15%, transparent);
+    background: color-mix(in oklch, var(--destructive) 15%, transparent);
     outline-color: color-mix(in oklch, var(--destructive) 70%, transparent);
   }
 
   [part="root"][data-invalid][data-checked] {
-    background-color: var(--destructive);
+    background: var(--destructive);
   }
 
   [part="thumb"] {
@@ -58,13 +58,13 @@ export const switchStyles = css`
     height: var(--switch-thumb-size);
     border-radius: 50%;
     outline: 1px solid transparent;
-    background-color: var(--primary);
+    background: var(--primary);
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
   [part="root"][data-checked] [part="thumb"] {
-    background-color: var(--primary-foreground);
+    background: var(--primary-foreground);
     outline-color: var(--primary-foreground);
   }
 `;

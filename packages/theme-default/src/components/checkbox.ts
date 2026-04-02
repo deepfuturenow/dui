@@ -18,12 +18,12 @@ export const checkboxStyles = css`
 
   [part="root"][data-unchecked] {
     border: var(--border-width-thin) solid var(--input);
-    background-color: transparent;
+    background: transparent;
   }
 
   [part="root"][data-checked],
   [part="root"][data-indeterminate] {
-    background-color: var(--primary);
+    background: var(--primary);
     border: var(--border-width-thin) solid var(--primary);
   }
 
@@ -39,7 +39,7 @@ export const checkboxStyles = css`
   }
 
   [part="root"][data-invalid] {
-    background-color: color-mix(in oklch, var(--destructive) 15%, transparent);
+    background: color-mix(in oklch, var(--destructive) 15%, transparent);
     border-color: color-mix(in oklch, var(--destructive) 70%, transparent);
   }
 

@@ -15,12 +15,12 @@ export const radioStyles = css`
 
   [part="root"][data-unchecked] {
     border: var(--border-width-thin) solid var(--input);
-    background-color: var(--input-bg);
+    background: var(--input-bg);
   }
 
   [part="root"][data-checked] {
     border: var(--border-width-thin) solid var(--primary);
-    background-color: var(--primary);
+    background: var(--primary);
   }
 
   [part="root"][data-disabled] {
@@ -36,13 +36,13 @@ export const radioStyles = css`
 
   [part="root"][data-invalid] {
     border-color: color-mix(in oklch, var(--destructive) 70%, transparent);
-    background-color: color-mix(in oklch, var(--destructive) 15%, transparent);
+    background: color-mix(in oklch, var(--destructive) 15%, transparent);
   }
 
   [part="dot"] {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: var(--primary-foreground);
+    background: var(--primary-foreground);
   }
 `;

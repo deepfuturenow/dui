@@ -39,6 +39,14 @@ This is a Deno workspace. The root `deno.json` declares all four packages.
 - Events use the `customEvent()` factory from `@dui/core/event`.
 - Design tokens are CSS custom properties — never hardcode `px` or `rem` values.
 
+## Screenshots
+
+Before taking a screenshot with `chrome_devtools_take_screenshot`, always resize the viewport first:
+
+```
+chrome_devtools_resize_page → { width: 1280, height: 1000 }
+```
+
 ## Do NOT
 
 - Do not use `@customElement` decorator — registration is done by `applyTheme`

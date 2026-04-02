@@ -26,67 +26,86 @@ export class DuiDocsDemo extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-md);
-      margin-bottom: var(--space-4);
+      
+      margin-bottom: var(--space-7);
       overflow: hidden;
+      --demo-width: fit-content;
     }
 
-    .label {
-      padding: var(--space-2) var(--space-4);
-      font-weight: 600;
+    /* .label {
+      padding: var(--space-2) var(--space-3);
+      font-weight: 500;
       font-size: var(--font-size-sm);
       border-bottom: var(--border-width-thin) solid var(--border);
-      background: var(--muted);
-      color: var(--muted-foreground);
+      color: var(--foreground);
+    } */
+
+    .label {
+      font-weight: 600;
+      font-size: var(--font-size-sm);
+      border: none;
+      color: var(--secondary-foreground);
+      margin-bottom: var(--space-3);
     }
+
 
     .demo {
-      padding: var(--space-4);
-    }
-
-    .tabs {
+      padding: var(--space-5);
+      background: var(--card);
+      border: var(--border-width-thin) solid var(--border);
+      border-bottom: none;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
       display: flex;
-      gap: var(--space-1);
-      padding: var(--space-2) var(--space-4) 0;
-      border-top: var(--border-width-thin) solid var(--border);
-      background: var(--muted);
+      justify-content: center;
     }
 
-    .tab {
-      all: unset;
-      cursor: pointer;
-      padding: var(--space-1) var(--space-3);
-      font-family: var(--font-mono);
+    .demo > ::slotted(*) {
+      width: 100%;
+      max-width: var(--demo-width);
+    }
+
+    /* Tabs overrides for code section */
+    dui-tabs {
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+
+    dui-tab::part(tab) {
       font-size: var(--font-size-xs);
-      color: var(--muted-foreground);
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
+      height: 2rem;
     }
 
-    .tab:hover {
-      color: var(--foreground);
+    dui-tabs-list {
+      padding: var(--space-0_5) var(--space-1_5);
+      border-bottom: var(--border-width-thin) solid var(--border);
     }
 
-    .tab[aria-selected="true"] {
-      color: var(--foreground);
-      border-bottom-color: var(--foreground);
+    /*
+    dui-tabs-list::part(list) {
+      padding-inline: var(--space-4);
+      gap: 0;
+      box-shadow: none;
+    }*/
+
+    dui-tabs-panel {
     }
 
     .code {
-      background: var(--muted);
       padding: var(--space-3) var(--space-4);
       overflow-x: auto;
+      font-size: var(--font-size-xs);
     }
 
-    .code:not(.has-tabs) {
+    .code-only {
+      padding: var(--space-3) var(--space-4);
+      overflow-x: auto;
       border-top: var(--border-width-thin) solid var(--border);
     }
 
     pre {
       margin: 0;
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--font-size-2xs);
       line-height: 1.6;
       white-space: pre;
     }
@@ -111,6 +130,10 @@ export class DuiDocsDemo extends LitElement {
   @property()
   accessor label = "";
 
+  /** When set, constrains demo content to this max-width and centers it. */
+  @property({ attribute: "demo-width" })
+  accessor demoWidth = "";
+
   @state()
   accessor #code = "";
 
@@ -122,9 +145,6 @@ export class DuiDocsDemo extends LitElement {
 
   @state()
   accessor #highlightedSource = "";
-
-  @state()
-  accessor #activeTab: "html" | "styles" | "source" = "html";
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -140,7 +160,6 @@ export class DuiDocsDemo extends LitElement {
       });
 
       // Extract theme CSS for detected DUI components
-      // Done inside .then() so applyTheme() has already run
       const tags = [
         ...new Set(
           [...this.#code.matchAll(/<(dui-[\w-]+)/g)].map((m) => m[1]!),
@@ -216,47 +235,46 @@ export class DuiDocsDemo extends LitElement {
 
     return html`
       ${this.label
-        ? html`
-          <div class="label">${this.label}</div>
-        `
+        ? html`<div class="label">${this.label}</div>`
         : ""}
-      <div class="demo">
+      <div class="demo" style="${this.demoWidth ? `--demo-width: ${this.demoWidth}` : ""}">
         <slot></slot>
       </div>
       ${hasTabs
         ? html`
-          <div class="tabs">
-            <button
-              class="tab"
-              aria-selected=${this.#activeTab === "html"}
-              @click=${() => (this.#activeTab = "html")}
-            >HTML</button>
+          <dui-tabs default-value="html">
+            <dui-tabs-list>
+              <dui-tab value="html">HTML</dui-tab>
+              ${hasStyles ? html`<dui-tab value="styles">Default Theme</dui-tab>` : nothing}
+              ${hasSource ? html`<dui-tab value="source">Unstyled Component</dui-tab>` : nothing}
+              <dui-tabs-indicator></dui-tabs-indicator>
+            </dui-tabs-list>
+            <dui-tabs-panel value="html">
+              <div class="code">
+                ${this.#highlightedHtml
+                  ? unsafeHTML(this.#highlightedHtml)
+                  : html`<pre><code>${this.#code}</code></pre>`}
+              </div>
+            </dui-tabs-panel>
             ${hasStyles
-              ? html`<button
-                  class="tab"
-                  aria-selected=${this.#activeTab === "styles"}
-                  @click=${() => (this.#activeTab = "styles")}
-                >Styles</button>`
+              ? html`
+                <dui-tabs-panel value="styles">
+                  <div class="code">${unsafeHTML(this.#highlightedStyles)}</div>
+                </dui-tabs-panel>`
               : nothing}
             ${hasSource
-              ? html`<button
-                  class="tab"
-                  aria-selected=${this.#activeTab === "source"}
-                  @click=${() => (this.#activeTab = "source")}
-                >Source</button>`
+              ? html`
+                <dui-tabs-panel value="source">
+                  <div class="code">${unsafeHTML(this.#highlightedSource)}</div>
+                </dui-tabs-panel>`
               : nothing}
-          </div>
-        `
-        : nothing}
-      <div class="code ${hasTabs ? "has-tabs" : ""}">
-        ${this.#activeTab === "styles" && hasStyles
-          ? unsafeHTML(this.#highlightedStyles)
-          : this.#activeTab === "source" && hasSource
-            ? unsafeHTML(this.#highlightedSource)
-            : this.#highlightedHtml
+          </dui-tabs>`
+        : html`
+          <div class="code-only">
+            ${this.#highlightedHtml
               ? unsafeHTML(this.#highlightedHtml)
               : html`<pre><code>${this.#code}</code></pre>`}
-      </div>
+          </div>`}
     `;
   }
 }

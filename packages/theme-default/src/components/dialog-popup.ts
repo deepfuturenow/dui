@@ -4,7 +4,7 @@ export const dialogPopupStyles = css`
   /* ── Backdrop ── */
 
   [part="backdrop"] {
-    background-color: black;
+    background: black;
     opacity: 0.2;
     transition: opacity var(--duration-fast) var(--ease-out-3);
   }
@@ -27,7 +27,7 @@ export const dialogPopupStyles = css`
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     border: var(--border-width-thin) solid var(--border);
-    background-color: var(--card);
+    background: var(--card);
     color: var(--card-foreground);
     font-family: var(--font-sans);
     transition-duration: var(--duration-fast);

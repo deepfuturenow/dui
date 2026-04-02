@@ -9,7 +9,7 @@ export const inputStyles = css`
     height: var(--component-height-md);
     color: var(--foreground);
     border: var(--border-width-thin) solid var(--input);
-    background-color: var(--input-bg);
+    background: var(--input-bg);
     border-radius: var(--radius-md);
     transition-duration: var(--duration-fast);
   }

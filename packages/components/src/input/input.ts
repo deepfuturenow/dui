@@ -24,7 +24,7 @@ const styles = css`
     box-sizing: border-box;
     width: 100%;
     outline: none;
-    transition-property: border-color, box-shadow;
+    transition-property: border-color, box-shadow, background, filter, transform;
   }
 
   [part="input"]:disabled {

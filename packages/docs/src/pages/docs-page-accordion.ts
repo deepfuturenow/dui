@@ -1,22 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-accordion")
 export class DocsPageAccordion extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-accordion")!;
-    const itemMeta = componentRegistry.find((c) => c.tagName === "dui-accordion-item")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Single mode (default)">
+      <docs-page-layout tag="dui-accordion" .additionalTags=${["dui-accordion-item"]}>
+        <dui-docs-demo label="Single mode (default)" demo-width="25rem">
         <dui-accordion default-value='["item-1"]'>
           <dui-accordion-item value="item-1">
             <span slot="trigger">Is it accessible?</span>
@@ -33,7 +26,7 @@ export class DocsPageAccordion extends LitElement {
         </dui-accordion>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Multiple mode">
+      <dui-docs-demo label="Multiple mode" demo-width="25rem">
         <dui-accordion multiple default-value='["m-1","m-2"]'>
           <dui-accordion-item value="m-1">
             <span slot="trigger">First section</span>
@@ -41,7 +34,7 @@ export class DocsPageAccordion extends LitElement {
           </dui-accordion-item>
           <dui-accordion-item value="m-2">
             <span slot="trigger">Second section</span>
-            This one starts open too.
+            Ullamco minim amet sint excepteur aute aliqua quis ut officia id. Sit irure esse non eiusmod nisi. Lorem irure consectetur adipisicing cillum. Sit voluptate dolore irure occaecat minim tempor do mollit dolor cillum excepteur reprehenderit. Voluptate laborum culpa excepteur dolor occaecat duis commodo commodo. Magna nulla eiusmod labore cillum qui ullamco dolore adipisicing eu ipsum magna ut ullamco.
           </dui-accordion-item>
           <dui-accordion-item value="m-3">
             <span slot="trigger">Third section</span>
@@ -50,14 +43,7 @@ export class DocsPageAccordion extends LitElement {
         </dui-accordion>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Disabled">
-        <dui-accordion disabled>
-          <dui-accordion-item value="d-1">
-            <span slot="trigger">Disabled globally</span>
-            You cannot open this.
-          </dui-accordion-item>
-        </dui-accordion>
-
+      <dui-docs-demo label="Disabled" demo-width="25rem">
         <dui-accordion>
           <dui-accordion-item value="di-1" disabled>
             <span slot="trigger">Disabled per-item</span>
@@ -69,12 +55,7 @@ export class DocsPageAccordion extends LitElement {
           </dui-accordion-item>
         </dui-accordion>
       </dui-docs-demo>
-
-      <h2>API Reference — Accordion</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Accordion Item</h2>
-      ${renderApiTable(itemMeta)}
+      </docs-page-layout>
     `;
   }
 }

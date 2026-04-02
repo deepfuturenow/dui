@@ -14,7 +14,7 @@ export const menuItemStyles = css`
   .Item:hover,
   :host([data-highlighted]) .Item {
     --icon-color: var(--foreground);
-    background-color: var(--secondary);
+    background: var(--secondary);
     color: var(--foreground);
   }
 
@@ -26,7 +26,7 @@ export const menuItemStyles = css`
   :host([variant="danger"]) .Item:hover,
   :host([variant="danger"][data-highlighted]) .Item {
     --icon-color: var(--destructive-foreground);
-    background-color: var(--destructive);
+    background: var(--destructive);
     color: var(--destructive-foreground);
   }
 

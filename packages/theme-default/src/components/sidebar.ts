@@ -38,7 +38,7 @@ export const sidebarStyles = css`
 
   .DesktopInner {
     width: var(--sidebar-width);
-    background-color: var(--sidebar-bg);
+    background: var(--sidebar-bg);
     color: var(--sidebar-fg);
     transition-duration: var(--duration-normal);
     transition-timing-function: var(--ease-out-3);
@@ -70,7 +70,7 @@ export const sidebarStyles = css`
   /* ── Backdrop ── */
 
   .Backdrop {
-    background-color: black;
+    background: black;
     opacity: 0.2;
   }
 
@@ -83,7 +83,7 @@ export const sidebarStyles = css`
 
   .MobilePanel {
     width: var(--sidebar-width-mobile);
-    background-color: var(--sidebar-bg);
+    background: var(--sidebar-bg);
     color: var(--sidebar-fg);
     box-shadow: var(--shadow-lg);
     transition: transform var(--duration-normal) var(--ease-out-3);

@@ -1,40 +1,33 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-checkbox")
 export class DocsPageCheckbox extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-checkbox")!;
-    const groupMeta = componentRegistry.find((c) => c.tagName === "dui-checkbox-group")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="States">
-        <div class="row">
+      <docs-page-layout tag="dui-checkbox" .additionalTags=${["dui-checkbox-group"]}>
+        <dui-docs-demo label="States">
+        <docs-row>
           <dui-checkbox>Unchecked</dui-checkbox>
         </div>
-        <div class="row">
+        <docs-row>
           <dui-checkbox default-checked>Checked</dui-checkbox>
         </div>
-        <div class="row">
+        <docs-row>
           <dui-checkbox indeterminate>Indeterminate</dui-checkbox>
         </div>
-        <div class="row">
+        <docs-row>
           <dui-checkbox disabled>Disabled</dui-checkbox>
         </div>
-        <div class="row">
+        <docs-row>
           <dui-checkbox disabled default-checked>Disabled checked</dui-checkbox>
         </div>
-        <div class="row">
+        <docs-row>
           <dui-checkbox read-only default-checked>Read only</dui-checkbox>
-        </div>
+        </docs-row>
       </dui-docs-demo>
 
       <dui-docs-demo label="Group">
@@ -60,12 +53,7 @@ export class DocsPageCheckbox extends LitElement {
           <dui-checkbox value="b">Option B</dui-checkbox>
         </dui-checkbox-group>
       </dui-docs-demo>
-
-      <h2>API Reference — Checkbox</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Checkbox Group</h2>
-      ${renderApiTable(groupMeta)}
+      </docs-page-layout>
     `;
   }
 }

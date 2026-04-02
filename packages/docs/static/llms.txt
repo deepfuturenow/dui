@@ -136,9 +136,10 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Tag: `<dui-button>`
 - Import: `@dui/components/button`
 - Description: A button with variant, size, and link support.
-- Properties: variant (string, "default"), size (string, "md"), rounded (boolean, false), square (boolean, false), disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Properties: variant (string, "default"), size (string, "md"), disabled (boolean, false), type (string, "button"), href (string | undefined)
 - Events: dui-navigate ({ href: string })
 - Slots: default (Button label content)
+- CSS Properties: --button-bg (Background (supports gradients, images, and color)), --button-fg (Text and icon color), --button-border (Border color), --button-hover-bg (Hover background (derived from --button-bg by default)), --button-active-bg (Active/pressed background (derived from --button-bg by default)), --button-height (Component height), --button-width (Component width), --button-padding-y (Vertical padding), --button-padding-x (Horizontal padding), --button-gap (Gap between icon and label), --button-radius (Border radius), --button-font-size (Font size), --button-icon-size (Icon size)
 
 ### Combobox
 - Tag: `<dui-combobox>`

@@ -24,14 +24,14 @@ export const calendarStyles = css`
     border-radius: var(--radius-md);
     color: var(--muted-foreground);
     font-size: var(--font-size-lg);
-    transition-property: background-color, color;
+    transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) {
     [part="prev"]:hover,
     [part="next"]:hover {
-      background-color: var(--muted);
+      background: var(--muted);
       color: var(--foreground);
     }
   }
@@ -53,23 +53,23 @@ export const calendarStyles = css`
     border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
     color: var(--foreground);
-    transition-property: background-color, color;
+    transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) {
     [part="day"]:hover:not(:disabled):not([data-selected]) {
-      background-color: var(--muted);
+      background: var(--muted);
     }
   }
 
   [part="day"][data-today]:not([data-selected]) {
-    background-color: var(--accent);
+    background: var(--accent);
     color: var(--accent-foreground);
   }
 
   [part="day"][data-selected] {
-    background-color: var(--primary);
+    background: var(--primary);
     color: var(--primary-foreground);
   }
 

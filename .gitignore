@@ -5,3 +5,6 @@ node_modules/
 packages/docs/static/index.js
 packages/docs/static/theme-editor.js
 packages/docs/static/llms.txt
+
+# Planning
+plans/

@@ -32,7 +32,7 @@ const styles = css`
     text-align: left;
     outline: none;
     box-sizing: border-box;
-    transition-property: background-color, box-shadow;
+    transition-property: background, box-shadow, filter, transform;
   }
 
   [part="trigger"][data-disabled] {

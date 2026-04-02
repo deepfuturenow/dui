@@ -76,7 +76,7 @@ export const comboboxStyles = css`
 
   .Chip {
     gap: var(--space-1);
-    background-color: var(--secondary);
+    background: var(--secondary);
     color: var(--secondary-foreground);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
@@ -91,7 +91,7 @@ export const comboboxStyles = css`
   }
 
   .ChipRemove:hover {
-    background-color: color-mix(
+    background: color-mix(
       in oklch,
       var(--secondary-foreground) 15%,
       transparent

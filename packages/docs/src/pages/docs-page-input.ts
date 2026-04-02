@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-input")
 export class DocsPageInput extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-input")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-input">
+        <dui-docs-demo label="Default">
         <dui-input placeholder="Enter text..."></dui-input>
       </dui-docs-demo>
 
@@ -35,9 +29,7 @@ export class DocsPageInput extends LitElement {
           <dui-input placeholder="Read-only" readonly value="Read-only value"></dui-input>
         </dui-vstack>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

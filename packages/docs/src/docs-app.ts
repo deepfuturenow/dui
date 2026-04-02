@@ -1,7 +1,7 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { componentRegistry } from "./component-registry.ts";
-import { currentRoute, onRouteChange, navigate, type Route } from "./docs-router.ts";
+import { currentRoute, onRouteChange, navigate, setSidebarParam, type Route } from "./docs-router.ts";
 import { FONT_OPTIONS } from "./create/create-config.ts";
 import { loadGoogleFont } from "./create/font-loader.ts";
 import "./create/create-controls.ts";
@@ -13,6 +13,7 @@ export class DocsApp extends LitElement {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      background: var(--muted);
     }
 
     /* ── Top bar ── */
@@ -122,18 +123,41 @@ export class DocsApp extends LitElement {
       background: var(--secondary, oklch(0.5 0 0 / 0.05));
     }
 
+    /* ── Sidebar toggle ── */
+    .sidebar-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-sm, 0.25rem);
+      background: transparent;
+      color: var(--foreground);
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+
+    .sidebar-toggle:hover {
+      background: var(--secondary, oklch(0.5 0 0 / 0.05));
+    }
+
     /* ── Body ── */
     .body {
       display: grid;
       grid-template-columns: 240px 1fr 240px;
       flex: 1;
+      transition: grid-template-columns 0.2s ease;
     }
 
+    :host([sidebar-closed]) .body {
+      grid-template-columns: 0px 1fr 0px;
+    }
 
     /* ── Sidebar ── */
     .sidebar {
       width: 240px;
-      min-width: 240px;
+      min-width: 0;
       border-right: var(--border-width-thin, 1px) solid var(--border);
       background: var(--muted);
       padding: var(--space-4) 0;
@@ -143,12 +167,25 @@ export class DocsApp extends LitElement {
       position: sticky;
       top: 48px;
       overflow-y: auto;
+      overflow-x: hidden;
+      transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
+    }
+
+    :host([sidebar-closed]) .sidebar {
+      width: 0;
+      padding: 0;
+      opacity: 0;
+      border-right: none;
+      pointer-events: none;
     }
 
     /* 2-column: drop farside when viewport can't fit all three */
     @media (max-width: 1279px) {
       .body {
         grid-template-columns: 240px 1fr;
+      }
+      :host([sidebar-closed]) .body {
+        grid-template-columns: 0px 1fr;
       }
       .farside {
         display: none;
@@ -161,6 +198,9 @@ export class DocsApp extends LitElement {
         grid-template-columns: 1fr;
       }
       .sidebar {
+        display: none;
+      }
+      .sidebar-toggle {
         display: none;
       }
     }
@@ -319,6 +359,9 @@ export class DocsApp extends LitElement {
   accessor #route: Route = currentRoute();
 
   @state()
+  accessor #sidebarClosed = currentRoute().sidebarClosed ?? false;
+
+  @state()
   accessor #searchOpen = false;
 
   @state()
@@ -343,8 +386,12 @@ export class DocsApp extends LitElement {
     super.connectedCallback();
     if (!location.hash) location.hash = "#/components";
     this.#route = currentRoute();
+    this.#sidebarClosed = this.#route.sidebarClosed ?? false;
+    this.#syncSidebarAttr();
     this.#cleanup = onRouteChange((route) => {
       this.#route = route;
+      this.#sidebarClosed = route.sidebarClosed ?? false;
+      this.#syncSidebarAttr();
     });
     document.addEventListener("keydown", this.#handleGlobalKeydown);
     // Preload the default font for the Create page
@@ -379,9 +426,20 @@ export class DocsApp extends LitElement {
     }
   };
 
+  #syncSidebarAttr(): void {
+    this.toggleAttribute("sidebar-closed", this.#sidebarClosed);
+  }
+
+  #toggleSidebar(): void {
+    this.#sidebarClosed = !this.#sidebarClosed;
+    this.#syncSidebarAttr();
+    setSidebarParam(this.#sidebarClosed);
+  }
+
   #toggleTheme(): void {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
     document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+    this.requestUpdate();
   }
 
   #onControlChange(e: CustomEvent<{ prop: string; value: string }>): void {
@@ -506,12 +564,21 @@ export class DocsApp extends LitElement {
         </div>
         <div class="top-bar-right">
           <button class="search-trigger" @click=${() => { this.#searchOpen = true; this.#searchQuery = ""; this.#activeIndex = 0; }}>
-            <dui-icon name="search" size="14"></dui-icon>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             Search...
             <kbd>${navigator.platform.includes("Mac") ? "\u2318" : "Ctrl"}K</kbd>
           </button>
+          <button class="sidebar-toggle" @click=${this.#toggleSidebar} title="Toggle sidebar">
+            ${this.#sidebarClosed
+              ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>`
+              : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>`
+            }
+          </button>
           <button class="theme-toggle" @click=${this.#toggleTheme} title="Toggle theme">
-            <dui-icon name="sun" size="16"></dui-icon>
+            ${document.documentElement.getAttribute("data-theme") === "dark"
+              ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`
+              : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
+            }
           </button>
         </div>
       </header>
@@ -569,7 +636,7 @@ export class DocsApp extends LitElement {
       }}>
         <div class="search-panel">
           <div class="search-input-wrapper">
-            <dui-icon name="search" size="16"></dui-icon>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <input
               class="search-input"
               type="text"

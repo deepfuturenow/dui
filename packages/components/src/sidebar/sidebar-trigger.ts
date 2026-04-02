@@ -48,7 +48,7 @@ export class DuiSidebarTrigger extends LitElement {
 
   override render(): TemplateResult {
     return html`
-      <dui-button variant="ghost" size="sm" square @click=${this.#onClick}>
+      <dui-button variant="ghost" size="sm" @click=${this.#onClick}>
         <slot>
           <dui-icon>${panelLeftSvg}</dui-icon>
         </slot>

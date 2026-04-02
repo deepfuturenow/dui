@@ -301,12 +301,17 @@ if (buildMode) {
     write: false,
     plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
     nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
+    banner: {
+      js: `(() => { new EventSource("/esbuild").addEventListener("change", () => location.reload()); })();`,
+    },
   });
+
+  await ctx.watch();
 
   const { port } = await ctx.serve({
     port: PORT,
     servedir: STATIC_DIR,
   });
 
-  console.log(`DUI docs → http://localhost:${port}`);
+  console.log(`DUI docs → http://localhost:${port} (live reload enabled)`);
 }

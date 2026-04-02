@@ -1,7 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-select")
 export class DocsPageSelect extends LitElement {
@@ -36,14 +34,10 @@ export class DocsPageSelect extends LitElement {
   }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-select")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-select">
+        <dui-docs-demo label="Default">
         <dui-select placeholder="Pick a fruit..."></dui-select>
       </dui-docs-demo>
 
@@ -58,9 +52,7 @@ export class DocsPageSelect extends LitElement {
       <dui-docs-demo label="Disabled options">
         <dui-select id="select-disabled-opts" placeholder="Choose..."></dui-select>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-dropzone")
 export class DocsPageDropzone extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-dropzone")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-dropzone">
+        <dui-docs-demo label="Default">
         <dui-dropzone></dui-dropzone>
       </dui-docs-demo>
 
@@ -32,9 +26,7 @@ export class DocsPageDropzone extends LitElement {
       <dui-docs-demo label="Disabled">
         <dui-dropzone disabled></dui-dropzone>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

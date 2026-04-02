@@ -1,25 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-sidebar")
 export class DocsPageSidebar extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-sidebar-provider")!;
-    const sidebarMeta = componentRegistry.find((c) => c.tagName === "dui-sidebar")!;
-    const triggerMeta = componentRegistry.find((c) => c.tagName === "dui-sidebar-trigger")!;
-    const contentMeta = componentRegistry.find((c) => c.tagName === "dui-sidebar-content")!;
-    const menuButtonMeta = componentRegistry.find((c) => c.tagName === "dui-sidebar-menu-button")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default (left sidebar)">
+      <docs-page-layout tag="dui-sidebar-provider" .additionalTags=${["dui-sidebar","dui-sidebar-trigger","dui-sidebar-content","dui-sidebar-menu-button"]}>
+        <dui-docs-demo label="Default (left sidebar)">
         <div style="height: 400px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;">
           <dui-sidebar-provider>
             <dui-sidebar>
@@ -75,23 +65,9 @@ export class DocsPageSidebar extends LitElement {
               </div>
             </dui-sidebar-inset>
           </dui-sidebar-provider>
-        </div>
+        </docs-row>
       </dui-docs-demo>
-
-      <h2>API Reference — Sidebar Provider</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Sidebar</h2>
-      ${renderApiTable(sidebarMeta)}
-
-      <h2>API Reference — Trigger</h2>
-      ${renderApiTable(triggerMeta)}
-
-      <h2>API Reference — Content</h2>
-      ${renderApiTable(contentMeta)}
-
-      <h2>API Reference — Menu Button</h2>
-      ${renderApiTable(menuButtonMeta)}
+      </docs-page-layout>
     `;
   }
 }

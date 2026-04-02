@@ -63,7 +63,7 @@
     "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
     Consolas, "Liberation Mono", monospace;
 
-  --font-size-2xs: 0.625rem;
+  --font-size-2xs: 0.65rem;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 0.9375rem;
@@ -195,6 +195,31 @@
   --ease-circ-in-out: cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
   /* -----------------------------------------------------------
+   * Filters (presets for filter / backdrop-filter tokens)
+   * ----------------------------------------------------------- */
+  --filter-none: none;
+  --filter-blur-sm: blur(4px);
+  --filter-blur-md: blur(8px);
+  --filter-blur-lg: blur(16px);
+  --filter-blur-xl: blur(24px);
+  --filter-brightness-dim: brightness(0.8);
+  --filter-brightness-bright: brightness(1.15);
+  --filter-saturate-muted: saturate(0.5);
+  --filter-saturate-vivid: saturate(1.5);
+  --filter-grayscale: grayscale(1);
+
+  /* -----------------------------------------------------------
+   * Clip Paths (shape presets)
+   * ----------------------------------------------------------- */
+  --clip-none: none;
+  --clip-circle: circle(50%);
+  --clip-squircle: inset(0 round 30%);
+  --clip-hexagon: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  --clip-octagon: polygon(29.3% 0%, 70.7% 0%, 100% 29.3%, 100% 70.7%, 70.7% 100%, 29.3% 100%, 0% 70.7%, 0% 29.3%);
+  --clip-chevron-right: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%);
+  --clip-bevel: polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%);
+
+  /* -----------------------------------------------------------
    * Component Sizing
    * ----------------------------------------------------------- */
   --component-height-xxs: 1.25rem;
@@ -299,4 +324,15 @@
   --chart-3: oklch(0.7 0.16 80);
   --chart-4: oklch(0.6 0.19 303);
   --chart-5: oklch(0.62 0.18 16);
+}
+
+/* =================================================================
+ * Base document styles
+ * ================================================================= */
+:root {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

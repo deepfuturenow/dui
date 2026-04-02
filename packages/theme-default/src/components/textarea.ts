@@ -12,7 +12,7 @@ export const textareaStyles = css`
     line-height: var(--line-height-snug);
     color: var(--foreground);
     border: var(--border-width-thin) solid var(--input);
-    background-color: var(--input-bg);
+    background: var(--input-bg);
     border-radius: var(--radius-md);
     transition-duration: var(--duration-fast);
   }
@@ -36,14 +36,14 @@ export const textareaStyles = css`
   }
 
   [part="textarea"]::-webkit-scrollbar-thumb {
-    background-color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    background: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
     border-radius: var(--radius-sm);
     border: 0.125rem solid transparent;
     background-clip: padding-box;
   }
 
   [part="textarea"]::-webkit-scrollbar-thumb:hover {
-    background-color: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
+    background: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
   }
 
   [part="textarea"]::placeholder {
@@ -67,7 +67,7 @@ export const textareaStyles = css`
   /* Ghost variant */
   :host([variant="ghost"]) [part="textarea"] {
     border-color: transparent;
-    background-color: transparent;
+    background: transparent;
     padding: 0;
   }
 

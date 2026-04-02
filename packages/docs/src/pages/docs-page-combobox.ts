@@ -1,7 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -45,14 +43,10 @@ export class DocsPageCombobox extends LitElement {
   }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-combobox")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Single select">
+      <docs-page-layout tag="dui-combobox">
+        <dui-docs-demo label="Single select">
         <dui-combobox id="combo-single" placeholder="Select a framework..."></dui-combobox>
       </dui-docs-demo>
 
@@ -63,9 +57,7 @@ export class DocsPageCombobox extends LitElement {
       <dui-docs-demo label="Disabled">
         <dui-combobox id="combo-disabled" disabled placeholder="Disabled..."></dui-combobox>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

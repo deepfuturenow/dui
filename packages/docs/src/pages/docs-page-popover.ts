@@ -1,22 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-popover")
 export class DocsPagePopover extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-popover")!;
-    const popupMeta = componentRegistry.find((c) => c.tagName === "dui-popover-popup")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Basic popover">
+      <docs-page-layout tag="dui-popover" .additionalTags=${["dui-popover-popup"]}>
+        <dui-docs-demo label="Basic popover">
         <dui-popover>
           <dui-popover-trigger>
             <dui-button variant="outline">Open Popover</dui-button>
@@ -60,12 +53,7 @@ export class DocsPagePopover extends LitElement {
           </dui-popover-popup>
         </dui-popover>
       </dui-docs-demo>
-
-      <h2>API Reference — Popover</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Popover Popup</h2>
-      ${renderApiTable(popupMeta)}
+      </docs-page-layout>
     `;
   }
 }

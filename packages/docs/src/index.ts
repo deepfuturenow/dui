@@ -1,5 +1,7 @@
 import "./docs-demo.ts";
 import "./docs-app.ts";
+import "./pages/docs-page-layout.ts";
+import "./pages/docs-row.ts";
 import "./pages/docs-page-components-index.ts";
 import "./pages/docs-page-accordion.ts";
 import "./pages/docs-page-button.ts";

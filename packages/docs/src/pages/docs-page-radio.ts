@@ -1,19 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-radio")
 export class DocsPageRadio extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const groupMeta = componentRegistry.find((c) => c.tagName === "dui-radio-group")!;
-    const radioMeta = componentRegistry.find((c) => c.tagName === "dui-radio")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${groupMeta.name}</h1>
+      <docs-page-layout tag="dui-radio-group" .additionalTags=${["dui-radio"]}>
+        <h1>${groupMeta.name}</h1>
       <p class="description">${groupMeta.description}</p>
 
       <dui-docs-demo label="Default">
@@ -37,12 +33,7 @@ export class DocsPageRadio extends LitElement {
           <dui-radio value="y">Option Y</dui-radio>
         </dui-radio-group>
       </dui-docs-demo>
-
-      <h2>API Reference — Radio Group</h2>
-      ${renderApiTable(groupMeta)}
-
-      <h2>API Reference — Radio</h2>
-      ${renderApiTable(radioMeta)}
+      </docs-page-layout>
     `;
   }
 }

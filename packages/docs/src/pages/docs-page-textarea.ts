@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-textarea")
 export class DocsPageTextarea extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-textarea")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-textarea">
+        <dui-docs-demo label="Default">
         <dui-textarea placeholder="Type something..."></dui-textarea>
       </dui-docs-demo>
 
@@ -42,9 +36,7 @@ export class DocsPageTextarea extends LitElement {
       <dui-docs-demo label="Read-only">
         <dui-textarea readonly value="Read-only content"></dui-textarea>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

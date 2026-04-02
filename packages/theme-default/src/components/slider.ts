@@ -16,12 +16,12 @@ export const sliderStyles = css`
 
   [part="track"] {
     height: var(--slider-track-height);
-    background-color: var(--muted);
+    background: var(--muted);
     border-radius: calc(var(--slider-track-height) / 2);
   }
 
   [part="indicator"] {
-    background-color: var(--primary);
+    background: var(--primary);
     border-radius: calc(var(--slider-track-height) / 2);
     transition: width 50ms ease-out;
   }
@@ -33,7 +33,7 @@ export const sliderStyles = css`
   [part="thumb"] {
     width: var(--slider-thumb-size);
     height: var(--slider-thumb-size);
-    background-color: var(--background);
+    background: var(--background);
     border: 2px solid var(--primary);
     border-radius: 50%;
     transition-duration: 50ms, var(--duration-fast);

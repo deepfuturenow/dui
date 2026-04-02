@@ -1,21 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-vstack")
 export class DocsPageVstack extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-vstack")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default (gap=4)">
+      <docs-page-layout tag="dui-vstack">
+        <dui-docs-demo label="Default (gap=4)">
         <dui-vstack>
           <dui-badge>One</dui-badge>
           <dui-badge>Two</dui-badge>
@@ -40,11 +34,9 @@ export class DocsPageVstack extends LitElement {
             <dui-badge variant="secondary">A</dui-badge>
             <dui-badge variant="secondary">B</dui-badge>
           </dui-vstack>
-        </div>
+        </docs-row>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

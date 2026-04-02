@@ -1,24 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-alert-dialog")
 export class DocsPageAlertDialog extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-alert-dialog")!;
-    const popupMeta = componentRegistry.find((c) => c.tagName === "dui-alert-dialog-popup")!;
-    const triggerMeta = componentRegistry.find((c) => c.tagName === "dui-alert-dialog-trigger")!;
-    const closeMeta = componentRegistry.find((c) => c.tagName === "dui-alert-dialog-close")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Destructive confirmation">
+      <docs-page-layout tag="dui-alert-dialog" .additionalTags=${["dui-alert-dialog-popup","dui-alert-dialog-trigger","dui-alert-dialog-close"]}>
+        <dui-docs-demo label="Destructive confirmation">
         <dui-alert-dialog>
           <dui-alert-dialog-trigger>
             <dui-button variant="destructive">Delete Account</dui-button>
@@ -57,18 +48,7 @@ export class DocsPageAlertDialog extends LitElement {
           </dui-alert-dialog-popup>
         </dui-alert-dialog>
       </dui-docs-demo>
-
-      <h2>API Reference — Alert Dialog</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Alert Dialog Popup</h2>
-      ${renderApiTable(popupMeta)}
-
-      <h2>API Reference — Alert Dialog Trigger</h2>
-      ${renderApiTable(triggerMeta)}
-
-      <h2>API Reference — Alert Dialog Close</h2>
-      ${renderApiTable(closeMeta)}
+      </docs-page-layout>
     `;
   }
 }

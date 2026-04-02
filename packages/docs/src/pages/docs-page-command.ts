@@ -1,7 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-command")
 export class DocsPageCommand extends LitElement {
@@ -22,21 +20,10 @@ export class DocsPageCommand extends LitElement {
   }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-command")!;
-    const inputMeta = componentRegistry.find((c) => c.tagName === "dui-command-input")!;
-    const listMeta = componentRegistry.find((c) => c.tagName === "dui-command-list")!;
-    const groupMeta = componentRegistry.find((c) => c.tagName === "dui-command-group")!;
-    const itemMeta = componentRegistry.find((c) => c.tagName === "dui-command-item")!;
-    const emptyMeta = componentRegistry.find((c) => c.tagName === "dui-command-empty")!;
-    const separatorMeta = componentRegistry.find((c) => c.tagName === "dui-command-separator")!;
-    const shortcutMeta = componentRegistry.find((c) => c.tagName === "dui-command-shortcut")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-command" .additionalTags=${["dui-command-input","dui-command-list","dui-command-group","dui-command-item","dui-command-empty","dui-command-separator","dui-command-shortcut"]}>
+        <dui-docs-demo label="Default">
         <dui-command style="border: 1px solid var(--border); border-radius: var(--radius-lg); max-width: 450px;">
           <dui-command-input placeholder="Type a command or search..."></dui-command-input>
           <dui-command-list>
@@ -85,30 +72,7 @@ export class DocsPageCommand extends LitElement {
           </dui-command-list>
         </dui-command>
       </dui-docs-demo>
-
-      <h2>API Reference — Command</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Input</h2>
-      ${renderApiTable(inputMeta)}
-
-      <h2>API Reference — List</h2>
-      ${renderApiTable(listMeta)}
-
-      <h2>API Reference — Group</h2>
-      ${renderApiTable(groupMeta)}
-
-      <h2>API Reference — Item</h2>
-      ${renderApiTable(itemMeta)}
-
-      <h2>API Reference — Empty</h2>
-      ${renderApiTable(emptyMeta)}
-
-      <h2>API Reference — Separator</h2>
-      ${renderApiTable(separatorMeta)}
-
-      <h2>API Reference — Shortcut</h2>
-      ${renderApiTable(shortcutMeta)}
+      </docs-page-layout>
     `;
   }
 }

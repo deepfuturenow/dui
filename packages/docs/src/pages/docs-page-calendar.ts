@@ -1,7 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-calendar")
 export class DocsPageCalendar extends LitElement {
@@ -15,7 +13,6 @@ export class DocsPageCalendar extends LitElement {
   };
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-calendar")!;
 
     const today = new Date();
     const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -26,11 +23,8 @@ export class DocsPageCalendar extends LitElement {
     const maxDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(daysInMonth).padStart(2, "0")}`;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-calendar">
+        <dui-docs-demo label="Default">
         <dui-calendar @value-change="${this.#onValueChange}"></dui-calendar>
         ${this.#selectedDate
           ? html`<p style="margin-top: var(--space-2); font-size: var(--font-size-sm); color: var(--muted-foreground);">
@@ -50,9 +44,7 @@ export class DocsPageCalendar extends LitElement {
       <dui-docs-demo label="Disabled">
         <dui-calendar disabled default-value="${todayIso}"></dui-calendar>
       </dui-docs-demo>
-
-      <h2>API Reference</h2>
-      ${renderApiTable(meta)}
+      </docs-page-layout>
     `;
   }
 }

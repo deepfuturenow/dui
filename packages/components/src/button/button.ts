@@ -44,7 +44,7 @@ const styles = css`
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    transition-property: background-color, box-shadow;
+    transition-property: background, box-shadow, filter, transform, border-color;
   }
 `;
 
@@ -74,12 +74,6 @@ export class DuiButton extends LitElement {
 
   @property({ reflect: true })
   accessor size: ButtonSize = "md";
-
-  @property({ type: Boolean, reflect: true })
-  accessor rounded = false;
-
-  @property({ type: Boolean, reflect: true })
-  accessor square = false;
 
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;

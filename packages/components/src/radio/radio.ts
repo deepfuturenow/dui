@@ -30,7 +30,7 @@ const styles = css`
     padding: 0;
     margin: 0;
     border: none;
-    transition-property: background-color, border-color, box-shadow;
+    transition-property: background, border-color, box-shadow, filter, transform;
   }
 
   [part="root"][data-disabled] {

@@ -1,24 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-dialog")
 export class DocsPageDialog extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-dialog")!;
-    const popupMeta = componentRegistry.find((c) => c.tagName === "dui-dialog-popup")!;
-    const triggerMeta = componentRegistry.find((c) => c.tagName === "dui-dialog-trigger")!;
-    const closeMeta = componentRegistry.find((c) => c.tagName === "dui-dialog-close")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Basic dialog">
+      <docs-page-layout tag="dui-dialog" .additionalTags=${["dui-dialog-popup","dui-dialog-trigger","dui-dialog-close"]}>
+        <dui-docs-demo label="Basic dialog">
         <dui-dialog>
           <dui-dialog-trigger>
             <dui-button variant="outline">Open Dialog</dui-button>
@@ -74,18 +65,7 @@ export class DocsPageDialog extends LitElement {
           </dui-dialog-popup>
         </dui-dialog>
       </dui-docs-demo>
-
-      <h2>API Reference — Dialog</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Dialog Popup</h2>
-      ${renderApiTable(popupMeta)}
-
-      <h2>API Reference — Dialog Trigger</h2>
-      ${renderApiTable(triggerMeta)}
-
-      <h2>API Reference — Dialog Close</h2>
-      ${renderApiTable(closeMeta)}
+      </docs-page-layout>
     `;
   }
 }

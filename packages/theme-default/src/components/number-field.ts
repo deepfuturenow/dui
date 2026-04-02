@@ -4,7 +4,7 @@ export const numberFieldStyles = css`
   [part="root"] {
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background-color: var(--background);
+    background: var(--background);
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }
@@ -37,14 +37,14 @@ export const numberFieldStyles = css`
     color: var(--muted-foreground);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-lg);
-    transition-property: background-color, color;
+    transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) {
     [part="decrement"]:hover:not(:disabled),
     [part="increment"]:hover:not(:disabled) {
-      background-color: var(--muted);
+      background: var(--muted);
       color: var(--foreground);
     }
   }

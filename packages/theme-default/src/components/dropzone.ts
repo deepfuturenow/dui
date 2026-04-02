@@ -8,7 +8,7 @@ export const dropzoneStyles = css`
   [part="root"] {
     border: 2px dashed var(--border);
     border-radius: var(--radius-md);
-    background-color: var(--background);
+    background: var(--background);
     color: var(--foreground);
     padding: var(--space-4);
     transition-duration: var(--duration-fast);
@@ -16,7 +16,7 @@ export const dropzoneStyles = css`
 
   [part="root"]:hover {
     border-color: var(--ring);
-    background-color: var(--muted);
+    background: var(--muted);
   }
 
   [part="root"]:focus-visible {
@@ -28,6 +28,6 @@ export const dropzoneStyles = css`
 
   [part="root"][data-dragover] {
     border-color: var(--ring);
-    background-color: var(--muted);
+    background: var(--muted);
   }
 `;

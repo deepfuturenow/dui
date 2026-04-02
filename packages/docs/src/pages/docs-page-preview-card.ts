@@ -1,23 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { componentRegistry } from "../component-registry.ts";
-import { renderApiTable, pageStyles } from "./page-utils.ts";
 
 @customElement("docs-page-preview-card")
 export class DocsPagePreviewCard extends LitElement {
   protected override createRenderRoot() { return this; }
 
   override render() {
-    const meta = componentRegistry.find((c) => c.tagName === "dui-preview-card")!;
-    const triggerMeta = componentRegistry.find((c) => c.tagName === "dui-preview-card-trigger")!;
-    const popupMeta = componentRegistry.find((c) => c.tagName === "dui-preview-card-popup")!;
 
     return html`
-      <style>${pageStyles}</style>
-      <h1>${meta.name}</h1>
-      <p class="description">${meta.description}</p>
-
-      <dui-docs-demo label="Default">
+      <docs-page-layout tag="dui-preview-card" .additionalTags=${["dui-preview-card-trigger","dui-preview-card-popup"]}>
+        <dui-docs-demo label="Default">
         <dui-preview-card>
           <dui-preview-card-trigger>
             <a href="#" style="color: var(--primary); text-decoration: underline;">Hover me for a preview</a>
@@ -60,15 +52,7 @@ export class DocsPagePreviewCard extends LitElement {
           </dui-preview-card-popup>
         </dui-preview-card>
       </dui-docs-demo>
-
-      <h2>API Reference — Preview Card</h2>
-      ${renderApiTable(meta)}
-
-      <h2>API Reference — Trigger</h2>
-      ${renderApiTable(triggerMeta)}
-
-      <h2>API Reference — Popup</h2>
-      ${renderApiTable(popupMeta)}
+      </docs-page-layout>
     `;
   }
 }

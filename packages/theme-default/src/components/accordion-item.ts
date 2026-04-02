@@ -15,7 +15,7 @@ export const accordionItemStyles = css`
   [part="trigger"] {
     gap: var(--space-4);
     padding-block: var(--space-2);
-    padding-inline: var(--space-4);
+    padding-inline: 0;
     color: var(--foreground);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
@@ -29,7 +29,7 @@ export const accordionItemStyles = css`
 
   @media (hover: hover) {
     [part="trigger"]:hover {
-      background-color: color-mix(in oklch, var(--muted) 50%, transparent);
+      background: color-mix(in oklch, var(--muted) 50%, transparent);
     }
   }
 
@@ -70,7 +70,7 @@ export const accordionItemStyles = css`
   }
 
   [part="content"] {
-    padding: var(--space-1) var(--space-4) var(--space-3);
+    padding: 0 0 var(--space-3);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);

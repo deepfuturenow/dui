@@ -25,13 +25,13 @@ export const sidebarMenuButtonStyles = css`
     height: var(--smb-height);
     border-radius: var(--smb-radius);
     margin: 0 var(--space-2);
-    transition-property: background-color;
+    transition-property: background;
     transition-duration: var(--duration-faster);
     transition-timing-function: var(--ease-out-3);
   }
 
   .Row:hover {
-    background-color: color-mix(
+    background: color-mix(
       in oklch,
       var(--sidebar-button-bg) 100%,
       var(--foreground) 8%
@@ -39,7 +39,7 @@ export const sidebarMenuButtonStyles = css`
   }
 
   .Row[data-active] {
-    background-color: color-mix(
+    background: color-mix(
       in oklch,
       var(--sidebar-button-bg) 100%,
       var(--foreground) 12%
