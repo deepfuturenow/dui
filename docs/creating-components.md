@@ -124,6 +124,12 @@ Properties are the **primary public API**. CSS variables are secondary:
 
 **Defaults always use design tokens** — never hardcoded `px` or `rem`.
 
+### When to create a CSS variable vs. rely on `::part()`
+
+A variable earns its place in the theme if it meets at least one of: (1) variants toggle it, (2) other variables derive from it (e.g., hover colors via `color-mix`), (3) sizes toggle it, or (4) it needs ancestor cascading. If none apply, consumers use `::part(root)` instead — no variable needed. See [theming.md](./theming.md) for the full philosophy.
+
+**Do not** create purely aesthetic attributes on components (e.g., `rounded`, `square`). These belong in the theme layer — consumers achieve the same via variables (e.g., `--button-radius: var(--radius-full)`).
+
 ---
 
 ## Internal state and privacy
@@ -211,11 +217,13 @@ Layout, display, behavioral properties. No visual opinions.
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition-property: background-color, box-shadow;
+  transition-property: background, box-shadow, filter, transform, border-color, color, opacity;
 }
 ```
 
 **Structural properties:** `display`, `position`, `flex`/`grid` layout, `box-sizing`, `cursor`, `user-select`, `overflow`, `transition-property` (but not `transition-duration`), `pointer-events`.
+
+> **Note:** Include a broad `transition-property` list so that consumer overrides via `::part(root)` (filters, transforms, shadows) animate smoothly without redeclaring transitions.
 
 ### Aesthetic CSS (lives in the theme)
 
@@ -232,14 +240,16 @@ Colors, fonts, spacing values, borders, shadows, animations.
   height: var(--space-5);
   padding: 0 var(--space-2);
   border-radius: var(--radius-full);
-  background-color: var(--badge-bg);
+  background: var(--badge-bg);
   color: var(--badge-fg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
 }
 ```
 
-**Aesthetic properties:** `color`, `background-color`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-duration`, `transition-timing-function`.
+> **Note:** Use `background` (the shorthand), not `background-color`. This lets variables accept gradients and images, not just colors.
+
+**Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-duration`, `transition-timing-function`.
 
 **When in doubt:** If the property references a design token (`var(--space-*)`, `var(--primary)`), it's aesthetic.
 

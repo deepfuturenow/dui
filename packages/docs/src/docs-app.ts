@@ -546,6 +546,11 @@ export class DocsApp extends LitElement {
               Components
             </a>
             <a class="top-bar-link"
+              href="#/styling"
+              aria-current=${this.#isTopNavActive("styling") ? "page" : "false"}>
+              Styling
+            </a>
+            <a class="top-bar-link"
               href="#/colors"
               aria-current=${this.#isTopNavActive("colors") ? "page" : "false"}>
               Colors
@@ -670,6 +675,7 @@ export class DocsApp extends LitElement {
   #renderPage() {
     const { section, component } = this.#route;
 
+    if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
     if (section === "blocks") return html`<docs-page-blocks></docs-page-blocks>`;
     if (section === "create") return html`<docs-page-create></docs-page-create>`;

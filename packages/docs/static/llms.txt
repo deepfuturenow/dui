@@ -9,6 +9,52 @@ Install: (Deno workspace package)
 Import: import { DuiButton } from "@dui/components/button";
 Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 
+## Styling Model
+
+DUI uses a two-layer styling approach:
+
+### Layer 1: CSS Variables
+Each component exposes CSS custom properties for values that variants and sizes toggle.
+Variables cascade from ancestor elements, so a parent can theme all descendant components.
+The theme uses `background` (shorthand), so variables accept gradients and images, not just colors.
+
+```css
+/* Override button colors */
+dui-button {
+  --button-bg: linear-gradient(135deg, pink, purple);
+  --button-fg: white;
+}
+
+/* Ancestor cascading — all buttons inside .card inherit this */
+.card {
+  --button-bg: var(--accent);
+}
+```
+
+### Layer 2: ::part(root)
+For any CSS property not covered by variables — filters, transforms, shadows, clip-paths,
+backdrop-filter, blend modes — use ::part(root) on the component. Every component exposes
+at least a `root` part. Complex components expose additional parts (e.g., `track`, `thumb`).
+
+```css
+/* Frosted glass */
+dui-button::part(root) {
+  backdrop-filter: blur(12px) saturate(1.8);
+}
+
+/* Glow shadow */
+dui-button::part(root) {
+  box-shadow: 0 0 20px oklch(0.7 0.2 280 / 0.4);
+}
+
+/* Bouncy press */
+dui-button::part(root):hover { transform: translateY(-1px); }
+dui-button::part(root):active { transform: scale(0.97); }
+```
+
+Components include broad transition-property lists (background, box-shadow, filter,
+transform, border-color) so ::part() overrides animate smoothly.
+
 ## Components
 
 ### Accordion
@@ -26,6 +72,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string, ""), disabled (boolean, false)
 - Events: open-change ({ value: string; open: boolean })
 - Slots: trigger (Header/trigger content), default (Panel content)
+- CSS Parts: item (The item container), trigger (The expand/collapse button), indicator (The chevron indicator), panel (The collapsible panel wrapper), content (The panel content area)
 
 ### Alert Dialog
 - Tag: `<dui-alert-dialog>`
@@ -49,6 +96,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: keepMounted (boolean, false), initialFocus (string | undefined), finalFocus (string | undefined)
 - Events: none
 - Slots: title (Alert dialog title (rendered as h2)), description (Alert dialog description (rendered as p)), default (Dialog content (actions, etc.))
+- CSS Parts: backdrop (The overlay backdrop), popup (The dialog panel), title (The dialog title), description (The dialog description)
 
 ### Alert Dialog Close
 - Tag: `<dui-alert-dialog-close>`
@@ -63,6 +111,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Navigation breadcrumb trail showing the current page location.
 - Events: none
 - Slots: default (Breadcrumb items and separators)
+- CSS Parts: root (The breadcrumb nav container)
 
 ### Breadcrumb Item
 - Tag: `<dui-breadcrumb-item>`
@@ -106,7 +155,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: checked (boolean | undefined), defaultChecked (boolean, false), indeterminate (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string | undefined), parent (boolean, false)
 - Events: checked-change ({ checked: boolean; indeterminate: boolean })
 - Slots: default (Label content)
-- CSS Properties: --checkbox-size (Size of the checkbox box)
+- CSS Variables: --checkbox-size (Size of the checkbox box)
+- CSS Parts: root (The checkbox control), indicator (The check/indeterminate icon)
 
 ### Checkbox Group
 - Tag: `<dui-checkbox-group>`
@@ -123,6 +173,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: open (boolean, false), defaultOpen (boolean, false), disabled (boolean, false), keepMounted (boolean, false)
 - Events: open-change ({ open: boolean })
 - Slots: trigger (Trigger label content), default (Panel content)
+- CSS Parts: trigger (The expand/collapse button), indicator (The chevron indicator), panel (The collapsible panel wrapper), content (The panel content area)
 
 ### Badge
 - Tag: `<dui-badge>`
@@ -131,6 +182,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: variant (string, "default")
 - Events: none
 - Slots: default (Badge content)
+- CSS Parts: root (The badge element)
 
 ### Button
 - Tag: `<dui-button>`
@@ -139,7 +191,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: variant (string, "default"), size (string, "md"), disabled (boolean, false), type (string, "button"), href (string | undefined)
 - Events: dui-navigate ({ href: string })
 - Slots: default (Button label content)
-- CSS Properties: --button-bg (Background (supports gradients, images, and color)), --button-fg (Text and icon color), --button-border (Border color), --button-hover-bg (Hover background (derived from --button-bg by default)), --button-active-bg (Active/pressed background (derived from --button-bg by default)), --button-height (Component height), --button-width (Component width), --button-padding-y (Vertical padding), --button-padding-x (Horizontal padding), --button-gap (Gap between icon and label), --button-radius (Border radius), --button-font-size (Font size), --button-icon-size (Icon size)
+- CSS Variables: --button-bg (Background (supports gradients, images, and color)), --button-fg (Text and icon color), --button-border (Border color), --button-hover-bg (Hover background (derived from --button-bg by default)), --button-active-bg (Active/pressed background (derived from --button-bg by default)), --button-height (Component height), --button-width (Component width), --button-padding-y (Vertical padding), --button-padding-x (Horizontal padding), --button-gap (Gap between icon and label), --button-radius (Border radius), --button-font-size (Font size), --button-icon-size (Icon size)
+- CSS Parts: root (The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc.)
 
 ### Combobox
 - Tag: `<dui-combobox>`
@@ -170,6 +223,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: keepMounted (boolean, false), initialFocus (string | undefined), finalFocus (string | undefined), width (string | undefined)
 - Events: none
 - Slots: title (Dialog title (rendered as h2)), description (Dialog description (rendered as p)), default (Dialog content (actions, form fields, etc.))
+- CSS Parts: backdrop (The overlay backdrop), popup (The dialog panel), title (The dialog title), description (The dialog description)
 
 ### Dialog Close
 - Tag: `<dui-dialog-close>`
@@ -184,7 +238,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
 - Events: none
 - Slots: default (SVG element to display)
-- CSS Properties: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
+- CSS Variables: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
 
 ### Menu
 - Tag: `<dui-menu>`
@@ -192,6 +246,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A popup menu triggered by a slotted element with keyboard navigation.
 - Events: none
 - Slots: trigger (The element that opens the menu on click), default (dui-menu-item children)
+- CSS Parts: root (The menu popup panel)
 
 ### Menu Item
 - Tag: `<dui-menu-item>`
@@ -238,7 +293,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
 - Events: scrolled-to-bottom, scrolled-from-bottom
 - Slots: default (Scrollable content)
-- CSS Properties: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+- CSS Variables: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+- CSS Parts: viewport (The scrollable viewport), scrollbar-vertical (Vertical scrollbar track), scrollbar-horizontal (Horizontal scrollbar track), thumb-vertical (Vertical scrollbar thumb), thumb-horizontal (Horizontal scrollbar thumb)
 
 ### Slider
 - Tag: `<dui-slider>`
@@ -246,7 +302,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A slider for selecting numeric values within a range.
 - Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: number }), value-committed ({ value: number })
-- CSS Properties: --slider-track-height (Height of the track), --slider-thumb-size (Size of the thumb)
+- CSS Variables: --slider-track-height (Height of the track), --slider-thumb-size (Size of the thumb)
+- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb)
 
 ### Spinner
 - Tag: `<dui-spinner>`
@@ -254,7 +311,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A loading indicator with multiple animation variants and sizes.
 - Properties: size ("sm" | "md" | "lg", "sm"), variant ("pulse" | "lucide-loader" | "lucide-loader-circle", "pulse")
 - Events: none
-- CSS Properties: --spinner-size (Override spinner dimensions), --spinner-color (Override spinner color (defaults to currentColor))
+- CSS Variables: --spinner-size (Override spinner dimensions), --spinner-color (Override spinner color (defaults to currentColor))
 
 ### Switch
 - Tag: `<dui-switch>`
@@ -263,7 +320,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: checked (boolean | undefined), defaultChecked (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string, "on")
 - Events: checked-change ({ checked: boolean })
 - Slots: default (Label content)
-- CSS Properties: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+- CSS Variables: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+- CSS Parts: root (The switch track), thumb (The switch thumb)
 
 ### Tabs
 - Tag: `<dui-tabs>`
@@ -279,6 +337,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: Container for tab triggers. Manages indicator positioning.
 - Events: none
 - Slots: default (dui-tab elements and optional dui-tabs-indicator)
+- CSS Parts: list (The tab list container)
 
 ### Tab
 - Tag: `<dui-tab>`
@@ -287,6 +346,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string, ""), disabled (boolean, false)
 - Events: none
 - Slots: default (Tab label content)
+- CSS Parts: tab (The tab trigger button)
 
 ### Tabs Panel
 - Tag: `<dui-tabs-panel>`
@@ -295,6 +355,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string, ""), keepMounted (boolean, false)
 - Events: none
 - Slots: default (Panel content)
+- CSS Parts: panel (The tab panel content area)
 
 ### Tabs Indicator
 - Tag: `<dui-tabs-indicator>`
@@ -308,6 +369,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A multi-line text input with resize modes including auto-grow.
 - Properties: value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), rows (number | undefined), minLength (number | undefined), maxLength (number | undefined), name (string, ""), variant ("default" | "ghost", "default"), resize ("none" | "vertical" | "horizontal" | "both" | "auto", "vertical"), maxHeight (string | undefined)
 - Events: textarea-change ({ value: string })
+- CSS Parts: textarea (The native textarea element)
 
 ### Toolbar
 - Tag: `<dui-toolbar>`
@@ -316,6 +378,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: size ("sm" | "md" | "lg" | "xl"), inset (boolean, false), hasButtonLeft (boolean, false), hasButtonRight (boolean, false)
 - Events: none
 - Slots: left (Content aligned to the start), center (Content centered in the toolbar), right (Content aligned to the end)
+- CSS Parts: root (The toolbar container), left (Left-aligned slot container), center (Center-aligned slot container), right (Right-aligned slot container)
 
 ### Trunc
 - Tag: `<dui-trunc>`
@@ -332,7 +395,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: src (string | undefined), alt (string, ""), size (string | undefined), fallbackDelay (number | undefined)
 - Events: loading-status-change ({ status: ImageStatus })
 - Slots: default (Fallback content (e.g. initials or icon))
-- CSS Properties: --avatar-size (Avatar dimensions (width and height)), --avatar-bg (Background color for fallback state), --avatar-fg (Text/icon color for fallback state)
+- CSS Variables: --avatar-size (Avatar dimensions (width and height)), --avatar-bg (Background color for fallback state), --avatar-fg (Text/icon color for fallback state)
+- CSS Parts: root (The avatar container), image (The avatar image element), fallback (The fallback content (initials/icon))
 
 ### Center
 - Tag: `<dui-center>`
@@ -348,7 +412,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: gap (StackGap, "4"), align ("start" | "center" | "end" | "stretch" | "baseline", "center"), justify ("start" | "center" | "end" | "between" | "around" | "evenly" | "stretch", "stretch")
 - Events: none
 - Slots: default (Stack content)
-- CSS Properties: --hstack-gap (Override gap between items), --hstack-align (Override align-items), --hstack-justify (Override justify-content)
+- CSS Variables: --hstack-gap (Override gap between items), --hstack-align (Override align-items), --hstack-justify (Override justify-content)
 
 ### Link
 - Tag: `<dui-link>`
@@ -365,7 +429,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: maxWidth (string | undefined), minWidth (string | undefined), padX (string | undefined), padY (string | undefined)
 - Events: none
 - Slots: default (Content to be centered)
-- CSS Properties: --page-inset-pad-x (Horizontal padding (default: var(--space-16))), --page-inset-pad-y (Vertical padding (default: var(--space-12))), --page-inset-max-width (Max width of inner content (default: 48rem)), --page-inset-min-width (Min width of inner content (default: auto))
+- CSS Variables: --page-inset-pad-x (Horizontal padding (default: var(--space-16))), --page-inset-pad-y (Vertical padding (default: var(--space-12))), --page-inset-max-width (Max width of inner content (default: 48rem)), --page-inset-min-width (Min width of inner content (default: auto))
 
 ### Portal
 - Tag: `<dui-portal>`
@@ -382,7 +446,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: gap (StackGap, "4")
 - Events: none
 - Slots: default (Stack content)
-- CSS Properties: --vstack-gap (Override gap between items)
+- CSS Variables: --vstack-gap (Override gap between items)
 
 ### Tooltip
 - Tag: `<dui-tooltip>`
@@ -414,6 +478,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A native input element that integrates with dui-field for accessible labeling and validation.
 - Properties: type (string, "text"), value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), minLength (number | undefined), maxLength (number | undefined), pattern (string | undefined), name (string, ""), autocomplete (string | undefined), autofocus (boolean, false)
 - Events: input-change ({ value: string })
+- CSS Parts: input (The native input element)
 
 ### Radio Group
 - Tag: `<dui-radio-group>`
@@ -430,7 +495,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string, ""), disabled (boolean, false), readOnly (boolean, false)
 - Events: none
 - Slots: default (Label content)
-- CSS Properties: --radio-size (Size of the radio button)
+- CSS Variables: --radio-size (Size of the radio button)
+- CSS Parts: root (The radio control), dot (The selected-state dot)
 
 ### Dropzone
 - Tag: `<dui-dropzone>`
@@ -439,6 +505,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: accept (string | undefined), multiple (boolean, false), disabled (boolean, false), maxFiles (number, Infinity), maxSize (number, Infinity), minSize (number, 0), autoFocus (boolean, false), noStyle (boolean, false)
 - Events: drop ({ acceptedFiles: File[]; rejectedFiles: RejectedFile[] }), drop-accepted ({ acceptedFiles: File[] }), drop-rejected ({ rejectedFiles: RejectedFile[] }), dropzone-error ({ error: unknown; code: string })
 - Slots: default (Custom content for the dropzone area)
+- CSS Parts: root (The drop target area)
 
 ### Select
 - Tag: `<dui-select>`
@@ -446,6 +513,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A dropdown select for choosing from a list of predefined options.
 - Properties: options (SelectOption[], []), value (string, ""), placeholder (string, "Select..."), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption })
+- CSS Parts: trigger (The select trigger button), value (The selected value display)
 
 ### Preview Card
 - Tag: `<dui-preview-card>`
@@ -476,6 +544,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A sortable, paginated data table with column definitions and custom cell renderers.
 - Properties: columns (ColumnDef<T>[], []), data (T[], []), pageSize (number, 10), rowKey (((row: T) => string) | undefined), emptyText (string, "No results.")
 - Events: sort-change (SortState | null), page-change (PageState)
+- CSS Parts: root (The outer data table container), table-window (The scrollable table wrapper), table (The native table element), pagination (The pagination controls)
 
 ### Command
 - Tag: `<dui-command>`
@@ -633,6 +702,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A visual divider between content sections. Supports horizontal and vertical orientation.
 - Properties: orientation ("horizontal" | "vertical", "horizontal")
 - Events: none
+- CSS Parts: root (The separator element)
 
 ### Progress
 - Tag: `<dui-progress>`
@@ -640,7 +710,8 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Description: A progress bar indicating completion status. Supports determinate and indeterminate states.
 - Properties: value (number | null, null), min (number, 0), max (number, 100)
 - Events: none
-- CSS Properties: --progress-value (Computed progress percentage (set internally))
+- CSS Variables: --progress-value (Computed progress percentage (set internally))
+- CSS Parts: root (The progress container), track (The track background), indicator (The filled indicator bar)
 
 ### Toggle
 - Tag: `<dui-toggle>`
@@ -649,6 +720,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: pressed (boolean | undefined), defaultPressed (boolean, false), disabled (boolean, false), value (string | undefined)
 - Events: pressed-change ({ pressed: boolean })
 - Slots: default (Toggle content (text and/or icons))
+- CSS Parts: root (The toggle button)
 
 ### Toggle Group
 - Tag: `<dui-toggle-group>`
@@ -657,6 +729,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string[] | undefined), defaultValue (string[], []), type ("single" | "multiple", "single"), orientation ("horizontal" | "vertical", "horizontal"), disabled (boolean, false), loop (boolean, true)
 - Events: value-change ({ value: string[] })
 - Slots: default (dui-toggle children)
+- CSS Parts: root (The toggle group container)
 
 ### Number Field
 - Tag: `<dui-number-field>`
@@ -665,6 +738,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (number | undefined), defaultValue (number | undefined), min (number | undefined), max (number | undefined), step (number, 1), largeStep (number, 10), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined)
 - Events: value-change ({ value: number })
 - Slots: decrement (Custom decrement button content), increment (Custom increment button content)
+- CSS Parts: root (The outer container), input (The numeric input element), decrement (The decrement button), increment (The increment button)
 
 ### Menubar
 - Tag: `<dui-menubar>`
@@ -673,6 +747,7 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: loop (boolean, true), orientation ("horizontal" | "vertical", "horizontal")
 - Events: none
 - Slots: default (dui-menu children)
+- CSS Parts: root (The menubar container)
 
 ### Calendar
 - Tag: `<dui-calendar>`
@@ -681,3 +756,4 @@ Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
 - Properties: value (string | undefined), defaultValue (string | undefined), min (string | undefined), max (string | undefined), locale (string, "en-US"), disabled (boolean, false), readOnly (boolean, false)
 - Events: value-change ({ value: string })
 - Slots: prev (Custom previous month button content), next (Custom next month button content)
+- CSS Parts: root (The calendar container), header (The month/year header row), heading (The month/year label), prev (Previous month button), next (Next month button), grid (The date grid), weekday (Weekday header cells), day (Individual day buttons)

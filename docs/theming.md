@@ -1,6 +1,61 @@
 # Theming
 
-How the theme system works. For the architectural overview, see [architecture.md](./architecture.md).
+How the theme system works. For the architectural overview, see [architecture.md](./architecture.md). For how consumers customize components, see [styling.md](./styling.md).
+
+---
+
+## Styling philosophy: variables + `::part`
+
+DUI uses a two-layer approach to styling:
+
+- **CSS custom properties (variables)** — for the variant/state system. These are the small set of values that variants, sizes, and derived states actually toggle.
+- **`::part(root)`** — for everything else. Consumers style any CSS property directly on the exposed part — gradients, filters, transforms, clip-paths, backdrop-filters, blend modes — without the library needing to pre-declare a variable.
+
+A variable earns its place if it meets at least one of these criteria:
+
+1. **Variants toggle it.** E.g., `--button-bg` is swapped by `:host([variant="destructive"])`. Without the variable, each variant would need to repeat the full `[part="root"]` rule.
+2. **Other variables derive from it.** E.g., `--button-hover-bg: color-mix(in oklch, var(--button-bg) 95%, var(--foreground))`. The hover color is computed from the base color — this composition only works with variables.
+3. **Sizes toggle it.** E.g., `--button-height`, `--button-padding-x`, `--button-font-size` change per size. Same reason as variants.
+4. **Ancestor cascading.** A parent can set `--button-bg` to theme all descendant buttons. `::part` doesn't cascade from ancestors.
+
+If a value doesn't meet any of these, it should not be a variable. The consumer uses `::part(root)` instead.
+
+### Consumer usage model
+
+```css
+/* Variables — for what the variant system controls */
+dui-button {
+  --button-bg: linear-gradient(135deg, pink, purple);
+}
+
+/* ::part(root) — for everything else (unlimited CSS) */
+dui-button::part(root) {
+  filter: brightness(1.15);
+  box-shadow: 0 0 16px oklch(0.7 0.2 280 / 0.4);
+  clip-path: var(--clip-bevel);
+  backdrop-filter: blur(12px);
+}
+dui-button::part(root):hover {
+  filter: brightness(1.25);
+  transform: translateY(-1px);
+}
+dui-button::part(root):active {
+  transform: scale(0.97);
+}
+
+/* Ancestor cascading — variables cascade, ::part doesn't */
+.my-card {
+  --button-bg: var(--accent);
+}
+```
+
+### Why `background` not `background-color`
+
+Theme styles use the full `background` shorthand instead of `background-color`. This means variables like `--button-bg` accept not just colors but also gradients, images, and multiple layers — no special handling needed.
+
+### Transition readiness
+
+Component structural CSS includes broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`) so that expressive overrides via `::part(root)` animate smoothly without the consumer needing to redeclare transitions.
 
 ---
 
@@ -137,14 +192,14 @@ Aesthetic CSS for a specific component. The pattern:
 import { css } from "lit";
 
 export const badgeStyles = css`
-  /* 1. Defaults on :host */
+  /* Variables: only what variants toggle */
   :host {
     --badge-bg: var(--primary);
     --badge-fg: var(--primary-foreground);
     --badge-border: transparent;
   }
 
-  /* 2. Variant overrides */
+  /* Variant overrides */
   :host([variant="secondary"]) {
     --badge-bg: var(--secondary);
     --badge-fg: var(--secondary-foreground);
@@ -155,13 +210,14 @@ export const badgeStyles = css`
     --badge-fg: var(--destructive-foreground);
   }
 
-  /* 3. Internal elements consume variables */
+  /* Base appearance — uses `background` (not background-color)
+     so variables also accept gradients and images */
   [part="root"] {
     gap: var(--space-1);
     height: var(--space-5);
     padding: 0 var(--space-2);
     border-radius: var(--radius-full);
-    background-color: var(--badge-bg);
+    background: var(--badge-bg);
     color: var(--badge-fg);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -172,16 +228,17 @@ export const badgeStyles = css`
 
 ### Hover patterns
 
-Use `color-mix(in oklch, ...)` for perceptually correct hover effects:
+Use `color-mix(in oklch, ...)` for perceptually correct hover effects. Derived hover/active colors are declared as top-level variables so they compose with the base color:
 
 ```css
 :host {
+  --button-bg: var(--primary);
   --button-hover-bg: color-mix(in oklch, var(--button-bg) 95%, var(--foreground));
   --button-active-bg: color-mix(in oklch, var(--button-bg) 90%, var(--foreground));
 }
 
 [part="root"]:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--button-hover-bg);
+  background: var(--button-hover-bg);
 }
 ```
 

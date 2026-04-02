@@ -224,6 +224,52 @@ function generateLlmsTxt(): string {
     'Import: import { DuiButton } from "@dui/components/button";',
     "Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });",
     "",
+    "## Styling Model",
+    "",
+    "DUI uses a two-layer styling approach:",
+    "",
+    "### Layer 1: CSS Variables",
+    "Each component exposes CSS custom properties for values that variants and sizes toggle.",
+    "Variables cascade from ancestor elements, so a parent can theme all descendant components.",
+    "The theme uses `background` (shorthand), so variables accept gradients and images, not just colors.",
+    "",
+    "```css",
+    "/* Override button colors */",
+    "dui-button {",
+    "  --button-bg: linear-gradient(135deg, pink, purple);",
+    "  --button-fg: white;",
+    "}",
+    "",
+    "/* Ancestor cascading — all buttons inside .card inherit this */",
+    ".card {",
+    "  --button-bg: var(--accent);",
+    "}",
+    "```",
+    "",
+    "### Layer 2: ::part(root)",
+    "For any CSS property not covered by variables — filters, transforms, shadows, clip-paths,",
+    "backdrop-filter, blend modes — use ::part(root) on the component. Every component exposes",
+    "at least a `root` part. Complex components expose additional parts (e.g., `track`, `thumb`).",
+    "",
+    "```css",
+    "/* Frosted glass */",
+    "dui-button::part(root) {",
+    "  backdrop-filter: blur(12px) saturate(1.8);",
+    "}",
+    "",
+    "/* Glow shadow */",
+    "dui-button::part(root) {",
+    "  box-shadow: 0 0 20px oklch(0.7 0.2 280 / 0.4);",
+    "}",
+    "",
+    "/* Bouncy press */",
+    "dui-button::part(root):hover { transform: translateY(-1px); }",
+    "dui-button::part(root):active { transform: scale(0.97); }",
+    "```",
+    "",
+    "Components include broad transition-property lists (background, box-shadow, filter,",
+    "transform, border-color) so ::part() overrides animate smoothly.",
+    "",
     "## Components",
     "",
   ];
@@ -261,7 +307,14 @@ function generateLlmsTxt(): string {
       const cssProps = c.cssProperties
         .map((p) => `${p.name} (${p.description})`)
         .join(", ");
-      lines.push(`- CSS Properties: ${cssProps}`);
+      lines.push(`- CSS Variables: ${cssProps}`);
+    }
+
+    if (c.cssParts && c.cssParts.length > 0) {
+      const parts = c.cssParts
+        .map((p) => `${p.name} (${p.description})`)
+        .join(", ");
+      lines.push(`- CSS Parts: ${parts}`);
     }
 
     lines.push("");
