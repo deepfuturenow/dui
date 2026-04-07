@@ -34,7 +34,7 @@ export class DocsPageVstack extends LitElement {
             <dui-badge variant="secondary">A</dui-badge>
             <dui-badge variant="secondary">B</dui-badge>
           </dui-vstack>
-        </docs-row>
+        </div>
       </dui-docs-demo>
       </docs-page-layout>
     `;

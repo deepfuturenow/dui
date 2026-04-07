@@ -29,22 +29,25 @@ export class DuiDocsDemo extends LitElement {
       margin-bottom: var(--space-8);
       overflow: hidden;
       --demo-width: fit-content;
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-md);
     }
 
-    .label {
+    .demo {
+      padding: var(--space-3);
+      background: var(--card);
+      border-bottom: none;
+    }
+
+    .demo-label {
       font-weight: 600;
       font-size: var(--font-size-sm);
       border: none;
       color: var(--foreground);
-      margin-bottom: var(--space-3);
     }
 
-    .demo {
-      padding: var(--space-6);
-      background: var(--card);
-      border: var(--border-width-thin) solid var(--border);
-      border-bottom: none;
-      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    .demo-holder {
+      padding: var(--space-3);
       display: flex;
       justify-content: center;
     }
@@ -56,8 +59,6 @@ export class DuiDocsDemo extends LitElement {
 
     /* Tabs overrides for code section */
     dui-tabs {
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
       background: var(--muted);
     }
 
@@ -68,6 +69,7 @@ export class DuiDocsDemo extends LitElement {
 
     dui-tabs-list {
       padding: var(--space-0_5) var(--space-1_5);
+      border-top: var(--border-width-thin) solid var(--border);
       border-bottom: var(--border-width-thin) solid var(--border);
     }
 
@@ -76,16 +78,15 @@ export class DuiDocsDemo extends LitElement {
 
     .code {
       padding: var(--space-3) var(--space-4);
-      overflow-x: auto;
+      max-height: calc(var(--font-size-2xs) * 1.7 * 10 + var(--space-3) * 2);
+      overflow-y: auto;
       font-size: var(--font-size-xs);
     }
 
     .code-only {
       padding: var(--space-3) var(--space-4);
-      overflow-x: auto;
-      border: var(--border-width-thin) solid var(--border);
-      border-top: none;
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      max-height: calc(var(--font-size-2xs) * 1.7 * 10 + var(--space-3) * 2);
+      overflow-y: auto;
       background: var(--muted);
     }
 
@@ -94,7 +95,8 @@ export class DuiDocsDemo extends LitElement {
       font-family: var(--font-mono);
       font-size: var(--font-size-2xs);
       line-height: 1.7;
-      white-space: pre;
+      white-space: pre-wrap;
+      word-break: break-all;
     }
 
     /* Shiki dual-theme support */
@@ -221,19 +223,25 @@ export class DuiDocsDemo extends LitElement {
     const hasTabs = hasStyles || hasSource;
 
     return html`
-      ${this.label
-        ? html`<div class="label">${this.label}</div>`
-        : ""}
-      <div class="demo" style="${this.demoWidth ? `--demo-width: ${this.demoWidth}` : ""}">
-        <slot></slot>
+      <div
+        class="demo"
+        style="${this.demoWidth ? `--demo-width: ${this.demoWidth}` : ""}"
+      >
+        ${this.label ? html`<div class="demo-label">${this.label}</div>` : ""}
+        <div class="demo-holder">
+          <slot></slot>
+        </div>
       </div>
       ${hasTabs
-        ? html`
-          <dui-tabs default-value="html">
+        ? html` <dui-tabs default-value="html">
             <dui-tabs-list>
               <dui-tab value="html">HTML</dui-tab>
-              ${hasStyles ? html`<dui-tab value="styles">Default Theme</dui-tab>` : nothing}
-              ${hasSource ? html`<dui-tab value="source">Unstyled Component</dui-tab>` : nothing}
+              ${hasStyles
+                ? html`<dui-tab value="styles">Default Theme</dui-tab>`
+                : nothing}
+              ${hasSource
+                ? html`<dui-tab value="source">Unstyled Component</dui-tab>`
+                : nothing}
               <dui-tabs-indicator></dui-tabs-indicator>
             </dui-tabs-list>
             <dui-tabs-panel value="html">
@@ -244,20 +252,17 @@ export class DuiDocsDemo extends LitElement {
               </div>
             </dui-tabs-panel>
             ${hasStyles
-              ? html`
-                <dui-tabs-panel value="styles">
+              ? html` <dui-tabs-panel value="styles">
                   <div class="code">${unsafeHTML(this.#highlightedStyles)}</div>
                 </dui-tabs-panel>`
               : nothing}
             ${hasSource
-              ? html`
-                <dui-tabs-panel value="source">
+              ? html` <dui-tabs-panel value="source">
                   <div class="code">${unsafeHTML(this.#highlightedSource)}</div>
                 </dui-tabs-panel>`
               : nothing}
           </dui-tabs>`
-        : html`
-          <div class="code-only">
+        : html` <div class="code-only">
             ${this.#highlightedHtml
               ? unsafeHTML(this.#highlightedHtml)
               : html`<pre><code>${this.#code}</code></pre>`}

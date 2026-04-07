@@ -65,7 +65,7 @@ export class DocsPageSidebar extends LitElement {
               </div>
             </dui-sidebar-inset>
           </dui-sidebar-provider>
-        </docs-row>
+        </div>
       </dui-docs-demo>
       </docs-page-layout>
     `;

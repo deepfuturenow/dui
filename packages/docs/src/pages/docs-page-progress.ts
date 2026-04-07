@@ -17,43 +17,43 @@ export class DocsPageProgress extends LitElement {
     return html`
       <docs-page-layout tag="dui-progress">
         <dui-docs-demo label="Values">
-        <div style="display: flex; flex-direction: column; gap: var(--space-4); width: 100%;">
-          <div>
-            <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">0%</div>
-            <dui-progress value="0"></dui-progress>
+          <div style="display: flex; flex-direction: column; gap: var(--space-4); width: 100%;">
+            <div>
+              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">0%</div>
+              <dui-progress value="0"></dui-progress>
+            </div>
+            <div>
+              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">33%</div>
+              <dui-progress value="33"></dui-progress>
+            </div>
+            <div>
+              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">66%</div>
+              <dui-progress value="66"></dui-progress>
+            </div>
+            <div>
+              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">100%</div>
+              <dui-progress value="100"></dui-progress>
+            </div>
           </div>
-          <div>
-            <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">33%</div>
-            <dui-progress value="33"></dui-progress>
-          </div>
-          <div>
-            <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">66%</div>
-            <dui-progress value="66"></dui-progress>
-          </div>
-          <div>
-            <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">100%</div>
-            <dui-progress value="100"></dui-progress>
-          </div>
-        </docs-row>
-      </dui-docs-demo>
+        </dui-docs-demo>
 
-      <dui-docs-demo label="Indeterminate">
-        <dui-progress style="width: 100%;"></dui-progress>
-      </dui-docs-demo>
+        <dui-docs-demo label="Indeterminate">
+          <dui-progress style="width: 100%;"></dui-progress>
+        </dui-docs-demo>
 
-      <dui-docs-demo label="Interactive">
-        <div style="display: flex; flex-direction: column; gap: var(--space-3); width: 100%;">
-          <dui-progress value="${this.#demoValue}"></dui-progress>
-          <docs-row>
-            <dui-button size="sm" @click="${this.#increment}">
-              Increment (+10)
-            </dui-button>
-            <span style="font-size: var(--font-size-sm); color: var(--muted-foreground);">
-              ${this.#demoValue}%
-            </span>
+        <dui-docs-demo label="Interactive">
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); width: 100%;">
+            <dui-progress value="${this.#demoValue}"></dui-progress>
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <dui-button size="sm" @click="${this.#increment}">
+                Increment (+10)
+              </dui-button>
+              <span style="font-size: var(--font-size-sm); color: var(--muted-foreground);">
+                ${this.#demoValue}%
+              </span>
+            </div>
           </div>
-        </docs-row>
-      </dui-docs-demo>
+        </dui-docs-demo>
       </docs-page-layout>
     `;
   }

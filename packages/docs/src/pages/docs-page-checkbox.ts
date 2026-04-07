@@ -12,19 +12,19 @@ export class DocsPageCheckbox extends LitElement {
         <dui-docs-demo label="States">
         <docs-row>
           <dui-checkbox>Unchecked</dui-checkbox>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-checkbox default-checked>Checked</dui-checkbox>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-checkbox indeterminate>Indeterminate</dui-checkbox>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-checkbox disabled>Disabled</dui-checkbox>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-checkbox disabled default-checked>Disabled checked</dui-checkbox>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-checkbox read-only default-checked>Read only</dui-checkbox>
         </docs-row>

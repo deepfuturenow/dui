@@ -22,7 +22,7 @@ export class DocsPageAvatar extends LitElement {
           <dui-avatar size="var(--space-8)">S</dui-avatar>
           <dui-avatar>M</dui-avatar>
           <dui-avatar size="var(--space-16)">L</dui-avatar>
-        </docs-row>
+        </div>
       </dui-docs-demo>
 
       <dui-docs-demo label="With icon fallback">

@@ -14,7 +14,7 @@ export class DocsPagePageInset extends LitElement {
           <dui-page-inset>
             <p style="margin: 0;">Content is centered with max-width and padding.</p>
           </dui-page-inset>
-        </docs-row>
+        </div>
       </dui-docs-demo>
 
       <dui-docs-demo label="Custom max-width">
@@ -22,7 +22,7 @@ export class DocsPagePageInset extends LitElement {
           <dui-page-inset max-width="20rem">
             <p style="margin: 0;">Narrower max-width (20rem).</p>
           </dui-page-inset>
-        </docs-row>
+        </div>
       </dui-docs-demo>
       </docs-page-layout>
     `;

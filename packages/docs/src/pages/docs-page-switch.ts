@@ -12,13 +12,13 @@ export class DocsPageSwitch extends LitElement {
         <dui-docs-demo label="States">
         <docs-row>
           <dui-switch>Default</dui-switch>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-switch default-checked>Default checked</dui-switch>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-switch disabled>Disabled</dui-switch>
-        </div>
+        </docs-row>
         <docs-row>
           <dui-switch read-only default-checked>Read only</dui-switch>
         </docs-row>

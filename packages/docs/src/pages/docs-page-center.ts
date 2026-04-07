@@ -14,7 +14,7 @@ export class DocsPageCenter extends LitElement {
           <dui-center>
             <span>Centered content</span>
           </dui-center>
-        </docs-row>
+        </div>
       </dui-docs-demo>
       </docs-page-layout>
     `;
