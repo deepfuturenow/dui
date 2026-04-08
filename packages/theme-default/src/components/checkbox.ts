@@ -13,6 +13,7 @@ export const checkboxStyles = css`
       (var(--line-height-normal) * 1em - var(--checkbox-size)) / 2
     );
     border-radius: var(--radius-sm);
+    transition-property: background, border-color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

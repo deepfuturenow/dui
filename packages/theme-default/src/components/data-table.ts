@@ -50,6 +50,7 @@ export const dataTableStyles = css`
 
   tbody tr {
     border-bottom: var(--border-width-thin) solid var(--border);
+    transition-property: background, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

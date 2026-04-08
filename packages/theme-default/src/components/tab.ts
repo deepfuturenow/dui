@@ -8,6 +8,7 @@ export const tabStyles = css`
     font-weight: var(--font-weight-medium);
     padding-inline: var(--space-2);
     height: 2rem;
+    transition-property: color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

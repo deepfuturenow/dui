@@ -23,6 +23,7 @@ export const accordionItemStyles = css`
     height: var(--component-height-md);
     line-height: var(--line-height-normal);
     border-radius: var(--radius-sm);
+    transition-property: background, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
@@ -49,6 +50,7 @@ export const accordionItemStyles = css`
   [part="indicator"] {
     width: var(--space-4);
     height: var(--space-4);
+    transition-property: transform;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }

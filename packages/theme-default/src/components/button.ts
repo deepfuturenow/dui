@@ -99,6 +99,7 @@ export const buttonStyles = css`
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
     white-space: nowrap;
+    transition-property: background, box-shadow, filter, transform, border-color;
     transition-duration: var(--duration-faster);
     transition-timing-function: var(--ease-out-3);
   }

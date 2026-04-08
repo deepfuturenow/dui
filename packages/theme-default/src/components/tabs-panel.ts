@@ -2,6 +2,7 @@ import { css } from "lit";
 
 export const tabsPanelStyles = css`
   [part="panel"] {
+    transition-property: box-shadow;
     transition-duration: var(--duration-fast);
   }
 

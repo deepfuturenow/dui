@@ -176,10 +176,6 @@ const componentStyles = css`
     flex-shrink: 0;
   }
 
-  tbody tr {
-    transition-property: background, filter, transform;
-  }
-
   .Pagination {
     display: flex;
     align-items: center;

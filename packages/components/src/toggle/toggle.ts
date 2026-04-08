@@ -23,6 +23,7 @@ const styles = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: var(--toggle-gap, 0);
     border: none;
     background: none;
     cursor: pointer;
@@ -41,6 +42,7 @@ const styles = css`
  * `<dui-toggle>` — A two-state toggle button. Works standalone or inside a toggle group.
  *
  * @slot - Toggle content (text and/or icons).
+ * @slot icon - Optional leading icon.
  * @csspart root - The button element.
  * @fires pressed-change - Fired when toggled. Detail: { pressed: boolean }
  */
@@ -122,6 +124,7 @@ export class DuiToggle extends LitElement {
         ?data-disabled="${isDisabled}"
         @click="${this.#handleClick}"
       >
+        <slot name="icon"></slot>
         <slot></slot>
       </button>
     `;

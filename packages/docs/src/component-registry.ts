@@ -1525,8 +1525,11 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [
       { name: "default", description: "Toggle content (text and/or icons)" },
+      { name: "icon", description: "Optional leading icon" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--toggle-gap", description: "Gap between icon and label" },
+    ],
     cssParts: [
       { name: "root", description: "The toggle button" },
     ],

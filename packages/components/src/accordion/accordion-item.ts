@@ -32,7 +32,6 @@ const styles = css`
     text-align: left;
     outline: none;
     box-sizing: border-box;
-    transition-property: background, box-shadow, filter, transform;
   }
 
   [part="trigger"][data-disabled] {
@@ -41,7 +40,6 @@ const styles = css`
 
   [part="indicator"] {
     flex-shrink: 0;
-    transition-property: transform;
   }
 
   [part="panel"] {

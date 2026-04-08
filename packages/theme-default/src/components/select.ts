@@ -12,6 +12,7 @@ export const selectStyles = css`
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
+    transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

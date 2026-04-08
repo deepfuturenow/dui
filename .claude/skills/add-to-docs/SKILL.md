@@ -146,7 +146,6 @@ export class DocsPage{Name} extends LitElement {
         <!-- Component demos here -->
       </dui-docs-demo>
 
-      <h2>API Reference</h2>
       ${renderApiTable(meta)}
     `;
   }

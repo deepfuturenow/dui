@@ -53,7 +53,6 @@ const styles = css`
     transform: translateX(-50%);
     cursor: grab;
     outline: none;
-    transition-property: left, box-shadow;
   }
 
   [part="root"][data-dragging] [part="thumb"] {

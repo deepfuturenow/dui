@@ -33,13 +33,11 @@ const styles = css`
     margin-inline: 0;
     border: none;
     cursor: pointer;
-    transition-property: background, outline-color, box-shadow, filter, transform;
   }
 
   [part="thumb"] {
     position: absolute;
     left: var(--switch-thumb-offset, 0.125rem);
-    transition-property: transform, outline-color;
   }
 
   [part="root"][data-checked] [part="thumb"] {

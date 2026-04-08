@@ -44,7 +44,6 @@ const styles = css`
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    transition-property: background, box-shadow, filter, transform, border-color;
   }
 `;
 

@@ -10,6 +10,7 @@ export const radioStyles = css`
     width: var(--radio-size);
     height: var(--radio-size);
     border-radius: 50%;
+    transition-property: background, border-color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

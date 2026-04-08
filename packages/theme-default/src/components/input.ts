@@ -11,6 +11,7 @@ export const inputStyles = css`
     border: var(--border-width-thin) solid var(--input);
     background: var(--input-bg);
     border-radius: var(--radius-md);
+    transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
 

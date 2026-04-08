@@ -20,6 +20,7 @@ export const switchStyles = css`
     border-radius: calc(var(--switch-height) / 2);
     outline: var(--border-width-thin) solid var(--input);
     background: color-mix(in oklch, var(--input) 50%, transparent);
+    transition-property: background, outline-color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
@@ -59,6 +60,7 @@ export const switchStyles = css`
     border-radius: 50%;
     outline: 1px solid transparent;
     background: var(--primary);
+    transition-property: transform, outline-color;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }

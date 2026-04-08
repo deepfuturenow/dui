@@ -18,7 +18,6 @@ const styles = css`
   [part="panel"] {
     position: relative;
     outline: 0;
-    transition-property: box-shadow;
   }
 
   [part="panel"][hidden] {

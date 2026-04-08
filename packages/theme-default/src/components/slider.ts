@@ -36,6 +36,7 @@ export const sliderStyles = css`
     background: var(--background);
     border: 2px solid var(--primary);
     border-radius: 50%;
+    transition-property: left, box-shadow;
     transition-duration: 50ms, var(--duration-fast);
     transition-timing-function: ease-out, ease;
   }

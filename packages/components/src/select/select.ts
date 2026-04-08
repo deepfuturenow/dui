@@ -42,7 +42,6 @@ const componentStyles = css`
     cursor: pointer;
     user-select: none;
     box-sizing: border-box;
-    transition-property: border-color, box-shadow, background, filter, transform;
   }
 
   .Trigger[data-disabled] {

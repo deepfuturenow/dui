@@ -39,7 +39,6 @@ const styles = css`
     border: none;
     outline: 0;
     cursor: pointer;
-    transition-property: background, border-color, box-shadow, filter, transform;
   }
 
   [part="root"][data-disabled] {

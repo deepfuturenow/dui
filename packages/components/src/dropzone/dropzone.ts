@@ -99,7 +99,6 @@ const styles = css`
   [part="root"] {
     text-align: center;
     cursor: pointer;
-    transition-property: border-color, background, color, box-shadow, filter, transform;
   }
 
   input[type="file"] {

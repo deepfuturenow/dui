@@ -11,6 +11,7 @@ export const dropzoneStyles = css`
     background: var(--background);
     color: var(--foreground);
     padding: var(--space-4);
+    transition-property: border-color, background, color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
