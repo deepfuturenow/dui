@@ -20,8 +20,8 @@ export const inputStyles = css`
 
   [part="input"]:focus-visible {
     box-shadow:
-      0 0 0 var(--space-0_5) var(--background),
-      0 0 0 var(--space-1) var(--ring);
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   [part="input"]:disabled {
@@ -34,8 +34,8 @@ export const inputStyles = css`
 
   [part="input"][data-invalid]:focus-visible {
     box-shadow:
-      0 0 0 var(--space-0_5) var(--background),
-      0 0 0 var(--space-1) var(--ring);
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   /* Password bullets are tiny at small font sizes — bump them up */

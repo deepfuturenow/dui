@@ -234,7 +234,6 @@
    * ----------------------------------------------------------- */
   --focus-ring-color: var(--ring);
   --focus-ring-width: 2px;
-  --focus-ring-style: solid;
   --focus-ring-offset: 2px;
   --focus-ring-duration: var(--duration-fast);
   --focus-ring-easing: var(--ease-out-3);

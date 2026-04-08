@@ -10,8 +10,8 @@ export const numberFieldStyles = css`
   }
 
   [part="root"]:focus-within {
-    border-color: var(--ring);
-    box-shadow: 0 0 0 var(--space-0_5) color-mix(in oklch, var(--ring) 25%, transparent);
+    border-color: var(--focus-ring-color);
+    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--focus-ring-color) 25%, transparent);
   }
 
   [part="root"][data-disabled] {

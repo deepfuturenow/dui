@@ -35,8 +35,8 @@ export const accordionItemStyles = css`
 
   [part="trigger"]:focus-visible {
     box-shadow:
-      0 0 0 var(--space-0_5) var(--background),
-      0 0 0 var(--space-1) var(--ring);
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
     z-index: 1;
   }
 

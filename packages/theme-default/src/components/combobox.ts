@@ -16,8 +16,8 @@ export const comboboxStyles = css`
 
   .Chips:focus-within:has(:focus-visible) {
     box-shadow:
-      0 0 0 var(--space-0_5) var(--background),
-      0 0 0 var(--space-1) var(--ring);
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   .Chips[data-disabled] {
@@ -52,8 +52,8 @@ export const comboboxStyles = css`
 
   .InputWrapper .Input:focus-visible {
     box-shadow:
-      0 0 0 var(--space-0_5) var(--background),
-      0 0 0 var(--space-1) var(--ring);
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   .InputWrapper .Input[data-disabled] {
