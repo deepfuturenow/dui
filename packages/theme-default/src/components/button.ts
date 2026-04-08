@@ -1,17 +1,104 @@
 import { css } from "lit";
 
 export const buttonStyles = css`
+  /* =================================================================
+   * Two-axis variant system:
+   *   variant   → semantic intent (neutral, primary, danger, …)
+   *   appearance → visual treatment (filled, outline, ghost, link)
+   *
+   * Layer 1 — Intent sets semantic color tokens (--_intent-*)
+   * Layer 2 — Appearance maps intent tokens to component variables
+   * ================================================================= */
+
   /* ---------------------------------------------------------------
-   * Variables: only what variants and sizes actually toggle.
-   * Everything else — filters, transforms, clip-paths, shadows,
-   * text-decoration — consumers style via ::part(root).
+   * Layer 1 — Intent (sets --_intent-* private tokens)
    * --------------------------------------------------------------- */
-  :host {
-    --button-bg: var(--primary);
-    --button-fg: var(--primary-foreground);
+
+  :host,
+  :host([variant=""]),
+  :host([variant="neutral"]) {
+    --_intent-base: var(--neutral);
+    --_intent-base-fg: var(--neutral-foreground);
+    --_intent-hover: var(--neutral-hover);
+    --_intent-subtle: var(--neutral-subtle);
+    --_intent-subtle-fg: var(--neutral-subtle-foreground);
+  }
+
+  :host([variant="primary"]) {
+    --_intent-base: var(--primary);
+    --_intent-base-fg: var(--primary-foreground);
+    --_intent-hover: var(--primary-hover);
+    --_intent-subtle: var(--primary-subtle);
+    --_intent-subtle-fg: var(--primary-subtle-foreground);
+  }
+
+  :host([variant="danger"]) {
+    --_intent-base: var(--danger);
+    --_intent-base-fg: var(--danger-foreground);
+    --_intent-hover: var(--danger-hover);
+    --_intent-subtle: var(--danger-subtle);
+    --_intent-subtle-fg: var(--danger-subtle-foreground);
+  }
+
+  :host([variant="success"]) {
+    --_intent-base: var(--success);
+    --_intent-base-fg: var(--success-foreground);
+    --_intent-hover: var(--success-hover);
+    --_intent-subtle: var(--success-subtle);
+    --_intent-subtle-fg: var(--success-subtle-foreground);
+  }
+
+  :host([variant="warning"]) {
+    --_intent-base: var(--warning);
+    --_intent-base-fg: var(--warning-foreground);
+    --_intent-hover: var(--warning-hover);
+    --_intent-subtle: var(--warning-subtle);
+    --_intent-subtle-fg: var(--warning-subtle-foreground);
+  }
+
+  /* ---------------------------------------------------------------
+   * Layer 2 — Appearance (maps --_intent-* to --button-*)
+   * --------------------------------------------------------------- */
+
+  :host,
+  :host([appearance=""]),
+  :host([appearance="filled"]) {
+    --button-bg: var(--_intent-base);
+    --button-fg: var(--_intent-base-fg);
     --button-border: transparent;
-    --button-hover-bg: color-mix(in oklch, var(--button-bg) 95%, var(--foreground));
-    --button-active-bg: color-mix(in oklch, var(--button-bg) 90%, var(--foreground));
+    --button-hover-bg: var(--_intent-hover);
+    --button-active-bg: color-mix(in oklch, var(--_intent-hover) 90%, var(--foreground));
+  }
+
+  :host([appearance="outline"]) {
+    --button-bg: transparent;
+    --button-fg: var(--_intent-base);
+    --button-border: var(--input);
+    --button-hover-bg: var(--_intent-subtle);
+    --button-active-bg: color-mix(in oklch, var(--_intent-subtle) 90%, var(--foreground));
+  }
+
+  :host([appearance="ghost"]) {
+    --button-bg: transparent;
+    --button-fg: var(--_intent-base);
+    --button-border: transparent;
+    --button-hover-bg: var(--_intent-subtle);
+    --button-active-bg: color-mix(in oklch, var(--_intent-subtle) 90%, var(--foreground));
+  }
+
+  :host([appearance="link"]) {
+    --button-bg: transparent;
+    --button-fg: var(--_intent-base);
+    --button-border: transparent;
+    --button-hover-bg: transparent;
+    --button-active-bg: transparent;
+  }
+
+  /* ---------------------------------------------------------------
+   * Sizes (swap dimensions)
+   * --------------------------------------------------------------- */
+
+  :host {
     --button-height: var(--component-height-md);
     --button-width: auto;
     --button-padding-y: var(--space-2);
@@ -21,46 +108,6 @@ export const buttonStyles = css`
     --button-font-size: var(--font-size-sm);
     --button-icon-size: var(--space-4_5);
   }
-
-  /* --- Variants (swap colors) --- */
-
-  :host([variant="secondary"]) {
-    --button-bg: var(--secondary);
-    --button-fg: var(--secondary-foreground);
-    --button-border: transparent;
-  }
-
-  :host([variant="destructive"]) {
-    --button-bg: var(--destructive);
-    --button-fg: var(--destructive-foreground);
-    --button-border: transparent;
-  }
-
-  :host([variant="outline"]) {
-    --button-fg: var(--foreground);
-    --button-border: var(--input);
-    --button-bg: var(--input-bg);
-    --button-hover-bg: var(--muted);
-    --button-active-bg: var(--muted);
-  }
-
-  :host([variant="ghost"]) {
-    --button-bg: transparent;
-    --button-fg: var(--foreground);
-    --button-border: transparent;
-    --button-hover-bg: var(--muted);
-    --button-active-bg: var(--muted);
-  }
-
-  :host([variant="link"]) {
-    --button-bg: transparent;
-    --button-fg: var(--foreground);
-    --button-border: transparent;
-    --button-hover-bg: transparent;
-    --button-active-bg: transparent;
-  }
-
-  /* --- Sizes (swap dimensions) --- */
 
   :host([size="sm"]) {
     --button-height: var(--component-height-sm);
@@ -80,7 +127,9 @@ export const buttonStyles = css`
     --button-icon-size: var(--space-4_5);
   }
 
-  /* --- Base appearance --- */
+  /* ---------------------------------------------------------------
+   * Base appearance
+   * --------------------------------------------------------------- */
 
   [part="root"] {
     --icon-size: var(--button-icon-size);
@@ -104,7 +153,9 @@ export const buttonStyles = css`
     transition-timing-function: var(--ease-out-3);
   }
 
-  /* --- Interactive states --- */
+  /* ---------------------------------------------------------------
+   * Interactive states
+   * --------------------------------------------------------------- */
 
   [part="root"]:hover:not(:disabled):not([aria-disabled="true"]) {
     background: var(--button-hover-bg);
@@ -127,12 +178,14 @@ export const buttonStyles = css`
     cursor: not-allowed;
   }
 
-  :host([variant="link"])
+  /* Link appearance: underline on hover */
+  :host([appearance="link"])
     [part="root"]:hover:not(:disabled):not([aria-disabled="true"]) {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
 
+  /* Open state (e.g. button is a popover trigger) */
   :host([data-open]) [part="root"]:not(:disabled):not([aria-disabled="true"]) {
     background: var(--button-hover-bg);
   }

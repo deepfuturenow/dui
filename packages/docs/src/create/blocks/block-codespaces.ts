@@ -89,10 +89,10 @@ export class BlockCodespaces extends LitElement {
               <p>Your workspaces in the cloud</p>
             </div>
             <div class="header-actions">
-              <dui-button variant="ghost" size="icon-sm">
+              <dui-button appearance="ghost" size="icon-sm">
                 <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></dui-icon>
               </dui-button>
-              <dui-button variant="ghost" size="icon-sm">
+              <dui-button appearance="ghost" size="icon-sm">
                 <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></dui-icon>
               </dui-button>
             </div>
@@ -116,7 +116,7 @@ export class BlockCodespaces extends LitElement {
             <dui-icon style="--icon-size: 32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></dui-icon>
             <h4>Clone locally</h4>
             <p>Clone the repository to get started with local development.</p>
-            <dui-button size="sm" variant="outline">Copy command</dui-button>
+            <dui-button size="sm" appearance="outline">Copy command</dui-button>
           </div>
         </dui-tabs-panel>
       </dui-tabs>

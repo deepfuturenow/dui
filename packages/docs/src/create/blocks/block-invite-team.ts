@@ -90,7 +90,7 @@ export class BlockInviteTeam extends LitElement {
       </div>
 
       <div class="add-btn">
-        <dui-button variant="ghost" size="sm">+ Add another</dui-button>
+        <dui-button appearance="ghost" size="sm">+ Add another</dui-button>
       </div>
 
       <dui-separator></dui-separator>
@@ -103,7 +103,7 @@ export class BlockInviteTeam extends LitElement {
           value="https://app.example.com/invite/a1b2c3"
           readonly
         ></dui-input>
-        <dui-button variant="outline" size="icon">
+        <dui-button appearance="outline" size="icon">
           <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></dui-icon>
         </dui-button>
       </div>

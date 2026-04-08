@@ -63,8 +63,8 @@ export class BlockAudio extends LitElement {
         )}
       </div>
       <div class="badges">
-        <dui-badge variant="outline">Connecting</dui-badge>
-        <dui-badge variant="outline">Listening</dui-badge>
+        <dui-badge appearance="outline">Connecting</dui-badge>
+        <dui-badge appearance="outline">Listening</dui-badge>
         <dui-badge variant="success">Speaking</dui-badge>
       </div>
     `;

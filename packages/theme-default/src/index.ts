@@ -251,8 +251,10 @@ export { calendarStyles } from "./components/calendar.ts";
 // --- Theme variant/size types ---
 export type {
   ButtonVariant,
+  ButtonAppearance,
   ButtonSize,
   BadgeVariant,
+  BadgeAppearance,
   SpinnerVariant,
   SpinnerSize,
   TextareaVariant,

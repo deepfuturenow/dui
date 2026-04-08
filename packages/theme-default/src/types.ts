@@ -7,26 +7,13 @@
  */
 
 // --- Button ---
-export type ButtonVariant =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "destructive"
-  | "outline"
-  | "ghost"
-  | "link";
-
+export type ButtonVariant = "neutral" | "primary" | "danger" | "success" | "warning";
+export type ButtonAppearance = "filled" | "outline" | "ghost" | "link";
 export type ButtonSize = "sm" | "md" | "lg";
 
 // --- Badge ---
-export type BadgeVariant =
-  | "default"
-  | "secondary"
-  | "destructive"
-  | "outline"
-  | "success"
-  | "warning"
-  | "info";
+export type BadgeVariant = "neutral" | "primary" | "danger" | "success" | "warning" | "info";
+export type BadgeAppearance = "filled" | "outline" | "ghost";
 
 // --- Spinner ---
 export type SpinnerVariant = "pulse" | "lucide-loader" | "lucide-loader-circle";

@@ -13,7 +13,7 @@ export class DocsPageTooltip extends LitElement {
         <docs-row>
           <dui-tooltip>
             <dui-tooltip-trigger>
-              <dui-button variant="outline">Hover me</dui-button>
+              <dui-button appearance="outline">Hover me</dui-button>
             </dui-tooltip-trigger>
             <dui-tooltip-popup>This is a tooltip</dui-tooltip-popup>
           </dui-tooltip>
@@ -24,7 +24,7 @@ export class DocsPageTooltip extends LitElement {
         <docs-row>
           <dui-tooltip side="bottom">
             <dui-tooltip-trigger>
-              <dui-button variant="outline">Bottom tooltip</dui-button>
+              <dui-button appearance="outline">Bottom tooltip</dui-button>
             </dui-tooltip-trigger>
             <dui-tooltip-popup>Appears below</dui-tooltip-popup>
           </dui-tooltip>
@@ -35,7 +35,7 @@ export class DocsPageTooltip extends LitElement {
         <docs-row>
           <dui-tooltip delay="0">
             <dui-tooltip-trigger>
-              <dui-button variant="outline">Instant tooltip</dui-button>
+              <dui-button appearance="outline">Instant tooltip</dui-button>
             </dui-tooltip-trigger>
             <dui-tooltip-popup>No delay!</dui-tooltip-popup>
           </dui-tooltip>
@@ -46,7 +46,7 @@ export class DocsPageTooltip extends LitElement {
         <docs-row>
           <dui-tooltip disabled>
             <dui-tooltip-trigger>
-              <dui-button variant="outline">Disabled tooltip</dui-button>
+              <dui-button appearance="outline">Disabled tooltip</dui-button>
             </dui-tooltip-trigger>
             <dui-tooltip-popup>You won't see this</dui-tooltip-popup>
           </dui-tooltip>

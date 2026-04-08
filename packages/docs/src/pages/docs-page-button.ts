@@ -9,14 +9,30 @@ export class DocsPageButton extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-button">
-        <dui-docs-demo label="Variants">
+        <dui-docs-demo label="Variants (intent)">
         <docs-row>
-          <dui-button>Default</dui-button>
-          <dui-button variant="secondary">Secondary</dui-button>
-          <dui-button variant="destructive">Destructive</dui-button>
-          <dui-button variant="outline">Outline</dui-button>
-          <dui-button variant="ghost">Ghost</dui-button>
-          <dui-button variant="link">Link</dui-button>
+          <dui-button>Neutral</dui-button>
+          <dui-button variant="primary">Primary</dui-button>
+          <dui-button variant="danger">Danger</dui-button>
+          <dui-button variant="success">Success</dui-button>
+          <dui-button variant="warning">Warning</dui-button>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Appearances (treatment)">
+        <docs-row>
+          <dui-button variant="primary">Filled</dui-button>
+          <dui-button variant="primary" appearance="outline">Outline</dui-button>
+          <dui-button variant="primary" appearance="ghost">Ghost</dui-button>
+          <dui-button variant="primary" appearance="link">Link</dui-button>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Variant × Appearance">
+        <docs-row>
+          <dui-button variant="danger">Danger Filled</dui-button>
+          <dui-button variant="danger" appearance="outline">Danger Outline</dui-button>
+          <dui-button variant="danger" appearance="ghost">Danger Ghost</dui-button>
         </docs-row>
       </dui-docs-demo>
 

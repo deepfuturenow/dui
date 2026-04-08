@@ -49,9 +49,9 @@ export class BlockFormControls extends LitElement {
       <div class="stack">
         <div class="button-row">
           <dui-button>Button</dui-button>
-          <dui-button variant="secondary">Secondary</dui-button>
-          <dui-button variant="outline">Outline</dui-button>
-          <dui-button variant="destructive">Delete</dui-button>
+          <dui-button appearance="outline">Outline</dui-button>
+          <dui-button appearance="outline">Outline</dui-button>
+          <dui-button variant="danger">Delete</dui-button>
         </div>
 
         <div class="tfa-card">

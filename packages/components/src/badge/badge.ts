@@ -30,6 +30,9 @@ export class DuiBadge extends LitElement {
   @property({ reflect: true })
   accessor variant: string = "";
 
+  @property({ reflect: true })
+  accessor appearance: string = "";
+
   override render(): TemplateResult {
     return html`
       <span part="root">

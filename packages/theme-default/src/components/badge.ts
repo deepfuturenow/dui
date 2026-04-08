@@ -1,44 +1,92 @@
 import { css } from "lit";
 
 export const badgeStyles = css`
-  :host {
-    --badge-bg: var(--primary);
-    --badge-fg: var(--primary-foreground);
-    --badge-border: transparent;
-    --badge-icon-size: var(--space-3);
-    --icon-size: var(--badge-icon-size);
-    --icon-color: var(--badge-fg);
+  /* =================================================================
+   * Two-axis variant system:
+   *   variant    → semantic intent (neutral, primary, danger, …, info)
+   *   appearance → visual treatment (filled, outline, ghost)
+   * ================================================================= */
+
+  /* ---------------------------------------------------------------
+   * Layer 1 — Intent (sets --_intent-* private tokens)
+   * --------------------------------------------------------------- */
+
+  :host,
+  :host([variant=""]),
+  :host([variant="neutral"]) {
+    --_intent-base: var(--neutral);
+    --_intent-base-fg: var(--neutral-foreground);
+    --_intent-subtle: var(--neutral-subtle);
+    --_intent-subtle-fg: var(--neutral-subtle-foreground);
   }
 
-  :host([variant="secondary"]) {
-    --badge-bg: var(--secondary);
-    --badge-fg: var(--secondary-foreground);
+  :host([variant="primary"]) {
+    --_intent-base: var(--primary);
+    --_intent-base-fg: var(--primary-foreground);
+    --_intent-subtle: var(--primary-subtle);
+    --_intent-subtle-fg: var(--primary-subtle-foreground);
   }
 
-  :host([variant="destructive"]) {
-    --badge-bg: var(--destructive);
-    --badge-fg: var(--destructive-foreground);
-  }
-
-  :host([variant="outline"]) {
-    --badge-bg: transparent;
-    --badge-fg: var(--primary);
-    --badge-border: color-mix(in oklch, var(--primary) 25%, transparent);
+  :host([variant="danger"]) {
+    --_intent-base: var(--danger);
+    --_intent-base-fg: var(--danger-foreground);
+    --_intent-subtle: var(--danger-subtle);
+    --_intent-subtle-fg: var(--danger-subtle-foreground);
   }
 
   :host([variant="success"]) {
-    --badge-bg: var(--success);
-    --badge-fg: var(--success-foreground);
+    --_intent-base: var(--success);
+    --_intent-base-fg: var(--success-foreground);
+    --_intent-subtle: var(--success-subtle);
+    --_intent-subtle-fg: var(--success-subtle-foreground);
   }
 
   :host([variant="warning"]) {
-    --badge-bg: var(--warning);
-    --badge-fg: var(--warning-foreground);
+    --_intent-base: var(--warning);
+    --_intent-base-fg: var(--warning-foreground);
+    --_intent-subtle: var(--warning-subtle);
+    --_intent-subtle-fg: var(--warning-subtle-foreground);
   }
 
   :host([variant="info"]) {
-    --badge-bg: var(--info);
-    --badge-fg: var(--info-foreground);
+    --_intent-base: var(--info);
+    --_intent-base-fg: var(--info-foreground);
+    --_intent-subtle: var(--info-subtle);
+    --_intent-subtle-fg: var(--info-subtle-foreground);
+  }
+
+  /* ---------------------------------------------------------------
+   * Layer 2 — Appearance (maps --_intent-* to --badge-*)
+   * --------------------------------------------------------------- */
+
+  :host,
+  :host([appearance=""]),
+  :host([appearance="filled"]) {
+    --badge-bg: var(--_intent-base);
+    --badge-fg: var(--_intent-base-fg);
+    --badge-border: transparent;
+  }
+
+  :host([appearance="outline"]) {
+    --badge-bg: transparent;
+    --badge-fg: var(--_intent-base);
+    --badge-border: var(--_intent-base);
+  }
+
+  :host([appearance="ghost"]) {
+    --badge-bg: var(--_intent-subtle);
+    --badge-fg: var(--_intent-subtle-fg);
+    --badge-border: transparent;
+  }
+
+  /* ---------------------------------------------------------------
+   * Sizing & base appearance
+   * --------------------------------------------------------------- */
+
+  :host {
+    --badge-icon-size: var(--space-3);
+    --icon-size: var(--badge-icon-size);
+    --icon-color: var(--badge-fg);
   }
 
   [part="root"] {

@@ -39,37 +39,37 @@ export class BlockToolbar extends LitElement {
     return html`
       <div class="toolbars">
         <dui-toolbar>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.clipboard}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.eye}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.trash2}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.upload}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.ellipsis}></dui-icon>
           </dui-button>
         </dui-toolbar>
 
         <dui-toolbar>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.arrowLeft}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.arrowRight}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.check}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.x}></dui-icon>
           </dui-button>
-          <dui-button slot="left" variant="ghost" size="icon-sm">
+          <dui-button slot="left" appearance="ghost" size="icon-sm">
             <dui-icon .innerHTML=${icons.search}></dui-icon>
           </dui-button>
         </dui-toolbar>

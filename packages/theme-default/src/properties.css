@@ -31,13 +31,13 @@
 @property --button-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.205 0.042 265);
+  initial-value: oklch(0.24 0.005 265);
 }
 
 @property --button-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.985 0.002 248);
+  initial-value: oklch(0.985 0 0);
 }
 
 @property --button-border {
@@ -49,13 +49,13 @@
 @property --button-hover-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.22 0.04 265);
+  initial-value: oklch(0.32 0.005 265);
 }
 
 @property --button-active-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.24 0.04 265);
+  initial-value: oklch(0.36 0.005 265);
 }
 
 @property --button-height {
@@ -112,13 +112,13 @@
 @property --badge-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.205 0.042 265);
+  initial-value: oklch(0.24 0.005 265);
 }
 
 @property --badge-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.985 0.002 248);
+  initial-value: oklch(0.985 0 0);
 }
 
 @property --badge-border {

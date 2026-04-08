@@ -85,7 +85,7 @@ export class BlockEnvVars extends LitElement {
         )}
       </div>
       <div class="footer">
-        <dui-button variant="outline" size="sm">Edit</dui-button>
+        <dui-button appearance="outline" size="sm">Edit</dui-button>
         <dui-button size="sm">Deploy</dui-button>
       </div>
     `;

@@ -64,6 +64,9 @@ export class DuiButton extends LitElement {
   accessor variant: string = "";
 
   @property({ reflect: true })
+  accessor appearance: string = "";
+
+  @property({ reflect: true })
   accessor size: string = "";
 
   @property({ type: Boolean, reflect: true })

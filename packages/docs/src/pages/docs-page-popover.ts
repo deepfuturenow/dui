@@ -12,7 +12,7 @@ export class DocsPagePopover extends LitElement {
         <dui-docs-demo label="Basic popover">
         <dui-popover>
           <dui-popover-trigger>
-            <dui-button variant="outline">Open Popover</dui-button>
+            <dui-button appearance="outline">Open Popover</dui-button>
           </dui-popover-trigger>
           <dui-popover-popup>
             <div style="padding: var(--space-3); min-width: 200px;">
@@ -28,13 +28,13 @@ export class DocsPagePopover extends LitElement {
       <dui-docs-demo label="With close button">
         <dui-popover>
           <dui-popover-trigger>
-            <dui-button variant="outline">With Close</dui-button>
+            <dui-button appearance="outline">With Close</dui-button>
           </dui-popover-trigger>
           <dui-popover-popup>
             <div style="padding: var(--space-3); min-width: 200px;">
               <p style="margin: 0 0 var(--space-2);">Content here</p>
               <dui-popover-close>
-                <dui-button variant="secondary" size="sm">Close</dui-button>
+                <dui-button appearance="outline" size="sm">Close</dui-button>
               </dui-popover-close>
             </div>
           </dui-popover-popup>
@@ -44,7 +44,7 @@ export class DocsPagePopover extends LitElement {
       <dui-docs-demo label="Top placement">
         <dui-popover side="top">
           <dui-popover-trigger>
-            <dui-button variant="outline">Top Popover</dui-button>
+            <dui-button appearance="outline">Top Popover</dui-button>
           </dui-popover-trigger>
           <dui-popover-popup>
             <div style="padding: var(--space-3); min-width: 180px;">

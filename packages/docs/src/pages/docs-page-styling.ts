@@ -351,7 +351,7 @@ dui-button {
       <div class="demo-card">
         <div class="demo-area glass-area">
           <dui-button class="glass-btn">Glass</dui-button>
-          <dui-button class="glass-btn" variant="outline"
+          <dui-button class="glass-btn" appearance="outline"
             >Outline Glass</dui-button
           >
         </div>
@@ -409,10 +409,10 @@ dui-button {
       <div class="demo-card">
         <div class="demo-area">
           <dui-button class="bouncy-btn">Press me</dui-button>
-          <dui-button class="bouncy-btn" variant="secondary"
+          <dui-button class="bouncy-btn" appearance="outline"
             >Secondary</dui-button
           >
-          <dui-button class="bouncy-btn" variant="outline">Outline</dui-button>
+          <dui-button class="bouncy-btn" appearance="outline">Outline</dui-button>
         </div>
         <div class="demo-code">
           <pre>
@@ -435,10 +435,10 @@ dui-button::part(root):active {
       <div class="demo-card">
         <div class="demo-area">
           <dui-button class="octagon-btn">Octagon</dui-button>
-          <dui-button class="octagon-btn" variant="secondary"
+          <dui-button class="octagon-btn" appearance="outline"
             >Secondary</dui-button
           >
-          <dui-button class="octagon-btn" variant="destructive"
+          <dui-button class="octagon-btn" variant="danger"
             >Destructive</dui-button
           >
         </div>
@@ -469,7 +469,7 @@ dui-button::part(root) {
           <div class="themed-zone">
             <span class="themed-zone-label">.danger-zone</span>
             <dui-button>Delete</dui-button>
-            <dui-button variant="outline">Cancel</dui-button>
+            <dui-button appearance="outline">Cancel</dui-button>
           </div>
         </div>
         <div class="demo-code">
