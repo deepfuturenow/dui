@@ -18,7 +18,6 @@ const componentStyles = css`
   .Item {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
     cursor: pointer;
   }
 `;

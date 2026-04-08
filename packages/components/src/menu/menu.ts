@@ -19,33 +19,22 @@ const componentStyles = css`
   }
 `;
 
-/** Styles injected into the portal positioner. */
+/** Structural styles injected into the portal positioner. */
 const portalPopupStyles = [
   css`
     .Popup {
-      background: var(--popover);
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
       max-height: 240px;
       overflow-y: auto;
       overscroll-behavior: contain;
       opacity: 1;
       transform: translateY(0);
       transition-property: opacity, transform;
-      transition-duration: var(--duration-fast);
-      transition-timing-function: var(--ease-out-3);
       pointer-events: auto;
     }
 
     .Popup[data-starting-style],
     .Popup[data-ending-style] {
       opacity: 0;
-      transform: translateY(calc(var(--space-1) * -1));
-    }
-
-    .Menu {
-      padding: var(--space-1);
     }
   `,
 ];

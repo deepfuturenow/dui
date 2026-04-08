@@ -13,6 +13,7 @@ import {
   type TemplateResult,
 } from "lit";
 import type { Placement } from "@floating-ui/dom";
+import { getActiveTheme } from "./apply-theme.ts";
 import { notifyPopupClosing, notifyPopupOpening } from "./popup-coordinator.ts";
 import {
   onTransitionEnd,
@@ -252,9 +253,18 @@ export class FloatingPortalController implements ReactiveController {
     positioner.setAttribute("data-floating-portal", "");
     positioner.setAttribute("data-dui-portal-for", this.#host.tagName.toLowerCase());
 
-    if (this.#styles) {
+    const theme = getActiveTheme();
+    const themeTag = this.#host.tagName.toLowerCase();
+    const themeComponentStyles = theme?.styles.get(themeTag);
+    const allStyles: CSSResultOrNative[] = [
+      ...(this.#styles ?? []),
+      ...(theme?.base ? [theme.base] : []),
+      ...(themeComponentStyles ? [themeComponentStyles] : []),
+    ];
+
+    if (allStyles.length > 0) {
       const shadow = positioner.attachShadow({ mode: "open" });
-      adoptStyles(shadow, this.#styles);
+      adoptStyles(shadow, allStyles);
     }
 
     overlayRoot.appendChild(positioner);

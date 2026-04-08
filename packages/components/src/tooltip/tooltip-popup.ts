@@ -17,32 +17,16 @@ const hostStyles = css`
   }
 `;
 
-/** Styles injected into the portal positioner. */
+/** Structural styles injected into the portal positioner. */
 const portalPopupStyles = [
   css`
     .Popup {
       box-sizing: border-box;
-      padding: var(--space-0_5) var(--space-1_5);
-      border-radius: var(--radius-sm);
-      background: color-mix(
-        in oklch,
-        var(--foreground) 90%,
-        oklch(0 0 0 / 0)
-      );
-      backdrop-filter: blur(5px);
-      color: var(--background);
-      font-family: var(--font-sans);
-      font-size: var(--font-size-xs);
-      line-height: var(--line-height-snug);
-      box-shadow: var(--shadow-sm);
-      max-width: 20rem;
       pointer-events: auto;
       transform-origin: var(--transform-origin, center);
       opacity: 1;
       transform: scale(1);
       transition-property: opacity, transform;
-      transition-duration: var(--duration-fastest);
-      transition-timing-function: var(--ease-out-3);
     }
 
     .Popup[data-starting-style],
@@ -75,15 +59,6 @@ const portalPopupStyles = [
       top: -5px;
       left: 50%;
       transform: translateX(-50%) rotate(180deg);
-    }
-
-    .Arrow .arrow-fill {
-      fill: color-mix(in oklch, var(--foreground) 90%, oklch(0 0 0 / 0));
-    }
-
-    .Arrow .arrow-stroke {
-      fill: none;
-      stroke: none;
     }
   `,
 ];

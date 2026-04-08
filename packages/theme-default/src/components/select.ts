@@ -43,4 +43,55 @@ export const selectStyles = css`
     --icon-size: var(--space-4);
     color: var(--foreground);
   }
+
+  /* ---- Popup (rendered in portal shadow root) ---- */
+
+  .Popup {
+    background: var(--popover);
+    border: var(--border-width-thin) solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
+  }
+
+  .Popup[data-starting-style],
+  .Popup[data-ending-style] {
+    transform: translateY(calc(var(--space-1) * -1));
+  }
+
+  .Listbox {
+    padding: var(--space-1);
+  }
+
+  .Item {
+    gap: var(--space-2);
+    padding: var(--space-1_5) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-sans);
+    color: var(--popover-foreground);
+  }
+
+  .Item:hover,
+  .Item[data-highlighted] {
+    background: var(--secondary);
+    color: var(--foreground);
+  }
+
+  .Item[data-selected] {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .Item[data-disabled] {
+    opacity: 0.5;
+  }
+
+  .ItemIndicator {
+    width: var(--space-3_5);
+  }
+
+  .ItemIndicator dui-icon {
+    --icon-size: var(--space-3_5);
+  }
 `;

@@ -217,13 +217,12 @@ Layout, display, behavioral properties. No visual opinions.
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition-property: background, box-shadow, filter, transform, border-color, color, opacity;
 }
 ```
 
-**Structural properties:** `display`, `position`, `flex`/`grid` layout, `box-sizing`, `cursor`, `user-select`, `overflow`, `transition-property` (but not `transition-duration`), `pointer-events`.
+**Structural properties:** `display`, `position`, `flex`/`grid` layout, `box-sizing`, `cursor`, `user-select`, `overflow`, `pointer-events`.
 
-> **Note:** Include a broad `transition-property` list so that consumer overrides via `::part(root)` (filters, transforms, shadows) animate smoothly without redeclaring transitions.
+> **Note:** `transition-property`, `transition-duration`, and `transition-timing-function` all belong in the theme. The theme decides what animates and how fast. Exception: behavioral transitions where the component relies on `transitionend` events (e.g., panel height animations, popup open/close) — these keep `transition-property` in the component.
 
 ### Aesthetic CSS (lives in the theme)
 
@@ -249,7 +248,7 @@ Colors, fonts, spacing values, borders, shadows, animations.
 
 > **Note:** Use `background` (the shorthand), not `background-color`. This lets variables accept gradients and images, not just colors.
 
-**Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-duration`, `transition-timing-function`.
+**Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-property`, `transition-duration`, `transition-timing-function`.
 
 **When in doubt:** If the property references a design token (`var(--space-*)`, `var(--primary)`), it's aesthetic.
 

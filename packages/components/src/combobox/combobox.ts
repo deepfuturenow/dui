@@ -111,26 +111,19 @@ const componentStyles = css`
   }
 `;
 
-/** Styles injected into the portal positioner. */
+/** Structural styles injected into the portal positioner. */
 const portalPopupStyles = [
   css`
     .Popup {
-      background: var(--popover);
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
       opacity: 1;
-      transition-property: opacity, transform;
-      transition-duration: var(--duration-fast);
-      transition-timing-function: var(--ease-out-3);
       transform: translateY(0);
+      transition-property: opacity, transform;
       pointer-events: auto;
     }
 
     .Popup[data-starting-style],
     .Popup[data-ending-style] {
       opacity: 0;
-      transform: translateY(calc(var(--space-1) * -1));
     }
 
     dui-scroll-area {
@@ -138,32 +131,13 @@ const portalPopupStyles = [
       height: auto;
     }
 
-    .List {
-      padding: var(--space-1);
-    }
-
-    /* ---- Items ---- */
-
     .Item {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-sm);
-      font-family: var(--font-sans);
-      color: var(--popover-foreground);
       cursor: pointer;
     }
 
-    .Item:hover,
-    .Item[data-highlighted] {
-      background: var(--secondary);
-      color: var(--foreground);
-    }
-
     .ItemIndicator {
-      --icon-size: var(--space-3_5);
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -175,15 +149,6 @@ const portalPopupStyles = [
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    /* ---- Empty ---- */
-
-    .Empty {
-      padding: var(--space-3) var(--space-3);
-      font-size: var(--font-size-sm);
-      color: var(--muted-foreground);
-      text-align: center;
     }
   `,
 ];

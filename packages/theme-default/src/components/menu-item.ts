@@ -4,6 +4,7 @@ export const menuItemStyles = css`
   .Item {
     --icon-size: var(--space-4);
     --icon-color: var(--muted-foreground);
+    gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);

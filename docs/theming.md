@@ -55,7 +55,7 @@ Theme styles use the full `background` shorthand instead of `background-color`. 
 
 ### Transition readiness
 
-Component structural CSS includes broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`) so that expressive overrides via `::part(root)` animate smoothly without the consumer needing to redeclare transitions.
+Theme component styles include broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`) so that expressive overrides via `::part(root)` animate smoothly without the consumer needing to redeclare transitions. All transition declarations (`transition-property`, `transition-duration`, `transition-timing-function`) live in the theme, not the component — a different theme can change or remove animations entirely.
 
 ---
 

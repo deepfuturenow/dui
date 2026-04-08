@@ -97,4 +97,50 @@ export const comboboxStyles = css`
       transparent
     );
   }
+
+  /* ---- Popup (rendered in portal shadow root) ---- */
+
+  .Popup {
+    background: var(--popover);
+    border: var(--border-width-thin) solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
+  }
+
+  .Popup[data-starting-style],
+  .Popup[data-ending-style] {
+    transform: translateY(calc(var(--space-1) * -1));
+  }
+
+  .List {
+    padding: var(--space-1);
+  }
+
+  .Item {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-sans);
+    color: var(--popover-foreground);
+  }
+
+  .Item:hover,
+  .Item[data-highlighted] {
+    background: var(--secondary);
+    color: var(--foreground);
+  }
+
+  .ItemIndicator {
+    --icon-size: var(--space-3_5);
+  }
+
+  .Empty {
+    padding: var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--muted-foreground);
+    text-align: center;
+  }
 `;

@@ -60,72 +60,39 @@ const componentStyles = css`
   }
 `;
 
-/** Styles injected into the portal positioner. */
+/** Structural styles injected into the portal positioner. */
 const portalPopupStyles = [
   css`
     .Popup {
-      background: var(--popover);
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
       max-height: 240px;
       overflow-y: auto;
       overscroll-behavior: contain;
       opacity: 1;
       transform: translateY(0);
       transition-property: opacity, transform;
-      transition-duration: var(--duration-fast);
-      transition-timing-function: var(--ease-out-3);
       pointer-events: auto;
     }
 
     .Popup[data-starting-style],
     .Popup[data-ending-style] {
       opacity: 0;
-      transform: translateY(calc(var(--space-1) * -1));
-    }
-
-    .Listbox {
-      padding: var(--space-1);
     }
 
     .Item {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-1_5) var(--space-2);
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-sm);
-      font-family: var(--font-sans);
-      color: var(--popover-foreground);
       cursor: pointer;
     }
 
-    .Item:hover,
-    .Item[data-highlighted] {
-      background: var(--secondary);
-      color: var(--foreground);
-    }
-
-    .Item[data-selected] {
-      font-weight: var(--font-weight-medium);
-    }
-
     .Item[data-disabled] {
-      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .ItemIndicator {
       flex-shrink: 0;
-      width: var(--space-3_5);
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .ItemIndicator dui-icon {
-      --icon-size: var(--space-3_5);
     }
 
     .ItemText {

@@ -168,13 +168,7 @@ See each component's API reference for the full list of exposed parts.
 
 ## Transitions
 
-Component structural CSS includes broad `transition-property` lists:
-
-```
-background, box-shadow, filter, transform, border-color, color, opacity
-```
-
-This means your `::part()` overrides for filters, transforms, and shadows will animate smoothly without you needing to redeclare transitions.
+Theme styles include broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`). This means your `::part()` overrides for filters, transforms, and shadows will animate smoothly without you needing to redeclare transitions.
 
 ---
 
