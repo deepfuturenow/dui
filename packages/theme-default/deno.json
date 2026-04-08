@@ -16,6 +16,7 @@
     "./components/popover-popup": "./src/components/popover-popup.ts",
     "./components/tooltip": "./src/components/tooltip.ts",
     "./components/tooltip-popup": "./src/components/tooltip-popup.ts",
+    "./types": "./src/types.ts",
     "./tokens": "./src/tokens.ts",
     "./tokens-raw": "./src/tokens-raw.ts",
     "./components/dialog": "./src/components/dialog.ts",

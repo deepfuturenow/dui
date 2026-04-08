@@ -74,26 +74,29 @@ interface DuiTheme {
 
 | Field | Type | Purpose |
 |-------|------|---------|
-| `tokens` | `CSSStyleSheet` | Design tokens declared on `:root`. Injected into `document.adoptedStyleSheets` so they cascade into all shadow DOMs. |
+| `tokens` | `CSSStyleSheet` | Design tokens and `@property` declarations. Injected into `document.adoptedStyleSheets` so they cascade into all shadow DOMs. |
 | `base` | `CSSResult` | Visual `:host` defaults applied to every component — font-family, color, line-height. |
 | `styles` | `Map<string, CSSResult>` | Map from tag name (e.g., `"dui-button"`) to component-specific aesthetic CSS. |
 
 ---
 
-## Design tokens
+## How theme-default uses tokens
 
-Tokens are CSS custom properties declared on `:root` in `packages/theme-default/src/tokens.css`. They're loaded as raw text and applied via `CSSStyleSheet`:
+Tokens are CSS custom properties that `theme-default` declares on `:root` in `packages/theme-default/src/tokens.css`. They're the theme's internal design vocabulary — spacing scale, color palette, typography, borders, etc.
 
 ```typescript
 // packages/theme-default/src/tokens.ts
 import tokensCSS from "./tokens.css" with { type: "text" };
+import propertiesCSS from "./properties.css" with { type: "text" };
 
 const tokenSheet = new CSSStyleSheet();
-tokenSheet.replaceSync(tokensCSS);
+tokenSheet.replaceSync(propertiesCSS + "\n" + tokensCSS);
 export { tokenSheet };
 ```
 
-### Token categories and naming patterns
+A different theme can use entirely different token names, values, or no tokens at all. Tokens are an implementation detail of each theme.
+
+### Token categories and naming patterns (theme-default)
 
 | Category | Pattern | Examples |
 |----------|---------|---------|
@@ -151,6 +154,101 @@ Most colors come in pairs — a background and its foreground:
 | `--popover` | `--popover-foreground` | Popover surfaces |
 
 Additional standalone tokens: `--background`, `--foreground`, `--border`, `--input`, `--input-bg`, `--ring`, `--accent`, `--accent-foreground`, `--scrim`.
+
+---
+
+## How theme-default declares its API via `@property`
+
+Theme-default registers its component-level CSS custom properties using CSS `@property` declarations in `packages/theme-default/src/properties.css`. These are injected into `document.adoptedStyleSheets` alongside the tokens.
+
+```css
+@property --button-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.205 0.042 265);
+}
+
+@property --button-height {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 2rem;
+}
+```
+
+### Benefits
+
+- **Type safety** — the browser rejects invalid values and falls back to `initial-value` rather than silently inheriting garbage
+- **Smooth transitions** — registered properties with known types can be interpolated, enabling animated variant transitions
+- **Self-documenting** — the `@property` block is simultaneously the machine-readable schema and the human-readable reference
+- **DevTools integration** — Chrome DevTools shows registered properties with syntax and initial value in computed styles
+
+### Which properties are declared
+
+Not every CSS custom property needs `@property`. The rule:
+
+- **Declared:** Component-level properties that consumers override (`--button-bg`, `--button-radius`, `--spinner-size`, etc.) — these benefit from type checking, fallbacks, and transition interpolation
+- **Not declared:** Internal tokens referenced only within the theme's own stylesheets (`--space-4`, `--primary`) — these are implementation details that don't need browser-level type enforcement
+
+### Constraint: global scope
+
+`@property` registrations are global — they cannot be scoped to a shadow root. Two themes on the same page could conflict. This is acceptable for DUI's model where one theme is active at a time.
+
+---
+
+## How theme-default defines variants
+
+Variant names are theme-default's vocabulary. Components declare `variant` and `size` as bare reflected strings — the component doesn't know or care what values exist. The theme defines them via `:host([variant="..."])` CSS selectors.
+
+### Button variants
+
+| Value | Appearance |
+|-------|-----------|
+| `"default"` / `"primary"` | Filled primary background |
+| `"secondary"` | Filled secondary background |
+| `"destructive"` | Filled destructive background |
+| `"outline"` | Bordered, input background |
+| `"ghost"` | Transparent, hover muted |
+| `"link"` | Transparent, underline on hover |
+
+### Button sizes
+
+| Value | Height |
+|-------|--------|
+| `"sm"` | `--component-height-sm` |
+| `"md"` (default) | `--component-height-md` |
+| `"lg"` | `--component-height-lg` |
+
+### Badge variants
+
+`"default"`, `"secondary"`, `"destructive"`, `"outline"`, `"success"`, `"warning"`, `"info"`
+
+### Textarea variants
+
+`"default"`, `"ghost"` (no border/background)
+
+### Spinner variants
+
+`"pulse"` (pulsing circle), `"lucide-loader"` (rotating lines), `"lucide-loader-circle"` (rotating arc)
+
+### Spinner/toolbar sizes
+
+`"sm"`, `"md"`, `"lg"` (toolbar also has `"xl"`)
+
+### Sidebar variants
+
+`"sidebar"` (default), `"floating"`, `"inset"`
+
+A different theme can offer entirely different variant names. For example, a "Material" theme might use `"filled"`, `"tonal"`, `"elevated"`, `"text"` for buttons instead.
+
+### TypeScript types for variant safety
+
+Theme-default exports its variant vocabularies as TypeScript types for consumers who want type safety:
+
+```typescript
+import type { ButtonVariant, ButtonSize } from "@dui/theme-default/types";
+```
+
+These types are exported from the theme package, not the component package. A different theme exports different types.
 
 ---
 
@@ -303,16 +401,18 @@ Add an export to `packages/theme-default/deno.json`:
 
 To create a theme from scratch:
 
-1. **Create tokens** — A `.css` file with `:root` custom properties. You can start from `theme-default/src/tokens.css` and change values.
-2. **Create a base** — A `CSSResult` with `:host` visual defaults.
-3. **Create component styles** — One `CSSResult` per component, using your tokens.
-4. **Export a `DuiTheme` object** — Wire up tokens, base, and styles map.
+1. **Choose your token system** (optional) — A `.css` file with `:root` custom properties. You can start from `theme-default/src/tokens.css` or invent your own. Or skip tokens entirely and hardcode values in component styles.
+2. **Define `@property` declarations** — Register the component-level CSS custom properties your theme uses, with types and default values. This provides type safety, transition interpolation, and a self-documenting API.
+3. **Create a base** — A `CSSResult` with `:host` visual defaults.
+4. **Create component styles** — One `CSSResult` per component. Define your own variant names (they don't have to match `theme-default`'s).
+5. **Export a `DuiTheme` object** — Wire up tokens, base, and styles map.
+6. **Export TypeScript types** — Export your variant/size vocabularies so consumers get type safety.
 
 ```typescript
 import type { DuiTheme } from "@dui/core/apply-theme";
 
 export const myTheme: DuiTheme = {
-  tokens: myTokenSheet,
+  tokens: myTokenSheet, // includes your @property declarations + tokens
   base: myThemedBase,
   styles: new Map([
     ["dui-button", myButtonStyles],

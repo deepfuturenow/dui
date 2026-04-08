@@ -2,14 +2,7 @@ import { css, html, LitElement, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
-export type BadgeVariant =
-  | "default"
-  | "secondary"
-  | "destructive"
-  | "outline"
-  | "success"
-  | "warning"
-  | "info";
+
 
 /** Structural styles only — layout CSS. */
 const styles = css`
@@ -35,7 +28,7 @@ export class DuiBadge extends LitElement {
   static override styles = [base, styles];
 
   @property({ reflect: true })
-  accessor variant: BadgeVariant = "default";
+  accessor variant: string = "";
 
   override render(): TemplateResult {
     return html`

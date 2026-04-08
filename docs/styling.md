@@ -17,9 +17,21 @@ Variables cascade from ancestors. `::part()` does not — it must target the ele
 
 ---
 
+## Discovering your theme's API
+
+Your theme exposes CSS custom properties that you can override. For `theme-default`:
+
+- **Inspect in DevTools** — Chrome shows registered `@property` declarations with syntax and initial-value in computed styles
+- **Read `properties.css`** — The `@property` declarations are the machine-readable schema of the theme's API
+- **Read component styles** — Each file in `packages/theme-default/src/components/` shows the variables and their token defaults
+
+A different theme may expose different variables and different variant names. The override mechanism is just CSS specificity — set variables at a higher priority.
+
+---
+
 ## Styling with variables
 
-Each component exposes a set of CSS custom properties that control its appearance. These are the values that variants (`variant="destructive"`) and sizes (`size="lg"`) toggle internally.
+Each component's theme styles expose CSS custom properties that control its appearance. These are the values that variants (`variant="destructive"`) and sizes (`size="lg"`) toggle internally.
 
 ```css
 /* Change the button's base color — hover/active auto-derive from this */
@@ -170,11 +182,13 @@ See each component's API reference for the full list of exposed parts.
 
 Theme styles include broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`). This means your `::part()` overrides for filters, transforms, and shadows will animate smoothly without you needing to redeclare transitions.
 
+Additionally, `theme-default` uses `@property` declarations to register its CSS custom properties with types. Registered properties can be interpolated by the browser, enabling smooth animated transitions between variant values (e.g., color changes when switching variants) — something unregistered custom properties can't do.
+
 ---
 
-## Design tokens
+## Global theme tokens (theme-default)
 
-Global design tokens are CSS custom properties on `:root`. Override them to change the entire theme:
+`theme-default` declares global tokens on `:root`. Override them to change the entire theme:
 
 ```css
 :root {
@@ -185,4 +199,4 @@ Global design tokens are CSS custom properties on `:root`. Override them to chan
 }
 ```
 
-See `packages/theme-default/src/tokens.css` for the full token list.
+These are `theme-default`'s token names — a different theme may use different names. See `packages/theme-default/src/tokens.css` for the full token list.

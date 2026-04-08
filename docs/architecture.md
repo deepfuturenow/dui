@@ -1,30 +1,33 @@
 # Architecture
 
-## Three-layer architecture
+## Two-layer architecture
 
 ```
 ┌─────────────────────────────────────────────┐
-│  @dui/theme-default                         │
-│  Design tokens + themed base + component    │
-│  aesthetic styles (colors, spacing, fonts)   │
+│  Theme (owns all aesthetics)                │
+│  ├── @property declarations (typed API)     │
+│  ├── Tokens (theme-internal, optional)      │
+│  ├── Base styles                            │
+│  └── Component styles + variant selectors   │
 ├─────────────────────────────────────────────┤
-│  @dui/components                            │
-│  Unstyled component classes with            │
-│  structural CSS only (layout, behavior)     │
-├─────────────────────────────────────────────┤
-│  @dui/core                                  │
-│  Base reset styles, event factory,          │
-│  applyTheme, floating UI utilities          │
+│  Library                                    │
+│  ├── @dui/components (structural only)      │
+│  └── @dui/core (reset, applyTheme,         │
+│       event factory, floating UI utils)     │
 └─────────────────────────────────────────────┘
 ```
 
-**Core** provides shared infrastructure. **Components** provide structure and behavior with zero visual opinions. **Theme** provides all aesthetics. Swap the theme to completely change the look without touching component code.
+The **library** provides structure and behaviour with zero visual opinions. **Themes** own all aesthetics — tokens, variant vocabularies, component-level CSS custom property contracts, and `@property` declarations.
+
+`theme-default` ships a comprehensive token system and a ShadCN-inspired variant vocabulary — but those are its design choices, not library requirements. A different theme can use entirely different token names, variant names, or no tokens at all.
+
+Swap the theme to completely change the look without touching component code.
 
 ## How `applyTheme` works
 
 Called once before any DUI component is used. Here's what it does step by step:
 
-1. **Injects tokens** — Adds the theme's `CSSStyleSheet` (design tokens) to `document.adoptedStyleSheets`. Idempotent — skips if already present.
+1. **Injects tokens** — Adds the theme's `CSSStyleSheet` (tokens + `@property` declarations) to `document.adoptedStyleSheets`. Idempotent — skips if already present.
 2. **Creates themed subclasses** — For each component class, creates `class extends Base` with composed styles.
 3. **Registers custom elements** — Calls `customElements.define(tagName, ThemedClass)`. Skips if already registered.
 
@@ -45,7 +48,7 @@ The composed styles array is built in this order:
 
 1. **Component structural styles** — `base` reset + component's own layout CSS
 2. **Theme base** — `:host` visual defaults (font-family, color, line-height)
-3. **Theme component styles** — Aesthetic CSS for this specific component (colors, spacing, borders)
+3. **Theme component styles** — Aesthetic CSS for this specific component (colors, spacing, borders, variant selectors)
 
 Later entries override earlier ones. This means theme styles always win over structural defaults.
 
@@ -72,14 +75,19 @@ import { DuiSwitch } from "@dui/components/switch";
 import { DuiBadge } from "@dui/components/badge";
 ```
 
+Components provide structure and behaviour only. Properties like `variant` and `size` are bare reflected strings — the component doesn't know or care what values exist. Variant names are defined by the theme.
+
 ### `@dui/theme-default`
 
 | Export | Purpose |
 |--------|---------|
-| `@dui/theme-default` | `defaultTheme` object (tokens + base + styles map) |
+| `@dui/theme-default` | `defaultTheme` object (tokens + `@property` declarations + base + styles map) |
+| `@dui/theme-default/types` | TypeScript variant/size types (`ButtonVariant`, `ButtonSize`, etc.) |
 | `@dui/theme-default/components/button` | `buttonStyles` CSSResult |
 | `@dui/theme-default/components/switch` | `switchStyles` CSSResult |
 | `@dui/theme-default/components/badge` | `badgeStyles` CSSResult |
+
+The theme includes its own token system, variant vocabulary, and typed CSS custom property API via `@property` declarations. These are all `theme-default`'s design choices — a different theme defines its own.
 
 ### `@dui/docs`
 
@@ -91,7 +99,9 @@ Dev server for visual testing. Run with `cd packages/docs && deno task dev`. Use
 
 **Why runtime subclassing?** — No build step required. Works with any bundler. `applyTheme` is a single function call — no decorators, no build plugins, no code generation.
 
-**Why CSS custom properties for tokens?** — They cascade into shadow DOM naturally. A single `document.adoptedStyleSheets` injection makes all tokens available to every component. Dark mode is just swapping token values on `:root`.
+**Why themes own tokens and variants?** — Tokens (`--primary`, `--space-4`) are aesthetic vocabulary. Variant names (`"primary" | "ghost"`) are aesthetic semantics. Both are design decisions that belong in the theme, not the library. This lets themes be fully self-contained aesthetic systems.
+
+**Why `@property` declarations?** — CSS `@property` provides type safety (browser rejects invalid values), smooth transitions (registered properties can be interpolated), self-documenting API (machine-readable schema), and DevTools integration.
 
 ## Import paths
 

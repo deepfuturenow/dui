@@ -3,15 +3,7 @@ import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
 
-export type ButtonSize = "sm" | "md" | "lg";
-export type ButtonVariant =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "destructive"
-  | "outline"
-  | "ghost"
-  | "link";
+
 
 /** Fired when a button with `href` is clicked via normal (non-modifier) click. */
 export const navigateEvent = customEvent<{ href: string }>(
@@ -69,10 +61,10 @@ export class DuiButton extends LitElement {
   static override styles = [base, styles];
 
   @property({ reflect: true })
-  accessor variant: ButtonVariant = "default";
+  accessor variant: string = "";
 
   @property({ reflect: true })
-  accessor size: ButtonSize = "md";
+  accessor size: string = "";
 
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;

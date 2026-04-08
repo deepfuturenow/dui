@@ -8,7 +8,7 @@ import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
 
 export type TextareaResize = "none" | "vertical" | "horizontal" | "both" | "auto";
-export type TextareaVariant = "default" | "ghost";
+
 
 export const textareaChangeEvent = customEvent<{ value: string }>(
   "textarea-change",
@@ -95,9 +95,9 @@ export class DuiTextarea extends LitElement {
   @property()
   accessor name = "";
 
-  /** Visual variant: "default" or "ghost" (no border/background). */
+  /** Visual variant. */
   @property({ reflect: true })
-  accessor variant: TextareaVariant = "default";
+  accessor variant: string = "";
 
   /** Resize behavior: "none" | "vertical" | "horizontal" | "both" | "auto". */
   @property()
