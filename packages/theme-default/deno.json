@@ -18,6 +18,7 @@
     "./components/tooltip-popup": "./src/components/tooltip-popup.ts",
     "./types": "./src/types.ts",
     "./tokens": "./src/tokens.ts",
+    "./prose": "./src/prose.ts",
     "./tokens-raw": "./src/tokens-raw.ts",
     "./typography": "./src/typography.ts",
     "./components/dialog": "./src/components/dialog.ts",

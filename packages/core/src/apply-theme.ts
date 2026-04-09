@@ -14,6 +14,8 @@ export interface DuiTheme {
   base: CSSResult;
   /** Tag name → component aesthetic styles. */
   styles: Map<string, CSSResult>;
+  /** Optional prose stylesheet for .dui-prose rich-text styling. */
+  prose?: CSSStyleSheet;
 }
 
 export interface ApplyThemeOptions {
@@ -32,6 +34,11 @@ export function applyTheme({ theme, components }: ApplyThemeOptions): void {
   // 1. Inject tokens into document (idempotent)
   if (!document.adoptedStyleSheets.includes(theme.tokens)) {
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, theme.tokens];
+  }
+
+  // 1b. Inject prose stylesheet if present (idempotent)
+  if (theme.prose && !document.adoptedStyleSheets.includes(theme.prose)) {
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, theme.prose];
   }
 
   // 2. For each component, create a themed subclass and register it
