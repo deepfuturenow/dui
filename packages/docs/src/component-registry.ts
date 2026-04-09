@@ -328,6 +328,7 @@ export const componentRegistry: ComponentMeta[] = [
     importPath: "@dui/components/button",
     properties: [
       { name: "disabled", type: "boolean", default: "false", description: "Disable the button" },
+      { name: "focusableWhenDisabled", type: "boolean", default: "false", description: "Keep the button focusable when disabled (uses aria-disabled instead of the disabled attribute)" },
       { name: "type", type: "string", default: '"button"', description: 'Button type: "button" | "submit" | "reset"' },
       { name: "href", type: "string | undefined", description: "When set, renders as an anchor" },
     ],

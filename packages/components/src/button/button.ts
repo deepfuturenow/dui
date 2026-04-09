@@ -40,7 +40,7 @@ const styles = css`
 `;
 
 /**
- * `<dui-button>` — A button component with variants, sizes, and theme-aware hover.
+ * `<dui-button>` — A button component.
  *
  * Renders as a native `<button>` by default. When `href` is set, renders as a
  * native `<a>` tag instead. Normal clicks fire a `dui-navigate` event that
