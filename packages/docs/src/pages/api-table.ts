@@ -68,6 +68,22 @@ export class ApiTable extends LitElement {
       padding: var(--space-0_5) var(--space-1_5);
       border-radius: var(--radius-sm);
     }
+
+    .theme-heading {
+      font-size: var(--font-size-md);
+      font-weight: 700;
+      color: var(--foreground);
+      margin: var(--space-10) 0 var(--space-1);
+      padding-top: var(--space-4);
+      border-top: var(--border-width-medium, 2px) solid var(--border);
+    }
+
+    .theme-note {
+      font-size: var(--font-size-sm, 0.875rem);
+      color: var(--text-2);
+      margin: 0 0 var(--space-4);
+      line-height: var(--line-height-relaxed, 1.625);
+    }
   `;
 
   /** Component tag name to render API for, e.g. "dui-button". */
@@ -76,6 +92,69 @@ export class ApiTable extends LitElement {
 
   get #meta(): ComponentMeta | undefined {
     return componentRegistry.find((c) => c.tagName === this.tag);
+  }
+
+  #renderThemeSection(meta: ComponentMeta) {
+    const hasAttrs = meta.themeAttributes && meta.themeAttributes.length > 0;
+    const hasProps = meta.themeCssProperties && meta.themeCssProperties.length > 0;
+    if (!hasAttrs && !hasProps) return "";
+
+    return html`
+      <div class="theme-heading">Theme (Default)</div>
+      <p class="theme-note">The following attributes and CSS custom properties are defined by the default theme. A custom theme may support different values.</p>
+      ${hasAttrs
+        ? html`
+        <div class="api-section">
+        <div class="api-section-label">Attributes</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Values</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${meta.themeAttributes!.map(
+              (a) => html`
+              <tr>
+                <td><code class="chip">${a.name}</code></td>
+                <td><code>${a.values}</code></td>
+                <td>${a.description}</td>
+              </tr>
+            `,
+            )}
+          </tbody>
+        </table>
+        </div>
+      `
+        : ""}
+      ${hasProps
+        ? html`
+        <div class="api-section">
+        <div class="api-section-label">CSS Custom Properties</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${meta.themeCssProperties!.map(
+              (c) => html`
+              <tr>
+                <td><code class="chip">${c.name}</code></td>
+                <td>${c.description}</td>
+              </tr>
+            `,
+            )}
+          </tbody>
+        </table>
+        </div>
+      `
+        : ""}
+    `;
   }
 
   override render() {
@@ -214,6 +293,7 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
+      ${this.#renderThemeSection(meta)}
     `;
   }
 }

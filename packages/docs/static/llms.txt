@@ -155,7 +155,6 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: checked (boolean | undefined), defaultChecked (boolean, false), indeterminate (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string | undefined), parent (boolean, false)
 - Events: checked-change ({ checked: boolean; indeterminate: boolean })
 - Slots: default (Label content)
-- CSS Variables: --checkbox-size (Size of the checkbox box)
 - CSS Parts: root (The checkbox control), indicator (The check/indeterminate icon)
 
 ### Checkbox Group
@@ -178,8 +177,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Badge
 - Tag: `<dui-badge>`
 - Import: `@dui/components/badge`
-- Description: A small status indicator with variant (intent) and appearance (treatment) axes.
-- Properties: variant (string, ""), appearance (string, "")
+- Description: An inline status indicator element.
 - Events: none
 - Slots: default (Badge content)
 - CSS Parts: root (The badge element)
@@ -187,11 +185,10 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Button
 - Tag: `<dui-button>`
 - Import: `@dui/components/button`
-- Description: A button with variant (intent), appearance (treatment), and size.
-- Properties: variant (string, ""), appearance (string, ""), size (string, ""), disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Description: An interactive button. Renders as a native <button> by default, or <a> when href is set.
+- Properties: disabled (boolean, false), type (string, "button"), href (string | undefined)
 - Events: dui-navigate ({ href: string })
 - Slots: default (Button label content)
-- CSS Variables: --button-bg (Background (supports gradients, images, and color)), --button-fg (Text and icon color), --button-border (Border color), --button-hover-bg (Hover background (derived from --button-bg by default)), --button-active-bg (Active/pressed background (derived from --button-bg by default)), --button-height (Component height), --button-width (Component width), --button-padding-y (Vertical padding), --button-padding-x (Horizontal padding), --button-gap (Gap between icon and label), --button-radius (Border radius), --button-font-size (Font size), --button-icon-size (Icon size)
 - CSS Parts: root (The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc.)
 
 ### Combobox
@@ -252,7 +249,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-menu-item>`
 - Import: `@dui/components/menu`
 - Description: An item within a dui-menu.
-- Properties: variant ("default" | "danger", "default"), disabled (boolean, false)
+- Properties: disabled (boolean, false)
 - Events: none
 - Slots: default (Item content)
 
@@ -302,16 +299,14 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: A slider for selecting numeric values within a range.
 - Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: number }), value-committed ({ value: number })
-- CSS Variables: --slider-track-height (Height of the track), --slider-thumb-size (Size of the thumb)
 - CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb)
 
 ### Spinner
 - Tag: `<dui-spinner>`
 - Import: `@dui/components/spinner`
-- Description: A loading indicator with multiple animation variants and sizes.
-- Properties: size ("sm" | "md" | "lg", "sm"), variant ("pulse" | "lucide-loader" | "lucide-loader-circle", "pulse")
+- Description: A loading indicator with multiple animation variants.
+- Properties: variant ("pulse" | "lucide-loader" | "lucide-loader-circle", "pulse")
 - Events: none
-- CSS Variables: --spinner-size (Override spinner dimensions), --spinner-color (Override spinner color (defaults to currentColor))
 
 ### Switch
 - Tag: `<dui-switch>`
@@ -367,7 +362,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-textarea>`
 - Import: `@dui/components/textarea`
 - Description: A multi-line text input with resize modes including auto-grow.
-- Properties: value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), rows (number | undefined), minLength (number | undefined), maxLength (number | undefined), name (string, ""), variant ("default" | "ghost", "default"), resize ("none" | "vertical" | "horizontal" | "both" | "auto", "vertical"), maxHeight (string | undefined)
+- Properties: value (string, ""), placeholder (string, ""), disabled (boolean, false), required (boolean, false), readonly (boolean, false), rows (number | undefined), minLength (number | undefined), maxLength (number | undefined), name (string, ""), resize ("none" | "vertical" | "horizontal" | "both" | "auto", "vertical"), maxHeight (string | undefined)
 - Events: textarea-change ({ value: string })
 - CSS Parts: textarea (The native textarea element)
 
@@ -375,7 +370,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-toolbar>`
 - Import: `@dui/components/toolbar`
 - Description: A 3-column toolbar layout with left, center, and right slots. CSS grid keeps the center slot centered regardless of left/right content width.
-- Properties: size ("sm" | "md" | "lg" | "xl"), inset (boolean, false), hasButtonLeft (boolean, false), hasButtonRight (boolean, false)
+- Properties: inset (boolean, false), hasButtonLeft (boolean, false), hasButtonRight (boolean, false)
 - Events: none
 - Slots: left (Content aligned to the start), center (Content centered in the toolbar), right (Content aligned to the end)
 - CSS Parts: root (The toolbar container), left (Left-aligned slot container), center (Center-aligned slot container), right (Right-aligned slot container)
@@ -395,7 +390,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: src (string | undefined), alt (string, ""), size (string | undefined), fallbackDelay (number | undefined)
 - Events: loading-status-change ({ status: ImageStatus })
 - Slots: default (Fallback content (e.g. initials or icon))
-- CSS Variables: --avatar-size (Avatar dimensions (width and height)), --avatar-bg (Background color for fallback state), --avatar-fg (Text/icon color for fallback state)
+- CSS Variables: --avatar-size (Avatar dimensions (width and height))
 - CSS Parts: root (The avatar container), image (The avatar image element), fallback (The fallback content (initials/icon))
 
 ### Center
@@ -679,7 +674,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-sidebar-menu-button>`
 - Import: `@dui/components/sidebar`
 - Description: Interactive button or link within a sidebar menu. Renders as anchor when href is set.
-- Properties: size ("default" | "sm" | "lg", "default"), active (boolean, false), disabled (boolean, false), tooltip (string, ""), href (string | undefined)
+- Properties: active (boolean, false), disabled (boolean, false), tooltip (string, ""), href (string | undefined)
 - Events: spa-navigate ({ href: string })
 - Slots: icon (Icon slot, shown before the label), default (Label text), suffix (Suffix slot, shown after the label)
 

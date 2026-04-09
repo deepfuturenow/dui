@@ -1,3 +1,9 @@
+export interface ThemeAttribute {
+  name: string;
+  values: string;
+  description: string;
+}
+
 export interface ComponentMeta {
   tagName: string;
   name: string;
@@ -10,6 +16,10 @@ export interface ComponentMeta {
   slots: { name: string; description: string }[];
   cssProperties: { name: string; description: string }[];
   cssParts?: { name: string; description: string }[];
+  /** Attribute values defined by the active theme (default theme shown). */
+  themeAttributes?: ThemeAttribute[];
+  /** CSS custom properties defined by the active theme. */
+  themeCssProperties?: { name: string; description: string }[];
 }
 
 export const componentRegistry: ComponentMeta[] = [
@@ -231,12 +241,13 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Label content" },
     ],
-    cssProperties: [
-      { name: "--checkbox-size", description: "Size of the checkbox box" },
-    ],
+    cssProperties: [],
     cssParts: [
       { name: "root", description: "The checkbox control" },
       { name: "indicator", description: "The check/indeterminate icon" },
+    ],
+    themeCssProperties: [
+      { name: "--checkbox-size", description: "Size of the checkbox box" },
     ],
   },
   {
@@ -288,12 +299,9 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-badge",
     name: "Badge",
-    description: "A small status indicator with variant (intent) and appearance (treatment) axes.",
+    description: "An inline status indicator element.",
     importPath: "@dui/components/badge",
-    properties: [
-      { name: "variant", type: "string", default: '""', description: 'Semantic intent: "neutral" | "primary" | "danger" | "success" | "warning" | "info"' },
-      { name: "appearance", type: "string", default: '""', description: 'Visual treatment: "filled" | "outline" | "ghost"' },
-    ],
+    properties: [],
     events: [],
     slots: [
       { name: "default", description: "Badge content" },
@@ -302,16 +310,23 @@ export const componentRegistry: ComponentMeta[] = [
     cssParts: [
       { name: "root", description: "The badge element" },
     ],
+    themeAttributes: [
+      { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+    ],
+    themeCssProperties: [
+      { name: "--badge-bg", description: "Background color" },
+      { name: "--badge-fg", description: "Text and icon color" },
+      { name: "--badge-border", description: "Border color" },
+      { name: "--badge-icon-size", description: "Icon size within badge" },
+    ],
   },
   {
     tagName: "dui-button",
     name: "Button",
-    description: "A button with variant (intent), appearance (treatment), and size.",
+    description: "An interactive button. Renders as a native <button> by default, or <a> when href is set.",
     importPath: "@dui/components/button",
     properties: [
-      { name: "variant", type: "string", default: '""', description: 'Semantic intent: "neutral" | "primary" | "danger" | "success" | "warning"' },
-      { name: "appearance", type: "string", default: '""', description: 'Visual treatment: "filled" | "outline" | "ghost" | "link"' },
-      { name: "size", type: "string", default: '""', description: 'Button size: "sm" | "md" | "lg"' },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the button" },
       { name: "type", type: "string", default: '"button"', description: 'Button type: "button" | "submit" | "reset"' },
       { name: "href", type: "string | undefined", description: "When set, renders as an anchor" },
@@ -322,12 +337,19 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Button label content" },
     ],
-    cssProperties: [
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc." },
+    ],
+    themeAttributes: [
+      { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "link"', description: "Visual treatment" },
+      { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
+    ],
+    themeCssProperties: [
       { name: "--button-bg", description: "Background (supports gradients, images, and color)" },
       { name: "--button-fg", description: "Text and icon color" },
       { name: "--button-border", description: "Border color" },
-      { name: "--button-hover-bg", description: "Hover background (derived from --button-bg by default)" },
-      { name: "--button-active-bg", description: "Active/pressed background (derived from --button-bg by default)" },
       { name: "--button-height", description: "Component height" },
       { name: "--button-width", description: "Component width" },
       { name: "--button-padding-y", description: "Vertical padding" },
@@ -336,9 +358,6 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--button-radius", description: "Border radius" },
       { name: "--button-font-size", description: "Font size" },
       { name: "--button-icon-size", description: "Icon size" },
-    ],
-    cssParts: [
-      { name: "root", description: "The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc." },
     ],
   },
   {
@@ -469,8 +488,10 @@ export const componentRegistry: ComponentMeta[] = [
     importPath: "@dui/components/menu",
     parent: "dui-menu",
     properties: [
-      { name: "variant", type: '"default" | "danger"', default: '"default"', description: "Visual variant" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the item" },
+    ],
+    themeAttributes: [
+      { name: "variant", values: '"default" | "danger"', description: "Visual variant" },
     ],
     events: [],
     slots: [
@@ -587,7 +608,8 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "value-committed", detail: "{ value: number }", description: "Fired when drag ends or keyboard commit" },
     ],
     slots: [],
-    cssProperties: [
+    cssProperties: [],
+    themeCssProperties: [
       { name: "--slider-track-height", description: "Height of the track" },
       { name: "--slider-thumb-size", description: "Size of the thumb" },
     ],
@@ -601,15 +623,18 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-spinner",
     name: "Spinner",
-    description: "A loading indicator with multiple animation variants and sizes.",
+    description: "A loading indicator with multiple animation variants.",
     importPath: "@dui/components/spinner",
     properties: [
-      { name: "size", type: '"sm" | "md" | "lg"', default: '"sm"', description: "Size variant" },
-      { name: "variant", type: '"pulse" | "lucide-loader" | "lucide-loader-circle"', default: '"pulse"', description: "Animation variant" },
+      { name: "variant", type: '"pulse" | "lucide-loader" | "lucide-loader-circle"', default: '"pulse"', description: "Animation variant (controls which SVG is rendered)" },
     ],
     events: [],
     slots: [],
-    cssProperties: [
+    cssProperties: [],
+    themeAttributes: [
+      { name: "size", values: '"sm" | "md" | "lg"', description: "Spinner size" },
+    ],
+    themeCssProperties: [
       { name: "--spinner-size", description: "Override spinner dimensions" },
       { name: "--spinner-color", description: "Override spinner color (defaults to currentColor)" },
     ],
@@ -742,9 +767,11 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "minLength", type: "number | undefined", description: "Minimum length for validation" },
       { name: "maxLength", type: "number | undefined", description: "Maximum length for validation" },
       { name: "name", type: "string", default: '""', description: "Form field name" },
-      { name: "variant", type: '"default" | "ghost"', default: '"default"', description: "Visual variant" },
       { name: "resize", type: '"none" | "vertical" | "horizontal" | "both" | "auto"', default: '"vertical"', description: "Resize behavior" },
       { name: "maxHeight", type: "string | undefined", description: "Maximum height (CSS value)" },
+    ],
+    themeAttributes: [
+      { name: "variant", values: '"default" | "ghost"', description: "Visual treatment" },
     ],
     events: [
       { name: "textarea-change", detail: "{ value: string }", description: "Fired when value changes" },
@@ -761,10 +788,12 @@ export const componentRegistry: ComponentMeta[] = [
     description: "A 3-column toolbar layout with left, center, and right slots. CSS grid keeps the center slot centered regardless of left/right content width.",
     importPath: "@dui/components/toolbar",
     properties: [
-      { name: "size", type: '"sm" | "md" | "lg" | "xl"', description: "Sets a minimum height using the corresponding --component-height-* token" },
       { name: "inset", type: "boolean", default: "false", description: "Adds horizontal and vertical padding" },
       { name: "hasButtonLeft", type: "boolean", default: "false", description: "Reduces left inset padding when a button is the first item" },
       { name: "hasButtonRight", type: "boolean", default: "false", description: "Reduces right inset padding when a button is the last item" },
+    ],
+    themeAttributes: [
+      { name: "size", values: '"sm" | "md" | "lg" | "xl"', description: "Sets a minimum height" },
     ],
     events: [],
     slots: [
@@ -814,6 +843,8 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     cssProperties: [
       { name: "--avatar-size", description: "Avatar dimensions (width and height)" },
+    ],
+    themeCssProperties: [
       { name: "--avatar-bg", description: "Background color for fallback state" },
       { name: "--avatar-fg", description: "Text/icon color for fallback state" },
     ],
@@ -1435,7 +1466,6 @@ export const componentRegistry: ComponentMeta[] = [
     importPath: "@dui/components/sidebar",
     parent: "dui-sidebar-provider",
     properties: [
-      { name: "size", type: '"default" | "sm" | "lg"', default: '"default"', description: "Size variant" },
       { name: "active", type: "boolean", default: "false", description: "Active/selected state" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the button" },
       { name: "tooltip", type: "string", default: '""', description: "Tooltip text in icon-collapsed mode" },
@@ -1450,6 +1480,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "suffix", description: "Suffix slot, shown after the label" },
     ],
     cssProperties: [],
+    themeAttributes: [
+      { name: "size", values: '"default" | "sm" | "lg"', description: "Size variant" },
+    ],
   },
   {
     tagName: "dui-sidebar-separator",
@@ -1541,7 +1574,6 @@ export const componentRegistry: ComponentMeta[] = [
     name: "Toggle Group",
     description: "Groups toggle buttons with shared single or multi selection state.",
     importPath: "@dui/components/toggle",
-    parent: "dui-toggle",
     properties: [
       { name: "value", type: "string[] | undefined", description: "Selected values (controlled)" },
       { name: "defaultValue", type: "string[]", default: "[]", description: "Initial selected values (uncontrolled)" },

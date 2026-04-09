@@ -60,15 +60,6 @@ export class DuiButton extends LitElement {
 
   static override styles = [base, styles];
 
-  @property({ reflect: true })
-  accessor variant: string = "";
-
-  @property({ reflect: true })
-  accessor appearance: string = "";
-
-  @property({ reflect: true })
-  accessor size: string = "";
-
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;
 

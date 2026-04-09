@@ -9,45 +9,21 @@ import "./create/create-controls.ts";
 /** Sidebar navigation groups for the Components section. */
 const NAV_GROUPS: { label: string; slugs: string[] }[] = [
   {
-    label: "General",
+    label: "",
     slugs: [
-      "button", "badge", "icon", "link", "separator", "spinner",
-      "progress", "toggle", "avatar",
+      "accordion", "alert-dialog", "avatar", "badge", "breadcrumb",
+      "button", "calendar", "checkbox", "collapsible", "combobox",
+      "command", "data-table", "dialog", "dropzone", "icon", "input",
+      "link", "menu", "menubar", "number-field", "popover",
+      "preview-card", "progress", "radio-group", "scroll-area",
+      "select", "separator", "sidebar-provider", "slider", "spinner",
+      "switch", "tabs", "textarea", "toggle", "toggle-group", "toolbar",
+      "tooltip",
     ],
   },
   {
-    label: "Forms",
-    slugs: [
-      "input", "textarea", "checkbox", "radio-group", "select",
-      "combobox", "switch", "slider", "number-field", "dropzone",
-      "calendar",
-    ],
-  },
-  {
-    label: "Layout",
-    slugs: [
-      "accordion", "collapsible", "tabs", "scroll-area", "toolbar",
-      "sidebar-provider", "hstack", "vstack", "center", "page-inset",
-    ],
-  },
-  {
-    label: "Overlays",
-    slugs: [
-      "dialog", "alert-dialog", "popover", "tooltip", "menu",
-      "menubar", "command", "preview-card",
-    ],
-  },
-  {
-    label: "Navigation",
-    slugs: ["breadcrumb"],
-  },
-  {
-    label: "Data",
-    slugs: ["data-table"],
-  },
-  {
-    label: "Utility",
-    slugs: ["portal", "trunc"],
+    label: "Helpers",
+    slugs: ["center", "hstack", "page-inset", "portal", "trunc", "vstack"],
   },
 ];
 
@@ -740,7 +716,7 @@ export class DocsApp extends LitElement {
     return html`
       <nav class="sidebar">
         ${this.#groupedNav.map((group) => html`
-          <div class="section-label">${group.label}</div>
+          ${group.label ? html`<div class="section-label">${group.label}</div>` : nothing}
           ${group.items.map((item) => html`
             <a class="nav-link"
               href="#/components/${item.slug}"
@@ -847,6 +823,7 @@ export class DocsApp extends LitElement {
         case "separator": return html`<docs-page-separator></docs-page-separator>`;
         case "progress": return html`<docs-page-progress></docs-page-progress>`;
         case "toggle": return html`<docs-page-toggle></docs-page-toggle>`;
+        case "toggle-group": return html`<docs-page-toggle-group></docs-page-toggle-group>`;
         case "number-field": return html`<docs-page-number-field></docs-page-number-field>`;
         case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
         case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;

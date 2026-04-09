@@ -95,10 +95,6 @@ export class DuiTextarea extends LitElement {
   @property()
   accessor name = "";
 
-  /** Visual variant. */
-  @property({ reflect: true })
-  accessor variant: string = "";
-
   /** Resize behavior: "none" | "vertical" | "horizontal" | "both" | "auto". */
   @property()
   accessor resize: TextareaResize = "vertical";
