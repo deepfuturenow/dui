@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const dataTableStyles = css`
   .DataTable {
@@ -14,15 +15,14 @@ export const dataTableStyles = css`
 
   table {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    ${type("sm")}
   }
 
   th {
     height: var(--component-height-lg);
     padding: 0 var(--space-3);
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
+    ${type("xs")}
     color: var(--text-2);
     background: var(--surface-1);
     border-bottom: var(--border-width-thin) solid var(--border);
@@ -75,7 +75,7 @@ export const dataTableStyles = css`
 
   .Pagination {
     padding: 0 var(--space-1);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     color: var(--text-2);
   }
 
@@ -93,7 +93,7 @@ export const dataTableStyles = css`
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     color: var(--text-1);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     transition-property: background;
     transition-duration: var(--duration-fast);
   }

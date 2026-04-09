@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const numberFieldStyles = css`
   [part="root"] {
@@ -26,7 +27,7 @@ export const numberFieldStyles = css`
     height: var(--space-9);
     width: var(--space-16);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     color: var(--text-1);
   }
 

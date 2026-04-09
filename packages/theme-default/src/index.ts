@@ -248,6 +248,10 @@ export { numberFieldStyles } from "./components/number-field.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
 
+// --- Typography helpers ---
+export { type, typeScale } from "./typography.ts";
+export type { TypeSize } from "./typography.ts";
+
 // --- Theme variant/size types ---
 export type {
   ButtonVariant,

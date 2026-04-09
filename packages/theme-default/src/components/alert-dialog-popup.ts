@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const alertDialogPopupStyles = css`
   /* ── Backdrop ── */
@@ -38,9 +39,7 @@ export const alertDialogPopupStyles = css`
     margin-top: calc(-1 * var(--space-1));
     margin-bottom: var(--space-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-lg);
-    letter-spacing: var(--letter-spacing-tighter);
-    line-height: var(--line-height-tight);
+    ${type("lg", { letterSpacing: "var(--letter-spacing-tighter)", lineHeight: "var(--line-height-tight)" })}
     font-weight: var(--font-weight-medium);
     color: var(--text-1);
   }
@@ -50,8 +49,7 @@ export const alertDialogPopupStyles = css`
   [part="description"] {
     margin: 0 0 var(--space-6);
     font-family: var(--font-sans);
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-normal);
+    ${type("md")}
     color: var(--text-2);
   }
 

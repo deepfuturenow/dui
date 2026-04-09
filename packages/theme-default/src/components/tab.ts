@@ -1,10 +1,10 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const tabStyles = css`
   [part="tab"] {
     color: var(--text-2);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-snug);
+    ${type("sm", { lineHeight: "var(--line-height-snug)" })}
     font-weight: var(--font-weight-medium);
     padding-inline: var(--space-2);
     height: 2rem;

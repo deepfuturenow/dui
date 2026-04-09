@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const sidebarGroupLabelStyles = css`
   :host {
@@ -6,9 +7,8 @@ export const sidebarGroupLabelStyles = css`
     height: var(--component-height-sm);
     color: var(--sidebar-muted-fg);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    ${type("xs", { lineHeight: "var(--line-height-snug)" })}
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-snug);
   }
 
   :host([data-icon-collapsed]) {
