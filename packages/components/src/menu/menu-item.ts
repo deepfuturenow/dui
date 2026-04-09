@@ -31,10 +31,6 @@ export class DuiMenuItem extends LitElement {
   static tagName = "dui-menu-item" as const;
   static override styles = [base, hostStyles, componentStyles];
 
-  /** Visual variant. */
-  @property({ type: String, reflect: true })
-  accessor variant: "default" | "danger" = "default";
-
   /** Whether the item is disabled. */
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;

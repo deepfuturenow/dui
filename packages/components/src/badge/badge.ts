@@ -1,5 +1,4 @@
 import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
 
@@ -26,12 +25,6 @@ export class DuiBadge extends LitElement {
   static tagName = "dui-badge" as const;
 
   static override styles = [base, styles];
-
-  @property({ reflect: true })
-  accessor variant: string = "";
-
-  @property({ reflect: true })
-  accessor appearance: string = "";
 
   override render(): TemplateResult {
     return html`

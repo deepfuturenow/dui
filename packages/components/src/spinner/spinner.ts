@@ -111,10 +111,6 @@ export class DuiSpinner extends LitElement {
   static tagName = "dui-spinner" as const;
   static override styles = [base, styles];
 
-  /** Size variant. */
-  @property({ reflect: true })
-  accessor size: string = "";
-
   /** Animation variant. */
   @property({ reflect: true })
   accessor variant: string = "";

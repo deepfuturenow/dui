@@ -85,10 +85,6 @@ export class DuiSidebarMenuButton extends LitElement {
   static tagName = "dui-sidebar-menu-button" as const;
   static override styles = [base, styles];
 
-  /** Size variant for the button. */
-  @property({ reflect: true })
-  accessor size: string = "";
-
   /** Whether the button is in active/selected state. */
   @property({ type: Boolean, reflect: true })
   accessor active = false;

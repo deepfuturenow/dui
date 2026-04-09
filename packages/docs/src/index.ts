@@ -42,6 +42,7 @@ import "./pages/docs-page-sidebar.ts";
 import "./pages/docs-page-separator.ts";
 import "./pages/docs-page-progress.ts";
 import "./pages/docs-page-toggle.ts";
+import "./pages/docs-page-toggle-group.ts";
 import "./pages/docs-page-number-field.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
