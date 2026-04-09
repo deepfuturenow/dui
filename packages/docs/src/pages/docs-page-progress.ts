@@ -19,19 +19,19 @@ export class DocsPageProgress extends LitElement {
         <dui-docs-demo label="Values">
           <div style="display: flex; flex-direction: column; gap: var(--space-4); width: 100%;">
             <div>
-              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">0%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--text-2); margin-bottom: var(--space-1);">0%</div>
               <dui-progress value="0"></dui-progress>
             </div>
             <div>
-              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">33%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--text-2); margin-bottom: var(--space-1);">33%</div>
               <dui-progress value="33"></dui-progress>
             </div>
             <div>
-              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">66%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--text-2); margin-bottom: var(--space-1);">66%</div>
               <dui-progress value="66"></dui-progress>
             </div>
             <div>
-              <div style="font-size: var(--font-size-xs); color: var(--muted-foreground); margin-bottom: var(--space-1);">100%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--text-2); margin-bottom: var(--space-1);">100%</div>
               <dui-progress value="100"></dui-progress>
             </div>
           </div>
@@ -48,7 +48,7 @@ export class DocsPageProgress extends LitElement {
               <dui-button size="sm" @click="${this.#increment}">
                 Increment (+10)
               </dui-button>
-              <span style="font-size: var(--font-size-sm); color: var(--muted-foreground);">
+              <span style="font-size: var(--font-size-sm); color: var(--text-2);">
                 ${this.#demoValue}%
               </span>
             </div>

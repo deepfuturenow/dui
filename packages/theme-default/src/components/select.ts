@@ -5,10 +5,10 @@ export const selectStyles = css`
     height: var(--component-height-md);
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
-    border: var(--border-width-thin) solid var(--input);
+    border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background: var(--input-bg);
-    color: var(--foreground);
+    background: var(--sunken);
+    color: var(--text-1);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
@@ -28,7 +28,7 @@ export const selectStyles = css`
   }
 
   .Trigger[data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   .Trigger[data-invalid] {
@@ -36,18 +36,18 @@ export const selectStyles = css`
   }
 
   .Value[data-placeholder] {
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   .Icon {
     --icon-size: var(--space-4);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   /* ---- Popup (rendered in portal shadow root) ---- */
 
   .Popup {
-    background: var(--popover);
+    background: var(--surface-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
@@ -70,13 +70,13 @@ export const selectStyles = css`
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
-    color: var(--popover-foreground);
+    color: var(--text-1);
   }
 
   .Item:hover,
   .Item[data-highlighted] {
-    background: var(--secondary);
-    color: var(--foreground);
+    background: oklch(from var(--foreground) l c h / 0.05);
+    color: var(--text-1);
   }
 
   .Item[data-selected] {
@@ -84,7 +84,7 @@ export const selectStyles = css`
   }
 
   .Item[data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   .ItemIndicator {

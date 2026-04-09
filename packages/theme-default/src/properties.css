@@ -31,31 +31,19 @@
 @property --button-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.24 0.005 265);
+  initial-value: oklch(0.15 0 0);
 }
 
 @property --button-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.985 0 0);
+  initial-value: oklch(0.97 0 0);
 }
 
 @property --button-border {
   syntax: "<color>";
   inherits: true;
   initial-value: transparent;
-}
-
-@property --button-hover-bg {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.32 0.005 265);
-}
-
-@property --button-active-bg {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.36 0.005 265);
 }
 
 @property --button-height {
@@ -232,13 +220,13 @@
 @property --avatar-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.965 0.002 286);
+  initial-value: oklch(0.99 0 0);
 }
 
 @property --avatar-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.556 0.016 286);
+  initial-value: oklch(0.15 0 0 / 0.63);
 }
 
 /* -----------------------------------------------------------
@@ -265,19 +253,19 @@
 @property --sidebar-bg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.98 0 0);
+  initial-value: oklch(0.99 0 0);
 }
 
 @property --sidebar-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.145 0.005 286);
+  initial-value: oklch(0.15 0 0 / 0.90);
 }
 
 @property --sidebar-border {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.922 0.004 286);
+  initial-value: oklch(0.15 0 0 / 0.15);
 }
 
 @property --sidebar-button-bg {
@@ -289,25 +277,25 @@
 @property --sidebar-button-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.145 0.005 286);
+  initial-value: oklch(0.15 0 0 / 0.90);
 }
 
 @property --sidebar-muted-fg {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.556 0.016 286);
+  initial-value: oklch(0.15 0 0 / 0.63);
 }
 
 @property --sidebar-ring {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.551 0.2 245);
+  initial-value: oklch(0.55 0.25 260);
 }
 
 @property --sidebar-separator {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.922 0.004 286);
+  initial-value: oklch(0.15 0 0 / 0.15);
 }
 
 @property --sidebar-group-padding-y {

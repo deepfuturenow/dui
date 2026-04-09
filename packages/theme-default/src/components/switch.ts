@@ -18,19 +18,19 @@ export const switchStyles = css`
       (var(--line-height-normal) * 1em - var(--switch-height)) / 2
     );
     border-radius: calc(var(--switch-height) / 2);
-    outline: var(--border-width-thin) solid var(--input);
-    background: color-mix(in oklch, var(--input) 50%, transparent);
+    outline: var(--border-width-thin) solid var(--border-strong);
+    background: oklch(from var(--foreground) l c h / 0.12);
     transition-property: background, outline-color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
   [part="root"][data-checked] {
-    background: var(--primary);
-    outline-color: var(--primary);
+    background: var(--accent);
+    outline-color: var(--accent);
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
@@ -59,14 +59,13 @@ export const switchStyles = css`
     height: var(--switch-thumb-size);
     border-radius: 50%;
     outline: 1px solid transparent;
-    background: var(--primary);
+    background: var(--background);
     transition-property: transform, outline-color;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
   [part="root"][data-checked] [part="thumb"] {
-    background: var(--primary-foreground);
-    outline-color: var(--primary-foreground);
+    background: oklch(from var(--accent) 0.98 0.01 h);
   }
 `;

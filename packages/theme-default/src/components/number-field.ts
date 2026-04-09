@@ -15,7 +15,7 @@ export const numberFieldStyles = css`
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="root"][data-invalid] {
@@ -27,14 +27,14 @@ export const numberFieldStyles = css`
     width: var(--space-16);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   [part="decrement"],
   [part="increment"] {
     width: var(--space-8);
     height: var(--space-8);
-    color: var(--muted-foreground);
+    color: var(--text-2);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-lg);
     transition-property: background, color;
@@ -44,8 +44,8 @@ export const numberFieldStyles = css`
   @media (hover: hover) {
     [part="decrement"]:hover:not(:disabled),
     [part="increment"]:hover:not(:disabled) {
-      background: var(--muted);
-      color: var(--foreground);
+      background: var(--surface-1);
+      color: var(--text-1);
     }
   }
 

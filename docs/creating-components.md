@@ -154,7 +154,7 @@ A variable earns its place in the theme if it meets at least one of: (1) variant
 
 ## What components must NOT do
 
-- **No token references** — Components contain only structural CSS. No `var(--space-*)`, `var(--primary)`, or any design token.
+- **No token references** — Components contain only structural CSS. No `var(--space-*)`, `var(--accent)`, or any design token.
 - **No variant union types** — Variant names are theme concerns. Declare `variant` and `size` as `string = ""`.
 - **No variant logic** — No `switch` statements or conditional rendering based on variant values. The component just reflects the attribute; the theme handles the visual meaning.
 - **No aesthetic CSS** — No colors, fonts, spacing values, borders, or shadows. Those belong in the theme.
@@ -259,8 +259,8 @@ Colors, fonts, spacing values, borders, shadows, animations.
 
 ```css
 :host {
-  --badge-bg: var(--primary);
-  --badge-fg: var(--primary-foreground);
+  --badge-bg: var(--accent);
+  --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
 }
 
 [part="root"] {
@@ -279,7 +279,7 @@ Colors, fonts, spacing values, borders, shadows, animations.
 
 **Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-property`, `transition-duration`, `transition-timing-function`.
 
-**When in doubt:** If the property references a design token (`var(--space-*)`, `var(--primary)`), it's aesthetic.
+**When in doubt:** If the property references a design token (`var(--space-*)`, `var(--accent)`), it's aesthetic.
 
 ---
 
@@ -482,15 +482,15 @@ import { css } from "lit";
 
 export const badgeStyles = css`
   :host {
-    --badge-bg: var(--primary);
-    --badge-fg: var(--primary-foreground);
+    --badge-bg: var(--accent);
+    --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
     --badge-border: transparent;
     --badge-icon-size: var(--space-3);
   }
 
   :host([variant="secondary"]) {
-    --badge-bg: var(--secondary);
-    --badge-fg: var(--secondary-foreground);
+    --badge-bg: var(--surface-1);
+    --badge-fg: var(--text-1);
   }
 
   /* ... more variants ... */
@@ -548,7 +548,7 @@ In `packages/theme-default/deno.json`, add `"./components/badge": "./src/compone
 - [ ] **`static tagName`** with `as const` — no `@customElement` decorator
 - [ ] **`static override styles = [base, styles]`** — `base` from `@dui/core/base`
 - [ ] **Structural CSS only** — no colors, fonts, or spacing values in the component
-- [ ] **No token references** — no `var(--space-*)`, `var(--primary)`, etc.
+- [ ] **No token references** — no `var(--space-*)`, `var(--accent)`, etc.
 - [ ] **No variant union types** — `variant` and `size` are `string = ""`
 - [ ] **`part="root"`** on root internal element
 - [ ] **Reflected properties** for variant/size (`@property({ reflect: true })`)

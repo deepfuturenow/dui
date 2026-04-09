@@ -8,7 +8,7 @@ export const commandInputStyles = css`
   }
 
   .SearchIcon {
-    color: var(--muted-foreground);
+    color: var(--text-2);
     width: var(--space-4);
     height: var(--space-4);
   }
@@ -20,6 +20,6 @@ export const commandInputStyles = css`
   }
 
   .Input::placeholder {
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 `;

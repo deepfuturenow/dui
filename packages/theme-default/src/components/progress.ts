@@ -7,12 +7,12 @@ export const progressStyles = css`
 
   [part="track"] {
     height: var(--progress-height);
-    background: var(--muted);
+    background: var(--surface-1);
     border-radius: var(--radius-full);
   }
 
   [part="indicator"] {
-    background: var(--primary);
+    background: var(--accent);
     border-radius: var(--radius-full);
     transition: width var(--duration-normal) var(--ease-out-3);
   }

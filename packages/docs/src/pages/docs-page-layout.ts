@@ -30,7 +30,7 @@ export class DocsPageLayout extends LitElement {
 
     .description {
       font-size: var(--font-size-base, 0.9375rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       line-height: var(--line-height-relaxed, 1.625);
       margin: 0 0 var(--space-8, 2rem);
     }

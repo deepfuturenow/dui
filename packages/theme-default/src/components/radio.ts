@@ -15,17 +15,17 @@ export const radioStyles = css`
   }
 
   [part="root"][data-unchecked] {
-    border: var(--border-width-thin) solid var(--input);
-    background: var(--input-bg);
+    border: var(--border-width-thin) solid var(--border);
+    background: var(--sunken);
   }
 
   [part="root"][data-checked] {
-    border: var(--border-width-thin) solid var(--primary);
-    background: var(--primary);
+    border: var(--border-width-thin) solid var(--accent);
+    background: var(--accent);
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="root"]:focus-visible {
@@ -44,6 +44,6 @@ export const radioStyles = css`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--primary-foreground);
+    background: oklch(from var(--accent) 0.98 0.01 h);
   }
 `;

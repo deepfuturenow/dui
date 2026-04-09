@@ -11,17 +11,17 @@ export const sliderStyles = css`
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="track"] {
     height: var(--slider-track-height);
-    background: var(--muted);
+    background: var(--surface-1);
     border-radius: calc(var(--slider-track-height) / 2);
   }
 
   [part="indicator"] {
-    background: var(--primary);
+    background: var(--accent);
     border-radius: calc(var(--slider-track-height) / 2);
     transition: width 50ms ease-out;
   }
@@ -34,7 +34,7 @@ export const sliderStyles = css`
     width: var(--slider-thumb-size);
     height: var(--slider-thumb-size);
     background: var(--background);
-    border: 2px solid var(--primary);
+    border: 2px solid var(--accent);
     border-radius: 50%;
     transition-property: left, box-shadow;
     transition-duration: 50ms, var(--duration-fast);
@@ -47,7 +47,7 @@ export const sliderStyles = css`
 
   @media (hover: hover) {
     [part="thumb"]:hover {
-      box-shadow: 0 0 0 4px color-mix(in oklch, var(--primary) 20%, transparent);
+      box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 20%, transparent);
     }
   }
 

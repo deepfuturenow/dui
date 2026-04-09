@@ -35,7 +35,7 @@ export class DuiDocsDemo extends LitElement {
 
     .demo {
       padding: var(--space-3);
-      background: var(--card);
+      background: var(--surface-2);
       border-bottom: none;
     }
 
@@ -59,7 +59,7 @@ export class DuiDocsDemo extends LitElement {
 
     /* Tabs overrides for code section */
     dui-tabs {
-      background: var(--muted);
+      background: var(--surface-1);
     }
 
     dui-tab::part(tab) {
@@ -87,7 +87,7 @@ export class DuiDocsDemo extends LitElement {
       padding: var(--space-3) var(--space-4);
       max-height: calc(var(--font-size-2xs) * 1.7 * 10 + var(--space-3) * 2);
       overflow-y: auto;
-      background: var(--muted);
+      background: var(--surface-1);
     }
 
     pre {

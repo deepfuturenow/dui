@@ -71,7 +71,7 @@ export const sidebarStyles = css`
 
   .Backdrop {
     background: black;
-    opacity: 0.2;
+    opacity: 0.4;
   }
 
   .Backdrop[data-starting-style],

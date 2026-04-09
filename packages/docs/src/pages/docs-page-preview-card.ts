@@ -12,12 +12,12 @@ export class DocsPagePreviewCard extends LitElement {
         <dui-docs-demo label="Default">
         <dui-preview-card>
           <dui-preview-card-trigger>
-            <a href="#" style="color: var(--primary); text-decoration: underline;">Hover me for a preview</a>
+            <a href="#" style="color: var(--accent); text-decoration: underline;">Hover me for a preview</a>
           </dui-preview-card-trigger>
           <dui-preview-card-popup>
             <dui-vstack gap="2">
               <strong>Preview Card</strong>
-              <span style="color: var(--muted-foreground); font-size: var(--font-size-sm);">
+              <span style="color: var(--text-2); font-size: var(--font-size-sm);">
                 This is a rich content preview that stays open when you hover over it.
                 Unlike a tooltip, the user can interact with the content.
               </span>
@@ -29,12 +29,12 @@ export class DocsPagePreviewCard extends LitElement {
       <dui-docs-demo label="Bottom placement">
         <dui-preview-card side="bottom">
           <dui-preview-card-trigger>
-            <a href="#" style="color: var(--primary); text-decoration: underline;">Preview below</a>
+            <a href="#" style="color: var(--accent); text-decoration: underline;">Preview below</a>
           </dui-preview-card-trigger>
           <dui-preview-card-popup>
             <dui-vstack gap="2">
               <strong>Bottom Preview</strong>
-              <span style="color: var(--muted-foreground); font-size: var(--font-size-sm);">
+              <span style="color: var(--text-2); font-size: var(--font-size-sm);">
                 This preview card appears below the trigger.
               </span>
             </dui-vstack>
@@ -45,7 +45,7 @@ export class DocsPagePreviewCard extends LitElement {
       <dui-docs-demo label="No arrow">
         <dui-preview-card>
           <dui-preview-card-trigger>
-            <a href="#" style="color: var(--primary); text-decoration: underline;">No arrow</a>
+            <a href="#" style="color: var(--accent); text-decoration: underline;">No arrow</a>
           </dui-preview-card-trigger>
           <dui-preview-card-popup show-arrow="false">
             <span>Preview without an arrow indicator.</span>

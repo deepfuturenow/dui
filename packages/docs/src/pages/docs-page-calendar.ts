@@ -27,7 +27,7 @@ export class DocsPageCalendar extends LitElement {
         <dui-docs-demo label="Default">
         <dui-calendar @value-change="${this.#onValueChange}"></dui-calendar>
         ${this.#selectedDate
-          ? html`<p style="margin-top: var(--space-2); font-size: var(--font-size-sm); color: var(--muted-foreground);">
+          ? html`<p style="margin-top: var(--space-2); font-size: var(--font-size-sm); color: var(--text-2);">
               Selected: ${this.#selectedDate}
             </p>`
           : ""}

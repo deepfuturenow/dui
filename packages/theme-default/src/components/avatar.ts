@@ -2,8 +2,8 @@ import { css } from "lit";
 
 export const avatarStyles = css`
   :host {
-    --avatar-bg: var(--muted);
-    --avatar-fg: var(--muted-foreground);
+    --avatar-bg: var(--surface-1);
+    --avatar-fg: var(--text-2);
   }
 
   [part="root"] {

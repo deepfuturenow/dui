@@ -32,7 +32,7 @@ export class TokenEditorElement extends LitElement {
       }
 
       .color-row:hover {
-        background: color-mix(in oklch, var(--muted) 50%, transparent);
+        background: color-mix(in oklch, var(--surface-1) 50%, transparent);
       }
 
       .swatch {
@@ -64,7 +64,7 @@ export class TokenEditorElement extends LitElement {
       .token-value {
         font-size: var(--font-size-xs);
         font-family: var(--font-mono);
-        color: var(--muted-foreground);
+        color: var(--text-2);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -107,7 +107,7 @@ export class TokenEditorElement extends LitElement {
         padding: var(--space-1) var(--space-1_5);
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        background: var(--input-bg);
+        background: var(--sunken);
         color: var(--foreground);
         box-sizing: border-box;
       }

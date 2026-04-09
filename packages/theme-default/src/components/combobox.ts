@@ -5,11 +5,11 @@ export const comboboxStyles = css`
 
   .Chips {
     gap: var(--space-1);
-    border: var(--border-width-thin) solid var(--input);
+    border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     padding: var(--space-1) var(--space-8) var(--space-1) var(--space-1_5);
     min-height: var(--component-height-md);
-    background: var(--input-bg);
+    background: var(--sunken);
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }
@@ -21,21 +21,21 @@ export const comboboxStyles = css`
   }
 
   .Chips[data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   /* ---- Input ---- */
 
   .Input {
     height: var(--component-height-md);
-    color: var(--foreground);
+    color: var(--text-1);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
   }
 
   .Input::placeholder {
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   /* Single-select input wrapper */
@@ -43,11 +43,11 @@ export const comboboxStyles = css`
     width: 100%;
     min-height: var(--component-height-md);
     padding: var(--space-2) var(--space-8) var(--space-2) var(--space-2);
-    border: var(--border-width-thin) solid var(--input);
+    border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
-    background: var(--input-bg);
+    background: var(--sunken);
   }
 
   .InputWrapper .Input:focus-visible {
@@ -57,13 +57,13 @@ export const comboboxStyles = css`
   }
 
   .InputWrapper .Input[data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   .Arrow {
     --icon-size: var(--space-4);
     right: var(--space-3);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   /* Multi-select input (inside chips) */
@@ -76,8 +76,8 @@ export const comboboxStyles = css`
 
   .Chip {
     gap: var(--space-1);
-    background: var(--secondary);
-    color: var(--secondary-foreground);
+    background: oklch(from var(--foreground) l c h / 0.05);
+    color: var(--text-1);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     padding: var(--space-0_5) var(--space-0_5) var(--space-0_5) var(--space-2);
@@ -93,7 +93,7 @@ export const comboboxStyles = css`
   .ChipRemove:hover {
     background: color-mix(
       in oklch,
-      var(--secondary-foreground) 15%,
+      var(--text-1) 15%,
       transparent
     );
   }
@@ -101,7 +101,7 @@ export const comboboxStyles = css`
   /* ---- Popup (rendered in portal shadow root) ---- */
 
   .Popup {
-    background: var(--popover);
+    background: var(--surface-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
@@ -124,13 +124,13 @@ export const comboboxStyles = css`
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
-    color: var(--popover-foreground);
+    color: var(--text-1);
   }
 
   .Item:hover,
   .Item[data-highlighted] {
-    background: var(--secondary);
-    color: var(--foreground);
+    background: oklch(from var(--foreground) l c h / 0.05);
+    color: var(--text-1);
   }
 
   .ItemIndicator {
@@ -140,7 +140,7 @@ export const comboboxStyles = css`
   .Empty {
     padding: var(--space-3);
     font-size: var(--font-size-sm);
-    color: var(--muted-foreground);
+    color: var(--text-2);
     text-align: center;
   }
 `;

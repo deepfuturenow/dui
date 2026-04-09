@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const breadcrumbLinkStyles = css`
   [part="root"] {
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   [part="root"] ::slotted(a) {
@@ -12,6 +12,6 @@ export const breadcrumbLinkStyles = css`
   }
 
   [part="root"] ::slotted(a:hover) {
-    color: var(--foreground);
+    color: var(--text-1);
   }
 `;

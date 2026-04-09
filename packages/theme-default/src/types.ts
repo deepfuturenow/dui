@@ -7,12 +7,12 @@
  */
 
 // --- Button ---
-export type ButtonVariant = "neutral" | "primary" | "danger" | "success" | "warning";
+export type ButtonVariant = "neutral" | "primary" | "danger";
 export type ButtonAppearance = "filled" | "outline" | "ghost" | "link";
 export type ButtonSize = "sm" | "md" | "lg";
 
 // --- Badge ---
-export type BadgeVariant = "neutral" | "primary" | "danger" | "success" | "warning" | "info";
+export type BadgeVariant = "neutral" | "primary" | "danger";
 export type BadgeAppearance = "filled" | "outline" | "ghost";
 
 // --- Spinner ---

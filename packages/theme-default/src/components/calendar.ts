@@ -14,7 +14,7 @@ export const calendarStyles = css`
   [part="heading"] {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   [part="prev"],
@@ -22,7 +22,7 @@ export const calendarStyles = css`
     width: var(--space-7);
     height: var(--space-7);
     border-radius: var(--radius-md);
-    color: var(--muted-foreground);
+    color: var(--text-2);
     font-size: var(--font-size-lg);
     transition-property: background, color;
     transition-duration: var(--duration-fast);
@@ -31,8 +31,8 @@ export const calendarStyles = css`
   @media (hover: hover) {
     [part="prev"]:hover,
     [part="next"]:hover {
-      background: var(--muted);
-      color: var(--foreground);
+      background: var(--surface-1);
+      color: var(--text-1);
     }
   }
 
@@ -41,7 +41,7 @@ export const calendarStyles = css`
     height: var(--space-8);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-normal);
-    color: var(--muted-foreground);
+    color: var(--text-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,30 +52,30 @@ export const calendarStyles = css`
     height: var(--space-8);
     border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
-    color: var(--foreground);
+    color: var(--text-1);
     transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) {
     [part="day"]:hover:not(:disabled):not([data-selected]) {
-      background: var(--muted);
+      background: var(--surface-1);
     }
   }
 
   [part="day"][data-today]:not([data-selected]) {
-    background: var(--accent);
-    color: var(--accent-foreground);
+    background: var(--accent-subtle);
+    color: var(--accent-text);
   }
 
   [part="day"][data-selected] {
-    background: var(--primary);
-    color: var(--primary-foreground);
+    background: var(--accent);
+    color: oklch(from var(--accent) 0.98 0.01 h);
   }
 
   [part="day"][data-outside-month] {
-    color: var(--muted-foreground);
-    opacity: 0.5;
+    color: var(--text-2);
+    opacity: 0.4;
   }
 
   [part="day"]:disabled {

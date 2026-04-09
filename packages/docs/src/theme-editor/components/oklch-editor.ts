@@ -29,7 +29,7 @@ export class OklchEditorElement extends LitElement {
       .label {
         font-size: var(--font-size-xs);
         font-weight: var(--font-weight-medium);
-        color: var(--muted-foreground);
+        color: var(--text-2);
         text-transform: uppercase;
       }
 
@@ -38,7 +38,7 @@ export class OklchEditorElement extends LitElement {
         appearance: none;
         width: 100%;
         height: var(--space-1);
-        background: var(--muted);
+        background: var(--surface-1);
         border-radius: var(--radius-full);
         outline: none;
       }
@@ -68,7 +68,7 @@ export class OklchEditorElement extends LitElement {
       .value-display {
         font-size: var(--font-size-xs);
         font-family: var(--font-mono);
-        color: var(--muted-foreground);
+        color: var(--text-2);
         min-width: 44px;
         text-align: right;
       }
@@ -95,7 +95,7 @@ export class OklchEditorElement extends LitElement {
         padding: var(--space-1) var(--space-1_5);
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        background: var(--input-bg);
+        background: var(--sunken);
         color: var(--foreground);
         min-width: 0;
       }

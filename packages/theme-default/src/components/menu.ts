@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const menuStyles = css`
   .Popup {
-    background: var(--popover);
+    background: var(--surface-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);

@@ -31,8 +31,8 @@ export const scrollAreaStyles = css`
 
   .Thumb {
     border-radius: inherit;
-    background: var(--scroll-area-thumb-color, var(--muted-foreground));
-    opacity: 0.5;
+    background: var(--scroll-area-thumb-color, var(--text-2));
+    opacity: 0.4;
     transition: opacity var(--duration-fast);
 
     &:hover {

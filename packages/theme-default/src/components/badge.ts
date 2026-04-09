@@ -3,7 +3,7 @@ import { css } from "lit";
 export const badgeStyles = css`
   /* =================================================================
    * Two-axis variant system:
-   *   variant    → semantic intent (neutral, primary, danger, …, info)
+   *   variant    → semantic intent (neutral, accent, danger)
    *   appearance → visual treatment (filled, outline, ghost)
    * ================================================================= */
 
@@ -14,45 +14,24 @@ export const badgeStyles = css`
   :host,
   :host([variant=""]),
   :host([variant="neutral"]) {
-    --_intent-base: var(--neutral);
-    --_intent-base-fg: var(--neutral-foreground);
-    --_intent-subtle: var(--neutral-subtle);
-    --_intent-subtle-fg: var(--neutral-subtle-foreground);
+    --_intent-base: var(--foreground);
+    --_intent-base-fg: var(--background);
+    --_intent-subtle: oklch(from var(--foreground) l c h / 0.08);
+    --_intent-subtle-fg: var(--text-1);
   }
 
   :host([variant="primary"]) {
-    --_intent-base: var(--primary);
-    --_intent-base-fg: var(--primary-foreground);
-    --_intent-subtle: var(--primary-subtle);
-    --_intent-subtle-fg: var(--primary-subtle-foreground);
+    --_intent-base: var(--accent);
+    --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+    --_intent-subtle: var(--accent-subtle);
+    --_intent-subtle-fg: var(--accent-text);
   }
 
   :host([variant="danger"]) {
-    --_intent-base: var(--danger);
-    --_intent-base-fg: var(--danger-foreground);
-    --_intent-subtle: var(--danger-subtle);
-    --_intent-subtle-fg: var(--danger-subtle-foreground);
-  }
-
-  :host([variant="success"]) {
-    --_intent-base: var(--success);
-    --_intent-base-fg: var(--success-foreground);
-    --_intent-subtle: var(--success-subtle);
-    --_intent-subtle-fg: var(--success-subtle-foreground);
-  }
-
-  :host([variant="warning"]) {
-    --_intent-base: var(--warning);
-    --_intent-base-fg: var(--warning-foreground);
-    --_intent-subtle: var(--warning-subtle);
-    --_intent-subtle-fg: var(--warning-subtle-foreground);
-  }
-
-  :host([variant="info"]) {
-    --_intent-base: var(--info);
-    --_intent-base-fg: var(--info-foreground);
-    --_intent-subtle: var(--info-subtle);
-    --_intent-subtle-fg: var(--info-subtle-foreground);
+    --_intent-base: var(--destructive);
+    --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
+    --_intent-subtle: var(--destructive-subtle);
+    --_intent-subtle-fg: var(--destructive-text);
   }
 
   /* ---------------------------------------------------------------
@@ -69,8 +48,8 @@ export const badgeStyles = css`
 
   :host([appearance="outline"]) {
     --badge-bg: transparent;
-    --badge-fg: var(--_intent-base);
-    --badge-border: var(--_intent-base);
+    --badge-fg: var(--_intent-subtle-fg);
+    --badge-border: var(--border);
   }
 
   :host([appearance="ghost"]) {

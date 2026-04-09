@@ -10,16 +10,16 @@ export const commandItemStyles = css`
   }
 
   .Item[data-selected] {
-    background: var(--secondary);
-    color: var(--foreground);
+    background: oklch(from var(--foreground) l c h / 0.05);
+    color: var(--text-1);
   }
 
   .Item[aria-disabled="true"] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   ::slotted(dui-icon) {
     --icon-size: var(--space-4);
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 `;

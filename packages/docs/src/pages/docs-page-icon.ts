@@ -14,12 +14,12 @@ const iconLibraryStyles = `
 
   .library-info p {
     font-size: var(--font-size-sm, 0.875rem);
-    color: var(--muted-foreground);
+    color: var(--text-2);
     margin: 0 0 var(--space-3, 0.75rem);
   }
 
   pre {
-    background: var(--muted);
+    background: var(--surface-1);
     border-radius: var(--radius-md, 0.5rem);
     padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
     overflow-x: auto;
@@ -67,7 +67,7 @@ export class DocsPageIcon extends LitElement {
         <docs-row>
           <dui-icon style="--icon-color: var(--destructive); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></dui-icon>
           <dui-icon style="--icon-color: var(--success); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></dui-icon>
-          <dui-icon style="--icon-color: var(--primary); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>
+          <dui-icon style="--icon-color: var(--accent); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>
         </docs-row>
       </dui-docs-demo>
 

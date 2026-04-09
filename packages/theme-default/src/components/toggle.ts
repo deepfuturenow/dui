@@ -1,17 +1,22 @@
 import { css } from "lit";
 
 export const toggleStyles = css`
+  /* --_select / --_interact alpha overlay pattern */
+
   [part="root"] {
+    --_select: 0;
+    --_interact: 0;
     --toggle-gap: var(--space-1_5);
     --icon-size: var(--space-4);
     --icon-color: currentColor;
     height: var(--component-height-md);
     padding: 0 var(--space-2_5);
     border-radius: var(--radius-md);
-    border: var(--border-width-thin) solid var(--input);
+    border: var(--border-width-thin) solid var(--border);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--muted-foreground);
+    color: var(--text-2);
+    background: oklch(from var(--foreground) l c h / calc(var(--_select) + var(--_interact)));
     transition-property: background, color, box-shadow;
     transition-duration: var(--duration-fast);
     min-width: var(--component-height-md);
@@ -19,20 +24,18 @@ export const toggleStyles = css`
 
   @media (hover: hover) {
     [part="root"]:hover:not(:disabled):not([data-pressed]) {
-      background: var(--muted);
-      color: var(--foreground);
+      --_interact: 0.05;
+      color: var(--text-1);
     }
   }
 
   [part="root"][data-pressed] {
-    background: var(--muted);
-    /* border-color: color-mix(in oklch, var(--secondary), var(--foreground) 10%);
-    background: var(--secondary); */
-    color: var(--foreground);
+    --_select: 0.10;
+    color: var(--text-1);
   }
 
-  [part="root"]:active {
-    background: red;
+  [part="root"]:active:not(:disabled) {
+    --_interact: 0.10;
   }
 
   [part="root"]:focus-visible {
@@ -43,6 +46,6 @@ export const toggleStyles = css`
   }
 
   [part="root"]:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 `;

@@ -18,7 +18,7 @@ export class DocsPageStyling extends LitElement {
 
     .description {
       font-size: var(--font-size-base, 0.9375rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-8, 2rem);
       max-width: 40rem;
       line-height: var(--line-height-relaxed, 1.625);
@@ -34,7 +34,7 @@ export class DocsPageStyling extends LitElement {
 
     .section-description {
       font-size: var(--font-size-sm);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-5);
       max-width: 40rem;
       line-height: var(--line-height-relaxed, 1.625);
@@ -42,7 +42,7 @@ export class DocsPageStyling extends LitElement {
 
     /* ── Demo card ── */
     .demo-card {
-      background: var(--card);
+      background: var(--surface-2);
       border: var(--border-width-thin) solid var(--border);
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -62,7 +62,7 @@ export class DocsPageStyling extends LitElement {
     .demo-code {
       padding: var(--space-3) var(--space-4);
       border-top: var(--border-width-thin) solid var(--border);
-      background: var(--muted);
+      background: var(--surface-1);
       overflow-x: auto;
     }
 
@@ -100,7 +100,7 @@ export class DocsPageStyling extends LitElement {
       padding: var(--space-4);
       border: var(--border-width-thin) solid var(--border);
       border-radius: var(--radius-md);
-      background: var(--card);
+      background: var(--surface-2);
     }
 
     .layer-card h3 {
@@ -111,7 +111,7 @@ export class DocsPageStyling extends LitElement {
 
     .layer-card p {
       font-size: var(--font-size-xs);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-3);
       line-height: var(--line-height-relaxed, 1.65);
     }
@@ -122,7 +122,7 @@ export class DocsPageStyling extends LitElement {
       display: block;
       white-space: pre;
       color: var(--foreground);
-      background: var(--muted);
+      background: var(--surface-1);
       padding: var(--space-2) var(--space-3);
       border-radius: var(--radius-sm);
     }
@@ -244,7 +244,7 @@ export class DocsPageStyling extends LitElement {
 
     .themed-zone-label {
       font-size: var(--font-size-xs);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       font-family: var(--font-mono);
     }
 

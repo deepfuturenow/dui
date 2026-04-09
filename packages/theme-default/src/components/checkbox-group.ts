@@ -6,6 +6,6 @@ export const checkboxGroupStyles = css`
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 `;

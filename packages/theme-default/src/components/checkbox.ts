@@ -18,18 +18,18 @@ export const checkboxStyles = css`
   }
 
   [part="root"][data-unchecked] {
-    border: var(--border-width-thin) solid var(--input);
+    border: var(--border-width-thin) solid var(--border);
     background: transparent;
   }
 
   [part="root"][data-checked],
   [part="root"][data-indeterminate] {
-    background: var(--primary);
-    border: var(--border-width-thin) solid var(--primary);
+    background: var(--accent);
+    border: var(--border-width-thin) solid var(--accent);
   }
 
   [part="root"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="root"]:focus-visible {
@@ -45,7 +45,7 @@ export const checkboxStyles = css`
   }
 
   [part="indicator"] {
-    color: var(--primary-foreground);
+    color: oklch(from var(--accent) 0.98 0.01 h);
   }
 
   .Icon {
