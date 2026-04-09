@@ -67,7 +67,7 @@ const styles = css`
   }
 `;
 
-export type SidebarMenuButtonSize = "default" | "sm" | "lg";
+
 
 /**
  * `<dui-sidebar-menu-button>` — Interactive button or link within a sidebar menu.
@@ -87,7 +87,7 @@ export class DuiSidebarMenuButton extends LitElement {
 
   /** Size variant for the button. */
   @property({ reflect: true })
-  accessor size: SidebarMenuButtonSize = "default";
+  accessor size: string = "";
 
   /** Whether the button is in active/selected state. */
   @property({ type: Boolean, reflect: true })

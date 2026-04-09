@@ -19,7 +19,7 @@ export class DocsPageToolbar extends LitElement {
 
       <dui-docs-demo label="With buttons">
         <dui-toolbar size="lg" inset has-button-left has-button-right>
-          <dui-button slot="left" variant="ghost" size="sm">Back</dui-button>
+          <dui-button slot="left" appearance="ghost" size="sm">Back</dui-button>
           <span slot="center">Page Title</span>
           <dui-button slot="right" variant="primary" size="sm">Save</dui-button>
         </dui-toolbar>
@@ -51,7 +51,7 @@ export class DocsPageToolbar extends LitElement {
       <dui-docs-demo label="Left and right only">
         <dui-toolbar size="lg" inset has-button-right>
           <span slot="left">Navigation</span>
-          <dui-button slot="right" variant="outline" size="sm">Action</dui-button>
+          <dui-button slot="right" appearance="outline" size="sm">Action</dui-button>
         </dui-toolbar>
       </dui-docs-demo>
       </docs-page-layout>

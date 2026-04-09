@@ -31,19 +31,11 @@ export const sidebarMenuButtonStyles = css`
   }
 
   .Row:hover {
-    background: color-mix(
-      in oklch,
-      var(--sidebar-button-bg) 100%,
-      var(--foreground) 8%
-    );
+    background: oklch(from var(--foreground) l c h / 0.05);
   }
 
   .Row[data-active] {
-    background: color-mix(
-      in oklch,
-      var(--sidebar-button-bg) 100%,
-      var(--foreground) 12%
-    );
+    background: oklch(from var(--foreground) l c h / 0.10);
   }
 
   .Row[data-icon-collapsed] {
@@ -72,7 +64,7 @@ export const sidebarMenuButtonStyles = css`
   }
 
   :host([disabled]) .Row {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   :host([active]) .Button {

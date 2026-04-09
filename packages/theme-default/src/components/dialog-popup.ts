@@ -4,15 +4,8 @@ export const dialogPopupStyles = css`
   /* ── Backdrop ── */
 
   [part="backdrop"] {
-    background: black;
-    opacity: 0.2;
+    background: var(--scrim);
     transition: opacity var(--duration-fast) var(--ease-out-3);
-  }
-
-  @container style(--theme: dark) {
-    [part="backdrop"] {
-      opacity: 0.7;
-    }
   }
 
   [part="backdrop"][data-starting-style],
@@ -27,8 +20,8 @@ export const dialogPopupStyles = css`
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     border: var(--border-width-thin) solid var(--border);
-    background: var(--card);
-    color: var(--card-foreground);
+    background: var(--surface-2);
+    color: var(--text-1);
     font-family: var(--font-sans);
     transition-duration: var(--duration-fast);
   }
@@ -49,7 +42,7 @@ export const dialogPopupStyles = css`
     letter-spacing: var(--letter-spacing-tighter);
     line-height: var(--line-height-tight);
     font-weight: var(--font-weight-medium);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   /* ── Description ── */
@@ -59,7 +52,7 @@ export const dialogPopupStyles = css`
     font-family: var(--font-sans);
     font-size: var(--font-size-md);
     line-height: var(--line-height-normal);
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   /* ── Reduced motion ── */

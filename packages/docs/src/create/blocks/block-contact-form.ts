@@ -9,8 +9,8 @@ export class BlockContactForm extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
       padding: var(--space-6, 1.5rem);
-      background: var(--card);
-      color: var(--card-foreground);
+      background: var(--surface-2);
+      color: var(--text-1);
     }
 
     .stack {
@@ -34,9 +34,9 @@ export class BlockContactForm extends LitElement {
         <dui-textarea placeholder="Message" rows="3"></dui-textarea>
         <div class="controls-row">
           <dui-badge>Default</dui-badge>
-          <dui-badge variant="secondary">Secondary</dui-badge>
-          <dui-badge variant="outline">Outline</dui-badge>
-          <dui-badge variant="destructive">Destructive</dui-badge>
+          <dui-badge appearance="ghost">Ghost</dui-badge>
+          <dui-badge appearance="outline">Outline</dui-badge>
+          <dui-badge variant="danger">Danger</dui-badge>
           <dui-checkbox checked>Checked</dui-checkbox>
           <dui-checkbox>Unchecked</dui-checkbox>
           <dui-checkbox indeterminate>Mixed</dui-checkbox>

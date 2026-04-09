@@ -19,7 +19,7 @@ export class DocsPageComponentsIndex extends LitElement {
 
     .subtitle {
       font-size: var(--font-size-base, 0.9375rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-8, 2rem);
       line-height: var(--line-height-relaxed, 1.625);
     }
@@ -37,12 +37,12 @@ export class DocsPageComponentsIndex extends LitElement {
       padding: var(--space-4) var(--space-5);
       text-decoration: none;
       color: inherit;
-      background: var(--card);
+      background: var(--surface-2);
       transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease, transform var(--duration-fast) ease;
     }
 
     .card:hover {
-      border-color: var(--muted-foreground);
+      border-color: var(--text-2);
       box-shadow: var(--shadow-sm);
       transform: translateY(-1px);
     }
@@ -56,13 +56,13 @@ export class DocsPageComponentsIndex extends LitElement {
     .card-tag {
       font-family: var(--font-mono);
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-2);
     }
 
     .card-desc {
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0;
       line-height: var(--line-height-relaxed, 1.625);
     }

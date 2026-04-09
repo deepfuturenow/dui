@@ -126,7 +126,7 @@ export class ThemeEditorViewElement extends LitElement {
         max-width: 600px;
         display: flex;
         flex-direction: column;
-        background: var(--card);
+        background: var(--surface-2);
         border-right: 1px solid var(--border);
         overflow: hidden;
       }
@@ -151,7 +151,7 @@ export class ThemeEditorViewElement extends LitElement {
         padding: var(--space-1) var(--space-2);
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        background: var(--input-bg);
+        background: var(--sunken);
         color: var(--foreground);
       }
 
@@ -176,7 +176,7 @@ export class ThemeEditorViewElement extends LitElement {
         padding: var(--space-1) var(--space-2_5);
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        background: var(--card);
+        background: var(--surface-2);
         color: var(--foreground);
         cursor: pointer;
         white-space: nowrap;
@@ -188,9 +188,9 @@ export class ThemeEditorViewElement extends LitElement {
       }
 
       .btn.primary {
-        background: var(--primary);
-        color: var(--primary-foreground);
-        border-color: var(--primary);
+        background: var(--accent);
+        color: oklch(from var(--accent) 0.98 0.01 h);
+        border-color: var(--accent);
       }
 
       .btn.primary:hover {
@@ -244,7 +244,7 @@ export class ThemeEditorViewElement extends LitElement {
         font-weight: var(--font-weight-semibold);
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--muted-foreground);
+        color: var(--text-2);
         padding: var(--space-2_5) 0 var(--space-1);
       }
 

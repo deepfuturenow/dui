@@ -92,7 +92,7 @@ export class DocsApp extends LitElement {
     }
 
     .top-bar-logo span {
-      color: var(--muted-foreground);
+      color: var(--text-2);
       font-weight: 400;
       margin-left: var(--space-1);
       font-size: var(--font-size-xs, 0.75rem);
@@ -106,7 +106,7 @@ export class DocsApp extends LitElement {
 
     .top-bar-link {
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       text-decoration: none;
       padding: var(--space-1_5, 0.375rem) var(--space-2_5, 0.625rem);
       border-radius: var(--radius-md, 0.5rem);
@@ -116,13 +116,13 @@ export class DocsApp extends LitElement {
 
     .top-bar-link:hover {
       color: var(--foreground);
-      background: var(--secondary, oklch(0.5 0 0 / 0.05));
+      background: oklch(from var(--foreground) l c h / 0.05);
     }
 
     .top-bar-link[aria-current="page"] {
       color: var(--foreground);
       font-weight: 600;
-      background: var(--secondary, oklch(0.5 0 0 / 0.06));
+      background: oklch(from var(--foreground) l c h / 0.06);
     }
 
     .top-bar-right {
@@ -138,8 +138,8 @@ export class DocsApp extends LitElement {
       padding: var(--space-1_5, 0.375rem) var(--space-3, 0.75rem);
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-md, 0.5rem);
-      background: var(--muted);
-      color: var(--muted-foreground);
+      background: var(--surface-1);
+      color: var(--text-2);
       font-size: var(--font-size-sm, 0.875rem);
       font-family: inherit;
       cursor: pointer;
@@ -148,7 +148,7 @@ export class DocsApp extends LitElement {
     }
 
     .search-trigger:hover {
-      border-color: var(--muted-foreground);
+      border-color: var(--text-2);
       box-shadow: var(--shadow-xs);
     }
 
@@ -172,15 +172,15 @@ export class DocsApp extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-md, 0.5rem);
       background: transparent;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       cursor: pointer;
       transition: color var(--duration-fast) ease, background var(--duration-fast) ease, border-color var(--duration-fast) ease;
     }
 
     .icon-btn:hover {
       color: var(--foreground);
-      background: var(--secondary, oklch(0.5 0 0 / 0.05));
-      border-color: var(--muted-foreground);
+      background: oklch(from var(--foreground) l c h / 0.05);
+      border-color: var(--text-2);
     }
 
     /* ── Body ── */
@@ -276,7 +276,7 @@ export class DocsApp extends LitElement {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       padding: var(--space-3) var(--space-5) var(--space-1_5);
       margin-top: var(--space-2);
       user-select: none;
@@ -291,7 +291,7 @@ export class DocsApp extends LitElement {
       padding: var(--space-1, 0.25rem) var(--space-5);
       font-size: var(--font-size-sm, 0.875rem);
       line-height: var(--line-height-relaxed, 1.625);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       text-decoration: none;
       cursor: pointer;
       transition: color var(--duration-fast) ease, background var(--duration-fast) ease;
@@ -316,7 +316,7 @@ export class DocsApp extends LitElement {
 
     .sidebar-footer .nav-link {
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       padding: var(--space-1) 0;
       border-left: none;
     }
@@ -393,7 +393,7 @@ export class DocsApp extends LitElement {
     }
 
     .search-input-wrapper svg {
-      color: var(--muted-foreground);
+      color: var(--text-2);
       flex-shrink: 0;
     }
 
@@ -408,7 +408,7 @@ export class DocsApp extends LitElement {
     }
 
     .search-input::placeholder {
-      color: var(--muted-foreground);
+      color: var(--text-2);
     }
 
     .search-results {
@@ -421,7 +421,7 @@ export class DocsApp extends LitElement {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       padding: var(--space-2) var(--space-2) var(--space-1);
     }
 
@@ -440,20 +440,20 @@ export class DocsApp extends LitElement {
 
     .search-item:hover,
     .search-item[data-active] {
-      background: var(--secondary, oklch(0.5 0 0 / 0.08));
+      background: oklch(from var(--foreground) l c h / 0.08);
     }
 
     .search-item-tag {
       font-family: var(--font-mono);
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin-left: auto;
     }
 
     .search-empty {
       padding: var(--space-6) var(--space-4);
       text-align: center;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       font-size: var(--font-size-sm, 0.875rem);
     }
   `;
@@ -670,6 +670,11 @@ export class DocsApp extends LitElement {
               Styling
             </a>
             <a class="top-bar-link"
+              href="#/theming"
+              aria-current=${this.#isTopNavActive("theming") ? "page" : "false"}>
+              Theming
+            </a>
+            <a class="top-bar-link"
               href="#/colors"
               aria-current=${this.#isTopNavActive("colors") ? "page" : "false"}>
               Colors
@@ -796,6 +801,7 @@ export class DocsApp extends LitElement {
     const { section, component } = this.#route;
 
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
+    if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
     if (section === "blocks") return html`<docs-page-blocks></docs-page-blocks>`;
     if (section === "create") return html`<docs-page-create></docs-page-create>`;

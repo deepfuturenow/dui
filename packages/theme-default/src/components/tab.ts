@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const tabStyles = css`
   [part="tab"] {
-    color: var(--muted-foreground);
+    color: var(--text-2);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
@@ -13,12 +13,12 @@ export const tabStyles = css`
   }
 
   [part="tab"][data-active] {
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   @media (hover: hover) {
     [part="tab"]:hover:not([data-disabled]) {
-      color: var(--foreground);
+      color: var(--text-1);
     }
   }
 
@@ -31,6 +31,6 @@ export const tabStyles = css`
   }
 
   [part="tab"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 `;

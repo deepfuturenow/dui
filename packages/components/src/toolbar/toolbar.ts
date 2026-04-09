@@ -41,9 +41,9 @@ export class DuiToolbar extends LitElement {
   static tagName = "dui-toolbar" as const;
   static override styles = [base, styles];
 
-  /** Sets a minimum height using the corresponding `--component-height-*` token. */
+  /** Sets a minimum height. */
   @property({ reflect: true })
-  accessor size: "sm" | "md" | "lg" | "xl" | undefined;
+  accessor size: string = "";
 
   /** Adds horizontal and vertical padding. */
   @property({ type: Boolean, reflect: true })

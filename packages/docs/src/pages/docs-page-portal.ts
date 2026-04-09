@@ -10,7 +10,7 @@ export class DocsPagePortal extends LitElement {
     return html`
       <docs-page-layout tag="dui-portal">
         <dui-docs-demo label="Usage note">
-        <p style="margin: 0; color: var(--muted-foreground);">
+        <p style="margin: 0; color: var(--text-2);">
           Portal teleports its light DOM children to a target container elsewhere in the document.
           It is primarily used internally by overlay components (dialog, popover, tooltip) to
           render popups at the document root.

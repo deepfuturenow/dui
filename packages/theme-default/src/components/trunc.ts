@@ -5,6 +5,6 @@ export const truncStyles = css`
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
-    color: var(--foreground);
+    color: var(--text-1);
   }
 `;

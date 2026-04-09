@@ -14,8 +14,8 @@ export class BlockAudio extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
       padding: var(--space-6, 1.5rem);
-      background: var(--card);
-      color: var(--card-foreground);
+      background: var(--surface-2);
+      color: var(--text-1);
     }
 
     .title {
@@ -26,7 +26,7 @@ export class BlockAudio extends LitElement {
 
     .subtitle {
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
 
@@ -40,7 +40,7 @@ export class BlockAudio extends LitElement {
 
     .freq-bar {
       flex: 1;
-      background: var(--primary);
+      background: var(--accent);
       border-radius: var(--radius-sm, 0.25rem) var(--radius-sm, 0.25rem) 0 0;
       opacity: 0.8;
       min-width: 0;
@@ -63,8 +63,8 @@ export class BlockAudio extends LitElement {
         )}
       </div>
       <div class="badges">
-        <dui-badge variant="outline">Connecting</dui-badge>
-        <dui-badge variant="outline">Listening</dui-badge>
+        <dui-badge appearance="outline">Connecting</dui-badge>
+        <dui-badge appearance="outline">Listening</dui-badge>
         <dui-badge variant="success">Speaking</dui-badge>
       </div>
     `;

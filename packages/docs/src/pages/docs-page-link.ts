@@ -16,7 +16,7 @@ export class DocsPageLink extends LitElement {
       <dui-docs-demo label="Inline with text">
         <p style="margin: 0;">
           Check out the
-          <dui-link href="#/components/badge" style="color: var(--primary); text-decoration: underline;">Badge component</dui-link>
+          <dui-link href="#/components/badge" style="color: var(--accent); text-decoration: underline;">Badge component</dui-link>
           for status indicators.
         </p>
       </dui-docs-demo>

@@ -17,7 +17,7 @@ export class ApiTable extends LitElement {
     }
 
     .api-section {
-      border-top: var(--border-width-thin) solid var(--muted-foreground);
+      border-top: var(--border-width-thin) solid var(--text-2);
       padding-top: var(--space-4);
       margin-top: var(--space-4);
     }
@@ -39,7 +39,7 @@ export class ApiTable extends LitElement {
       text-align: left;
       font-size: var(--font-size-sm, 0.875rem);
       font-weight: 400;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       padding: var(--space-2) 0;
       padding-right: var(--space-4);
       border-bottom: var(--border-width-thin, 1px) solid var(--border);

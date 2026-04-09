@@ -17,8 +17,8 @@ export class BlockEnvVars extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
       padding: var(--space-6, 1.5rem);
-      background: var(--card);
-      color: var(--card-foreground);
+      background: var(--surface-2);
+      color: var(--text-1);
     }
 
     .title {
@@ -29,7 +29,7 @@ export class BlockEnvVars extends LitElement {
 
     .subtitle {
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
 
@@ -58,7 +58,7 @@ export class BlockEnvVars extends LitElement {
     }
 
     .var-value {
-      color: var(--muted-foreground);
+      color: var(--text-2);
       font-family: var(--font-mono, monospace);
       font-size: var(--font-size-xs, 0.75rem);
     }
@@ -85,7 +85,7 @@ export class BlockEnvVars extends LitElement {
         )}
       </div>
       <div class="footer">
-        <dui-button variant="outline" size="sm">Edit</dui-button>
+        <dui-button appearance="outline" size="sm">Edit</dui-button>
         <dui-button size="sm">Deploy</dui-button>
       </div>
     `;

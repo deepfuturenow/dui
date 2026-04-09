@@ -18,7 +18,7 @@ export class CreateControls extends LitElement {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider, 0.05em);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin-bottom: var(--space-2);
       font-family: var(--font-mono);
     }
@@ -47,7 +47,7 @@ export class CreateControls extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-sm, 0.25rem);
       background: transparent;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       font-size: var(--font-size-xs, 0.75rem);
       cursor: pointer;
       text-align: center;

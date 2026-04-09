@@ -4,8 +4,8 @@ export const previewCardPopupStyles = css`
   .Popup {
     padding: var(--space-4);
     border-radius: var(--radius-md);
-    background: var(--popover);
-    color: var(--popover-foreground);
+    background: var(--surface-3);
+    color: var(--text-1);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
@@ -17,7 +17,7 @@ export const previewCardPopupStyles = css`
   }
 
   .Arrow .arrow-fill {
-    fill: var(--popover);
+    fill: var(--surface-3);
   }
 
   .Arrow .arrow-stroke {

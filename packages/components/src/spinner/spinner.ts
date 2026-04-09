@@ -4,8 +4,7 @@ import { css, html, LitElement, svg, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
-type SpinnerSize = "sm" | "md" | "lg";
-type SpinnerVariant = "pulse" | "lucide-loader" | "lucide-loader-circle";
+
 
 /** Pulsing circle loading animation SVG */
 const pulseSvg = svg`
@@ -112,13 +111,13 @@ export class DuiSpinner extends LitElement {
   static tagName = "dui-spinner" as const;
   static override styles = [base, styles];
 
-  /** Size variant: "sm" (24px), "md" (32px), "lg" (44px). */
+  /** Size variant. */
   @property({ reflect: true })
-  accessor size: SpinnerSize = "sm";
+  accessor size: string = "";
 
   /** Animation variant. */
   @property({ reflect: true })
-  accessor variant: SpinnerVariant = "pulse";
+  accessor variant: string = "";
 
   #getSvg() {
     switch (this.variant) {

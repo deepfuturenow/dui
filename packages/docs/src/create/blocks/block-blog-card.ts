@@ -8,15 +8,15 @@ export class BlockBlogCard extends LitElement {
       display: block;
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
-      background: var(--card);
-      color: var(--card-foreground);
+      background: var(--surface-2);
+      color: var(--text-1);
       overflow: hidden;
     }
 
     .image-placeholder {
       width: 100%;
       height: 160px;
-      background: linear-gradient(135deg, var(--muted) 0%, var(--accent) 100%);
+      background: linear-gradient(135deg, var(--surface-1) 0%, var(--accent) 100%);
     }
 
     .content {
@@ -32,7 +32,7 @@ export class BlockBlogCard extends LitElement {
 
     .content p {
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-4);
       line-height: 1.5;
     }

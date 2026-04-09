@@ -2,22 +2,22 @@ import { css } from "lit";
 
 export const dropzoneStyles = css`
   :host([disabled]) {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="root"] {
     border: 2px dashed var(--border);
     border-radius: var(--radius-md);
     background: var(--background);
-    color: var(--foreground);
+    color: var(--text-1);
     padding: var(--space-4);
     transition-property: border-color, background, color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
   [part="root"]:hover {
-    border-color: var(--ring);
-    background: var(--muted);
+    border-color: var(--accent);
+    background: var(--surface-1);
   }
 
   [part="root"]:focus-visible {
@@ -28,7 +28,7 @@ export const dropzoneStyles = css`
   }
 
   [part="root"][data-dragover] {
-    border-color: var(--ring);
-    background: var(--muted);
+    border-color: var(--accent);
+    background: var(--accent-subtle);
   }
 `;

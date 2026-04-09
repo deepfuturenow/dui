@@ -247,3 +247,18 @@ export { toggleGroupStyles } from "./components/toggle-group.ts";
 export { numberFieldStyles } from "./components/number-field.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
+
+// --- Theme variant/size types ---
+export type {
+  ButtonVariant,
+  ButtonAppearance,
+  ButtonSize,
+  BadgeVariant,
+  BadgeAppearance,
+  SpinnerVariant,
+  SpinnerSize,
+  TextareaVariant,
+  SidebarVariant,
+  SidebarMenuButtonSize,
+  ToolbarSize,
+} from "./types.ts";

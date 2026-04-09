@@ -3,20 +3,20 @@ import { css } from "lit";
 export const menuItemStyles = css`
   .Item {
     --icon-size: var(--space-4);
-    --icon-color: var(--muted-foreground);
+    --icon-color: var(--text-2);
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
-    color: var(--popover-foreground);
+    color: var(--text-1);
   }
 
   .Item:hover,
   :host([data-highlighted]) .Item {
-    --icon-color: var(--foreground);
-    background: var(--secondary);
-    color: var(--foreground);
+    --icon-color: var(--text-1);
+    background: oklch(from var(--foreground) l c h / 0.05);
+    color: var(--text-1);
   }
 
   :host([variant="danger"]) .Item {
@@ -26,13 +26,13 @@ export const menuItemStyles = css`
 
   :host([variant="danger"]) .Item:hover,
   :host([variant="danger"][data-highlighted]) .Item {
-    --icon-color: var(--destructive-foreground);
+    --icon-color: oklch(from var(--destructive) 0.98 0.01 h);
     background: var(--destructive);
-    color: var(--destructive-foreground);
+    color: oklch(from var(--destructive) 0.98 0.01 h);
   }
 
   :host([disabled]) .Item {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 `;

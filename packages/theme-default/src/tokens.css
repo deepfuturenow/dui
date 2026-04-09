@@ -232,7 +232,7 @@
   /* -----------------------------------------------------------
    * Focus Ring
    * ----------------------------------------------------------- */
-  --focus-ring-color: var(--ring);
+  --focus-ring-color: var(--accent);
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
   --focus-ring-duration: var(--duration-fast);
@@ -246,38 +246,79 @@
 }
 
 /* =================================================================
- * LIGHT THEME (default)
+ * COLOR SYSTEM
+ * =================================================================
+ * Built on two principles:
+ *  1. Operations on a base — colors are relationships, not fixed values.
+ *  2. Fewer primitives, more derivation — 4 primitives, everything
+ *     else computed via oklch(from ...) and color-mix().
+ *
+ * Layer 1: Primitives (only values a theme author picks)
+ * Layer 2: Derived tokens (computed from primitives, never per-theme)
+ * Layer 3: Interaction states (component-level, not tokens)
  * ================================================================= */
+
+/* -----------------------------------------------------------------
+ * LIGHT THEME (default)
+ * ----------------------------------------------------------------- */
 :root:not([data-theme="dark"]) {
-  --background: oklch(0.97 0 0);
-  --foreground: oklch(0.145 0.005 286);
-  --muted: oklch(0.965 0.002 286);
-  --muted-foreground: oklch(0.556 0.016 286);
-  --card: oklch(0.99 0 0);
-  --card-foreground: oklch(0.145 0.005 286);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.005 286);
-  --primary: oklch(0.205 0.042 265);
-  --primary-foreground: oklch(0.985 0.002 248);
-  --secondary: oklch(0.93 0.002 286);
-  --secondary-foreground: oklch(0.3 0.042 265);
-  --accent: oklch(0.93 0.04 62);
-  --accent-foreground: oklch(0.32 0.06 55);
-  --destructive: oklch(0.6 0.19 25);
-  --destructive-foreground: oklch(0.995 0.06 25);
-  --success: oklch(0.5 0.15 150);
-  --success-foreground: oklch(0.985 0 0);
-  --warning: oklch(0.72 0.15 75);
-  --warning-foreground: oklch(0.28 0.06 55);
-  --info: oklch(0.53 0.16 245);
-  --info-foreground: oklch(0.985 0 0);
-  --input: oklch(0.922 0.004 286);
-  --input-bg: oklch(0.97 0.002 286);
-  --border: oklch(0.922 0.004 286);
-  --ring: oklch(0.551 0.2 245);
-  --meter-track: oklch(0.965 0.002 286);
-  --meter-fill: oklch(0.205 0.042 265);
-  --scrim: oklch(0 0 0 / 0.5);
+  /* --- Layer 1: Primitives --- */
+  --background:  oklch(0.97 0 0);
+  --foreground:  oklch(0.15 0 0);
+  --accent:      oklch(0.55 0.25 260);
+  --destructive: oklch(0.55 0.22 25);
+}
+
+/* -----------------------------------------------------------------
+ * DARK THEME
+ * ----------------------------------------------------------------- */
+:root[data-theme="dark"] {
+  /* --- Layer 1: Primitives --- */
+  --background:  oklch(0.15 0.015 260);
+  --foreground:  oklch(0.93 0 0);
+  --accent:      oklch(0.75 0.18 260);
+  --destructive: oklch(0.70 0.18 25);
+}
+
+/* -----------------------------------------------------------------
+ * Layer 2: Derived tokens (computed from primitives)
+ * Defined once — same rules for light and dark.
+ * ----------------------------------------------------------------- */
+:root {
+  /* Surfaces — lightness offsets from background.
+     Positive = elevated (brighter). Negative = sunken (darker). */
+  --sunken:    oklch(from var(--background) calc(l - 0.03) c h);
+  --surface-1: oklch(from var(--background) calc(l + 0.02) c h);
+  --surface-2: oklch(from var(--background) calc(l + 0.05) c h);
+  --surface-3: oklch(from var(--background) calc(l + 0.09) c h);
+
+  /* Borders — foreground at reduced alpha.
+     Semi-transparent so they adapt to any surface. */
+  --border:        oklch(from var(--foreground) l c h / 0.15);
+  --border-strong:  oklch(from var(--foreground) l c h / 0.25);
+
+  /* Text tiers — foreground at reduced alpha.
+     Semi-transparent so they adapt to any surface. */
+  --text-1: oklch(from var(--foreground) l c h / 0.90);
+  --text-2: oklch(from var(--foreground) l c h / 0.63);
+  --text-3: oklch(from var(--foreground) l c h / 0.45);
+
+  /* Accent surfaces — for badges, pills, tinted cards */
+  --accent-subtle:      oklch(from var(--accent) l c h / 0.10);
+  --accent-text:        color-mix(in oklch, var(--accent) 80%, var(--foreground));
+
+  /* Destructive surfaces */
+  --destructive-subtle: oklch(from var(--destructive) l c h / 0.10);
+  --destructive-text:   color-mix(in oklch, var(--destructive) 80%, var(--foreground));
+
+  /* Utility — scrim overlay for modals/dialogs */
+  --scrim: oklch(from var(--foreground) l c h / 0.35);
+
+  /* Meter / progress bar defaults */
+  --meter-track: var(--surface-1);
+  --meter-fill: var(--accent);
+
+  /* Chart palette (theme-independent) */
   --chart-1: oklch(0.58 0.17 35);
   --chart-2: oklch(0.55 0.13 185);
   --chart-3: oklch(0.52 0.14 265);
@@ -286,50 +327,10 @@
 }
 
 /* =================================================================
- * DARK THEME
- * ================================================================= */
-:root[data-theme="dark"] {
-  --background: oklch(0.26 0.019 243);
-  --foreground: oklch(0.9353 0.0173 243);
-  --muted: oklch(0.27 0.03 243);
-  --muted-foreground: oklch(0.9353 0.0173 243 / 0.4);
-  --card: oklch(0.29 0.028 243);
-  --card-foreground: oklch(0.985 0.002 243);
-  --popover: oklch(0.309 0.032 243);
-  --popover-foreground: oklch(0.985 0.002 243);
-  --primary: oklch(0.985 0.002 243);
-  --primary-foreground: oklch(0.205 0.042 243);
-  --secondary: oklch(0.826 0.041 243 / 0.2);
-  --secondary-foreground: oklch(0.9353 0.0173 243 / 1);
-  --accent: oklch(0.7001 0.1329 62.25);
-  --accent-foreground: oklch(1 0.1 62.25);
-  --destructive: oklch(0.63 0.2 25);
-  --destructive-foreground: oklch(0.99 0.1 25);
-  --success: oklch(0.65 0.17 145);
-  --success-foreground: oklch(1 0.1 145);
-  --warning: oklch(0.78 0.15 80);
-  --warning-foreground: oklch(1 0.05 80);
-  --info: oklch(0.64 0.16 245);
-  --info-foreground: oklch(1 0.1 245);
-  --input: oklch(0.826 0.041 202 / 0.2);
-  --input-bg: oklch(0.826 0.041 202 / 0.08);
-  --border: oklch(0.826 0.041 202 / 0.14);
-  --ring: oklch(0.55 0.16 245);
-  --meter-track: oklch(0.269 0.007 286);
-  --meter-fill: oklch(0.985 0.002 248);
-  --scrim: oklch(0.18 0.017 244 / 0.6);
-  --chart-1: oklch(0.58 0.17 264);
-  --chart-2: oklch(0.62 0.15 162);
-  --chart-3: oklch(0.7 0.16 80);
-  --chart-4: oklch(0.6 0.19 303);
-  --chart-5: oklch(0.62 0.18 16);
-}
-
-/* =================================================================
  * Base document styles
  * ================================================================= */
 :root {
-  color: var(--foreground);
+  color: var(--text-1);
   font-family: var(--font-sans);
   line-height: var(--line-height-normal);
   -webkit-font-smoothing: antialiased;

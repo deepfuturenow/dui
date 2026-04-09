@@ -178,8 +178,8 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Badge
 - Tag: `<dui-badge>`
 - Import: `@dui/components/badge`
-- Description: A small status indicator with multiple variants.
-- Properties: variant (string, "default")
+- Description: A small status indicator with variant (intent) and appearance (treatment) axes.
+- Properties: variant (string, ""), appearance (string, "")
 - Events: none
 - Slots: default (Badge content)
 - CSS Parts: root (The badge element)
@@ -187,8 +187,8 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Button
 - Tag: `<dui-button>`
 - Import: `@dui/components/button`
-- Description: A button with variant, size, and link support.
-- Properties: variant (string, "default"), size (string, "md"), disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Description: A button with variant (intent), appearance (treatment), and size.
+- Properties: variant (string, ""), appearance (string, ""), size (string, ""), disabled (boolean, false), type (string, "button"), href (string | undefined)
 - Events: dui-navigate ({ href: string })
 - Slots: default (Button label content)
 - CSS Variables: --button-bg (Background (supports gradients, images, and color)), --button-fg (Text and icon color), --button-border (Border color), --button-hover-bg (Hover background (derived from --button-bg by default)), --button-active-bg (Active/pressed background (derived from --button-bg by default)), --button-height (Component height), --button-width (Component width), --button-padding-y (Vertical padding), --button-padding-x (Horizontal padding), --button-gap (Gap between icon and label), --button-radius (Border radius), --button-font-size (Font size), --button-icon-size (Icon size)
@@ -719,7 +719,8 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: A two-state toggle button. Works standalone or inside a toggle group.
 - Properties: pressed (boolean | undefined), defaultPressed (boolean, false), disabled (boolean, false), value (string | undefined)
 - Events: pressed-change ({ pressed: boolean })
-- Slots: default (Toggle content (text and/or icons))
+- Slots: default (Toggle content (text and/or icons)), icon (Optional leading icon)
+- CSS Variables: --toggle-gap (Gap between icon and label)
 - CSS Parts: root (The toggle button)
 
 ### Toggle Group

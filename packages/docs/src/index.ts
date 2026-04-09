@@ -46,6 +46,7 @@ import "./pages/docs-page-number-field.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-styling.ts";
+import "./pages/docs-page-theming.ts";
 import "./pages/docs-page-colors.ts";
 import "./pages/docs-page-blocks.ts";
 import "./create/docs-page-create.ts";

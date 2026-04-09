@@ -8,7 +8,7 @@ export const dataTableStyles = css`
   .TableWindow {
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    scrollbar-color: var(--muted-foreground) transparent;
+    scrollbar-color: var(--text-2) transparent;
     scrollbar-width: thin;
   }
 
@@ -23,13 +23,13 @@ export const dataTableStyles = css`
     padding: 0 var(--space-3);
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xs);
-    color: var(--muted-foreground);
-    background: var(--muted);
+    color: var(--text-2);
+    background: var(--surface-1);
     border-bottom: var(--border-width-thin) solid var(--border);
   }
 
   th[aria-sort]:hover {
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   .HeaderContent {
@@ -45,7 +45,7 @@ export const dataTableStyles = css`
   th[aria-sort="ascending"] .SortIcon,
   th[aria-sort="descending"] .SortIcon {
     opacity: 1;
-    color: var(--foreground);
+    color: var(--text-1);
   }
 
   tbody tr {
@@ -59,7 +59,7 @@ export const dataTableStyles = css`
   }
 
   tbody tr:hover {
-    background: var(--muted);
+    background: var(--surface-1);
   }
 
   td {
@@ -70,13 +70,13 @@ export const dataTableStyles = css`
   .EmptyRow td {
     height: 96px;
     text-align: center;
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   .Pagination {
     padding: 0 var(--space-1);
     font-size: var(--font-size-sm);
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   .PageInfo {
@@ -92,14 +92,14 @@ export const dataTableStyles = css`
     height: var(--component-height-sm);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    color: var(--foreground);
+    color: var(--text-1);
     font-size: var(--font-size-sm);
     transition-property: background;
     transition-duration: var(--duration-fast);
   }
 
   .PageButton:hover:not(:disabled) {
-    background: var(--muted);
+    background: var(--surface-1);
   }
 
   .PageButton:disabled {

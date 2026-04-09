@@ -33,7 +33,7 @@ export class DocsPageColors extends LitElement {
     .subtitle {
       font-family: var(--font-mono);
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-8, 2rem);
     }
 
@@ -66,7 +66,7 @@ export class DocsPageColors extends LitElement {
     .swatch-value {
       font-family: var(--font-mono);
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin-top: var(--space-0_5, 0.125rem);
     }
   `;

@@ -9,21 +9,13 @@ export const sidebarProviderStyles = css`
     --sidebar-group-label-inset: var(--space-6);
     --sidebar-button-inset: var(--space-4);
     --sidebar-header-content-gap: var(--space-4);
-    --sidebar-bg: color-mix(
-      in oklch,
-      var(--background) 97%,
-      var(--foreground)
-    );
-    --sidebar-fg: var(--card-foreground);
-    --sidebar-separator: color-mix(
-      in oklch,
-      var(--foreground) 10%,
-      oklch(0 0 0 / 0)
-    );
+    --sidebar-bg: var(--surface-1);
+    --sidebar-fg: var(--text-1);
+    --sidebar-separator: var(--border);
     --sidebar-border: var(--border);
     --sidebar-button-bg: oklch(0 0 0 / 0);
-    --sidebar-button-fg: var(--foreground);
-    --sidebar-muted-fg: var(--muted-foreground);
-    --sidebar-ring: var(--ring);
+    --sidebar-button-fg: var(--text-1);
+    --sidebar-muted-fg: var(--text-2);
+    --sidebar-ring: var(--accent);
   }
 `;

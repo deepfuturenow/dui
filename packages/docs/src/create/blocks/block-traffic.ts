@@ -18,8 +18,8 @@ export class BlockTraffic extends LitElement {
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-lg, 0.75rem);
       padding: var(--space-6, 1.5rem);
-      background: var(--card);
-      color: var(--card-foreground);
+      background: var(--surface-2);
+      color: var(--text-1);
     }
 
     .header {
@@ -37,7 +37,7 @@ export class BlockTraffic extends LitElement {
 
     .subtitle {
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
 
@@ -73,17 +73,17 @@ export class BlockTraffic extends LitElement {
     }
 
     .bar.desktop {
-      background: var(--primary);
+      background: var(--accent);
     }
 
     .bar.mobile {
-      background: var(--muted-foreground);
+      background: var(--text-2);
       opacity: 0.4;
     }
 
     .bar-label {
       font-size: 10px;
-      color: var(--muted-foreground);
+      color: var(--text-2);
     }
 
     .legend {
@@ -97,7 +97,7 @@ export class BlockTraffic extends LitElement {
       align-items: center;
       gap: var(--space-1);
       font-size: var(--font-size-xs, 0.75rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
     }
 
     .legend-dot {
@@ -107,11 +107,11 @@ export class BlockTraffic extends LitElement {
     }
 
     .legend-dot.desktop {
-      background: var(--primary);
+      background: var(--accent);
     }
 
     .legend-dot.mobile {
-      background: var(--muted-foreground);
+      background: var(--text-2);
       opacity: 0.4;
     }
 
@@ -125,7 +125,7 @@ export class BlockTraffic extends LitElement {
 
     .stat-label {
       font-size: 10px;
-      color: var(--muted-foreground);
+      color: var(--text-2);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -137,7 +137,7 @@ export class BlockTraffic extends LitElement {
     }
 
     .stat-value.positive {
-      color: var(--primary);
+      color: var(--accent);
     }
   `;
 

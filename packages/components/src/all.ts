@@ -36,7 +36,6 @@ export type { ImageStatus } from "./avatar/index.ts";
 
 // --- Badge ---
 export { DuiBadge } from "./badge/index.ts";
-export type { BadgeVariant } from "./badge/index.ts";
 
 // --- Breadcrumb ---
 export {
@@ -50,7 +49,6 @@ export {
 
 // --- Button ---
 export { DuiButton } from "./button/index.ts";
-export type { ButtonSize, ButtonVariant } from "./button/index.ts";
 
 // --- Calendar ---
 export { DuiCalendar } from "./calendar/index.ts";
@@ -228,7 +226,7 @@ export type { TabsContext } from "./tabs/index.ts";
 
 // --- Textarea ---
 export { DuiTextarea } from "./textarea/index.ts";
-export type { TextareaResize, TextareaVariant } from "./textarea/index.ts";
+export type { TextareaResize } from "./textarea/index.ts";
 
 // --- Toggle ---
 export { DuiToggle, DuiToggleGroup } from "./toggle/index.ts";

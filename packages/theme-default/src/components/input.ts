@@ -7,16 +7,16 @@ export const inputStyles = css`
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
     height: var(--component-height-md);
-    color: var(--foreground);
-    border: var(--border-width-thin) solid var(--input);
-    background: var(--input-bg);
+    color: var(--text-1);
+    border: var(--border-width-thin) solid var(--border);
+    background: var(--sunken);
     border-radius: var(--radius-md);
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
   [part="input"]::placeholder {
-    color: var(--muted-foreground);
+    color: var(--text-3);
   }
 
   [part="input"]:focus-visible {
@@ -26,7 +26,7 @@ export const inputStyles = css`
   }
 
   [part="input"]:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="input"][data-invalid] {
@@ -49,7 +49,7 @@ export const inputStyles = css`
   [part="input"]:-webkit-autofill,
   [part="input"]:-webkit-autofill:hover,
   [part="input"]:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--foreground);
+    -webkit-text-fill-color: var(--text-1);
     transition: background-color 5000s ease-in-out 0s;
   }
 `;

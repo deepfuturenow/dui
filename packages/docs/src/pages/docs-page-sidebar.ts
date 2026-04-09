@@ -55,13 +55,13 @@ export class DocsPageSidebar extends LitElement {
                 </dui-sidebar-group>
               </dui-sidebar-content>
               <dui-sidebar-footer>
-                <div style="padding: var(--space-2); font-size: var(--font-size-xs); color: var(--muted-foreground);">v1.0.0</div>
+                <div style="padding: var(--space-2); font-size: var(--font-size-xs); color: var(--text-2);">v1.0.0</div>
               </dui-sidebar-footer>
             </dui-sidebar>
             <dui-sidebar-inset>
               <div style="padding: var(--space-4);">
                 <dui-sidebar-trigger></dui-sidebar-trigger>
-                <p style="margin-top: var(--space-4); color: var(--muted-foreground);">Main content area. Click the trigger to toggle the sidebar.</p>
+                <p style="margin-top: var(--space-4); color: var(--text-2);">Main content area. Click the trigger to toggle the sidebar.</p>
               </div>
             </dui-sidebar-inset>
           </dui-sidebar-provider>

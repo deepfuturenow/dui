@@ -10,7 +10,6 @@ export { DuiSidebarGroupLabel } from "./sidebar-group-label.ts";
 export { DuiSidebarMenu } from "./sidebar-menu.ts";
 export { DuiSidebarMenuItem } from "./sidebar-menu-item.ts";
 export { DuiSidebarMenuButton } from "./sidebar-menu-button.ts";
-export type { SidebarMenuButtonSize } from "./sidebar-menu-button.ts";
 export { DuiSidebarSeparator } from "./sidebar-separator.ts";
 export { DuiSidebarInset } from "./sidebar-inset.ts";
 export type { SidebarContext } from "./sidebar-context.ts";

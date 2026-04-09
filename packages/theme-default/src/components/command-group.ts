@@ -9,6 +9,6 @@ export const commandGroupStyles = css`
     padding: var(--space-1_5) var(--space-2);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 `;

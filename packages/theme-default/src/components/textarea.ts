@@ -10,9 +10,9 @@ export const textareaStyles = css`
     font-family: var(--font-sans);
     font-size: var(--font-size);
     line-height: var(--line-height-snug);
-    color: var(--foreground);
-    border: var(--border-width-thin) solid var(--input);
-    background: var(--input-bg);
+    color: var(--text-1);
+    border: var(--border-width-thin) solid var(--border);
+    background: var(--sunken);
     border-radius: var(--radius-md);
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
@@ -25,7 +25,7 @@ export const textareaStyles = css`
   /* Scrollbar */
   [part="textarea"] {
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--muted-foreground) 50%, transparent) transparent;
+    scrollbar-color: color-mix(in srgb, var(--text-2) 50%, transparent) transparent;
   }
 
   [part="textarea"]::-webkit-scrollbar {
@@ -37,18 +37,18 @@ export const textareaStyles = css`
   }
 
   [part="textarea"]::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    background: color-mix(in srgb, var(--text-2) 50%, transparent);
     border-radius: var(--radius-sm);
     border: 0.125rem solid transparent;
     background-clip: padding-box;
   }
 
   [part="textarea"]::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
+    background: color-mix(in srgb, var(--text-2) 70%, transparent);
   }
 
   [part="textarea"]::placeholder {
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 
   [part="textarea"]:focus-visible {
@@ -58,7 +58,7 @@ export const textareaStyles = css`
   }
 
   [part="textarea"]:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   [part="textarea"][data-invalid] {

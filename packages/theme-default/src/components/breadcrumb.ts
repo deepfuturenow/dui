@@ -5,6 +5,6 @@ export const breadcrumbStyles = css`
     gap: var(--space-2);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
-    color: var(--muted-foreground);
+    color: var(--text-2);
   }
 `;

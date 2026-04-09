@@ -8,7 +8,7 @@ export type SidebarContext = {
   readonly openMobile: boolean;
   readonly isMobile: boolean;
   readonly side: "left" | "right";
-  readonly variant: "sidebar" | "floating" | "inset";
+  readonly variant: string;
   readonly collapsible: "offcanvas" | "icon" | "none";
   readonly setOpen: (open: boolean) => void;
   readonly toggleSidebar: () => void;

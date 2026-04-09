@@ -288,10 +288,11 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-badge",
     name: "Badge",
-    description: "A small status indicator with multiple variants.",
+    description: "A small status indicator with variant (intent) and appearance (treatment) axes.",
     importPath: "@dui/components/badge",
     properties: [
-      { name: "variant", type: "string", default: '"default"', description: 'Badge variant: "default" | "secondary" | "destructive" | "outline" | "success" | "warning" | "info"' },
+      { name: "variant", type: "string", default: '""', description: 'Semantic intent: "neutral" | "primary" | "danger" | "success" | "warning" | "info"' },
+      { name: "appearance", type: "string", default: '""', description: 'Visual treatment: "filled" | "outline" | "ghost"' },
     ],
     events: [],
     slots: [
@@ -305,11 +306,12 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-button",
     name: "Button",
-    description: "A button with variant, size, and link support.",
+    description: "A button with variant (intent), appearance (treatment), and size.",
     importPath: "@dui/components/button",
     properties: [
-      { name: "variant", type: "string", default: '"default"', description: 'Button variant: "default" | "primary" | "secondary" | "destructive" | "outline" | "ghost" | "link"' },
-      { name: "size", type: "string", default: '"md"', description: 'Button size: "sm" | "md" | "lg"' },
+      { name: "variant", type: "string", default: '""', description: 'Semantic intent: "neutral" | "primary" | "danger" | "success" | "warning"' },
+      { name: "appearance", type: "string", default: '""', description: 'Visual treatment: "filled" | "outline" | "ghost" | "link"' },
+      { name: "size", type: "string", default: '""', description: 'Button size: "sm" | "md" | "lg"' },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the button" },
       { name: "type", type: "string", default: '"button"', description: 'Button type: "button" | "submit" | "reset"' },
       { name: "href", type: "string | undefined", description: "When set, renders as an anchor" },

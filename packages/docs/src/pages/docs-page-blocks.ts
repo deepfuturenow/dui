@@ -18,7 +18,7 @@ export class DocsPageBlocks extends LitElement {
     .placeholder {
       font-family: var(--font-mono);
       font-size: var(--font-size-sm, 0.875rem);
-      color: var(--muted-foreground);
+      color: var(--text-2);
       margin-top: var(--space-8, 2rem);
       padding: var(--space-8, 2rem);
       border: var(--border-width-thin, 1px) dashed var(--border);

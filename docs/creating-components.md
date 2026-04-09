@@ -30,15 +30,6 @@ import { css, html, LitElement, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
-export type BadgeVariant =
-  | "default"
-  | "secondary"
-  | "destructive"
-  | "outline"
-  | "success"
-  | "warning"
-  | "info";
-
 /** Structural styles only — layout CSS. */
 const styles = css`
   :host {
@@ -63,7 +54,7 @@ export class DuiBadge extends LitElement {
   static override styles = [base, styles];
 
   @property({ reflect: true })
-  accessor variant: BadgeVariant = "default";
+  accessor variant: string = "";
 
   override render(): TemplateResult {
     return html`
@@ -94,7 +85,7 @@ Every public prop uses `@property()` with the `accessor` keyword.
 
 ```typescript
 @property({ reflect: true })
-accessor variant: ButtonVariant = "default";
+accessor variant: string = "";
 
 @property({ type: Boolean, reflect: true })
 accessor disabled = false;
@@ -111,6 +102,35 @@ accessor href: string | undefined = undefined;
 - `type: Number` for numeric props
 - `type: Array` or `type: Object` for complex props — do NOT reflect these
 - For controlled/uncontrolled patterns: support `defaultChecked` (initial) + `checked` (controlled). Track internally with `@state`.
+
+### The dividing line: component types vs. theme types
+
+Every property falls into one of two categories:
+
+**Stays in the component (typed enum)** — changes behaviour, DOM structure, or ARIA semantics:
+
+| Component | Property | Type | Why it stays |
+|-----------|----------|------|--------------|
+| Toggle Group | `type` | `"single" \| "multiple"` | Changes JS selection logic |
+| Accordion | `orientation` | `"vertical" \| "horizontal"` | Changes keyboard nav + `aria-orientation` |
+| Separator | `orientation` | `"horizontal" \| "vertical"` | Changes `role` presentation |
+| Sidebar | `collapsible` | `"offcanvas" \| "icon" \| "none"` | Changes DOM rendering |
+| Sidebar | `side` | `"left" \| "right"` | Changes layout structure |
+| Tooltip | `side` | `"top" \| "bottom"` | Drives positioning math |
+| Textarea | `resize` | `"none" \| "vertical" \| "horizontal" \| "both" \| "auto"` | Changes JS auto-grow behaviour |
+
+**Moves to theme (bare string)** — only changes CSS variable values:
+
+| Component | Property | Declaration |
+|-----------|----------|-------------|
+| Button | `variant`, `size` | `accessor variant: string = ""` |
+| Badge | `variant` | `accessor variant: string = ""` |
+| Spinner | `variant`, `size` | `accessor variant: string = ""` |
+| Textarea | `variant` | `accessor variant: string = ""` |
+| Sidebar | `variant` | `accessor variant: string = ""` |
+| Toolbar | `size` | `accessor size: string = ""` |
+
+**The principle:** If the property changes JavaScript logic, DOM output, or ARIA attributes, it belongs in the component with a typed enum. If it only changes CSS variable values, it belongs in the theme — the component declares it as a bare reflected string.
 
 ### Properties vs CSS variables
 
@@ -129,6 +149,15 @@ Properties are the **primary public API**. CSS variables are secondary:
 A variable earns its place in the theme if it meets at least one of: (1) variants toggle it, (2) other variables derive from it (e.g., hover colors via `color-mix`), (3) sizes toggle it, or (4) it needs ancestor cascading. If none apply, consumers use `::part(root)` instead — no variable needed. See [theming.md](./theming.md) for the full philosophy.
 
 **Do not** create purely aesthetic attributes on components (e.g., `rounded`, `square`). These belong in the theme layer — consumers achieve the same via variables (e.g., `--button-radius: var(--radius-full)`).
+
+---
+
+## What components must NOT do
+
+- **No token references** — Components contain only structural CSS. No `var(--space-*)`, `var(--accent)`, or any design token.
+- **No variant union types** — Variant names are theme concerns. Declare `variant` and `size` as `string = ""`.
+- **No variant logic** — No `switch` statements or conditional rendering based on variant values. The component just reflects the attribute; the theme handles the visual meaning.
+- **No aesthetic CSS** — No colors, fonts, spacing values, borders, or shadows. Those belong in the theme.
 
 ---
 
@@ -230,8 +259,8 @@ Colors, fonts, spacing values, borders, shadows, animations.
 
 ```css
 :host {
-  --badge-bg: var(--primary);
-  --badge-fg: var(--primary-foreground);
+  --badge-bg: var(--accent);
+  --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
 }
 
 [part="root"] {
@@ -250,7 +279,7 @@ Colors, fonts, spacing values, borders, shadows, animations.
 
 **Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-property`, `transition-duration`, `transition-timing-function`.
 
-**When in doubt:** If the property references a design token (`var(--space-*)`, `var(--primary)`), it's aesthetic.
+**When in doubt:** If the property references a design token (`var(--space-*)`, `var(--accent)`), it's aesthetic.
 
 ---
 
@@ -366,12 +395,11 @@ Set `--icon-size` and `--icon-fg` in theme styles for slotted icons:
 
 ## Exports and registration
 
-### `index.ts` — re-export class + types
+### `index.ts` — re-export class
 
 ```typescript
 // packages/components/src/badge/index.ts
 export { DuiBadge } from "./badge.ts";
-export type { BadgeVariant } from "./badge.ts";
 ```
 
 ### `register.ts` — standalone registration
@@ -414,10 +442,6 @@ import { css, html, LitElement, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
-export type BadgeVariant =
-  | "default" | "secondary" | "destructive" | "outline"
-  | "success" | "warning" | "info";
-
 const styles = css`
   :host { display: inline-block; }
   [part="root"] { display: inline-flex; align-items: center; }
@@ -428,7 +452,7 @@ export class DuiBadge extends LitElement {
   static override styles = [base, styles];
 
   @property({ reflect: true })
-  accessor variant: BadgeVariant = "default";
+  accessor variant: string = "";
 
   override render(): TemplateResult {
     return html`<span part="root"><slot></slot></span>`;
@@ -440,7 +464,6 @@ export class DuiBadge extends LitElement {
 
 ```typescript
 export { DuiBadge } from "./badge.ts";
-export type { BadgeVariant } from "./badge.ts";
 ```
 
 ### 3. Register (`packages/components/src/badge/register.ts`)
@@ -459,15 +482,15 @@ import { css } from "lit";
 
 export const badgeStyles = css`
   :host {
-    --badge-bg: var(--primary);
-    --badge-fg: var(--primary-foreground);
+    --badge-bg: var(--accent);
+    --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
     --badge-border: transparent;
     --badge-icon-size: var(--space-3);
   }
 
   :host([variant="secondary"]) {
-    --badge-bg: var(--secondary);
-    --badge-fg: var(--secondary-foreground);
+    --badge-bg: var(--surface-1);
+    --badge-fg: var(--text-1);
   }
 
   /* ... more variants ... */
@@ -488,7 +511,15 @@ export const badgeStyles = css`
 `;
 ```
 
-### 5. Register in theme (`packages/theme-default/src/index.ts`)
+### 5. Theme variant types (`packages/theme-default/src/types.ts`)
+
+```typescript
+export type BadgeVariant =
+  | "default" | "secondary" | "destructive" | "outline"
+  | "success" | "warning" | "info";
+```
+
+### 6. Register in theme (`packages/theme-default/src/index.ts`)
 
 ```typescript
 import { badgeStyles } from "./components/badge.ts";
@@ -503,7 +534,7 @@ export const defaultTheme: DuiTheme = {
 };
 ```
 
-### 6. Add exports to `deno.json`
+### 7. Add exports to `deno.json`
 
 In `packages/components/deno.json`, add `"./badge": "./src/badge/index.ts"`.
 
@@ -517,6 +548,8 @@ In `packages/theme-default/deno.json`, add `"./components/badge": "./src/compone
 - [ ] **`static tagName`** with `as const` — no `@customElement` decorator
 - [ ] **`static override styles = [base, styles]`** — `base` from `@dui/core/base`
 - [ ] **Structural CSS only** — no colors, fonts, or spacing values in the component
+- [ ] **No token references** — no `var(--space-*)`, `var(--accent)`, etc.
+- [ ] **No variant union types** — `variant` and `size` are `string = ""`
 - [ ] **`part="root"`** on root internal element
 - [ ] **Reflected properties** for variant/size (`@property({ reflect: true })`)
 - [ ] **All decorated properties** use the `accessor` keyword
@@ -525,11 +558,13 @@ In `packages/theme-default/deno.json`, add `"./components/badge": "./src/compone
 - [ ] **All lifecycle overrides** use the `override` keyword
 - [ ] **Events** use `customEvent()` factory with `bubbles: true, composed: true`
 - [ ] **JSDoc** with `@slot`, `@csspart`, `@fires` as needed
-- [ ] **`index.ts`** re-exports class + types
+- [ ] **`index.ts`** re-exports class (no variant types — those go in the theme)
 - [ ] **`register.ts`** provides standalone registration
 - [ ] **Package exports** added to `deno.json`
 - [ ] **Theme styles** created in `packages/theme-default/src/components/`
 - [ ] **Theme styles registered** in `defaultTheme.styles` map
 - [ ] **Theme exports** added to theme's `deno.json`
+- [ ] **Theme variant types** added to `packages/theme-default/src/types.ts`
+- [ ] **`@property` declarations** added to `properties.css` for consumer-facing variables
 - [ ] **All token values** use design tokens — no hardcoded `px` or `rem`
 - [ ] **Provenance comment** at top of file (when ported from external library)

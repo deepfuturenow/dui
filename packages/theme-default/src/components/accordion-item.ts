@@ -16,7 +16,7 @@ export const accordionItemStyles = css`
     gap: var(--space-4);
     padding-block: var(--space-2);
     padding-inline: 0;
-    color: var(--foreground);
+    color: var(--text-1);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-sm);
@@ -30,7 +30,7 @@ export const accordionItemStyles = css`
 
   @media (hover: hover) {
     [part="trigger"]:hover {
-      background: color-mix(in oklch, var(--muted) 50%, transparent);
+      background: oklch(from var(--foreground) l c h / 0.04);
     }
   }
 
@@ -42,7 +42,7 @@ export const accordionItemStyles = css`
   }
 
   [part="trigger"][data-disabled] {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   /* ── Indicator ── */
@@ -77,7 +77,7 @@ export const accordionItemStyles = css`
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
-    color: color-mix(in oklch, var(--foreground) 80%, transparent);
+    color: var(--text-2);
   }
 
   /* ── Reduced motion ── */
