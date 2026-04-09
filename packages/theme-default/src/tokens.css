@@ -324,6 +324,28 @@
   --chart-3: oklch(0.52 0.14 265);
   --chart-4: oklch(0.62 0.15 85);
   --chart-5: oklch(0.55 0.16 310);
+
+  /* -----------------------------------------------------------
+   * Prose (rich-text / markdown content)
+   * ----------------------------------------------------------- */
+  --prose-body: var(--text-1);
+  --prose-headings: var(--foreground);
+  --prose-lead: var(--text-2);
+  --prose-links: var(--accent);
+  --prose-links-hover: var(--accent-text);
+  --prose-bold: var(--foreground);
+  --prose-code: var(--foreground);
+  --prose-code-bg: var(--surface-1);
+  --prose-pre-bg: var(--surface-1);
+  --prose-pre-border: var(--border);
+  --prose-blockquote-border: var(--accent);
+  --prose-blockquote-text: var(--text-2);
+  --prose-hr: var(--border);
+  --prose-th-border: var(--border-strong);
+  --prose-td-border: var(--border);
+  --prose-caption: var(--text-3);
+  --prose-kbd-bg: var(--surface-2);
+  --prose-kbd-border: var(--border-strong);
 }
 
 /* =================================================================

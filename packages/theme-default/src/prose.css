@@ -1,0 +1,250 @@
+/* =================================================================
+ * DUI Prose — Rich-text / markdown content styles
+ * =================================================================
+ * Apply class="dui-prose" to any container with rendered HTML
+ * (markdown output, CMS content, help text, etc.).
+ *
+ * All values reference --prose-* tokens (customizable) and existing
+ * DUI design tokens. No hardcoded colors or spacing.
+ * ================================================================= */
+
+/* --- Root -------------------------------------------------------- */
+.dui-prose {
+  color: var(--prose-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  max-width: 65ch;
+}
+
+.dui-prose > :first-child {
+  margin-block-start: 0;
+}
+
+.dui-prose > :last-child {
+  margin-block-end: 0;
+}
+
+/* --- Headings ---------------------------------------------------- */
+.dui-prose h1 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tightest);
+  margin-block: 0 var(--space-4);
+}
+
+.dui-prose h2 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  margin-block: var(--space-10) var(--space-3);
+}
+
+.dui-prose h3 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-block: var(--space-8) var(--space-3);
+}
+
+.dui-prose h4 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-block: var(--space-6) var(--space-2);
+}
+
+.dui-prose h5 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-block: var(--space-6) var(--space-2);
+}
+
+.dui-prose h6 {
+  color: var(--prose-headings);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-block: var(--space-6) var(--space-2);
+}
+
+/* --- Paragraphs -------------------------------------------------- */
+.dui-prose p {
+  color: var(--prose-body);
+  margin-block: 1em 0;
+}
+
+/* --- Inline text ------------------------------------------------- */
+.dui-prose strong,
+.dui-prose b {
+  color: var(--prose-bold);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dui-prose em,
+.dui-prose i {
+  font-style: italic;
+}
+
+.dui-prose small {
+  font-size: 0.875em;
+  color: var(--prose-caption);
+}
+
+/* --- Links ------------------------------------------------------- */
+.dui-prose a {
+  color: var(--prose-links);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.dui-prose a:hover {
+  color: var(--prose-links-hover);
+}
+
+/* --- Lists ------------------------------------------------------- */
+.dui-prose ul {
+  list-style-type: disc;
+  padding-inline-start: var(--space-6);
+  margin-block: 1em 0;
+}
+
+.dui-prose ol {
+  list-style-type: decimal;
+  padding-inline-start: var(--space-6);
+  margin-block: 1em 0;
+}
+
+.dui-prose li {
+  margin-block: var(--space-1);
+}
+
+.dui-prose li > ul,
+.dui-prose li > ol {
+  margin-block: var(--space-0_5);
+}
+
+.dui-prose li > p {
+  margin-block: var(--space-1);
+}
+
+/* --- Blockquote -------------------------------------------------- */
+.dui-prose blockquote {
+  border-inline-start: 3px solid var(--prose-blockquote-border);
+  color: var(--prose-blockquote-text);
+  padding-inline-start: var(--space-4);
+  font-style: italic;
+  margin-inline: 0;
+  margin-block: 1em 0;
+}
+
+/* --- Inline code ------------------------------------------------- */
+.dui-prose code {
+  color: var(--prose-code);
+  background: var(--prose-code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* --- Code blocks ------------------------------------------------- */
+.dui-prose pre {
+  background: var(--prose-pre-bg);
+  border: var(--border-width-thin) solid var(--prose-pre-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-block: 1em 0;
+}
+
+.dui-prose pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* --- Horizontal rule --------------------------------------------- */
+.dui-prose hr {
+  border: none;
+  border-top: var(--border-width-thin) solid var(--prose-hr);
+  margin-block: 2em;
+}
+
+/* --- Tables ------------------------------------------------------ */
+.dui-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  margin-block: 1em 0;
+}
+
+.dui-prose th {
+  border-bottom: var(--border-width-medium) solid var(--prose-th-border);
+  text-align: start;
+  padding: var(--space-2) var(--space-3);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dui-prose td {
+  border-bottom: var(--border-width-thin) solid var(--prose-td-border);
+  padding: var(--space-2) var(--space-3);
+}
+
+.dui-prose caption {
+  color: var(--prose-caption);
+  font-size: var(--font-size-sm);
+  margin-block-end: var(--space-2);
+}
+
+/* --- Keyboard input ---------------------------------------------- */
+.dui-prose kbd {
+  background: var(--prose-kbd-bg);
+  border: var(--border-width-thin) solid var(--prose-kbd-border);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* --- Images and figures ------------------------------------------ */
+.dui-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.dui-prose figure {
+  margin-inline: 0;
+  margin-block: 1.5em;
+}
+
+.dui-prose figcaption {
+  color: var(--prose-caption);
+  font-size: var(--font-size-sm);
+  margin-block-start: var(--space-2);
+}
+
+/* --- Details / summary ------------------------------------------- */
+.dui-prose details {
+  margin-block: 1em;
+}
+
+.dui-prose summary {
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+}

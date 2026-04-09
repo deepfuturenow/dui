@@ -79,11 +79,13 @@ import { toggleGroupStyles } from "./components/toggle-group.ts";
 import { numberFieldStyles } from "./components/number-field.ts";
 import { menubarStyles } from "./components/menubar.ts";
 import { calendarStyles } from "./components/calendar.ts";
+import { proseSheet } from "./prose.ts";
 import { tokenSheet } from "./tokens.ts";
 
 export const defaultTheme: DuiTheme = {
   tokens: tokenSheet,
   base: themedBase,
+  prose: proseSheet,
   styles: new Map([
     ["dui-accordion", accordionStyles],
     ["dui-accordion-item", accordionItemStyles],
@@ -247,6 +249,9 @@ export { toggleGroupStyles } from "./components/toggle-group.ts";
 export { numberFieldStyles } from "./components/number-field.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
+
+// --- Prose ---
+export { proseSheet } from "./prose.ts";
 
 // --- Typography helpers ---
 export { type, typeScale } from "./typography.ts";
