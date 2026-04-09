@@ -22,7 +22,6 @@ import type { DuiBreadcrumbSeparator } from "./breadcrumb/breadcrumb-separator.t
 import type { DuiBreadcrumbEllipsis } from "./breadcrumb/breadcrumb-ellipsis.ts";
 import type { DuiButton } from "./button/button.ts";
 import type { DuiCalendar } from "./calendar/calendar.ts";
-import type { DuiCenter } from "./center/center.ts";
 import type { DuiCheckbox } from "./checkbox/checkbox.ts";
 import type { DuiCheckboxGroup } from "./checkbox/checkbox-group.ts";
 import type { DuiCollapsible } from "./collapsible/collapsible.ts";
@@ -41,7 +40,6 @@ import type { DuiDialogTrigger } from "./dialog/dialog-trigger.ts";
 import type { DuiDialogPopup } from "./dialog/dialog-popup.ts";
 import type { DuiDialogClose } from "./dialog/dialog-close.ts";
 import type { DuiDropzone } from "./dropzone/dropzone.ts";
-import type { DuiHstack } from "./hstack/hstack.ts";
 import type { DuiIcon } from "./icon/icon.ts";
 import type { DuiInput } from "./input/input.ts";
 import type { DuiLink } from "./link/link.ts";
@@ -49,7 +47,6 @@ import type { DuiMenu } from "./menu/menu.ts";
 import type { DuiMenuItem } from "./menu/menu-item.ts";
 import type { DuiMenubar } from "./menubar/menubar.ts";
 import type { DuiNumberField } from "./number-field/number-field.ts";
-import type { DuiPageInset } from "./page-inset/page-inset.ts";
 import type { DuiPopover } from "./popover/popover.ts";
 import type { DuiPopoverTrigger } from "./popover/popover-trigger.ts";
 import type { DuiPopoverPopup } from "./popover/popover-popup.ts";
@@ -93,7 +90,6 @@ import type { DuiTooltip } from "./tooltip/tooltip.ts";
 import type { DuiTooltipTrigger } from "./tooltip/tooltip-trigger.ts";
 import type { DuiTooltipPopup } from "./tooltip/tooltip-popup.ts";
 import type { DuiTrunc } from "./trunc/trunc.ts";
-import type { DuiVstack } from "./vstack/vstack.ts";
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -113,7 +109,6 @@ declare global {
     "dui-breadcrumb-ellipsis": DuiBreadcrumbEllipsis;
     "dui-button": DuiButton;
     "dui-calendar": DuiCalendar;
-    "dui-center": DuiCenter;
     "dui-checkbox": DuiCheckbox;
     "dui-checkbox-group": DuiCheckboxGroup;
     "dui-collapsible": DuiCollapsible;
@@ -132,7 +127,6 @@ declare global {
     "dui-dialog-popup": DuiDialogPopup;
     "dui-dialog-close": DuiDialogClose;
     "dui-dropzone": DuiDropzone;
-    "dui-hstack": DuiHstack;
     "dui-icon": DuiIcon;
     "dui-input": DuiInput;
     "dui-link": DuiLink;
@@ -140,7 +134,6 @@ declare global {
     "dui-menu-item": DuiMenuItem;
     "dui-menubar": DuiMenubar;
     "dui-number-field": DuiNumberField;
-    "dui-page-inset": DuiPageInset;
     "dui-popover": DuiPopover;
     "dui-popover-trigger": DuiPopoverTrigger;
     "dui-popover-popup": DuiPopoverPopup;
@@ -184,6 +177,5 @@ declare global {
     "dui-tooltip-trigger": DuiTooltipTrigger;
     "dui-tooltip-popup": DuiTooltipPopup;
     "dui-trunc": DuiTrunc;
-    "dui-vstack": DuiVstack;
   }
 }

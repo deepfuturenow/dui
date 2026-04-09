@@ -24,10 +24,6 @@ import "./pages/docs-page-spinner.ts";
 import "./pages/docs-page-tabs.ts";
 import "./pages/docs-page-textarea.ts";
 import "./pages/docs-page-trunc.ts";
-import "./pages/docs-page-center.ts";
-import "./pages/docs-page-hstack.ts";
-import "./pages/docs-page-vstack.ts";
-import "./pages/docs-page-page-inset.ts";
 import "./pages/docs-page-link.ts";
 import "./pages/docs-page-avatar.ts";
 import "./pages/docs-page-portal.ts";
@@ -74,10 +70,6 @@ import { DuiSpinner } from "@dui/components/spinner";
 import { DuiTabs, DuiTabsList, DuiTab, DuiTabsPanel, DuiTabsIndicator } from "@dui/components/tabs";
 import { DuiTextarea } from "@dui/components/textarea";
 import { DuiTrunc } from "@dui/components/trunc";
-import { DuiCenter } from "@dui/components/center";
-import { DuiHstack } from "@dui/components/hstack";
-import { DuiVstack } from "@dui/components/vstack";
-import { DuiPageInset } from "@dui/components/page-inset";
 import { DuiLink } from "@dui/components/link";
 import { DuiAvatar } from "@dui/components/avatar";
 import { DuiPortal } from "@dui/components/portal";
@@ -143,10 +135,6 @@ applyTheme({
     DuiTabsIndicator,
     DuiTextarea,
     DuiTrunc,
-    DuiCenter,
-    DuiHstack,
-    DuiVstack,
-    DuiPageInset,
     DuiLink,
     DuiAvatar,
     DuiPortal,

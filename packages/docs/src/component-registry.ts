@@ -855,38 +855,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "fallback", description: "The fallback content (initials/icon)" },
     ],
   },
-  {
-    tagName: "dui-center",
-    name: "Center",
-    description: "Centers content horizontally and vertically within container query dimensions.",
-    importPath: "@dui/components/center",
-    properties: [],
-    events: [],
-    slots: [
-      { name: "default", description: "Content to center" },
-    ],
-    cssProperties: [],
-  },
-  {
-    tagName: "dui-hstack",
-    name: "HStack",
-    description: "Horizontal stack layout with configurable gap, alignment, and justification.",
-    importPath: "@dui/components/hstack",
-    properties: [
-      { name: "gap", type: "StackGap", default: '"4"', description: "Gap between items (maps to space tokens)" },
-      { name: "align", type: '"start" | "center" | "end" | "stretch" | "baseline"', default: '"center"', description: "Cross-axis alignment" },
-      { name: "justify", type: '"start" | "center" | "end" | "between" | "around" | "evenly" | "stretch"', default: '"stretch"', description: "Main-axis justification" },
-    ],
-    events: [],
-    slots: [
-      { name: "default", description: "Stack content" },
-    ],
-    cssProperties: [
-      { name: "--hstack-gap", description: "Override gap between items" },
-      { name: "--hstack-align", description: "Override align-items" },
-      { name: "--hstack-justify", description: "Override justify-content" },
-    ],
-  },
+
   {
     tagName: "dui-link",
     name: "Link",
@@ -903,28 +872,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     cssProperties: [],
   },
-  {
-    tagName: "dui-page-inset",
-    name: "Page Inset",
-    description: "Centers content with max-width constraints and configurable padding.",
-    importPath: "@dui/components/page-inset",
-    properties: [
-      { name: "maxWidth", type: "string | undefined", description: "Maximum width of inner content" },
-      { name: "minWidth", type: "string | undefined", description: "Minimum width of inner content" },
-      { name: "padX", type: "string | undefined", description: "Horizontal padding" },
-      { name: "padY", type: "string | undefined", description: "Vertical padding" },
-    ],
-    events: [],
-    slots: [
-      { name: "default", description: "Content to be centered" },
-    ],
-    cssProperties: [
-      { name: "--page-inset-pad-x", description: "Horizontal padding (default: var(--space-16))" },
-      { name: "--page-inset-pad-y", description: "Vertical padding (default: var(--space-12))" },
-      { name: "--page-inset-max-width", description: "Max width of inner content (default: 48rem)" },
-      { name: "--page-inset-min-width", description: "Min width of inner content (default: auto)" },
-    ],
-  },
+
   {
     tagName: "dui-portal",
     name: "Portal",
@@ -941,22 +889,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     cssProperties: [],
   },
-  {
-    tagName: "dui-vstack",
-    name: "VStack",
-    description: "Vertical stack layout with configurable gap spacing.",
-    importPath: "@dui/components/vstack",
-    properties: [
-      { name: "gap", type: "StackGap", default: '"4"', description: "Gap between items (maps to space tokens)" },
-    ],
-    events: [],
-    slots: [
-      { name: "default", description: "Stack content" },
-    ],
-    cssProperties: [
-      { name: "--vstack-gap", description: "Override gap between items" },
-    ],
-  },
+
   {
     tagName: "dui-tooltip",
     name: "Tooltip",

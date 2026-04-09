@@ -53,10 +53,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./tabs": "./src/tabs/index.ts",
       "./textarea": "./src/textarea/index.ts",
       "./trunc": "./src/trunc/index.ts",
-      "./center": "./src/center/index.ts",
-      "./hstack": "./src/hstack/index.ts",
-      "./vstack": "./src/vstack/index.ts",
-      "./page-inset": "./src/page-inset/index.ts",
+
       "./link": "./src/link/index.ts",
       "./avatar": "./src/avatar/index.ts",
       "./portal": "./src/portal/index.ts",
@@ -119,10 +116,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/tabs-panel": "./src/components/tabs-panel.ts",
       "./components/textarea": "./src/components/textarea.ts",
       "./components/trunc": "./src/components/trunc.ts",
-      "./components/center": "./src/components/center.ts",
-      "./components/hstack": "./src/components/hstack.ts",
-      "./components/vstack": "./src/components/vstack.ts",
-      "./components/page-inset": "./src/components/page-inset.ts",
+
       "./components/link": "./src/components/link.ts",
       "./components/avatar": "./src/components/avatar.ts",
       "./components/portal": "./src/components/portal.ts",

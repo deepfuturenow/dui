@@ -14,20 +14,20 @@ export class DocsPageInput extends LitElement {
       </dui-docs-demo>
 
       <dui-docs-demo label="Types">
-        <dui-vstack gap="3">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <dui-input type="text" placeholder="Text"></dui-input>
           <dui-input type="email" placeholder="Email"></dui-input>
           <dui-input type="password" placeholder="Password"></dui-input>
           <dui-input type="number" placeholder="Number"></dui-input>
-        </dui-vstack>
+        </div>
       </dui-docs-demo>
 
       <dui-docs-demo label="States">
-        <dui-vstack gap="3">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <dui-input placeholder="Default"></dui-input>
           <dui-input placeholder="Disabled" disabled></dui-input>
           <dui-input placeholder="Read-only" readonly value="Read-only value"></dui-input>
-        </dui-vstack>
+        </div>
       </dui-docs-demo>
       </docs-page-layout>
     `;

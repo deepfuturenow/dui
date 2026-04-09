@@ -53,8 +53,7 @@ export { DuiButton } from "./button/index.ts";
 // --- Calendar ---
 export { DuiCalendar } from "./calendar/index.ts";
 
-// --- Center ---
-export { DuiCenter } from "./center/index.ts";
+
 
 // --- Checkbox ---
 export { DuiCheckbox, DuiCheckboxGroup } from "./checkbox/index.ts";
@@ -115,9 +114,7 @@ export type {
   DropzoneErrorDetail,
 } from "./dropzone/index.ts";
 
-// --- HStack ---
-export { DuiHstack } from "./hstack/index.ts";
-export type { HstackAlignment, HstackJustify } from "./hstack/index.ts";
+
 
 // --- Icon ---
 export { DuiIcon } from "./icon/index.ts";
@@ -138,8 +135,7 @@ export type { MenubarContext } from "./menubar/index.ts";
 // --- Number Field ---
 export { DuiNumberField } from "./number-field/index.ts";
 
-// --- Page Inset ---
-export { DuiPageInset } from "./page-inset/index.ts";
+
 
 // --- Popover ---
 export {
@@ -246,8 +242,7 @@ export type { TooltipContext, TooltipSide } from "./tooltip/index.ts";
 // --- Trunc ---
 export { DuiTrunc } from "./trunc/index.ts";
 
-// --- VStack ---
-export { DuiVstack } from "./vstack/index.ts";
+
 
 /**
  * All DUI component classes, ready for `applyTheme()`.
@@ -270,7 +265,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiBreadcrumbEllipsis,
   DuiButton,
   DuiCalendar,
-  DuiCenter,
+
   DuiCheckbox,
   DuiCheckboxGroup,
   DuiCollapsible,
@@ -289,7 +284,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiDialogPopup,
   DuiDialogClose,
   DuiDropzone,
-  DuiHstack,
+
   DuiIcon,
   DuiInput,
   DuiLink,
@@ -297,7 +292,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiMenuItem,
   DuiMenubar,
   DuiNumberField,
-  DuiPageInset,
+
   DuiPopover,
   DuiPopoverTrigger,
   DuiPopoverPopup,
@@ -341,5 +336,5 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiTooltipTrigger,
   DuiTooltipPopup,
   DuiTrunc,
-  DuiVstack,
+
 ];
