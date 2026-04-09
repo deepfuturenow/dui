@@ -162,7 +162,7 @@ async function main() {
       ],
       repository: {
         type: "git",
-        url: "https://github.com/nicholasgasior/dui.git",
+        url: "https://github.com/deepfuturenow/dui.git",
       },
       sideEffects: true,
     };

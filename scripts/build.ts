@@ -265,6 +265,12 @@ async function compilePackage(
     }
   }
 
+  // Copy README into dist folder (npm displays it on the package page)
+  const readmePath = join(ROOT, "README.md");
+  if (await exists(readmePath)) {
+    await Deno.copyFile(readmePath, join(outDir, "README.md"));
+  }
+
   // Count output files
   let jsCount = 0, dtsCount = 0;
   for await (const entry of walkDir(outDir)) {
@@ -327,11 +333,11 @@ function generatePackageJson(
     license: "MIT",
     repository: {
       type: "git",
-      url: "https://github.com/nicholasgasior/dui.git",
+      url: "https://github.com/deepfuturenow/dui.git",
       directory: pkg.srcDir,
     },
     exports: buildExportsMap(pkg),
-    files: ["**/*.js", "**/*.d.ts", "**/*.css"],
+    files: ["**/*.js", "**/*.d.ts", "**/*.css", "README.md"],
     dependencies: deps,
     sideEffects: false,
     keywords: [

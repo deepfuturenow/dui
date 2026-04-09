@@ -186,7 +186,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-button>`
 - Import: `@dui/components/button`
 - Description: An interactive button. Renders as a native <button> by default, or <a> when href is set.
-- Properties: disabled (boolean, false), type (string, "button"), href (string | undefined)
+- Properties: disabled (boolean, false), focusableWhenDisabled (boolean, false), type (string, "button"), href (string | undefined)
 - Events: dui-navigate ({ href: string })
 - Slots: default (Button label content)
 - CSS Parts: root (The button or anchor element. Style via ::part(root) for full CSS expressiveness — filters, transforms, shadows, clip-paths, etc.)

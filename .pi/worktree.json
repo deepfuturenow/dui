@@ -1,0 +1,10 @@
+{
+  "dir": ".worktrees",
+  "branchPrefix": "feature/",
+  "linkEnvFiles": true,
+  "postCreate": [
+    "npm install",
+    "osascript -e 'tell application \"Ghostty\" to split (focused terminal of selected tab of front window) direction right'"
+  ],
+  "preRemove": []
+}
