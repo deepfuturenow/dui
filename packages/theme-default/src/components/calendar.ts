@@ -1,10 +1,11 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const calendarStyles = css`
   [part="root"] {
     padding: var(--space-3);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
   }
 
   [part="header"] {
@@ -12,7 +13,7 @@ export const calendarStyles = css`
   }
 
   [part="heading"] {
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-weight: var(--font-weight-medium);
     color: var(--text-1);
   }
@@ -39,7 +40,7 @@ export const calendarStyles = css`
   [part="weekday"] {
     width: var(--space-8);
     height: var(--space-8);
-    font-size: var(--font-size-xs);
+    ${type("xs")}
     font-weight: var(--font-weight-normal);
     color: var(--text-2);
     display: flex;
@@ -51,7 +52,7 @@ export const calendarStyles = css`
     width: var(--space-8);
     height: var(--space-8);
     border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     color: var(--text-1);
     transition-property: background, color;
     transition-duration: var(--duration-fast);

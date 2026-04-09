@@ -1,9 +1,10 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const commandEmptyStyles = css`
   .Empty {
     padding: var(--space-6);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     color: var(--text-2);
   }
 `;

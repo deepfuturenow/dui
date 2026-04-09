@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const toggleStyles = css`
   /* --_select / --_interact alpha overlay pattern */
@@ -13,7 +14,7 @@ export const toggleStyles = css`
     padding: 0 var(--space-2_5);
     border-radius: var(--radius-md);
     border: var(--border-width-thin) solid var(--border);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-weight: var(--font-weight-medium);
     color: var(--text-2);
     background: oklch(from var(--foreground) l c h / calc(var(--_select) + var(--_interact)));

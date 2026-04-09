@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const selectStyles = css`
   .Trigger {
@@ -10,8 +11,7 @@ export const selectStyles = css`
     background: var(--sunken);
     color: var(--text-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    ${type("sm")}
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
@@ -68,7 +68,7 @@ export const selectStyles = css`
     gap: var(--space-2);
     padding: var(--space-1_5) var(--space-2);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-family: var(--font-sans);
     color: var(--text-1);
   }

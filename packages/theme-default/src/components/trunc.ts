@@ -1,10 +1,10 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const truncStyles = css`
   [part="root"] {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    ${type("sm")}
     color: var(--text-1);
   }
 `;

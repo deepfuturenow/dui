@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const badgeStyles = css`
   /* =================================================================
@@ -76,10 +77,8 @@ export const badgeStyles = css`
     background: var(--badge-bg);
     color: var(--badge-fg);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
-    letter-spacing: var(--letter-spacing-normal);
+    ${type("xs", { letterSpacing: "var(--letter-spacing-normal)", lineHeight: "var(--line-height-snug)" })}
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-snug);
     white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);
   }

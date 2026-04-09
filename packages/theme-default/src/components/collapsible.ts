@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const collapsibleStyles = css`
   /* ── Trigger ── */
@@ -10,9 +11,8 @@ export const collapsibleStyles = css`
     color: var(--text-1);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     height: var(--component-height-md);
-    line-height: var(--line-height-normal);
     border-radius: var(--radius-sm);
     transition-property: background, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
@@ -65,9 +65,8 @@ export const collapsibleStyles = css`
   [part="content"] {
     padding: var(--space-1) var(--space-4) var(--space-3);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-normal);
     color: var(--text-2);
   }
 

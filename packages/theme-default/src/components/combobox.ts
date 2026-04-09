@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const comboboxStyles = css`
   /* ---- Chips (multi-select container) ---- */
@@ -30,8 +31,7 @@ export const comboboxStyles = css`
     height: var(--component-height-md);
     color: var(--text-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    ${type("sm")}
   }
 
   .Input::placeholder {
@@ -79,7 +79,7 @@ export const comboboxStyles = css`
     background: oklch(from var(--foreground) l c h / 0.05);
     color: var(--text-1);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
+    ${type("xs")}
     padding: var(--space-0_5) var(--space-0_5) var(--space-0_5) var(--space-2);
   }
 
@@ -122,7 +122,7 @@ export const comboboxStyles = css`
     gap: var(--space-2);
     padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-family: var(--font-sans);
     color: var(--text-1);
   }
@@ -139,7 +139,7 @@ export const comboboxStyles = css`
 
   .Empty {
     padding: var(--space-3);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     color: var(--text-2);
     text-align: center;
   }

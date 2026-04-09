@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const menuItemStyles = css`
   .Item {
@@ -7,7 +8,7 @@ export const menuItemStyles = css`
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-sm);
+    ${type("sm")}
     font-family: var(--font-sans);
     color: var(--text-1);
   }

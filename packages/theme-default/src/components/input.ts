@@ -1,11 +1,11 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const inputStyles = css`
   [part="input"] {
     padding: var(--space-2);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    ${type("sm")}
     height: var(--component-height-md);
     color: var(--text-1);
     border: var(--border-width-thin) solid var(--border);
