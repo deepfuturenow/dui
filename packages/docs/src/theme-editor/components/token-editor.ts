@@ -99,23 +99,10 @@ export class TokenEditorElement extends LitElement {
         flex-shrink: 0;
       }
 
-      .text-input {
+      .text-row dui-input {
         flex: 1;
         min-width: 0;
         font-size: var(--font-size-xs);
-        font-family: var(--font-mono);
-        padding: var(--space-1) var(--space-1_5);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        background: var(--sunken);
-        color: var(--foreground);
-        box-sizing: border-box;
-      }
-
-      .text-input:focus {
-        outline: 2px solid var(--ring);
-        outline-offset: -1px;
-        border-color: transparent;
       }
     `,
   ];
@@ -131,11 +118,10 @@ export class TokenEditorElement extends LitElement {
     this.expanded = !this.expanded;
   };
 
-  #onTextChange = (e: Event): void => {
-    const input = e.target as HTMLInputElement;
+  #onTextChange = (e: CustomEvent<{ value: string }>): void => {
     this.dispatchEvent(
       new CustomEvent("token-change", {
-        detail: { name: this.tokenName, value: input.value, theme: this.theme },
+        detail: { name: this.tokenName, value: e.detail.value, theme: this.theme },
         bubbles: true,
         composed: true,
       }),
@@ -188,11 +174,10 @@ export class TokenEditorElement extends LitElement {
     return html`
       <div class="text-row">
         <span class="text-label">${this.tokenName}</span>
-        <input
-          class="text-input"
+        <dui-input
           .value="${this.value}"
-          @change="${this.#onTextChange}"
-        />
+          @input-change="${this.#onTextChange}"
+        ></dui-input>
         ${this.modified ? html`<span class="modified-dot"></span>` : nothing}
       </div>
     `;

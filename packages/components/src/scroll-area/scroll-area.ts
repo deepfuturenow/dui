@@ -206,9 +206,16 @@ export class DuiScrollArea extends LitElement {
     this.#resizeObserver.observe(viewport);
     const slot = viewport.querySelector("slot");
     if (slot) {
+      const observe = () => {
+        for (const node of slot.assignedElements()) {
+          this.#resizeObserver!.observe(node);
+        }
+      };
       slot.addEventListener("slotchange", () => {
+        observe();
         requestAnimationFrame(() => this.#measure());
       });
+      observe();
     }
     this.#measure();
   }
