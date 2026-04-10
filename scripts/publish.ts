@@ -20,6 +20,7 @@ const PACKAGES = [
   "dui-core",
   "dui-components",
   "dui-theme-default",
+  "dui-inspector",
   "dui-cdn",
 ] as const;
 
@@ -78,7 +79,7 @@ async function main() {
   console.log(`\nStep 4: ${dryRun ? "Dry-run" : "Publishing"}...\n`);
 
   // Publish order matters: core first, then components + theme, then CDN
-  const publishOrder = ["dui-core", "dui-components", "dui-theme-default", "dui-cdn"];
+  const publishOrder = ["dui-core", "dui-components", "dui-theme-default", "dui-inspector", "dui-cdn"];
 
   for (const pkg of publishOrder) {
     const pkgDir = join(DIST, pkg);

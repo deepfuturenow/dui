@@ -17,6 +17,7 @@ const DENO_JSON_FILES = [
   "packages/core/deno.json",
   "packages/components/deno.json",
   "packages/theme-default/deno.json",
+  "packages/inspector/deno.json",
   "packages/docs/deno.json",
 ];
 

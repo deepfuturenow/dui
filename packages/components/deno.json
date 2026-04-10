@@ -1,6 +1,6 @@
 {
   "name": "@dui/components",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "exports": {
     "./button": "./src/button/index.ts",
     "./switch": "./src/switch/index.ts",
