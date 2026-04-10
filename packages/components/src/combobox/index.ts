@@ -1,8 +1,8 @@
-export {
-  DuiCombobox,
-  valueChangeEvent,
-  valuesChangeEvent,
-} from "./combobox.ts";
+import { DuiCombobox, valueChangeEvent, valuesChangeEvent,  } from "./combobox.ts";
+export { DuiCombobox, valueChangeEvent, valuesChangeEvent,  };
+
+export const comboboxFamily = [DuiCombobox];
+
 export type {
   SelectOption,
   ComboboxValueChangeDetail,

@@ -1,1 +1,4 @@
-export { DuiCenter } from "./center.ts";
+import { DuiCenter } from "./center.ts";
+export { DuiCenter };
+
+export const centerFamily = [DuiCenter];

@@ -1,4 +1,5 @@
-export { DuiDropzone, dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent } from "./dropzone.ts";
+import { DuiDropzone, dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent } from "./dropzone.ts";
+export { DuiDropzone, dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent };
 export type {
   DropzoneErrorCode,
   DropzoneRejectionCode,
@@ -9,3 +10,5 @@ export type {
   DropzoneRejectedDetail,
   DropzoneErrorDetail,
 } from "./dropzone.ts";
+
+export const dropzoneFamily = [DuiDropzone];

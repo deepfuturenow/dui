@@ -1,1 +1,4 @@
-export { DuiInput, inputChangeEvent } from "./input.ts";
+import { DuiInput, inputChangeEvent } from "./input.ts";
+export { DuiInput, inputChangeEvent };
+
+export const inputFamily = [DuiInput];

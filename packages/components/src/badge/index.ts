@@ -1,1 +1,4 @@
-export { DuiBadge } from "./badge.ts";
+import { DuiBadge } from "./badge.ts";
+export { DuiBadge };
+
+export const badgeFamily = [DuiBadge];

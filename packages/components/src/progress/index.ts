@@ -1,1 +1,4 @@
-export { DuiProgress } from "./progress.ts";
+import { DuiProgress } from "./progress.ts";
+export { DuiProgress };
+
+export const progressFamily = [DuiProgress];

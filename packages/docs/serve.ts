@@ -32,6 +32,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
   "@dui/components": {
     dir: join(WORKSPACE_ROOT, "packages/components"),
     exports: {
+      "./all": "./src/all.ts",
       "./accordion": "./src/accordion/index.ts",
       "./button": "./src/button/index.ts",
       "./switch": "./src/switch/index.ts",

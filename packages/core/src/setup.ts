@@ -4,9 +4,9 @@
  *
  * @example
  * ```ts
- * import { setup } from "@deepfuture/dui-core/setup";
- * import { defaultTheme } from "@deepfuture/dui-theme-default";
- * import { allComponents } from "@deepfuture/dui-components/all";
+ * import { setup } from "@dui/core/setup";
+ * import { defaultTheme } from "@dui/theme-default";
+ * import { allComponents } from "@dui/components/all";
  *
  * setup({ theme: defaultTheme, components: allComponents });
  * ```

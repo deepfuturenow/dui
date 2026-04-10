@@ -1,1 +1,4 @@
-export { DuiVstack } from "./vstack.ts";
+import { DuiVstack } from "./vstack.ts";
+export { DuiVstack };
+
+export const vstackFamily = [DuiVstack];
