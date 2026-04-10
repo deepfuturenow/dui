@@ -351,7 +351,12 @@ function generatePackageJson(
     exports: buildExportsMap(pkg),
     files: ["**/*.js", "**/*.d.ts", "**/*.css", "README.md"],
     dependencies: deps,
-    sideEffects: false,
+    // Inspector uses side-effect imports (import "./api.js", import "./ui/...") to
+    // register globals and custom elements. Mark those entry points so bundlers
+    // don't tree-shake them away.
+    sideEffects: pkg.srcDir === "packages/inspector"
+      ? ["./index.js", "./api.js"]
+      : false,
     keywords: [
       "web-components",
       "lit",
