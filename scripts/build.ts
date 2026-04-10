@@ -219,32 +219,35 @@ async function compilePackage(
   await Deno.remove(tsconfigPath);
 
   // Handle CSS text imports for theme-default:
-  // Replace `import x from "./tokens.css" with { type: "text" }` with inlined CSS string
+  // Find all `import x from "./foo.css" with { type: "text" }` in .js output,
+  // read the corresponding CSS source, and inline it as a const string.
   if (pkg.srcDir === "packages/theme-default") {
-    const cssFile = join(ROOT, pkg.srcDir, "src", "tokens.css");
-    if (await exists(cssFile)) {
-      // Copy CSS file for consumers who want it raw
-      await Deno.copyFile(cssFile, join(outDir, "tokens.css"));
-      console.log(`   Copied tokens.css`);
+    const cssImportRe = /import\s+(\w+)\s+from\s+["'](\.\/.+?\.css)["']\s*(?:with\s*\{[^}]*\})?\s*;/g;
 
-      // Inline CSS into tokens.js and tokens-raw.js
-      const cssContent = await Deno.readTextFile(cssFile);
-      const escapedCSS = JSON.stringify(cssContent);
+    for await (const filePath of walkDir(outDir)) {
+      if (!filePath.endsWith(".js")) continue;
+      let js = await Deno.readTextFile(filePath);
+      let modified = false;
 
-      for (const jsFile of ["tokens.js", "tokens-raw.js"]) {
-        const jsPath = join(outDir, jsFile);
-        if (await exists(jsPath)) {
-          let js = await Deno.readTextFile(jsPath);
-          // Replace: import tokensCSS from "./tokens.css" with { type: "text" };
-          js = js.replace(
-            /import\s+(\w+)\s+from\s+["']\.\/tokens\.css["']\s*(?:with\s*\{[^}]*\})?\s*;/,
-            `const $1 = ${escapedCSS};`,
-          );
-          await Deno.writeTextFile(jsPath, js);
+      js = js.replace(cssImportRe, (_match, varName, cssRelPath) => {
+        const cssFileName = cssRelPath.replace("./", "");
+        const cssSourcePath = join(ROOT, pkg.srcDir, "src", cssFileName);
+        try {
+          const cssContent = Deno.readTextFileSync(cssSourcePath);
+          // Also copy the raw CSS file for consumers who want it
+          const cssOutPath = join(outDir, cssFileName);
+          try { Deno.writeTextFileSync(cssOutPath, cssContent); } catch { /* already exists */ }
+          modified = true;
+          return `const ${varName} = ${JSON.stringify(cssContent)};`;
+        } catch {
+          console.warn(`   \u26a0\ufe0f  CSS file not found: ${cssSourcePath}`);
+          return _match;
         }
-      }
-      console.log(`   Inlined tokens.css into JS modules`);
+      });
+
+      if (modified) await Deno.writeTextFile(filePath, js);
     }
+    console.log(`   Inlined CSS text imports`);
   }
 
   // Fix .ts extension imports in output .js files → .js
