@@ -313,9 +313,9 @@ async function fixExtensionsInDir(dir: string): Promise<void> {
       await fixExtensionsInDir(fullPath);
     } else if (entry.name.endsWith(".js") || entry.name.endsWith(".d.ts")) {
       let content = await Deno.readTextFile(fullPath);
-      // Fix: from "./foo.ts" → from "./foo.js"
+      // Fix: from "./foo.ts" → from "./foo.js" and import "./foo.ts" → import "./foo.js"
       const fixed = content.replace(
-        /(from\s+["'])(\.\.?\/[^"']*?)\.ts(["'])/g,
+        /((?:from|import)\s+["'])(\.\.?\/[^"']*?)\.ts(["'])/g,
         "$1$2.js$3",
       );
       if (fixed !== content) {
