@@ -78,6 +78,13 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./calendar": "./src/calendar/index.ts",
     },
   },
+  "@dui/inspector": {
+    dir: join(WORKSPACE_ROOT, "packages/inspector"),
+    exports: {
+      ".": "./src/index.ts",
+      "./api": "./src/api.ts",
+    },
+  },
   "@dui/theme-default": {
     dir: join(WORKSPACE_ROOT, "packages/theme-default"),
     exports: {

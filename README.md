@@ -163,7 +163,14 @@ A visual editor for design tokens. Edit colors with OKLCH sliders, tweak spacing
 
 ### Inspector
 
-Toggle with **Ctrl+Shift+I** to inspect any DUI component at runtime — view properties, design tokens, style layers, slots, and CSS parts. Also exposes `window.__dui_inspect()` for programmatic access by LLM agents via Chrome DevTools.
+A runtime inspector and mutation API for DUI components. Two interfaces:
+
+- **Visual UI** (Ctrl+Shift+I) — hover-highlight components, inspect properties/tokens/styles, edit theme CSS and design tokens live
+- **Console API** — `window.__dui_inspect()`, `window.__dui_mutate.*`, `window.__dui_export()` for programmatic access by agents or scripts
+
+Both share a changelog, so agent and human edits are visible to each other. Changes can be exported as structured source file diffs.
+
+See **[Inspector docs](docs/inspector.md)** for the full API reference and usage guide.
 
 ## Documentation
 
@@ -172,6 +179,7 @@ Toggle with **Ctrl+Shift+I** to inspect any DUI component at runtime — view pr
 - [Creating Components](docs/creating-components.md) — guide for adding new components
 - [Theming](docs/theming.md) — theme system, design tokens, writing component styles
 - [Consuming](docs/consuming.md) — integrating DUI into an app
+- [Inspector](docs/inspector.md) — runtime inspection, mutation API, and visual editor
 - [Accessibility](docs/accessibility.md) — accessibility patterns and guidelines
 
 ## Contributing

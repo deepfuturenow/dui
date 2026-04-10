@@ -3,7 +3,8 @@
     "./packages/core",
     "./packages/components",
     "./packages/theme-default",
-    "./packages/docs"
+    "./packages/docs",
+    "./packages/inspector"
   ],
   "unstable": ["raw-imports"],
   "compilerOptions": {

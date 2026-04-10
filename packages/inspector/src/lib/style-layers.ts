@@ -15,7 +15,7 @@ import type { StyleLayerInfo } from "./types.ts";
 
 const LAYER_NAMES = [
   "base-reset",
-  "structural",
+  "component",
   "theme-base",
   "theme-component",
 ];

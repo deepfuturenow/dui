@@ -806,6 +806,11 @@
           "npm:shiki@3"
         ]
       },
+      "packages/inspector": {
+        "dependencies": [
+          "npm:lit@^3.3.2"
+        ]
+      },
       "packages/theme-default": {
         "dependencies": [
           "npm:lit@^3.3.2"

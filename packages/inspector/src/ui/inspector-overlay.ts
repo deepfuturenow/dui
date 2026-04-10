@@ -6,7 +6,7 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
-@customElement("inspector-overlay")
+@customElement("dui-inspector-overlay")
 export class InspectorOverlayElement extends LitElement {
   static override styles = css`
     :host {
@@ -80,6 +80,6 @@ export class InspectorOverlayElement extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "inspector-overlay": InspectorOverlayElement;
+    "dui-inspector-overlay": InspectorOverlayElement;
   }
 }

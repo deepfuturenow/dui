@@ -52,6 +52,15 @@ const PACKAGES = [
       "lit": "^3.3.2",
     },
   },
+  {
+    name: "@deepfuture/dui-inspector",
+    srcDir: "packages/inspector",
+    distDir: "dui-inspector",
+    description: "DUI Inspector — introspection, mutation, and source mapping for DUI components",
+    dependencies: {
+      "lit": "^3.3.2",
+    },
+  },
 ] as const;
 
 /** Read version from packages/core/deno.json */
@@ -68,6 +77,7 @@ function rewriteImports(content: string): string {
     ["@dui/core", "@deepfuture/dui-core"],
     ["@dui/components", "@deepfuture/dui-components"],
     ["@dui/theme-default", "@deepfuture/dui-theme-default"],
+    ["@dui/inspector", "@deepfuture/dui-inspector"],
   ];
   let result = content;
   for (const [from, to] of rewrites) {
@@ -162,6 +172,8 @@ async function compilePackage(
         "@dui/components/*": [join(ROOT, "packages/components/src/*/index.ts")],
         "@dui/theme-default": [join(ROOT, "packages/theme-default/src/index.ts")],
         "@dui/theme-default/*": [join(ROOT, "packages/theme-default/src/*.ts")],
+        "@dui/inspector": [join(ROOT, "packages/inspector/src/index.ts")],
+        "@dui/inspector/*": [join(ROOT, "packages/inspector/src/*.ts")],
       },
     },
     include: [srcRoot + "/**/*.ts"],
@@ -390,6 +402,7 @@ async function main() {
   console.log("   dist/dui-core/");
   console.log("   dist/dui-components/");
   console.log("   dist/dui-theme-default/");
+  console.log("   dist/dui-inspector/");
 }
 
 /** Remove .js and .d.ts files that tsc leaked into source directories */

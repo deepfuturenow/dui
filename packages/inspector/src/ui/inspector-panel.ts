@@ -1,71 +1,22 @@
 /**
  * Inspector Panel — detail view for an inspected DUI component.
- * Fixed to the right side, shows properties, tokens, style layers, slots, and parts.
+ * Shows: selector, events, properties, CSS parts, slots, shadow summary.
+ *
+ * Design tokens and style layers are in their own dedicated tabs.
  */
 
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import type { ComponentInspection } from "../lib/types.ts";
 
-@customElement("inspector-panel")
+@customElement("dui-inspector-panel")
 export class InspectorPanelElement extends LitElement {
   static override styles = css`
     :host {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 340px;
-      height: 100dvh;
-      background: #1e1e2e;
-      color: #cdd6f4;
-      font-family: ui-monospace, monospace;
-      font-size: 12px;
-      z-index: 99999;
       display: flex;
       flex-direction: column;
-      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: #181825;
-      border-bottom: 1px solid #313244;
-      flex-shrink: 0;
-    }
-
-    .header-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .tag-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: #89b4fa;
-    }
-
-    .class-name {
-      font-size: 11px;
-      color: #6c7086;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: #6c7086;
-      cursor: pointer;
-      font-size: 18px;
-      padding: 4px;
-      line-height: 1;
-    }
-
-    .close-btn:hover {
-      color: #cdd6f4;
+      height: 100%;
+      overflow: hidden;
     }
 
     .body {
@@ -151,32 +102,6 @@ export class InspectorPanelElement extends LitElement {
       flex-shrink: 0;
     }
 
-    /* Color swatches */
-    .swatch {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      border: 1px solid #45475a;
-      vertical-align: middle;
-      margin-right: 4px;
-      flex-shrink: 0;
-    }
-
-    /* Style layer */
-    .layer-name {
-      color: #f9e2af;
-      font-weight: 600;
-    }
-
-    .layer-props {
-      color: #585b70;
-      font-size: 10px;
-      padding-left: 16px;
-      padding-bottom: 4px;
-      word-break: break-all;
-    }
-
     .empty {
       color: #585b70;
       font-style: italic;
@@ -186,6 +111,28 @@ export class InspectorPanelElement extends LitElement {
     .shadow-summary {
       padding: 4px 14px 10px;
       color: #6c7086;
+    }
+
+    .selector-row {
+      padding: 4px 14px 8px;
+      color: #585b70;
+      font-size: 11px;
+      border-bottom: 1px solid #313244;
+      word-break: break-all;
+    }
+
+    .selector-row code {
+      color: #89b4fa;
+    }
+
+    /* Event source badge */
+    .event-source {
+      font-size: 9px;
+      color: #585b70;
+      background: #313244;
+      padding: 1px 4px;
+      border-radius: 2px;
+      flex-shrink: 0;
     }
   `;
 
@@ -197,15 +144,15 @@ export class InspectorPanelElement extends LitElement {
     const d = this.data;
 
     return html`
-      <div class="header">
-        <div class="header-info">
-          <span class="tag-name">&lt;${d.tagName}&gt;</span>
-          <span class="class-name">${d.className}</span>
-        </div>
-        <button class="close-btn" @click=${this.#onClose}>&times;</button>
-      </div>
-
       <div class="body">
+        <!-- Path & Selector -->
+        <div class="selector-row">
+          Path: <code>${d.path}</code>
+        </div>
+        <div class="selector-row">
+          Selector: <code>${d.selector}</code>
+        </div>
+
         <!-- Properties -->
         <details open>
           <summary>Properties <span class="count">${d.properties.length}</span></summary>
@@ -224,39 +171,21 @@ export class InspectorPanelElement extends LitElement {
             : html`<div class="empty">No properties</div>`}
         </details>
 
-        <!-- Tokens -->
+        <!-- CSS Parts -->
         <details open>
-          <summary>Design Tokens <span class="count">${d.tokens.length}</span></summary>
-          ${d.tokens.length
+          <summary>CSS Parts <span class="count">${d.parts.length}</span></summary>
+          ${d.parts.length
             ? html`<div class="section-content">
-                ${d.tokens.map(
-                  (t) => html`
+                ${d.parts.map(
+                  (p) => html`
                     <div class="row">
-                      ${t.hex
-                        ? html`<span class="swatch" style="background:${t.hex}"></span>`
-                        : nothing}
-                      <span class="row-name">${t.name}</span>
-                      <span class="row-value">${t.computed}</span>
+                      <span class="row-name">::part(${p.name})</span>
+                      <span class="row-meta">&lt;${p.tagName}&gt;</span>
                     </div>
                   `,
                 )}
               </div>`
-            : html`<div class="empty">No tokens</div>`}
-        </details>
-
-        <!-- Style Layers -->
-        <details>
-          <summary>Style Layers <span class="count">${d.styleLayers.length}</span></summary>
-          ${d.styleLayers.length
-            ? html`<div class="section-content">
-                ${d.styleLayers.map(
-                  (layer) => html`
-                    <div class="layer-name">${layer.layer}</div>
-                    <div class="layer-props">${layer.properties.join(", ") || "(empty)"}</div>
-                  `,
-                )}
-              </div>`
-            : html`<div class="empty">No style layers</div>`}
+            : html`<div class="empty">No parts</div>`}
         </details>
 
         <!-- Slots -->
@@ -276,23 +205,6 @@ export class InspectorPanelElement extends LitElement {
             : html`<div class="empty">No slots</div>`}
         </details>
 
-        <!-- Parts -->
-        <details>
-          <summary>CSS Parts <span class="count">${d.parts.length}</span></summary>
-          ${d.parts.length
-            ? html`<div class="section-content">
-                ${d.parts.map(
-                  (p) => html`
-                    <div class="row">
-                      <span class="row-name">::part(${p.name})</span>
-                      <span class="row-meta">&lt;${p.tagName}&gt;</span>
-                    </div>
-                  `,
-                )}
-              </div>`
-            : html`<div class="empty">No parts</div>`}
-        </details>
-
         <!-- Shadow Summary -->
         <div class="shadow-summary">${d.shadowSummary}</div>
       </div>
@@ -305,14 +217,10 @@ export class InspectorPanelElement extends LitElement {
     if (typeof value === "string") return `"${value}"`;
     return String(value);
   }
-
-  #onClose(): void {
-    this.dispatchEvent(new Event("close-panel", { bubbles: true, composed: true }));
-  }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "inspector-panel": InspectorPanelElement;
+    "dui-inspector-panel": InspectorPanelElement;
   }
 }
