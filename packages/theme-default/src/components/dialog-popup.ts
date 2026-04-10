@@ -24,6 +24,7 @@ export const dialogPopupStyles = css`
     background: var(--surface-2);
     color: var(--text-1);
     font-family: var(--font-sans);
+    box-shadow: var(--shadow-lg);
     transition-duration: var(--duration-fast);
   }
 

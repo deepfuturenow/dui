@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const commandListStyles = css`
   dui-scroll-area {
-    max-height: 300px;
+    max-height: calc(var(--space-5) * 15);
     height: auto;
   }
 

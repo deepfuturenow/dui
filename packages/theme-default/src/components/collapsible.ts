@@ -21,7 +21,7 @@ export const collapsibleStyles = css`
 
   @media (hover: hover) {
     [part="trigger"]:hover {
-      background: oklch(from var(--foreground) l c h / 0.04);
+      background: oklch(from var(--foreground) l c h / 0.05);
     }
   }
 

@@ -49,7 +49,7 @@ export const checkboxStyles = css`
   }
 
   .Icon {
-    width: 12px;
-    height: 12px;
+    width: var(--space-3);
+    height: var(--space-3);
   }
 `;

@@ -41,8 +41,8 @@ export const radioStyles = css`
   }
 
   [part="dot"] {
-    width: 8px;
-    height: 8px;
+    width: var(--space-2);
+    height: var(--space-2);
     border-radius: 50%;
     background: oklch(from var(--accent) 0.98 0.01 h);
   }

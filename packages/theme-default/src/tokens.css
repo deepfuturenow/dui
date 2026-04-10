@@ -145,6 +145,7 @@
    * Motion
    * ----------------------------------------------------------- */
   --duration-instant: 50ms;
+  --duration-fastest: 75ms;
   --duration-faster: 100ms;
   --duration-fast: 150ms;
   --duration-normal: 250ms;

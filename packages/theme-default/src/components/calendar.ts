@@ -41,7 +41,7 @@ export const calendarStyles = css`
     width: var(--space-8);
     height: var(--space-8);
     ${type("xs")}
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-regular);
     color: var(--text-2);
     display: flex;
     align-items: center;
@@ -80,7 +80,7 @@ export const calendarStyles = css`
   }
 
   [part="day"]:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 
   [part="day"]:focus-visible {

@@ -7,7 +7,7 @@ export const tabStyles = css`
     ${type("sm", { lineHeight: "var(--line-height-snug)" })}
     font-weight: var(--font-weight-medium);
     padding-inline: var(--space-2);
-    height: 2rem;
+    height: var(--component-height-md);
     transition-property: color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }

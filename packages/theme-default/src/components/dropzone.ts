@@ -6,7 +6,7 @@ export const dropzoneStyles = css`
   }
 
   [part="root"] {
-    border: 2px dashed var(--border);
+    border: var(--border-width-medium) dashed var(--border);
     border-radius: var(--radius-md);
     background: var(--background);
     color: var(--text-1);

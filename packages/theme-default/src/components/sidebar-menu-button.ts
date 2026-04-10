@@ -49,7 +49,7 @@ export const sidebarMenuButtonStyles = css`
     color: var(--sidebar-button-fg);
     font-family: var(--font-sans);
     font-size: var(--smb-font-size);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
     --icon-size: var(--smb-icon-size);

@@ -48,7 +48,7 @@ export const textareaStyles = css`
   }
 
   [part="textarea"]::placeholder {
-    color: var(--text-2);
+    color: var(--text-3);
   }
 
   [part="textarea"]:focus-visible {

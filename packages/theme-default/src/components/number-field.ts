@@ -5,14 +5,15 @@ export const numberFieldStyles = css`
   [part="root"] {
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background: var(--background);
+    background: var(--sunken);
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }
 
   [part="root"]:focus-within {
-    border-color: var(--focus-ring-color);
-    box-shadow: 0 0 0 var(--focus-ring-width) color-mix(in oklch, var(--focus-ring-color) 25%, transparent);
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   [part="root"][data-disabled] {
@@ -24,7 +25,7 @@ export const numberFieldStyles = css`
   }
 
   [part="input"] {
-    height: var(--space-9);
+    height: var(--component-height-md);
     width: var(--space-16);
     font-family: var(--font-sans);
     ${type("sm")}
@@ -52,6 +53,6 @@ export const numberFieldStyles = css`
 
   [part="decrement"]:disabled,
   [part="increment"]:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 `;

@@ -58,7 +58,7 @@ export const switchStyles = css`
     width: var(--switch-thumb-size);
     height: var(--switch-thumb-size);
     border-radius: 50%;
-    outline: 1px solid transparent;
+    outline: var(--border-width-thin) solid transparent;
     background: var(--background);
     transition-property: transform, outline-color;
     transition-duration: var(--duration-fast);

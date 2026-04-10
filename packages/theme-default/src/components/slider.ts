@@ -34,7 +34,7 @@ export const sliderStyles = css`
     width: var(--slider-thumb-size);
     height: var(--slider-thumb-size);
     background: var(--background);
-    border: 2px solid var(--accent);
+    border: var(--border-width-medium) solid var(--accent);
     border-radius: 50%;
     transition-property: left, box-shadow;
     transition-duration: 50ms, var(--duration-fast);
@@ -47,7 +47,7 @@ export const sliderStyles = css`
 
   @media (hover: hover) {
     [part="thumb"]:hover {
-      box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 20%, transparent);
+      box-shadow: 0 0 0 var(--space-1) color-mix(in oklch, var(--accent) 20%, transparent);
     }
   }
 

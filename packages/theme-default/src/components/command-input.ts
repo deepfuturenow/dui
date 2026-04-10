@@ -21,6 +21,6 @@ export const commandInputStyles = css`
   }
 
   .Input::placeholder {
-    color: var(--text-2);
+    color: var(--text-3);
   }
 `;

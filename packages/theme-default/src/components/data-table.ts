@@ -68,7 +68,7 @@ export const dataTableStyles = css`
   }
 
   .EmptyRow td {
-    height: 96px;
+    height: var(--space-24);
     text-align: center;
     color: var(--text-2);
   }
@@ -103,7 +103,7 @@ export const dataTableStyles = css`
   }
 
   .PageButton:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 
   .PageButton:focus-visible {

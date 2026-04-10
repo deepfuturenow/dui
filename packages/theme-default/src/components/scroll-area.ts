@@ -7,7 +7,7 @@ export const scrollAreaStyles = css`
       var(--scroll-fade-spread-radius, var(--space-2))
       var(--scroll-fade-color, var(--background));
     opacity: 0;
-    transition: opacity 150ms ease;
+    transition: opacity var(--duration-fast) ease;
 
     &[data-scrolled] {
       opacity: 1;
@@ -15,18 +15,18 @@ export const scrollAreaStyles = css`
   }
 
   .Scrollbar {
-    border-radius: var(--radius-sm, 0.375rem);
-    transition: opacity 150ms;
+    border-radius: var(--radius-sm);
+    transition: opacity var(--duration-fast);
   }
 
   .Scrollbar[data-orientation="vertical"] {
-    width: 0.25rem;
-    margin: 0.1rem;
+    width: var(--space-1);
+    margin: var(--space-px);
   }
 
   .Scrollbar[data-orientation="horizontal"] {
-    height: 0.25rem;
-    margin: 0.1rem;
+    height: var(--space-1);
+    margin: var(--space-px);
   }
 
   .Thumb {

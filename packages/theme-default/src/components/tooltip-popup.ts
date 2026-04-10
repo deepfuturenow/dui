@@ -10,12 +10,12 @@ export const tooltipPopupStyles = css`
       var(--foreground) 90%,
       oklch(0 0 0 / 0)
     );
-    backdrop-filter: blur(5px);
+    backdrop-filter: var(--filter-blur-sm);
     color: var(--background);
     font-family: var(--font-sans);
     ${type("xs", { lineHeight: "var(--line-height-snug)" })}
     box-shadow: var(--shadow-sm);
-    max-width: 20rem;
+    max-width: var(--space-80);
     transition-duration: var(--duration-fastest);
     transition-timing-function: var(--ease-out-3);
   }

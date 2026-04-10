@@ -35,7 +35,7 @@ export const comboboxStyles = css`
   }
 
   .Input::placeholder {
-    color: var(--text-2);
+    color: var(--text-3);
   }
 
   /* Single-select input wrapper */

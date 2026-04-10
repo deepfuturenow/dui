@@ -36,7 +36,7 @@ export const selectStyles = css`
   }
 
   .Value[data-placeholder] {
-    color: var(--text-2);
+    color: var(--text-3);
   }
 
   .Icon {
