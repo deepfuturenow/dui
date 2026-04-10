@@ -33,36 +33,9 @@ export class OklchEditorElement extends LitElement {
         text-transform: uppercase;
       }
 
-      input[type="range"] {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 100%;
-        height: var(--space-1);
-        background: var(--surface-1);
-        border-radius: var(--radius-full);
-        outline: none;
-      }
-
-      input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: var(--space-3_5);
-        height: var(--space-3_5);
-        border-radius: 50%;
-        background: var(--foreground);
-        border: 2px solid var(--background);
-        box-shadow: 0 0 0 1px var(--border);
-        cursor: pointer;
-      }
-
-      input[type="range"]::slider-thumb {
-        width: var(--space-3_5);
-        height: var(--space-3_5);
-        border-radius: 50%;
-        background: var(--foreground);
-        border: 2px solid var(--background);
-        box-shadow: 0 0 0 1px var(--border);
-        cursor: pointer;
+      dui-slider {
+        --slider-track-height: var(--space-1);
+        --slider-thumb-size: var(--space-3_5);
       }
 
       .value-display {
@@ -88,22 +61,10 @@ export class OklchEditorElement extends LitElement {
         flex-shrink: 0;
       }
 
-      .raw-input {
+      .swatch-row dui-input {
         flex: 1;
-        font-size: var(--font-size-xs);
-        font-family: var(--font-mono);
-        padding: var(--space-1) var(--space-1_5);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        background: var(--sunken);
-        color: var(--foreground);
         min-width: 0;
-      }
-
-      .raw-input:focus {
-        outline: 2px solid var(--ring);
-        outline-offset: -1px;
-        border-color: transparent;
+        font-size: var(--font-size-xs);
       }
     `,
   ];
@@ -143,9 +104,8 @@ export class OklchEditorElement extends LitElement {
   };
 
   #onSliderInput = (channel: "l" | "c" | "h" | "a") =>
-    (e: Event): void => {
-      const input = e.target as HTMLInputElement;
-      const val = parseFloat(input.value);
+    (e: CustomEvent<{ value: number }>): void => {
+      const val = e.detail.value;
       if (channel === "l") this.l = val;
       else if (channel === "c") this.c = val;
       else if (channel === "h") this.h = val;
@@ -153,9 +113,8 @@ export class OklchEditorElement extends LitElement {
       this.#emitChange();
     };
 
-  #onRawInput = (e: Event): void => {
-    const input = e.target as HTMLInputElement;
-    const parsed = parseOklch(input.value);
+  #onRawInput = (e: CustomEvent<{ value: string }>): void => {
+    const parsed = parseOklch(e.detail.value);
     if (parsed) {
       this.l = parsed.l;
       this.c = parsed.c;
@@ -174,49 +133,45 @@ export class OklchEditorElement extends LitElement {
     return html`
       <div class="slider-grid">
         <span class="label">L</span>
-        <input
-          type="range"
-          .value="${String(this.l)}"
-          min="0"
-          max="1"
-          step="0.001"
-          @input="${this.#onSliderInput("l")}"
-        />
+        <dui-slider
+          .value=${this.l}
+          .min=${0}
+          .max=${1}
+          .step=${0.001}
+          @value-change=${this.#onSliderInput("l")}
+        ></dui-slider>
         <span class="value-display">${this.l.toFixed(3)}</span>
 
         <span class="label">C</span>
-        <input
-          type="range"
-          .value="${String(this.c)}"
-          min="0"
-          max="0.4"
-          step="0.001"
-          @input="${this.#onSliderInput("c")}"
-        />
+        <dui-slider
+          .value=${this.c}
+          .min=${0}
+          .max=${0.4}
+          .step=${0.001}
+          @value-change=${this.#onSliderInput("c")}
+        ></dui-slider>
         <span class="value-display">${this.c.toFixed(3)}</span>
 
         <span class="label">H</span>
-        <input
-          type="range"
-          .value="${String(this.h)}"
-          min="0"
-          max="360"
-          step="0.5"
-          @input="${this.#onSliderInput("h")}"
-        />
+        <dui-slider
+          .value=${this.h}
+          .min=${0}
+          .max=${360}
+          .step=${0.5}
+          @value-change=${this.#onSliderInput("h")}
+        ></dui-slider>
         <span class="value-display">${this.h.toFixed(1)}</span>
 
         ${this.hasAlpha
           ? html`
               <span class="label">A</span>
-              <input
-                type="range"
-                .value="${String(this.alpha ?? 1)}"
-                min="0"
-                max="1"
-                step="0.01"
-                @input="${this.#onSliderInput("a")}"
-              />
+              <dui-slider
+                .value=${this.alpha ?? 1}
+                .min=${0}
+                .max=${1}
+                .step=${0.01}
+                @value-change=${this.#onSliderInput("a")}
+              ></dui-slider>
               <span class="value-display">${(this.alpha ?? 1).toFixed(2)}</span>
             `
           : nothing}
@@ -224,11 +179,10 @@ export class OklchEditorElement extends LitElement {
 
       <div class="swatch-row">
         <div class="swatch" style="background: ${currentColor}"></div>
-        <input
-          class="raw-input"
+        <dui-input
           .value="${currentColor}"
-          @change="${this.#onRawInput}"
-        />
+          @input-change="${this.#onRawInput}"
+        ></dui-input>
       </div>
     `;
   }

@@ -146,19 +146,31 @@ export class ThemeEditorViewElement extends LitElement {
         margin: 0;
       }
 
-      .target-select {
+      dui-select {
         font-size: var(--font-size-xs);
-        padding: var(--space-1) var(--space-2);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        background: var(--sunken);
-        color: var(--foreground);
       }
 
       .sidebar-scroll {
         flex: 1;
-        overflow-y: auto;
-        padding: 0 var(--space-4) var(--space-4);
+        min-height: 0;
+      }
+
+      .sidebar-scroll {
+        --scroll-area-thumb-color: oklch(from var(--foreground) l c h / 0.5);
+      }
+
+      .sidebar-scroll::part(scrollbar-vertical) {
+        opacity: 1;
+        pointer-events: auto;
+        width: 6px;
+      }
+
+      .sidebar-scroll::part(thumb-vertical) {
+        opacity: 1;
+      }
+
+      .sidebar-scroll-inner {
+        padding: 0 var(--space-6) var(--space-4) var(--space-4);
       }
 
       .sidebar-footer {
@@ -170,72 +182,16 @@ export class ThemeEditorViewElement extends LitElement {
         flex-shrink: 0;
       }
 
-      .btn {
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-weight-medium);
-        padding: var(--space-1) var(--space-2_5);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        background: var(--surface-2);
-        color: var(--foreground);
-        cursor: pointer;
-        white-space: nowrap;
+      .sidebar-footer dui-button {
+        --button-height: auto;
+        --button-padding-y: var(--space-1);
+        --button-padding-x: var(--space-2_5);
+        --button-font-size: var(--font-size-xs);
       }
 
-      .btn:hover {
-        background: var(--accent);
-        border-color: var(--accent);
-      }
-
-      .btn.primary {
-        background: var(--accent);
-        color: oklch(from var(--accent) 0.98 0.01 h);
-        border-color: var(--accent);
-      }
-
-      .btn.primary:hover {
-        opacity: 0.9;
-      }
-
-      .btn.danger {
-        color: var(--destructive);
-        border-color: var(--destructive);
-      }
-
-      .btn.danger:hover {
-        background: color-mix(in oklch, var(--destructive) 10%, transparent);
-      }
-
-      /* ---- Details/summary accordion replacement ---- */
-      details {
+      /* ---- Collapsible category sections ---- */
+      dui-collapsible {
         border: none;
-      }
-
-      summary {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        padding: var(--space-2) 0;
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-semibold);
-        color: var(--foreground);
-        list-style: none;
-        user-select: none;
-      }
-
-      summary::-webkit-details-marker {
-        display: none;
-      }
-
-      summary::before {
-        content: "▸";
-        margin-right: var(--space-1_5);
-        font-size: var(--font-size-xs);
-        transition: transform var(--duration-fast) var(--ease-out-3);
-      }
-
-      details[open] > summary::before {
-        transform: rotate(90deg);
       }
 
       /* ---- Sub-group label ---- */
@@ -353,9 +309,8 @@ export class ThemeEditorViewElement extends LitElement {
     this.#pushOverridesToEngine();
   };
 
-  #onTargetChange = (e: Event): void => {
-    const select = e.target as HTMLSelectElement;
-    this.targetUrl = select.value;
+  #onTargetChange = (e: CustomEvent<{ value: string }>): void => {
+    this.targetUrl = e.detail.value;
     this.#disconnectIframe?.();
     this.updateComplete.then(() => {
       this.#disconnectIframe = connectIframe(this.iframeEl);
@@ -458,19 +413,19 @@ export class ThemeEditorViewElement extends LitElement {
 
       ${lightTokens.length > 0
         ? html`
-            <details open>
-              <summary>Light theme</summary>
+            <dui-collapsible default-open>
+              <span slot="trigger">Light theme</span>
               ${this.#renderColorSubGroups(lightTokens)}
-            </details>
+            </dui-collapsible>
           `
         : nothing}
 
       ${darkTokens.length > 0
         ? html`
-            <details>
-              <summary>Dark theme</summary>
+            <dui-collapsible>
+              <span slot="trigger">Dark theme</span>
               ${this.#renderColorSubGroups(darkTokens)}
-            </details>
+            </dui-collapsible>
           `
         : nothing}
     `;
@@ -490,31 +445,33 @@ export class ThemeEditorViewElement extends LitElement {
           <h1 class="sidebar-title">Theme Editor</h1>
           ${IFRAME_TARGETS.length > 1
             ? html`
-                <select class="target-select" @change="${this.#onTargetChange}">
-                  ${IFRAME_TARGETS.map(
-                    (t) => html`<option value="${t.url}" ?selected="${t.url === this.targetUrl}">${t.label}</option>`,
-                  )}
-                </select>
+                <dui-select
+                  .options=${IFRAME_TARGETS.map((t) => ({ label: t.label, value: t.url }))}
+                  .value=${this.targetUrl}
+                  @value-change=${this.#onTargetChange}
+                ></dui-select>
               `
             : nothing}
         </div>
 
-        <div class="sidebar-scroll" @token-change="${this.#onTokenChange}">
-          ${sortedEntries.map(([category, categoryTokens]) => html`
-            <details ?open="${category === "colors"}">
-              <summary>${this.#formatLabel(category)}</summary>
-              ${category === "colors"
-                ? this.#renderColorsSection(categoryTokens)
-                : categoryTokens.map((t) => this.#renderTokenEditor(t))}
-            </details>
-          `)}
-        </div>
+        <dui-scroll-area class="sidebar-scroll" @token-change="${this.#onTokenChange}">
+          <div class="sidebar-scroll-inner">
+            ${sortedEntries.map(([category, categoryTokens]) => html`
+              <dui-collapsible ?default-open=${category === "colors"}>
+                <span slot="trigger">${this.#formatLabel(category)}</span>
+                ${category === "colors"
+                  ? this.#renderColorsSection(categoryTokens)
+                  : categoryTokens.map((t) => this.#renderTokenEditor(t))}
+              </dui-collapsible>
+            `)}
+          </div>
+        </dui-scroll-area>
 
         <div class="sidebar-footer">
           ${this.#hasOverrides()
-            ? html`<button class="btn primary" @click="${this.#copyTokensCSS}">Copy tokens.css</button>`
+            ? html`<dui-button variant="primary" appearance="filled" size="sm" @click="${this.#copyTokensCSS}">Copy tokens.css</dui-button>`
             : nothing}
-          <button class="btn danger" @click="${this.#resetAll}">Reset</button>
+          <dui-button variant="danger" appearance="outline" size="sm" @click="${this.#resetAll}">Reset</dui-button>
         </div>
       </div>
 
