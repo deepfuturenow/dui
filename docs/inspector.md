@@ -31,7 +31,29 @@ import "@deepfuture/dui-inspector";
 import "@deepfuture/dui-inspector/api";
 ```
 
-The inspector is intended for development. Don't ship it to production — gate it behind an environment check or a dev-only entry point.
+The inspector is intended for development. Don't ship it to production — gate it behind an environment check or a dev-only entry point:
+
+```typescript
+// In your app's entry point
+if (import.meta.env?.DEV || location.search.includes('inspector')) {
+  import('@dui/inspector');
+}
+```
+
+Or use a separate entry point that your dev server loads but your production build doesn't:
+
+```typescript
+// dev-tools.ts — only imported in development
+import '@dui/inspector';
+import { init } from '@dui/inspector/api';
+
+init({
+  sourceMap: {
+    tokens: 'src/theme/tokens.css',
+    page: 'src/pages/dashboard.ts',
+  },
+});
+```
 
 ---
 
