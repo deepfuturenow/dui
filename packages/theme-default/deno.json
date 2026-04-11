@@ -1,6 +1,6 @@
 {
   "name": "@dui/theme-default",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "exports": {
     ".": "./src/index.ts",
     "./components/accordion": "./src/components/accordion.ts",
