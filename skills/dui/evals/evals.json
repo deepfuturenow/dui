@@ -4,13 +4,12 @@
     {
       "id": 1,
       "prompt": "I'm building an app with DUI. Create a settings form with fields for: display name, email address, and a theme preference toggle (light/dark/system). The form should have a save button and use proper layout components.",
-      "expected_output": "HTML/TS using dui-input, dui-toggle-group or dui-select for theme, dui-button, dui-vstack for layout, CSS custom properties for any styling overrides.",
+      "expected_output": "HTML/TS using dui-input, dui-toggle-group or dui-select for theme, dui-button, manual flex/grid styles for layout, --space tokens for spacing values, CSS custom properties for any styling overrides.",
       "files": [],
       "expectations": [
         "Uses dui-input for text fields rather than raw <input> elements",
         "Uses dui-toggle-group or dui-select for the theme preference (not manually styled buttons)",
         "Uses dui-button for the save action",
-        "Uses dui-vstack or dui-hstack for layout rather than manual flex/grid divs",
         "Any styling overrides use CSS custom properties (--input-bg, --button-bg, etc.) rather than inline styles or shadow DOM manipulation",
         "Uses semantic design tokens (--color-primary, --color-fg, etc.) rather than hardcoded color values",
         "Does not use !important"
@@ -40,7 +39,6 @@
         "Uses dui-breadcrumb with dui-breadcrumb-item children for navigation",
         "Uses dui-data-table for the data table rather than a raw <table>",
         "Uses dui-badge for stat card values/changes rather than custom styled spans",
-        "Uses layout primitives (dui-hstack, dui-vstack, dui-page-inset) for spacing and structure",
         "Uses semantic design tokens for colors rather than hardcoded values",
         "Dark mode works via class=\"dark\" on a parent, not manual color overrides"
       ]
