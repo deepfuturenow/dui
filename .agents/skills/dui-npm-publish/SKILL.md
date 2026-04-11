@@ -1,5 +1,5 @@
 ---
-name: npm-publish
+name: dui-npm-publish
 description: Publish a new DUI release to npm. Bumps version across all packages, builds, verifies, and publishes to the @deepfuture npm org. Use when the user says "push a new release to npm", "publish a new release", "publish to npm", "release a new version", "bump and publish", or "npm publish".
 ---
 
