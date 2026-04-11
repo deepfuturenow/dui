@@ -225,12 +225,12 @@ export class InspectorViewElement extends LitElement {
     }
   `;
 
-  @state() accessor #active = false;
-  @state() accessor #selectedElement: HTMLElement | null = null;
-  @state() accessor #inspectionData: ComponentInspection | null = null;
-  @state() accessor #activeTab: Tab = "inspect";
-  @state() accessor #changeCount = 0;
-  @state() accessor #showCopiedToast = false;
+  @state() accessor _active = false;
+  @state() accessor _selectedElement: HTMLElement | null = null;
+  @state() accessor _inspectionData: ComponentInspection | null = null;
+  @state() accessor _activeTab: Tab = "inspect";
+  @state() accessor _changeCount = 0;
+  @state() accessor _showCopiedToast = false;
 
   #overlay: InspectorOverlayElement | null = null;
 
@@ -249,14 +249,14 @@ export class InspectorViewElement extends LitElement {
   }
 
   #onChangelogUpdate = (): void => {
-    this.#changeCount = changelog.count;
+    this._changeCount = changelog.count;
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
     // Ctrl+Shift+I
     if (e.shiftKey && e.ctrlKey && !e.metaKey && e.key === "I") {
       e.preventDefault();
-      if (this.#active) {
+      if (this._active) {
         this.#deactivate();
       } else {
         this.#activate();
@@ -264,11 +264,11 @@ export class InspectorViewElement extends LitElement {
       return;
     }
 
-    if (e.key === "Escape" && this.#active) {
+    if (e.key === "Escape" && this._active) {
       e.preventDefault();
-      if (this.#inspectionData) {
-        this.#inspectionData = null;
-        this.#selectedElement = null;
+      if (this._inspectionData) {
+        this._inspectionData = null;
+        this._selectedElement = null;
       } else {
         this.#deactivate();
       }
@@ -276,16 +276,16 @@ export class InspectorViewElement extends LitElement {
   };
 
   #activate(): void {
-    this.#active = true;
+    this._active = true;
     document.addEventListener("mousemove", this.#onMouseMove, true);
     document.addEventListener("pointerdown", this.#onPointerDown, true);
     document.addEventListener("focusin", this.#onFocusIn, true);
   }
 
   #deactivate(): void {
-    this.#active = false;
-    this.#inspectionData = null;
-    this.#selectedElement = null;
+    this._active = false;
+    this._inspectionData = null;
+    this._selectedElement = null;
     this.#overlay?.hide();
     document.removeEventListener("mousemove", this.#onMouseMove, true);
     document.removeEventListener("pointerdown", this.#onPointerDown, true);
@@ -295,7 +295,7 @@ export class InspectorViewElement extends LitElement {
   #onMouseMove = (e: MouseEvent): void => {
     const deepest = e.composedPath()[0] as Element;
     const target = findDuiAncestor(deepest);
-    if (target && target !== this.#selectedElement) {
+    if (target && target !== this._selectedElement) {
       this.#overlay?.highlight(target);
     } else if (!target) {
       this.#overlay?.hide();
@@ -310,8 +310,8 @@ export class InspectorViewElement extends LitElement {
     e.preventDefault();
     e.stopPropagation();
 
-    this.#selectedElement = target;
-    this.#inspectionData = inspectElement(target);
+    this._selectedElement = target;
+    this._inspectionData = inspectElement(target);
     this.#overlay?.highlight(target);
   };
 
@@ -319,30 +319,30 @@ export class InspectorViewElement extends LitElement {
     const deepest = e.composedPath()[0] as Element;
     const target = findDuiAncestor(deepest);
     if (target) {
-      this.#selectedElement = target;
-      this.#inspectionData = inspectElement(target);
+      this._selectedElement = target;
+      this._inspectionData = inspectElement(target);
       this.#overlay?.highlight(target);
     }
   };
 
   #onClosePanel = (): void => {
-    this.#inspectionData = null;
-    this.#selectedElement = null;
+    this._inspectionData = null;
+    this._selectedElement = null;
   };
 
   #setTab(tab: Tab): void {
-    this.#activeTab = tab;
+    this._activeTab = tab;
   }
 
   #reinspect = (): void => {
-    if (this.#selectedElement) {
-      this.#inspectionData = inspectElement(this.#selectedElement);
+    if (this._selectedElement) {
+      this._inspectionData = inspectElement(this._selectedElement);
     }
   };
 
   #onUndo = (): void => {
     changelog.undo();
-    this.#changeCount = changelog.count;
+    this._changeCount = changelog.count;
     this.#reinspect();
   };
 
@@ -351,9 +351,9 @@ export class InspectorViewElement extends LitElement {
     const json = JSON.stringify(changeset, null, 2);
     try {
       await navigator.clipboard.writeText(json);
-      this.#showCopiedToast = true;
+      this._showCopiedToast = true;
       setTimeout(() => {
-        this.#showCopiedToast = false;
+        this._showCopiedToast = false;
       }, 2000);
     } catch (e) {
       console.error("Failed to copy to clipboard:", e);
@@ -368,20 +368,20 @@ export class InspectorViewElement extends LitElement {
     return html`
       <dui-inspector-overlay></dui-inspector-overlay>
 
-      ${this.#inspectionData ? this.#renderPanel() : nothing}
+      ${this._inspectionData ? this.#renderPanel() : nothing}
 
-      ${this.#active && !this.#inspectionData
+      ${this._active && !this._inspectionData
         ? html`<div class="activation-badge">Inspector Active — click a DUI component</div>`
         : nothing}
 
-      ${this.#showCopiedToast
+      ${this._showCopiedToast
         ? html`<div class="copied-toast">Changeset copied ✓</div>`
         : nothing}
     `;
   }
 
   #renderPanel(): TemplateResult {
-    const d = this.#inspectionData!;
+    const d = this._inspectionData!;
 
     return html`
       <div class="panel-shell">
@@ -398,37 +398,37 @@ export class InspectorViewElement extends LitElement {
         <div class="tab-bar">
           <button
             class="tab-btn"
-            ?data-active=${this.#activeTab === "inspect"}
+            ?data-active=${this._activeTab === "inspect"}
             @click=${() => this.#setTab("inspect")}
           >Inspect</button>
           <button
             class="tab-btn"
-            ?data-active=${this.#activeTab === "tokens"}
+            ?data-active=${this._activeTab === "tokens"}
             @click=${() => this.#setTab("tokens")}
           >Tokens</button>
           <button
             class="tab-btn"
-            ?data-active=${this.#activeTab === "styles"}
+            ?data-active=${this._activeTab === "styles"}
             @click=${() => this.#setTab("styles")}
           >Styles</button>
         </div>
 
         <!-- Tab content -->
         <div class="tab-content">
-          ${this.#activeTab === "inspect"
+          ${this._activeTab === "inspect"
             ? html`<dui-inspector-panel .data=${d}></dui-inspector-panel>`
             : nothing}
-          ${this.#activeTab === "tokens"
+          ${this._activeTab === "tokens"
             ? html`<dui-inspector-token-editor
                 .data=${d}
                 .selector=${d.selector}
                 @token-changed=${this.#reinspect}
               ></dui-inspector-token-editor>`
             : nothing}
-          ${this.#activeTab === "styles"
+          ${this._activeTab === "styles"
             ? html`<dui-inspector-style-editor
                 .data=${d}
-                .targetElement=${this.#selectedElement}
+                .targetElement=${this._selectedElement}
                 @style-changed=${this.#reinspect}
               ></dui-inspector-style-editor>`
             : nothing}
@@ -439,17 +439,17 @@ export class InspectorViewElement extends LitElement {
           <button
             class="toolbar-btn"
             @click=${this.#onCopyChanges}
-            ?disabled=${this.#changeCount === 0}
+            ?disabled=${this._changeCount === 0}
           >Copy changes</button>
           <button
             class="toolbar-btn"
             @click=${this.#onUndo}
-            ?disabled=${this.#changeCount === 0}
+            ?disabled=${this._changeCount === 0}
           >Undo</button>
           <span
             class="change-count"
-            ?data-has-changes=${this.#changeCount > 0}
-          >${this.#changeCount} change${this.#changeCount !== 1 ? "s" : ""}</span>
+            ?data-has-changes=${this._changeCount > 0}
+          >${this._changeCount} change${this._changeCount !== 1 ? "s" : ""}</span>
         </div>
       </div>
     `;

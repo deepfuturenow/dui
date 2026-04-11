@@ -46,33 +46,33 @@ export class InspectorOverlayElement extends LitElement {
   @property({ type: Boolean, reflect: true })
   accessor visible = false;
 
-  @state() accessor #rect: DOMRect | null = null;
-  @state() accessor #tagName = "";
+  @state() accessor _rect: DOMRect | null = null;
+  @state() accessor _tagName = "";
 
   /** Update the overlay to highlight the given element. */
   highlight(el: HTMLElement): void {
-    this.#rect = el.getBoundingClientRect();
-    this.#tagName = el.tagName.toLowerCase();
+    this._rect = el.getBoundingClientRect();
+    this._tagName = el.tagName.toLowerCase();
     this.visible = true;
   }
 
   /** Hide the overlay. */
   hide(): void {
     this.visible = false;
-    this.#rect = null;
+    this._rect = null;
   }
 
   override render(): TemplateResult {
-    if (!this.#rect) return html`${nothing}`;
+    if (!this._rect) return html`${nothing}`;
 
-    const { top, left, width, height } = this.#rect;
+    const { top, left, width, height } = this._rect;
 
     return html`
       <div
         class="border"
         style="top:${top}px;left:${left}px;width:${width}px;height:${height}px"
       >
-        <span class="label">${this.#tagName}</span>
+        <span class="label">${this._tagName}</span>
       </div>
     `;
   }

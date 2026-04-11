@@ -360,11 +360,11 @@ export class StyleEditorPanelElement extends LitElement {
   @property({ attribute: false })
   accessor targetElement: HTMLElement | null = null;
 
-  @state() accessor #userOverrideCSS = "";
-  @state() accessor #hasUserOverride = false;
-  @state() accessor #errorMessage = "";
+  @state() accessor _userOverrideCSS = "";
+  @state() accessor _hasUserOverride = false;
+  @state() accessor _errorMessage = "";
   /** Which layer index (or "user") is currently in edit mode. */
-  @state() accessor #editingLayer: number | "user" | null = null;
+  @state() accessor _editingLayer: number | "user" | null = null;
 
   override render(): TemplateResult {
     if (!this.data || !this.targetElement) {
@@ -387,22 +387,22 @@ export class StyleEditorPanelElement extends LitElement {
                   ? html`<span class="editable-badge">editable</span>`
                   : html`<span class="readonly-badge">read-only</span>`}
               </summary>
-              ${this.#editingLayer === i
+              ${this._editingLayer === i
                 ? html`<textarea
                     class="css-editor"
                     .value=${formatCSS(cssText)}
                     @change=${(e: Event) => this.#onEditThemeLayer(i, (e.target as HTMLTextAreaElement).value)}
-                    @blur=${() => { this.#editingLayer = null; }}
+                    @blur=${() => { this._editingLayer = null; }}
                     @keydown=${this.#onEditorKeyDown}
                     spellcheck="false"
                   ></textarea>`
                 : cssText
                   ? html`<div
                       class="code-block ${isEditable ? "editable-code resizable" : ""}"
-                      @dblclick=${isEditable ? () => { this.#editingLayer = i; } : nothing}
-                    >${highlightCSS(cssText)}${isEditable ? html`<button class="edit-btn" @click=${() => { this.#editingLayer = i; }}>Edit</button>` : nothing}</div>`
+                      @dblclick=${isEditable ? () => { this._editingLayer = i; } : nothing}
+                    >${highlightCSS(cssText)}${isEditable ? html`<button class="edit-btn" @click=${() => { this._editingLayer = i; }}>Edit</button>` : nothing}</div>`
                   : isEditable
-                    ? html`<div class="code-block editable-code resizable" @dblclick=${() => { this.#editingLayer = i; }}><span class="code-empty">(empty)</span><button class="edit-btn" @click=${() => { this.#editingLayer = i; }}>Edit</button></div>`
+                    ? html`<div class="code-block editable-code resizable" @dblclick=${() => { this._editingLayer = i; }}><span class="code-empty">(empty)</span><button class="edit-btn" @click=${() => { this._editingLayer = i; }}>Edit</button></div>`
                     : html`<div class="code-block"><span class="code-empty">(empty)</span></div>`}
             </details>
           `;
@@ -414,27 +414,27 @@ export class StyleEditorPanelElement extends LitElement {
             user overrides
             <span class="editable-badge">editable</span>
           </summary>
-          ${this.#hasUserOverride && this.#editingLayer === "user"
+          ${this._hasUserOverride && this._editingLayer === "user"
             ? html`<textarea
                 class="css-editor"
-                .value=${this.#userOverrideCSS}
+                .value=${this._userOverrideCSS}
                 @change=${(e: Event) => this.#onEditUserOverride((e.target as HTMLTextAreaElement).value)}
-                @blur=${() => { this.#editingLayer = null; }}
+                @blur=${() => { this._editingLayer = null; }}
                 @keydown=${this.#onEditorKeyDown}
                 spellcheck="false"
               ></textarea>`
-            : this.#hasUserOverride
-            ? html`<div class="code-block editable-code" @dblclick=${() => { this.#editingLayer = "user"; }}>
-                ${this.#userOverrideCSS.trim() ? highlightCSS(this.#userOverrideCSS) : html`<span class="code-empty">(empty)</span>`}
-                <button class="edit-btn" @click=${() => { this.#editingLayer = "user"; }}>Edit</button>
+            : this._hasUserOverride
+            ? html`<div class="code-block editable-code" @dblclick=${() => { this._editingLayer = "user"; }}>
+                ${this._userOverrideCSS.trim() ? highlightCSS(this._userOverrideCSS) : html`<span class="code-empty">(empty)</span>`}
+                <button class="edit-btn" @click=${() => { this._editingLayer = "user"; }}>Edit</button>
               </div>`
             : html`<button class="add-override-btn" @click=${this.#addUserOverride}>
                 + Add custom CSS override
               </button>`}
         </details>
 
-        ${this.#errorMessage
-          ? html`<div class="error-msg">${this.#errorMessage}</div>`
+        ${this._errorMessage
+          ? html`<div class="error-msg">${this._errorMessage}</div>`
           : nothing}
       </div>
     `;
@@ -486,7 +486,7 @@ export class StyleEditorPanelElement extends LitElement {
       sheets[index] = newSheet;
       root.adoptedStyleSheets = sheets;
 
-      this.#errorMessage = "";
+      this._errorMessage = "";
 
       changelog.add(
         "editThemeCSS",
@@ -503,14 +503,14 @@ export class StyleEditorPanelElement extends LitElement {
         new CustomEvent("style-changed", { bubbles: true, composed: true }),
       );
     } catch (e) {
-      this.#errorMessage = `CSS parse error: ${(e as Error).message}`;
+      this._errorMessage = `CSS parse error: ${(e as Error).message}`;
     }
   }
 
   /** Add a user override stylesheet layer. */
   #addUserOverride(): void {
-    this.#hasUserOverride = true;
-    this.#userOverrideCSS = ":host {\n  \n}";
+    this._hasUserOverride = true;
+    this._userOverrideCSS = ":host {\n  \n}";
   }
 
   /** Edit the user override layer. */
@@ -518,7 +518,7 @@ export class StyleEditorPanelElement extends LitElement {
     const root = this.targetElement?.shadowRoot;
     if (!root) return;
 
-    this.#userOverrideCSS = newCSS;
+    this._userOverrideCSS = newCSS;
 
     try {
       const newSheet = new CSSStyleSheet();
@@ -535,7 +535,7 @@ export class StyleEditorPanelElement extends LitElement {
       }
       root.adoptedStyleSheets = sheets;
 
-      this.#errorMessage = "";
+      this._errorMessage = "";
 
       changelog.add(
         "editUserOverride",
@@ -547,7 +547,7 @@ export class StyleEditorPanelElement extends LitElement {
         new CustomEvent("style-changed", { bubbles: true, composed: true }),
       );
     } catch (e) {
-      this.#errorMessage = `CSS parse error: ${(e as Error).message}`;
+      this._errorMessage = `CSS parse error: ${(e as Error).message}`;
     }
   }
 }

@@ -140,7 +140,7 @@ export class TokenEditorPanelElement extends LitElement {
   @property({ type: String })
   accessor selector = "";
 
-  @state() accessor #scope: "global" | "instance" = "global";
+  @state() accessor _scope: "global" | "instance" = "global";
 
   override render(): TemplateResult {
     if (!this.data) return html`<div class="empty">Select a component</div>`;
@@ -156,13 +156,13 @@ export class TokenEditorPanelElement extends LitElement {
       <div class="scope-toggle">
         <button
           class="scope-btn"
-          ?data-active=${this.#scope === "global"}
-          @click=${() => (this.#scope = "global")}
+          ?data-active=${this._scope === "global"}
+          @click=${() => (this._scope = "global")}
         >Global</button>
         <button
           class="scope-btn"
-          ?data-active=${this.#scope === "instance"}
-          @click=${() => (this.#scope = "instance")}
+          ?data-active=${this._scope === "instance"}
+          @click=${() => (this._scope = "instance")}
         >This instance</button>
       </div>
 
@@ -220,7 +220,7 @@ export class TokenEditorPanelElement extends LitElement {
   }
 
   #onTokenChange(name: string, value: string): void {
-    if (this.#scope === "global") {
+    if (this._scope === "global") {
       setToken(name, value);
     } else {
       setComponentToken(this.selector, name, value);
