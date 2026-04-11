@@ -301,28 +301,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 
 ## Layout
 
-### dui-hstack
-**Properties:** `gap` (StackGap), `align` ("start" | "center" | "end" | "stretch" | "baseline"), `justify` ("start" | "center" | "end" | "between" | "around" | "evenly" | "stretch")
-**Slots:** default (Stack content)
-**Parts:** `root`
-**Tokens:** `--hstack-gap`, `--hstack-align`, `--hstack-justify`
-
-### dui-vstack
-**Properties:** `gap` (StackGap)
-**Slots:** default (Stack content)
-**Parts:** `root`
-**Tokens:** `--vstack-gap`
-
-### dui-center
-**Properties:** —
-**Slots:** default (Content to center)
-**Parts:** `root`
-
-### dui-page-inset
-**Properties:** `maxWidth` (string | undefined), `minWidth` (string | undefined), `padX` (string | undefined), `padY` (string | undefined)
-**Slots:** default (Content to be centered)
-**Parts:** `root`
-**Tokens:** `--page-inset-pad-x`, `--page-inset-pad-y`, `--page-inset-max-width`, `--page-inset-min-width`
+For rows, columns, centering, and page margins, use standard CSS flexbox and grid directly. DUI does not provide layout wrapper components.
 
 ### dui-scroll-area
 **Properties:** `orientation` (string), `fade` (boolean), `maxHeight` (string | undefined)

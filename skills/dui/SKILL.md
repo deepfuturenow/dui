@@ -38,7 +38,7 @@ Before writing any DUI code, check the project's DUI status:
 
 - **Slots are the composition API.** Pass content into components via slots, not by wrapping in divs.
 - **Compound components stay together.** `dui-dialog-trigger` belongs inside `dui-dialog`. `dui-select-option` belongs inside `dui-select`. Don't restructure compound component hierarchies.
-- **Layout components for spacing.** Use `dui-hstack`, `dui-vstack`, `dui-center`, `dui-page-inset` rather than manual flex/grid on wrapper divs.
+- **Use standard CSS for layout.** Use flexbox and grid directly for layout (rows, columns, centering, page margins). DUI does not provide layout wrapper components — layout is CSS's job.
 
 ### Icons
 
@@ -58,7 +58,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Navigation | `dui-sidebar`, `dui-breadcrumb`, `dui-tabs` |
 | Overlays | `dui-dialog` (modal), `dui-alert-dialog` (confirmation), `dui-popover`, `dui-tooltip`, `dui-menu`, `dui-command` |
 | Disclosure | `dui-accordion`, `dui-collapsible` |
-| Layout | `dui-hstack`, `dui-vstack`, `dui-center`, `dui-page-inset`, `dui-scroll-area`, `dui-separator` |
+| Layout | `dui-scroll-area`, `dui-separator` — for rows/columns/centering/page margins, use standard CSS flexbox and grid |
 | Text | `dui-trunc` (truncation with `max-chars`) |
 | Utility | `dui-icon`, `dui-portal`, `dui-link` |
 

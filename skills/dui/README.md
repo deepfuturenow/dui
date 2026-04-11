@@ -115,9 +115,9 @@ The `evals/` directory contains test prompts for verifying the skill works corre
 
 | Eval | Tests |
 | --- | --- |
-| **Settings form** | Component selection (dui-input, dui-toggle-group, dui-button), layout primitives (dui-vstack), CSS custom property styling, semantic tokens |
+| **Settings form** | Component selection (dui-input, dui-toggle-group, dui-button), CSS flexbox/grid layout, CSS custom property styling, semantic tokens |
 | **Delete confirmation dialog** | Compound component hierarchy (dui-alert-dialog family), icon usage (dui-icon with slots), danger styling via tokens, `::part(root)` usage |
-| **Dashboard layout** | Sidebar composition, breadcrumbs, data table, badge, layout primitives, dark mode pattern |
+| **Dashboard layout** | Sidebar composition, breadcrumbs, data table, badge, CSS flexbox/grid layout, dark mode pattern |
 | **Inspector workflow** | `__dui_inspect()` discovery, `__dui_mutate.*` mutations, post-mutation verification, `__dui_export()` for source changes |
 
 ### Running evals with the skill-creator
