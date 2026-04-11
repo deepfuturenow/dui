@@ -97,7 +97,7 @@ export class DuiRadio extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #fieldCtx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   get #isChecked(): boolean {
     return this.#groupCtx.value?.value === this.value;
@@ -107,7 +107,7 @@ export class DuiRadio extends LitElement {
     return (
       this.disabled ||
       (this.#groupCtx.value?.disabled ?? false) ||
-      (this.#fieldCtx?.disabled ?? false)
+      (this._fieldCtx?.disabled ?? false)
     );
   }
 
@@ -120,7 +120,7 @@ export class DuiRadio extends LitElement {
   }
 
   get #isInvalid(): boolean {
-    return this.#fieldCtx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   override connectedCallback(): void {
@@ -144,8 +144,8 @@ export class DuiRadio extends LitElement {
     const ctx = this.#groupCtx.value;
     if (ctx) {
       ctx.select(this.value);
-      this.#fieldCtx?.markDirty();
-      this.#fieldCtx?.markTouched();
+      this._fieldCtx?.markDirty();
+      this._fieldCtx?.markTouched();
     }
   };
 
@@ -162,7 +162,7 @@ export class DuiRadio extends LitElement {
     const isReadOnly = this.#isReadOnly;
     const isRequired = this.#isRequired;
     const isInvalid = this.#isInvalid;
-    const controlId = this.#fieldCtx?.controlId ?? "";
+    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span

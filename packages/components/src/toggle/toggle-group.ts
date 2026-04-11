@@ -88,7 +88,7 @@ export class DuiToggleGroup extends LitElement {
 
   @provide({ context: toggleGroupContext })
   @state()
-  accessor #ctx: ToggleGroupContext = this.#buildContext();
+  accessor _ctx: ToggleGroupContext = this.#buildContext();
 
   #buildContext(): ToggleGroupContext {
     return {
@@ -104,11 +104,11 @@ export class DuiToggleGroup extends LitElement {
     if (this.value === undefined && this.defaultValue.length > 0) {
       this.#internalValue = [...this.defaultValue];
     }
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   #onKeyDown = (e: KeyboardEvent): void => {

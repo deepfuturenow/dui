@@ -95,7 +95,7 @@ export class DuiMenubar extends LitElement {
 
   @provide({ context: menubarContext })
   @state()
-  accessor #ctx: MenubarContext = this.#buildContext();
+  accessor _ctx: MenubarContext = this.#buildContext();
 
   #buildContext(): MenubarContext {
     return {
@@ -107,7 +107,7 @@ export class DuiMenubar extends LitElement {
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   #onKeyDown = (e: KeyboardEvent): void => {

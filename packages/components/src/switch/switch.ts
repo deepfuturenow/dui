@@ -95,18 +95,18 @@ export class DuiSwitch extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #fieldCtx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   get #isChecked(): boolean {
     return this.checked ?? this.#internalChecked;
   }
 
   get #isDisabled(): boolean {
-    return this.disabled || (this.#fieldCtx?.disabled ?? false);
+    return this.disabled || (this._fieldCtx?.disabled ?? false);
   }
 
   get #isInvalid(): boolean {
-    return this.#fieldCtx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   override connectedCallback(): void {
@@ -135,8 +135,8 @@ export class DuiSwitch extends LitElement {
       this.#internalChecked = newChecked;
     }
 
-    this.#fieldCtx?.markDirty();
-    this.#fieldCtx?.markTouched();
+    this._fieldCtx?.markDirty();
+    this._fieldCtx?.markTouched();
 
     this.dispatchEvent(checkedChangeEvent({ checked: newChecked }));
   };
@@ -152,7 +152,7 @@ export class DuiSwitch extends LitElement {
     const isChecked = this.#isChecked;
     const isDisabled = this.#isDisabled;
     const isInvalid = this.#isInvalid;
-    const controlId = this.#fieldCtx?.controlId ?? "";
+    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span

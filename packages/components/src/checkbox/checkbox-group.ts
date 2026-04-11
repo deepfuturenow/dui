@@ -96,7 +96,7 @@ export class DuiCheckboxGroup extends LitElement {
 
   @provide({ context: checkboxGroupContext })
   @state()
-  accessor #ctx: CheckboxGroupContext = this.#buildContext();
+  accessor _ctx: CheckboxGroupContext = this.#buildContext();
 
   #buildContext(): CheckboxGroupContext {
     return {
@@ -113,11 +113,11 @@ export class DuiCheckboxGroup extends LitElement {
     if (this.value === undefined && this.defaultValue.length > 0) {
       this.#internalValues = [...this.defaultValue];
     }
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override render(): TemplateResult {

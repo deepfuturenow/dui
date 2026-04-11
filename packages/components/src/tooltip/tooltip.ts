@@ -76,7 +76,7 @@ export class DuiTooltip extends LitElement {
 
   @provide({ context: tooltipContext })
   @state()
-  accessor #ctx: TooltipContext = {
+  accessor _ctx: TooltipContext = {
     open: false,
     triggerId: this.#triggerId,
     popupId: this.#popupId,
@@ -109,11 +109,11 @@ export class DuiTooltip extends LitElement {
       changed.has("side") ||
       changed.has("sideOffset") ||
       changed.has("disabled") ||
-      this.#ctx.open !== isOpen ||
-      this.#ctx.triggerEl !== this.#triggerEl
+      this._ctx.open !== isOpen ||
+      this._ctx.triggerEl !== this.#triggerEl
     ) {
-      this.#ctx = {
-        ...this.#ctx,
+      this._ctx = {
+        ...this._ctx,
         open: isOpen,
         side: this.side,
         sideOffset: this.sideOffset,

@@ -107,7 +107,7 @@ export class DuiSidebarProvider extends LitElement {
 
   @provide({ context: sidebarContext })
   @state()
-  accessor #ctx: SidebarContext = this.#buildContext();
+  accessor _ctx: SidebarContext = this.#buildContext();
 
   #buildContext(): SidebarContext {
     return {
@@ -139,7 +139,7 @@ export class DuiSidebarProvider extends LitElement {
     this.#boundOnKeyDown = this.#onKeyDown.bind(this);
     document.addEventListener("keydown", this.#boundOnKeyDown);
 
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override disconnectedCallback(): void {
@@ -154,7 +154,7 @@ export class DuiSidebarProvider extends LitElement {
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override render(): TemplateResult {
