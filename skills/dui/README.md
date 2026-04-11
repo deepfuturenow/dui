@@ -12,85 +12,47 @@ An [Agent Skill](https://code.claude.com/docs/en/skills) that gives AI coding as
 
 ## Install
 
-The skill lives in the DUI monorepo at `skills/dui/`. All major agent tools use the same `SKILL.md` format — you just copy or symlink the skill into the agent's discovery directory.
+### From GitHub (recommended)
 
-### Quick reference
-
-| Agent | Project-scoped | Global (all projects) |
-| --- | --- | --- |
-| **Claude Code** | `.claude/skills/dui/` | `~/.claude/skills/dui/` |
-| **Codex CLI** | `.agents/skills/dui/` | `~/.codex/skills/dui/` |
-| **Gemini CLI** | `.gemini/skills/dui/` or `.agents/skills/dui/` | `~/.gemini/skills/dui/` |
-| **Pi** | `.agents/skills/dui/` | `~/.pi/agent/skills/dui/` |
-
-### Copy (simplest)
-
-Copy the skill directory into your agent's discovery path:
+The `npx skills add` CLI installs skills directly from GitHub into the right directory for your agent. No need to clone the DUI repo:
 
 ```bash
-# Claude Code — project-scoped
+# Auto-detects your installed agents and prompts you
+npx skills add deepfuturenow/dui --skill dui
+
+# Target a specific agent
+npx skills add deepfuturenow/dui --skill dui -a claude-code
+npx skills add deepfuturenow/dui --skill dui -a codex
+npx skills add deepfuturenow/dui --skill dui -a gemini-cli
+
+# Install globally (all projects)
+npx skills add deepfuturenow/dui --skill dui -g
+
+# Install to all agents, no prompts
+npx skills add deepfuturenow/dui --skill dui --all -y
+```
+
+This is the best approach for projects that consume DUI via npm packages (e.g. `@deepfuture/dui-core`). You get the skill without needing the full DUI source tree.
+
+To update later: `npx skills update`
+
+### From source (DUI repo cloned locally)
+
+If you're working in or alongside the DUI monorepo, symlink or copy the skill directory into your agent's discovery path:
+
+```bash
+# Symlink (stays in sync with DUI source)
+mkdir -p .claude/skills && ln -s /path/to/dui/skills/dui .claude/skills/dui
+
+# Copy (snapshot)
 mkdir -p .claude/skills && cp -r /path/to/dui/skills/dui .claude/skills/dui
-
-# Codex CLI — project-scoped
-mkdir -p .agents/skills && cp -r /path/to/dui/skills/dui .agents/skills/dui
-
-# Gemini CLI — project-scoped
-mkdir -p .gemini/skills && cp -r /path/to/dui/skills/dui .gemini/skills/dui
-
-# Pi — project-scoped
-mkdir -p .agents/skills && cp -r /path/to/dui/skills/dui .agents/skills/dui
 ```
 
-This is a snapshot — re-copy when you update DUI.
+Substitute `.claude/skills` with your agent's directory (see reference table below). For global install, use `~/.claude/skills/dui` etc.
 
-### Symlink (stays in sync)
+### Agent-specific methods
 
-Symlink so it always reflects the current DUI source:
-
-```bash
-# Example for Claude Code — substitute the path for your agent
-mkdir -p .claude/skills
-ln -s /path/to/dui/skills/dui .claude/skills/dui
-```
-
-Don't commit symlinks that use absolute paths specific to your machine.
-
-### Global install (all projects)
-
-If you work with DUI across many projects:
-
-```bash
-# Claude Code
-cp -r /path/to/dui/skills/dui ~/.claude/skills/dui
-
-# Codex CLI
-cp -r /path/to/dui/skills/dui ~/.codex/skills/dui
-
-# Gemini CLI
-cp -r /path/to/dui/skills/dui ~/.gemini/skills/dui
-
-# Pi
-cp -r /path/to/dui/skills/dui ~/.pi/agent/skills/dui
-```
-
-### Shared directory (multi-agent)
-
-If you use multiple agents, you can keep one copy and symlink from each agent's directory:
-
-```bash
-# Keep the canonical copy somewhere central
-cp -r /path/to/dui/skills/dui ~/skills/dui
-
-# Symlink from each agent
-ln -s ~/skills/dui ~/.claude/skills/dui
-ln -s ~/skills/dui ~/.codex/skills/dui
-ln -s ~/skills/dui ~/.gemini/skills/dui
-ln -s ~/skills/dui ~/.pi/agent/skills/dui
-```
-
-### Claude Code --add-dir
-
-Claude Code's `--add-dir` flag picks up `.claude/skills/` from added directories:
+**Claude Code --add-dir:**
 
 ```bash
 claude --add-dir /path/to/dui
@@ -98,23 +60,27 @@ claude --add-dir /path/to/dui
 
 For this to work, the DUI repo would need a `.claude/skills/dui` symlink pointing to `../../skills/dui`. (We may add this in the future.)
 
-### Gemini CLI link command
-
-Gemini CLI has a built-in `link` command for adding skill directories:
+**Gemini CLI link:**
 
 ```bash
 gemini skills link /path/to/dui/skills/dui
-# Or scope to the current workspace only
-gemini skills link /path/to/dui/skills/dui --scope workspace
+gemini skills link /path/to/dui/skills/dui --scope workspace  # project only
 ```
 
-### Pi packages
-
-Pi supports installing skills as packages from git:
+**Pi packages:**
 
 ```bash
 pi install git:github.com/deepfuturenow/dui --path skills/dui
 ```
+
+### Skill directory reference
+
+| Agent | Project-scoped | Global |
+| --- | --- | --- |
+| **Claude Code** | `.claude/skills/dui/` | `~/.claude/skills/dui/` |
+| **Codex CLI** | `.agents/skills/dui/` | `~/.codex/skills/dui/` |
+| **Gemini CLI** | `.gemini/skills/dui/` or `.agents/skills/dui/` | `~/.gemini/skills/dui/` |
+| **Pi** | `.agents/skills/dui/` | `~/.pi/agent/skills/dui/` |
 
 ### Verify
 
@@ -198,3 +164,14 @@ When you add new components, rules, or patterns to DUI, add a corresponding eval
 ```
 
 Good evals exercise multiple rules simultaneously (the way real requests do) rather than testing one rule in isolation.
+
+## Keeping the skill in sync with DUI
+
+The skill lives in the DUI monorepo so it can evolve alongside the components. Some guidelines:
+
+- **Component catalog**: `references/components.md` is a static snapshot. When you add, remove, or change a component's API, update this file. (A future build script could generate it from source.)
+- **SKILL.md setup instructions**: These point to the DUI README rather than duplicating install steps. If the install flow changes, only the README needs updating.
+- **Inspector reference**: `references/inspector.md` mirrors the inspector docs. When the inspector API changes, update both.
+- **Evals**: When adding a new critical rule or pattern, add an eval that exercises it. If an eval starts failing after a DUI change, that's a signal to update the skill.
+
+PRs that change component APIs or styling patterns should include skill updates in the same commit.
