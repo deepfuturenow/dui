@@ -1,0 +1,63 @@
+{
+  "skill_name": "dui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building an app with DUI. Create a settings form with fields for: display name, email address, and a theme preference toggle (light/dark/system). The form should have a save button and use proper layout components.",
+      "expected_output": "HTML/TS using dui-input, dui-toggle-group or dui-select for theme, dui-button, dui-vstack for layout, CSS custom properties for any styling overrides.",
+      "files": [],
+      "expectations": [
+        "Uses dui-input for text fields rather than raw <input> elements",
+        "Uses dui-toggle-group or dui-select for the theme preference (not manually styled buttons)",
+        "Uses dui-button for the save action",
+        "Uses dui-vstack or dui-hstack for layout rather than manual flex/grid divs",
+        "Any styling overrides use CSS custom properties (--input-bg, --button-bg, etc.) rather than inline styles or shadow DOM manipulation",
+        "Uses semantic design tokens (--color-primary, --color-fg, etc.) rather than hardcoded color values",
+        "Does not use !important"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a confirmation dialog for deleting a user account. It should have a warning icon, a title, a description explaining the action is permanent, and Confirm/Cancel buttons. The confirm button should be styled as danger. Use DUI components.",
+      "expected_output": "HTML/TS using the dui-alert-dialog compound component family with proper hierarchy, ::part(root) or tokens for danger styling.",
+      "files": [],
+      "expectations": [
+        "Uses dui-alert-dialog (not dui-dialog) for a confirmation flow",
+        "Maintains correct compound component hierarchy: dui-alert-dialog-trigger, dui-alert-dialog-popup, dui-alert-dialog-title, dui-alert-dialog-description, dui-alert-dialog-action, dui-alert-dialog-cancel all nested properly",
+        "Uses dui-icon for the warning icon with slot-based SVG content",
+        "Styles the confirm button as danger using the variant property or --button-bg/--button-fg tokens, not inline styles",
+        "Uses ::part(root) for any CSS properties not covered by tokens (e.g. box-shadow), rather than trying to pierce shadow DOM",
+        "Does not restructure the compound component hierarchy (e.g. pulling trigger outside alert-dialog)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Build a dashboard layout with a collapsible sidebar on the left, a header bar with breadcrumbs, and a main content area showing 4 stat cards with a data table below them. Use DUI components throughout.",
+      "expected_output": "HTML/TS using dui-sidebar, dui-breadcrumb, dui-data-table, layout primitives, and semantic tokens.",
+      "files": [],
+      "expectations": [
+        "Uses dui-sidebar with appropriate sub-components (dui-sidebar-header, dui-sidebar-content, dui-sidebar-menu, etc.)",
+        "Uses dui-breadcrumb with dui-breadcrumb-item children for navigation",
+        "Uses dui-data-table for the data table rather than a raw <table>",
+        "Uses dui-badge for stat card values/changes rather than custom styled spans",
+        "Uses layout primitives (dui-hstack, dui-vstack, dui-page-inset) for spacing and structure",
+        "Uses semantic design tokens for colors rather than hardcoded values",
+        "Dark mode works via class=\"dark\" on a parent, not manual color overrides"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The DUI inspector is available in this project. I want to add a separator between the two sections on the current page and change the primary button's border radius to fully rounded. Use the inspector to make these changes, then tell me what source file changes are needed.",
+      "expected_output": "Agent uses __dui_inspect() for discovery, __dui_mutate for changes, __dui_inspect to verify, and __dui_export() to get source file diffs.",
+      "files": [],
+      "expectations": [
+        "Calls __dui_inspect() to discover existing components on the page before making changes",
+        "Uses __dui_mutate.insertComponent() to add the dui-separator",
+        "Uses __dui_mutate.setComponentToken() or __dui_mutate.setToken() for the border radius change (--button-radius or --radius-full)",
+        "Calls __dui_inspect(selector) after mutations to verify the changes took effect",
+        "Calls __dui_export() to get structured source file changes",
+        "Reports the export results as actionable file edits the user can apply"
+      ]
+    }
+  ]
+}

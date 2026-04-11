@@ -25,6 +25,7 @@
     "build:all": "deno run --allow-all scripts/build.ts && deno run --allow-all scripts/build-cdn.ts",
     "version": "deno run --allow-all scripts/version.ts",
     "publish": "deno run --allow-all scripts/publish.ts",
-    "publish:live": "deno run --allow-all scripts/publish.ts --publish"
+    "publish:live": "deno run --allow-all scripts/publish.ts --publish",
+    "generate": "deno run --allow-all scripts/generate-skill-components.ts"
   }
 }
