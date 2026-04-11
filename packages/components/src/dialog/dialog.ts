@@ -73,7 +73,7 @@ export class DuiDialog extends LitElement {
 
   @provide({ context: dialogContext })
   @state()
-  accessor #ctx: DialogContext = this.#buildContext();
+  accessor _ctx: DialogContext = this.#buildContext();
 
   #buildContext(): DialogContext {
     return {
@@ -92,11 +92,11 @@ export class DuiDialog extends LitElement {
     if (this.open === undefined && this.defaultOpen) {
       this.#internalOpen = true;
     }
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override render(): TemplateResult {

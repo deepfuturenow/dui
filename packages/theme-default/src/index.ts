@@ -36,10 +36,6 @@ import { tabsListStyles } from "./components/tabs-list.ts";
 import { tabsPanelStyles } from "./components/tabs-panel.ts";
 import { textareaStyles } from "./components/textarea.ts";
 import { truncStyles } from "./components/trunc.ts";
-import { centerStyles } from "./components/center.ts";
-import { hstackStyles } from "./components/hstack.ts";
-import { vstackStyles } from "./components/vstack.ts";
-import { pageInsetStyles } from "./components/page-inset.ts";
 import { linkStyles } from "./components/link.ts";
 import { avatarStyles } from "./components/avatar.ts";
 import { portalStyles } from "./components/portal.ts";
@@ -123,10 +119,6 @@ export const defaultTheme: DuiTheme = {
     ["dui-tabs-panel", tabsPanelStyles],
     ["dui-textarea", textareaStyles],
     ["dui-trunc", truncStyles],
-    ["dui-center", centerStyles],
-    ["dui-hstack", hstackStyles],
-    ["dui-vstack", vstackStyles],
-    ["dui-page-inset", pageInsetStyles],
     ["dui-link", linkStyles],
     ["dui-avatar", avatarStyles],
     ["dui-portal", portalStyles],
@@ -206,10 +198,6 @@ export { tabsListStyles } from "./components/tabs-list.ts";
 export { tabsPanelStyles } from "./components/tabs-panel.ts";
 export { textareaStyles } from "./components/textarea.ts";
 export { truncStyles } from "./components/trunc.ts";
-export { centerStyles } from "./components/center.ts";
-export { hstackStyles } from "./components/hstack.ts";
-export { vstackStyles } from "./components/vstack.ts";
-export { pageInsetStyles } from "./components/page-inset.ts";
 export { linkStyles } from "./components/link.ts";
 export { avatarStyles } from "./components/avatar.ts";
 export { portalStyles } from "./components/portal.ts";

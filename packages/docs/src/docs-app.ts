@@ -23,7 +23,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
   },
   {
     label: "Helpers",
-    slugs: ["center", "hstack", "page-inset", "portal", "trunc", "vstack"],
+    slugs: ["portal", "trunc"],
   },
 ];
 
@@ -811,10 +811,6 @@ export class DocsApp extends LitElement {
         case "tabs": return html`<docs-page-tabs></docs-page-tabs>`;
         case "textarea": return html`<docs-page-textarea></docs-page-textarea>`;
         case "trunc": return html`<docs-page-trunc></docs-page-trunc>`;
-        case "center": return html`<docs-page-center></docs-page-center>`;
-        case "hstack": return html`<docs-page-hstack></docs-page-hstack>`;
-        case "vstack": return html`<docs-page-vstack></docs-page-vstack>`;
-        case "page-inset": return html`<docs-page-page-inset></docs-page-page-inset>`;
         case "link": return html`<docs-page-link></docs-page-link>`;
         case "avatar": return html`<docs-page-avatar></docs-page-avatar>`;
         case "portal": return html`<docs-page-portal></docs-page-portal>`;

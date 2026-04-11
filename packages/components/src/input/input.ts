@@ -99,26 +99,26 @@ export class DuiInput extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #ctx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   get #controlId(): string {
-    return this.#ctx?.controlId ?? "";
+    return this._fieldCtx?.controlId ?? "";
   }
 
   get #descriptionId(): string | undefined {
-    return this.#ctx?.descriptionId;
+    return this._fieldCtx?.descriptionId;
   }
 
   get #errorId(): string | undefined {
-    return this.#ctx?.errorId;
+    return this._fieldCtx?.errorId;
   }
 
   get #isDisabled(): boolean {
-    return this.disabled || (this.#ctx?.disabled ?? false);
+    return this.disabled || (this._fieldCtx?.disabled ?? false);
   }
 
   get #isInvalid(): boolean {
-    return this.#ctx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   override firstUpdated(): void {
@@ -131,19 +131,19 @@ export class DuiInput extends LitElement {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
 
-    this.#ctx?.markDirty();
-    this.#ctx?.setFilled(this.value.length > 0);
+    this._fieldCtx?.markDirty();
+    this._fieldCtx?.setFilled(this.value.length > 0);
 
     this.dispatchEvent(inputChangeEvent({ value: this.value }));
   };
 
   #onFocus = (): void => {
-    this.#ctx?.setFocused(true);
+    this._fieldCtx?.setFocused(true);
   };
 
   #onBlur = (): void => {
-    this.#ctx?.setFocused(false);
-    this.#ctx?.markTouched();
+    this._fieldCtx?.setFocused(false);
+    this._fieldCtx?.markTouched();
   };
 
   override render(): TemplateResult {
@@ -172,10 +172,10 @@ export class DuiInput extends LitElement {
         ?data-disabled="${this.#isDisabled}"
         ?data-invalid="${this.#isInvalid}"
         ?data-valid="${!this.#isInvalid}"
-        ?data-dirty="${this.#ctx?.dirty}"
-        ?data-touched="${this.#ctx?.touched}"
-        ?data-filled="${this.#ctx?.filled}"
-        ?data-focused="${this.#ctx?.focused}"
+        ?data-dirty="${this._fieldCtx?.dirty}"
+        ?data-touched="${this._fieldCtx?.touched}"
+        ?data-filled="${this._fieldCtx?.filled}"
+        ?data-focused="${this._fieldCtx?.focused}"
         @input="${this.#onInput}"
         @focus="${this.#onFocus}"
         @blur="${this.#onBlur}"

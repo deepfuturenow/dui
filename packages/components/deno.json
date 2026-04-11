@@ -1,6 +1,6 @@
 {
   "name": "@dui/components",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "exports": {
     "./button": "./src/button/index.ts",
     "./switch": "./src/switch/index.ts",
@@ -23,10 +23,6 @@
     "./tabs": "./src/tabs/index.ts",
     "./textarea": "./src/textarea/index.ts",
     "./trunc": "./src/trunc/index.ts",
-    "./center": "./src/center/index.ts",
-    "./hstack": "./src/hstack/index.ts",
-    "./vstack": "./src/vstack/index.ts",
-    "./page-inset": "./src/page-inset/index.ts",
     "./link": "./src/link/index.ts",
     "./avatar": "./src/avatar/index.ts",
     "./portal": "./src/portal/index.ts",

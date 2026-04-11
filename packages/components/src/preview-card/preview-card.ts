@@ -72,7 +72,7 @@ export class DuiPreviewCard extends LitElement {
 
   @provide({ context: previewCardContext })
   @state()
-  accessor #ctx: PreviewCardContext = {
+  accessor _ctx: PreviewCardContext = {
     open: false,
     triggerId: this.#triggerId,
     popupId: this.#popupId,
@@ -103,11 +103,11 @@ export class DuiPreviewCard extends LitElement {
       changed.has("open") ||
       changed.has("side") ||
       changed.has("sideOffset") ||
-      this.#ctx.open !== isOpen ||
-      this.#ctx.triggerEl !== this.#triggerEl
+      this._ctx.open !== isOpen ||
+      this._ctx.triggerEl !== this.#triggerEl
     ) {
-      this.#ctx = {
-        ...this.#ctx,
+      this._ctx = {
+        ...this._ctx,
         open: isOpen,
         side: this.side,
         sideOffset: this.sideOffset,

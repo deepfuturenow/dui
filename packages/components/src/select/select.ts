@@ -135,7 +135,7 @@ export class DuiSelect extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #ctx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   @state()
   accessor #highlightedIndex = -1;
@@ -152,7 +152,7 @@ export class DuiSelect extends LitElement {
     },
     onClose: () => {
       this.#highlightedIndex = -1;
-      this.#ctx?.markTouched();
+      this._fieldCtx?.markTouched();
     },
     renderPopup: (portal) => {
       return html`
@@ -165,7 +165,7 @@ export class DuiSelect extends LitElement {
             class="Listbox"
             id="${this.#listboxId}"
             role="listbox"
-            aria-labelledby="${this.#ctx?.labelId ?? ""}"
+            aria-labelledby="${this._fieldCtx?.labelId ?? ""}"
             @mousedown="${this.#onListMouseDown}"
           >
             ${repeat(
@@ -182,11 +182,11 @@ export class DuiSelect extends LitElement {
   // ---- Computed ----
 
   get #isDisabled(): boolean {
-    return this.disabled || (this.#ctx?.disabled ?? false);
+    return this.disabled || (this._fieldCtx?.disabled ?? false);
   }
 
   get #isInvalid(): boolean {
-    return this.#ctx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   get #selectedOption(): SelectOption | undefined {
@@ -314,8 +314,8 @@ export class DuiSelect extends LitElement {
 
   #selectOption(option: SelectOption): void {
     this.value = option.value;
-    this.#ctx?.markDirty();
-    this.#ctx?.setFilled(this.value.length > 0);
+    this._fieldCtx?.markDirty();
+    this._fieldCtx?.setFilled(this.value.length > 0);
     this.dispatchEvent(valueChangeEvent({ value: option.value, option }));
     this.#popup.close();
     this.#focusTrigger();
@@ -381,15 +381,15 @@ export class DuiSelect extends LitElement {
         aria-activedescendant="${this.#highlightedIndex >= 0
           ? `${this.#listboxId}-option-${this.#highlightedIndex}`
           : nothing}"
-        aria-labelledby="${this.#ctx?.labelId ?? ""}"
+        aria-labelledby="${this._fieldCtx?.labelId ?? ""}"
         aria-invalid="${this.#isInvalid}"
         ?data-disabled="${this.#isDisabled}"
         ?data-invalid="${this.#isInvalid}"
         ?data-open="${this.#popup.isOpen}"
         @click="${this.#onTriggerClick}"
         @keydown="${this.#onTriggerKeyDown}"
-        @focus="${() => this.#ctx?.setFocused(true)}"
-        @blur="${() => this.#ctx?.setFocused(false)}"
+        @focus="${() => this._fieldCtx?.setFocused(true)}"
+        @blur="${() => this._fieldCtx?.setFocused(false)}"
       >
         <span
           class="Value"

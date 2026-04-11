@@ -159,7 +159,7 @@ export class DuiCheckbox extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #fieldCtx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   get #isChecked(): boolean {
     const ctx = this.#groupCtx.value;
@@ -190,12 +190,12 @@ export class DuiCheckbox extends LitElement {
     return (
       this.disabled ||
       (this.#groupCtx.value?.disabled ?? false) ||
-      (this.#fieldCtx?.disabled ?? false)
+      (this._fieldCtx?.disabled ?? false)
     );
   }
 
   get #isInvalid(): boolean {
-    return this.#fieldCtx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   override connectedCallback(): void {
@@ -227,8 +227,8 @@ export class DuiCheckbox extends LitElement {
       } else {
         ctx.toggle(this.value);
       }
-      this.#fieldCtx?.markDirty();
-      this.#fieldCtx?.markTouched();
+      this._fieldCtx?.markDirty();
+      this._fieldCtx?.markTouched();
       return;
     }
 
@@ -240,8 +240,8 @@ export class DuiCheckbox extends LitElement {
       this.indeterminate = false;
     }
 
-    this.#fieldCtx?.markDirty();
-    this.#fieldCtx?.markTouched();
+    this._fieldCtx?.markDirty();
+    this._fieldCtx?.markTouched();
 
     this.dispatchEvent(
       checkedChangeEvent({
@@ -264,7 +264,7 @@ export class DuiCheckbox extends LitElement {
     const isDisabled = this.#isDisabled;
     const isInvalid = this.#isInvalid;
     const showIndicator = isChecked || isIndeterminate;
-    const controlId = this.#fieldCtx?.controlId ?? "";
+    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span

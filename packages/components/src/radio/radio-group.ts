@@ -89,7 +89,7 @@ export class DuiRadioGroup extends LitElement {
 
   @provide({ context: radioGroupContext })
   @state()
-  accessor #ctx: RadioGroupContext = this.#buildContext();
+  accessor _ctx: RadioGroupContext = this.#buildContext();
 
   #buildContext(): RadioGroupContext {
     return {
@@ -107,11 +107,11 @@ export class DuiRadioGroup extends LitElement {
     if (this.value === undefined && this.defaultValue !== undefined) {
       this.#internalValue = this.defaultValue;
     }
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override render(): TemplateResult {

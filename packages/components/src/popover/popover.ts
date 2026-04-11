@@ -65,7 +65,7 @@ export class DuiPopover extends LitElement {
 
   @provide({ context: popoverContext })
   @state()
-  accessor #ctx: PopoverContext = {
+  accessor _ctx: PopoverContext = {
     open: false,
     triggerId: this.#triggerId,
     popupId: this.#popupId,
@@ -96,11 +96,11 @@ export class DuiPopover extends LitElement {
       changed.has("open") ||
       changed.has("side") ||
       changed.has("sideOffset") ||
-      this.#ctx.open !== this.#isOpen ||
-      this.#ctx.triggerEl !== this.#triggerEl
+      this._ctx.open !== this.#isOpen ||
+      this._ctx.triggerEl !== this.#triggerEl
     ) {
-      this.#ctx = {
-        ...this.#ctx,
+      this._ctx = {
+        ...this._ctx,
         open: this.#isOpen,
         side: this.side,
         sideOffset: this.sideOffset,

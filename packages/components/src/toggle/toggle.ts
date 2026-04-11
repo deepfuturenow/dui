@@ -73,17 +73,17 @@ export class DuiToggle extends LitElement {
 
   @consume({ context: toggleGroupContext, subscribe: true })
   @state()
-  accessor #groupCtx!: ToggleGroupContext;
+  accessor _groupCtx!: ToggleGroupContext;
 
   get #isPressed(): boolean {
-    if (this.#groupCtx && this.value !== undefined) {
-      return this.#groupCtx.value.includes(this.value);
+    if (this._groupCtx && this.value !== undefined) {
+      return this._groupCtx.value.includes(this.value);
     }
     return this.pressed ?? this.#internalPressed;
   }
 
   get #isDisabled(): boolean {
-    return this.disabled || (this.#groupCtx?.disabled ?? false);
+    return this.disabled || (this._groupCtx?.disabled ?? false);
   }
 
   override connectedCallback(): void {
@@ -96,8 +96,8 @@ export class DuiToggle extends LitElement {
   #handleClick = (): void => {
     if (this.#isDisabled) return;
 
-    if (this.#groupCtx && this.value !== undefined) {
-      this.#groupCtx.toggle(this.value);
+    if (this._groupCtx && this.value !== undefined) {
+      this._groupCtx.toggle(this.value);
       return;
     }
 

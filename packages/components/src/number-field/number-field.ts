@@ -124,18 +124,18 @@ export class DuiNumberField extends LitElement {
 
   @consume({ context: fieldContext, subscribe: true })
   @state()
-  accessor #fieldCtx!: FieldContext;
+  accessor _fieldCtx!: FieldContext;
 
   get #currentValue(): number | undefined {
     return this.value ?? this.#internalValue;
   }
 
   get #isDisabled(): boolean {
-    return this.disabled || (this.#fieldCtx?.disabled ?? false);
+    return this.disabled || (this._fieldCtx?.disabled ?? false);
   }
 
   get #isInvalid(): boolean {
-    return this.#fieldCtx?.invalid ?? false;
+    return this._fieldCtx?.invalid ?? false;
   }
 
   get #canDecrement(): boolean {
@@ -180,8 +180,8 @@ export class DuiNumberField extends LitElement {
       this.#internalValue = clamped;
     }
 
-    this.#fieldCtx?.markDirty();
-    this.#fieldCtx?.setFilled(true);
+    this._fieldCtx?.markDirty();
+    this._fieldCtx?.setFilled(true);
 
     this.dispatchEvent(valueChangeEvent({ value: clamped }));
   }
@@ -213,12 +213,12 @@ export class DuiNumberField extends LitElement {
 
   #onBlur = (): void => {
     this.#commitInput();
-    this.#fieldCtx?.setFocused(false);
-    this.#fieldCtx?.markTouched();
+    this._fieldCtx?.setFocused(false);
+    this._fieldCtx?.markTouched();
   };
 
   #onFocus = (): void => {
-    this.#fieldCtx?.setFocused(true);
+    this._fieldCtx?.setFocused(true);
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
@@ -260,7 +260,7 @@ export class DuiNumberField extends LitElement {
   override render(): TemplateResult {
     const isDisabled = this.#isDisabled;
     const isInvalid = this.#isInvalid;
-    const controlId = this.#fieldCtx?.controlId ?? "";
+    const controlId = this._fieldCtx?.controlId ?? "";
     const currentValue = this.#currentValue;
 
     return html`

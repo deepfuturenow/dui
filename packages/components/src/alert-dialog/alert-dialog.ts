@@ -76,7 +76,7 @@ export class DuiAlertDialog extends LitElement {
 
   @provide({ context: alertDialogContext })
   @state()
-  accessor #ctx: AlertDialogContext = this.#buildContext();
+  accessor _ctx: AlertDialogContext = this.#buildContext();
 
   #buildContext(): AlertDialogContext {
     return {
@@ -95,11 +95,11 @@ export class DuiAlertDialog extends LitElement {
     if (this.open === undefined && this.defaultOpen) {
       this.#internalOpen = true;
     }
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override willUpdate(): void {
-    this.#ctx = this.#buildContext();
+    this._ctx = this.#buildContext();
   }
 
   override render(): TemplateResult {

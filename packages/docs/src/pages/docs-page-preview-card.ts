@@ -15,13 +15,13 @@ export class DocsPagePreviewCard extends LitElement {
             <a href="#" style="color: var(--accent); text-decoration: underline;">Hover me for a preview</a>
           </dui-preview-card-trigger>
           <dui-preview-card-popup>
-            <dui-vstack gap="2">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
               <strong>Preview Card</strong>
               <span style="color: var(--text-2); font-size: var(--font-size-sm);">
                 This is a rich content preview that stays open when you hover over it.
                 Unlike a tooltip, the user can interact with the content.
               </span>
-            </dui-vstack>
+            </div>
           </dui-preview-card-popup>
         </dui-preview-card>
       </dui-docs-demo>
@@ -32,12 +32,12 @@ export class DocsPagePreviewCard extends LitElement {
             <a href="#" style="color: var(--accent); text-decoration: underline;">Preview below</a>
           </dui-preview-card-trigger>
           <dui-preview-card-popup>
-            <dui-vstack gap="2">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
               <strong>Bottom Preview</strong>
               <span style="color: var(--text-2); font-size: var(--font-size-sm);">
                 This preview card appears below the trigger.
               </span>
-            </dui-vstack>
+            </div>
           </dui-preview-card-popup>
         </dui-preview-card>
       </dui-docs-demo>
