@@ -19,10 +19,11 @@ Before writing any DUI code, check the project's DUI status:
 ## Principles
 
 1. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
-2. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
-3. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
-4. **Use semantic design tokens.** Use `--color-fg`, `--color-bg`, `--color-primary` — never hardcoded colors like `#3b82f6`.
-5. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
+2. **Debug via the inspector first.** When a DUI component isn't behaving as expected (events not firing, props not updating, context not propagating), use `__dui_inspect()` in the browser before reading `node_modules` source. The inspector shows live property values, context state, slots, and events — it's faster and more reliable than source-diving.
+3. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
+4. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
+5. **Use semantic design tokens.** Use `--color-fg`, `--color-bg`, `--color-primary` — never hardcoded colors like `#3b82f6`.
+6. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
 
 ## Critical rules
 
