@@ -355,10 +355,10 @@ function generatePackageJson(
     exports: buildExportsMap(pkg),
     files: ["**/*.js", "**/*.d.ts", "**/*.css", "README.md"],
     dependencies: deps,
-    // The inspector registers window globals and custom elements via side-effect
-    // imports — it must NOT be marked side-effect-free or bundlers will tree-shake
-    // away the UI components and global registrations.
-    ...(pkg.srcDir === "packages/inspector" ? {} : { sideEffects: false }),
+    // Do NOT set sideEffects:false — DUI components register via
+    // customElements.define (a global side effect). Marking them
+    // side-effect-free lets bundlers tree-shake re-exported classes
+    // out of barrel files like all.js, breaking applyTheme().
     keywords: [
       "web-components",
       "lit",
