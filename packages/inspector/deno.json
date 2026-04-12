@@ -1,6 +1,6 @@
 {
   "name": "@dui/inspector",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "exports": {
     ".": "./src/index.ts",
     "./api": "./src/api.ts"
