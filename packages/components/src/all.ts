@@ -15,55 +15,69 @@
 import type { LitElement } from "lit";
 
 // --- Accordion ---
-export { DuiAccordion, DuiAccordionItem } from "./accordion/index.ts";
+import { DuiAccordion, DuiAccordionItem } from "./accordion/index.ts";
+export { DuiAccordion, DuiAccordionItem };
 export type { AccordionContext } from "./accordion/index.ts";
 
 // --- Alert Dialog ---
-export {
-  DuiAlertDialog,
+import { DuiAlertDialog,
   DuiAlertDialogTrigger,
   DuiAlertDialogPopup,
-  DuiAlertDialogClose,
-} from "./alert-dialog/index.ts";
+  DuiAlertDialogClose, } from "./alert-dialog/index.ts";
+export { DuiAlertDialog,
+  DuiAlertDialogTrigger,
+  DuiAlertDialogPopup,
+  DuiAlertDialogClose, };
 export type {
   AlertDialogOpenChangeDetail,
   AlertDialogContext,
 } from "./alert-dialog/index.ts";
 
 // --- Avatar ---
-export { DuiAvatar } from "./avatar/index.ts";
+import { DuiAvatar } from "./avatar/index.ts";
+export { DuiAvatar };
 export type { ImageStatus } from "./avatar/index.ts";
 
 // --- Badge ---
-export { DuiBadge } from "./badge/index.ts";
+import { DuiBadge } from "./badge/index.ts";
+export { DuiBadge };
 
 // --- Breadcrumb ---
-export {
-  DuiBreadcrumb,
+import { DuiBreadcrumb,
   DuiBreadcrumbItem,
   DuiBreadcrumbLink,
   DuiBreadcrumbPage,
   DuiBreadcrumbSeparator,
-  DuiBreadcrumbEllipsis,
-} from "./breadcrumb/index.ts";
+  DuiBreadcrumbEllipsis, } from "./breadcrumb/index.ts";
+export { DuiBreadcrumb,
+  DuiBreadcrumbItem,
+  DuiBreadcrumbLink,
+  DuiBreadcrumbPage,
+  DuiBreadcrumbSeparator,
+  DuiBreadcrumbEllipsis, };
 
 // --- Button ---
-export { DuiButton } from "./button/index.ts";
+import { DuiButton } from "./button/index.ts";
+export { DuiButton };
 
 // --- Calendar ---
-export { DuiCalendar } from "./calendar/index.ts";
+import { DuiCalendar } from "./calendar/index.ts";
+export { DuiCalendar };
 
 
 
 // --- Checkbox ---
-export { DuiCheckbox, DuiCheckboxGroup } from "./checkbox/index.ts";
+import { DuiCheckbox, DuiCheckboxGroup } from "./checkbox/index.ts";
+export { DuiCheckbox, DuiCheckboxGroup };
 export type { CheckboxGroupContext } from "./checkbox/index.ts";
 
 // --- Collapsible ---
-export { DuiCollapsible } from "./collapsible/index.ts";
+import { DuiCollapsible } from "./collapsible/index.ts";
+export { DuiCollapsible };
 
 // --- Combobox ---
-export { DuiCombobox } from "./combobox/index.ts";
+import { DuiCombobox } from "./combobox/index.ts";
+export { DuiCombobox };
 export type {
   SelectOption as ComboboxSelectOption,
   ComboboxValueChangeDetail,
@@ -71,20 +85,27 @@ export type {
 } from "./combobox/index.ts";
 
 // --- Command ---
-export {
-  DuiCommand,
+import { DuiCommand,
   DuiCommandInput,
   DuiCommandList,
   DuiCommandGroup,
   DuiCommandItem,
   DuiCommandEmpty,
   DuiCommandSeparator,
-  DuiCommandShortcut,
-} from "./command/index.ts";
+  DuiCommandShortcut, } from "./command/index.ts";
+export { DuiCommand,
+  DuiCommandInput,
+  DuiCommandList,
+  DuiCommandGroup,
+  DuiCommandItem,
+  DuiCommandEmpty,
+  DuiCommandSeparator,
+  DuiCommandShortcut, };
 export type { CommandContext, CommandItemEntry } from "./command/index.ts";
 
 // --- Data Table ---
-export { DuiDataTable } from "./data-table/index.ts";
+import { DuiDataTable } from "./data-table/index.ts";
+export { DuiDataTable };
 export type {
   ColumnDef,
   SortDirection,
@@ -93,16 +114,19 @@ export type {
 } from "./data-table/index.ts";
 
 // --- Dialog ---
-export {
-  DuiDialog,
+import { DuiDialog,
   DuiDialogTrigger,
   DuiDialogPopup,
-  DuiDialogClose,
-} from "./dialog/index.ts";
+  DuiDialogClose, } from "./dialog/index.ts";
+export { DuiDialog,
+  DuiDialogTrigger,
+  DuiDialogPopup,
+  DuiDialogClose, };
 export type { DialogOpenChangeDetail, DialogContext } from "./dialog/index.ts";
 
 // --- Dropzone ---
-export { DuiDropzone } from "./dropzone/index.ts";
+import { DuiDropzone } from "./dropzone/index.ts";
+export { DuiDropzone };
 export type {
   DropzoneErrorCode,
   DropzoneRejectionCode,
@@ -117,33 +141,41 @@ export type {
 
 
 // --- Icon ---
-export { DuiIcon } from "./icon/index.ts";
+import { DuiIcon } from "./icon/index.ts";
+export { DuiIcon };
 
 // --- Input ---
-export { DuiInput } from "./input/index.ts";
+import { DuiInput } from "./input/index.ts";
+export { DuiInput };
 
 // --- Link ---
-export { DuiLink } from "./link/index.ts";
+import { DuiLink } from "./link/index.ts";
+export { DuiLink };
 
 // --- Menu ---
-export { DuiMenu, DuiMenuItem } from "./menu/index.ts";
+import { DuiMenu, DuiMenuItem } from "./menu/index.ts";
+export { DuiMenu, DuiMenuItem };
 
 // --- Menubar ---
-export { DuiMenubar } from "./menubar/index.ts";
+import { DuiMenubar } from "./menubar/index.ts";
+export { DuiMenubar };
 export type { MenubarContext } from "./menubar/index.ts";
 
 // --- Number Field ---
-export { DuiNumberField } from "./number-field/index.ts";
+import { DuiNumberField } from "./number-field/index.ts";
+export { DuiNumberField };
 
 
 
 // --- Popover ---
-export {
-  DuiPopover,
+import { DuiPopover,
   DuiPopoverTrigger,
   DuiPopoverPopup,
-  DuiPopoverClose,
-} from "./popover/index.ts";
+  DuiPopoverClose, } from "./popover/index.ts";
+export { DuiPopover,
+  DuiPopoverTrigger,
+  DuiPopoverPopup,
+  DuiPopoverClose, };
 export type {
   PopoverOpenChangeDetail,
   PopoverContext,
@@ -151,15 +183,17 @@ export type {
 } from "./popover/index.ts";
 
 // --- Portal ---
-export { DuiPortal } from "./portal/index.ts";
+import { DuiPortal } from "./portal/index.ts";
+export { DuiPortal };
 export type { QueryRoot } from "./portal/index.ts";
 
 // --- Preview Card ---
-export {
-  DuiPreviewCard,
+import { DuiPreviewCard,
   DuiPreviewCardTrigger,
-  DuiPreviewCardPopup,
-} from "./preview-card/index.ts";
+  DuiPreviewCardPopup, } from "./preview-card/index.ts";
+export { DuiPreviewCard,
+  DuiPreviewCardTrigger,
+  DuiPreviewCardPopup, };
 export type {
   PreviewCardOpenChangeDetail,
   PreviewCardContext,
@@ -167,25 +201,29 @@ export type {
 } from "./preview-card/index.ts";
 
 // --- Progress ---
-export { DuiProgress } from "./progress/index.ts";
+import { DuiProgress } from "./progress/index.ts";
+export { DuiProgress };
 
 // --- Radio ---
-export { DuiRadio, DuiRadioGroup } from "./radio/index.ts";
+import { DuiRadio, DuiRadioGroup } from "./radio/index.ts";
+export { DuiRadio, DuiRadioGroup };
 export type { RadioGroupContext } from "./radio/index.ts";
 
 // --- Scroll Area ---
-export { DuiScrollArea } from "./scroll-area/index.ts";
+import { DuiScrollArea } from "./scroll-area/index.ts";
+export { DuiScrollArea };
 
 // --- Select ---
-export { DuiSelect } from "./select/index.ts";
+import { DuiSelect } from "./select/index.ts";
+export { DuiSelect };
 export type { SelectOption } from "./select/index.ts";
 
 // --- Separator ---
-export { DuiSeparator } from "./separator/index.ts";
+import { DuiSeparator } from "./separator/index.ts";
+export { DuiSeparator };
 
 // --- Sidebar ---
-export {
-  DuiSidebarProvider,
+import { DuiSidebarProvider,
   DuiSidebar,
   DuiSidebarTrigger,
   DuiSidebarContent,
@@ -197,50 +235,73 @@ export {
   DuiSidebarMenuItem,
   DuiSidebarMenuButton,
   DuiSidebarSeparator,
-  DuiSidebarInset,
-} from "./sidebar/index.ts";
+  DuiSidebarInset, } from "./sidebar/index.ts";
+export { DuiSidebarProvider,
+  DuiSidebar,
+  DuiSidebarTrigger,
+  DuiSidebarContent,
+  DuiSidebarHeader,
+  DuiSidebarFooter,
+  DuiSidebarGroup,
+  DuiSidebarGroupLabel,
+  DuiSidebarMenu,
+  DuiSidebarMenuItem,
+  DuiSidebarMenuButton,
+  DuiSidebarSeparator,
+  DuiSidebarInset, };
 export type { SidebarContext } from "./sidebar/index.ts";
 
 // --- Slider ---
-export { DuiSlider } from "./slider/index.ts";
+import { DuiSlider } from "./slider/index.ts";
+export { DuiSlider };
 
 // --- Spinner ---
-export { DuiSpinner } from "./spinner/index.ts";
+import { DuiSpinner } from "./spinner/index.ts";
+export { DuiSpinner };
 
 // --- Switch ---
-export { DuiSwitch } from "./switch/index.ts";
+import { DuiSwitch } from "./switch/index.ts";
+export { DuiSwitch };
 
 // --- Tabs ---
-export {
-  DuiTabs,
+import { DuiTabs,
   DuiTabsList,
   DuiTab,
   DuiTabsPanel,
-  DuiTabsIndicator,
-} from "./tabs/index.ts";
+  DuiTabsIndicator, } from "./tabs/index.ts";
+export { DuiTabs,
+  DuiTabsList,
+  DuiTab,
+  DuiTabsPanel,
+  DuiTabsIndicator, };
 export type { TabsContext } from "./tabs/index.ts";
 
 // --- Textarea ---
-export { DuiTextarea } from "./textarea/index.ts";
+import { DuiTextarea } from "./textarea/index.ts";
+export { DuiTextarea };
 export type { TextareaResize } from "./textarea/index.ts";
 
 // --- Toggle ---
-export { DuiToggle, DuiToggleGroup } from "./toggle/index.ts";
+import { DuiToggle, DuiToggleGroup } from "./toggle/index.ts";
+export { DuiToggle, DuiToggleGroup };
 export type { ToggleGroupContext } from "./toggle/index.ts";
 
 // --- Toolbar ---
-export { DuiToolbar } from "./toolbar/index.ts";
+import { DuiToolbar } from "./toolbar/index.ts";
+export { DuiToolbar };
 
 // --- Tooltip ---
-export {
-  DuiTooltip,
+import { DuiTooltip,
   DuiTooltipTrigger,
-  DuiTooltipPopup,
-} from "./tooltip/index.ts";
+  DuiTooltipPopup, } from "./tooltip/index.ts";
+export { DuiTooltip,
+  DuiTooltipTrigger,
+  DuiTooltipPopup, };
 export type { TooltipContext, TooltipSide } from "./tooltip/index.ts";
 
 // --- Trunc ---
-export { DuiTrunc } from "./trunc/index.ts";
+import { DuiTrunc } from "./trunc/index.ts";
+export { DuiTrunc };
 
 
 

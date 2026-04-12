@@ -405,6 +405,9 @@ async function main() {
   // (happens when tsc resolves cross-package @dui/* paths)
   await cleanTscArtifacts(join(ROOT, "packages"));
 
+  // Post-build smoke tests
+  await verifyBuildOutput();
+
   console.log("\n✨ Build complete! Output in dist/");
   console.log("   dist/dui-core/");
   console.log("   dist/dui-components/");
@@ -431,6 +434,68 @@ async function cleanTscArtifacts(dir: string): Promise<void> {
       } catch { /* no .ts source → keep it */ }
     }
   }
+}
+
+/**
+ * Post-build smoke tests — catch packaging bugs before they reach consumers.
+ * Runs automatically after every build.
+ */
+async function verifyBuildOutput(): Promise<void> {
+  console.log("\n🔍 Verifying build output...");
+  const errors: string[] = [];
+
+  // 1. No experimental __decorate helper (must use standard __esDecorate)
+  for await (const file of walkDir(join(DIST, "dui-components"))) {
+    if (!file.endsWith(".js")) continue;
+    const content = await Deno.readTextFile(file);
+    // Match __decorate definition, not references in comments
+    if (content.includes("var __decorate") || content.includes("this.__decorate")) {
+      errors.push(`Experimental __decorate found in ${relative(DIST, file)} — build must use standard decorators`);
+    }
+  }
+
+  // 2. No sideEffects:false in any package.json
+  for (const pkg of PACKAGES) {
+    const pkgJsonPath = join(DIST, pkg.distDir, "package.json");
+    try {
+      const pkgJson = JSON.parse(await Deno.readTextFile(pkgJsonPath));
+      if (pkgJson.sideEffects === false) {
+        errors.push(`${pkg.name}/package.json has sideEffects:false — breaks tree-shaking of barrel re-exports`);
+      }
+    } catch { /* package not built */ }
+  }
+
+  // 3. all.js barrel uses import (local bindings), not export-from (no local binding)
+  const allJs = join(DIST, "dui-components", "all.js");
+  try {
+    const content = await Deno.readTextFile(allJs);
+    // Check for "export { Dui..." with "from" on value exports (not type exports)
+    const badReexports = content.match(/^export\s*\{[^}]*Dui[^}]*\}\s*from/gm);
+    if (badReexports && badReexports.length > 0) {
+      errors.push(`all.js uses 'export { ... } from' re-exports (${badReexports.length} found) — these don't create local bindings for allComponents array. Use 'import + export' instead.`);
+    }
+    // Verify allComponents array isn't empty
+    if (!content.includes("allComponents")) {
+      errors.push(`all.js is missing the allComponents array`);
+    }
+  } catch {
+    errors.push(`all.js not found at ${allJs}`);
+  }
+
+  // 4. Check #1 (__decorate) is the real guard against experimentalDecorators.
+  //    This is redundant but documents the intent.
+
+  if (errors.length > 0) {
+    console.error("\n❌ Build verification FAILED:");
+    for (const e of errors) {
+      console.error(`   • ${e}`);
+    }
+    Deno.exit(1);
+  }
+
+  console.log("   ✅ No experimental __decorate helpers");
+  console.log("   ✅ No sideEffects:false in package.json");
+  console.log("   ✅ all.js uses import bindings (not re-export-from)");
 }
 
 main();
