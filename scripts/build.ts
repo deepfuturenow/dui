@@ -158,8 +158,10 @@ async function compilePackage(
       sourceMap: false,
       outDir: outDir,
       rootDir: srcRoot,
-      experimentalDecorators: true,
-      useDefineForClassFields: false,
+      // Standard decorators (TC39) — required for @lit/context's @provide
+      // and @consume to compose correctly with Lit's @state decorator.
+      // Do NOT use experimentalDecorators — __decorate overwrites @provide's
+      // Object.defineProperty wrapper, breaking context propagation.
       lib: ["DOM", "DOM.Iterable", "ES2022"],
       skipLibCheck: true,
       strict: false,
@@ -204,8 +206,7 @@ async function compilePackage(
       l.includes("error TS") &&
       !l.includes("TS5097") &&
       !l.includes("TS6059") &&
-      !l.includes("TS1240") &&
-      !l.includes("TS1206") &&
+
       !l.includes("TS2304") &&
       !l.includes("TS2307") &&
       !l.includes("TS2823")
