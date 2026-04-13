@@ -79,6 +79,15 @@ export const buttonStyles = css`
     width: var(--button-width);
   }
 
+  :host([size="xs"]) {
+    --button-height: var(--component-height-xs);
+    --button-padding-y: var(--space-1);
+    --button-padding-x: var(--space-1_5);
+    --button-gap: var(--space-1);
+    --button-font-size: var(--font-size-xs);
+    --button-icon-size: var(--space-3_5);
+  }
+
   :host([size="sm"]) {
     --button-height: var(--component-height-sm);
     --button-padding-y: var(--space-1_5);

@@ -34,6 +34,20 @@ export const comboboxStyles = css`
     ${type("sm")}
   }
 
+  :host([size="sm"]) .Input {
+    height: var(--component-height-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  :host([size="sm"]) .Chips {
+    min-height: var(--component-height-sm);
+  }
+
+  :host([size="sm"]) .InputWrapper .Input {
+    min-height: var(--component-height-sm);
+    padding: var(--space-1_5) var(--space-8) var(--space-1_5) var(--space-1_5);
+  }
+
   .Input::placeholder {
     color: var(--text-3);
   }

@@ -27,6 +27,12 @@ export const selectStyles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
+  :host([size="sm"]) .Trigger {
+    height: var(--component-height-sm);
+    padding: var(--space-1_5) var(--space-2_5);
+    font-size: var(--font-size-xs);
+  }
+
   .Trigger[data-open] {
     filter: brightness(0.92);
   }

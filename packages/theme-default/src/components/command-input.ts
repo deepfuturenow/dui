@@ -15,7 +15,7 @@ export const commandInputStyles = css`
   }
 
   .Input {
-    height: var(--component-height-lg);
+    height: var(--component-height-md);
     border-radius: var(--radius-md);
     ${type("sm")}
   }

@@ -15,6 +15,15 @@ export const toggleStyles = css`
     --toggle-icon-size: var(--space-4_5);
   }
 
+  :host([size="xs"]) {
+    --toggle-height: var(--component-height-xs);
+    --toggle-padding-y: var(--space-1);
+    --toggle-padding-x: var(--space-1_5);
+    --toggle-gap: var(--space-1);
+    --toggle-font-size: var(--font-size-xs);
+    --toggle-icon-size: var(--space-3_5);
+  }
+
   :host([size="sm"]) {
     --toggle-height: var(--component-height-sm);
     --toggle-padding-y: var(--space-1_5);

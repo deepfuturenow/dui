@@ -33,6 +33,12 @@ export const inputStyles = css`
     border-color: var(--destructive);
   }
 
+  :host([size="sm"]) [part="input"] {
+    height: var(--component-height-sm);
+    padding: var(--space-1_5);
+    font-size: var(--font-size-xs);
+  }
+
   [part="input"][data-invalid]:focus-visible {
     box-shadow:
       0 0 0 var(--focus-ring-offset) var(--background),
