@@ -19,7 +19,7 @@ Before writing any DUI code, check the project's DUI status:
 ## Principles
 
 1. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
-2. **Debug via the inspector first.** When a DUI component isn't behaving as expected (events not firing, props not updating, context not propagating), use `__dui_inspect()` in the browser before reading `node_modules` source. The inspector shows live property values, context state, slots, and events — it's faster and more reliable than source-diving.
+2. **Inspect before styling or debugging.** Before overriding any DUI token or adding custom CSS to a DUI component, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. Do the same when debugging unexpected behavior (events not firing, props not updating, context not propagating). The inspector is the ground truth — it's faster and more reliable than guessing token names or reading `node_modules` source.
 3. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
 4. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
 5. **Use semantic design tokens.** Use `--color-fg`, `--color-bg`, `--color-primary` — never hardcoded colors like `#3b82f6`.
@@ -93,6 +93,8 @@ Toggle by adding/removing the `dark` class. The theme's custom properties handle
 ## Inspector workflow
 
 When `@dui/inspector` (or `@deepfuture/dui-inspector`) is installed, use the inspector to discover, verify, and prototype with DUI components at runtime. This is the most accurate way to understand what's available and how components behave.
+
+**CRITICAL**: Use the inspector BEFORE writing any DUI styling code — not just for debugging. Run `__dui_inspect('dui-sidebar-menu-button')` before overriding sidebar tokens. Run `__dui_inspect('dui-data-table')` before customizing table appearance. The inspector shows which tokens actually exist, what they're called, and their current values. Guessing at token names wastes iterations.
 
 The inspector provides console globals. If the project has a running dev server with a browser, use these in the browser console or via a Playwright/Puppeteer script.
 
