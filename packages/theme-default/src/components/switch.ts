@@ -9,6 +9,7 @@ export const switchStyles = css`
     --track-inner: calc(var(--switch-width) - var(--switch-thumb-offset) * 2);
     --switch-checked-offset: calc(var(--track-inner) - var(--switch-thumb-size));
     gap: var(--space-2);
+    font-size: var(--font-size-sm);
   }
 
   [part="root"] {

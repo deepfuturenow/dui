@@ -1,15 +1,18 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
-import "./blocks/block-typography.ts";
-import "./blocks/block-toolbar.ts";
-import "./blocks/block-env-vars.ts";
-import "./blocks/block-form-controls.ts";
-import "./blocks/block-contact-form.ts";
+import "./blocks/block-create-project.ts";
 import "./blocks/block-codespaces.ts";
-import "./blocks/block-blog-card.ts";
+import "./blocks/block-calendar.ts";
+import "./blocks/block-members.ts";
 import "./blocks/block-traffic.ts";
 import "./blocks/block-invite-team.ts";
-import "./blocks/block-audio.ts";
+import "./blocks/block-watchlist.ts";
+import "./blocks/block-payment.ts";
+import "./blocks/block-events.ts";
+import "./blocks/block-faq.ts";
+import "./blocks/block-settings.ts";
+import "./blocks/block-chat.ts";
+import "./blocks/block-user-account.ts";
 
 @customElement("create-preview")
 export class CreatePreview extends LitElement {
@@ -49,16 +52,19 @@ export class CreatePreview extends LitElement {
   override render() {
     return html`
       <div class="columns">
-        <block-typography></block-typography>
-        <block-toolbar></block-toolbar>
-        <block-env-vars></block-env-vars>
         <block-codespaces></block-codespaces>
-        <block-form-controls></block-form-controls>
+        <block-create-project></block-create-project>
         <block-traffic></block-traffic>
-        <block-audio></block-audio>
-        <block-blog-card></block-blog-card>
-        <block-contact-form></block-contact-form>
+        <block-watchlist></block-watchlist>
+        <block-calendar></block-calendar>
+        <block-payment></block-payment>
         <block-invite-team></block-invite-team>
+        <block-events></block-events>
+        <block-faq></block-faq>
+        <block-settings></block-settings>
+        <block-chat></block-chat>
+        <block-user-account></block-user-account>
+        <block-members></block-members>
       </div>
     `;
   }
