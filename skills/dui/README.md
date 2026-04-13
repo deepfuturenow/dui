@@ -96,12 +96,13 @@ If the skill is loaded, the agent will reference specific DUI components (`dui-i
 
 ```
 skills/dui/
-├── SKILL.md                    # Main skill — principles, rules, patterns (~170 lines)
+├── SKILL.md                    # Main skill — principles, rules, patterns (~190 lines)
 ├── README.md                   # This file
 ├── evals/
 │   └── evals.json              # Test prompts + expectations for skill evaluation
 └── references/
     ├── components.md           # Full catalog: 43 families, properties, slots, parts, tokens
+    ├── rules.md                # Incorrect/correct code pairs for every critical rule
     └── inspector.md            # Complete inspector API reference
 ```
 
@@ -119,6 +120,7 @@ The `evals/` directory contains test prompts for verifying the skill works corre
 | **Delete confirmation dialog** | Compound component hierarchy (dui-alert-dialog family), icon usage (dui-icon with slots), danger styling via tokens, `::part(root)` usage |
 | **Dashboard layout** | Sidebar composition, breadcrumbs, data table, badge, CSS flexbox/grid layout, dark mode pattern |
 | **Inspector workflow** | `__dui_inspect()` discovery, `__dui_mutate.*` mutations, post-mutation verification, `__dui_export()` for source changes |
+| **Notifications panel** | Overlay selection (popover vs dialog), "use component not custom markup" (badge, spinner, separator), empty states |
 
 ### Running evals with the skill-creator
 

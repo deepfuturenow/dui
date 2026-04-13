@@ -56,6 +56,20 @@
         "Calls __dui_export() to get structured source file changes",
         "Reports the export results as actionable file edits the user can apply"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Build a notifications panel for a DUI app. It should: show a list of notifications with status badges (read/unread/error), have a loading spinner while fetching, show a horizontal rule between each notification, include a 'Mark all read' button that pops up a small confirmation near the button (not a full modal), and show an empty state message when there are no notifications.",
+      "expected_output": "HTML/TS using dui-badge for status, dui-spinner for loading, dui-separator instead of hr, dui-popover for the small confirmation (not dui-dialog), and no custom markup where a DUI component exists.",
+      "files": [],
+      "expectations": [
+        "Uses dui-badge for notification status indicators (read/unread/error) rather than custom styled spans",
+        "Uses dui-spinner for the loading state rather than a custom animation div",
+        "Uses dui-separator between notifications rather than <hr> or border divs",
+        "Uses dui-popover (not dui-dialog or dui-alert-dialog) for the small contextual confirmation near the button",
+        "Uses dui-button for the 'Mark all read' action",
+        "Does not build custom markup for things where a DUI component exists (spinner, badge, separator, progress, icon)"
+      ]
     }
   ]
 }

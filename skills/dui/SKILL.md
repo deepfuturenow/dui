@@ -39,7 +39,10 @@ Before writing any DUI code, check the project's DUI status:
 
 - **Slots are the composition API.** Pass content into components via slots, not by wrapping in divs.
 - **Compound components stay together.** `dui-dialog-trigger` belongs inside `dui-dialog`. `dui-select-option` belongs inside `dui-select`. Don't restructure compound component hierarchies.
+- **Never reach into shadow DOM.** Don't use `querySelector` on a component's `shadowRoot` from outside. Use CSS custom properties, `::part(root)`, or the inspector API instead.
 - **Use standard CSS for layout.** Use flexbox and grid directly for layout (rows, columns, centering, page margins). DUI does not provide layout wrapper components — layout is CSS's job.
+
+See `references/rules.md` for incorrect/correct code pairs for every rule above.
 
 ### Icons
 
@@ -62,6 +65,32 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Layout | `dui-scroll-area`, `dui-separator` — for rows/columns/centering/page margins, use standard CSS flexbox and grid |
 | Text | `dui-trunc` (truncation with `max-chars`) |
 | Utility | `dui-icon`, `dui-portal`, `dui-link` |
+
+### Choosing between overlays
+
+| Use case | Component |
+| --- | --- |
+| Focused task requiring input | `dui-dialog` |
+| Destructive action confirmation | `dui-alert-dialog` |
+| Small contextual content on click | `dui-popover` |
+| Brief hint on hover | `dui-tooltip` |
+| Action menu / context menu | `dui-menu` |
+| Search / command palette | `dui-command` |
+| Rich preview on hover | `dui-preview-card` |
+
+### Use DUI components, not custom markup
+
+| Instead of... | Use |
+| --- | --- |
+| `<hr>` or border divs | `dui-separator` |
+| Custom styled `<span>` for tags/status | `dui-badge` |
+| Custom `animate-spin` div | `dui-spinner` |
+| Custom progress bar div | `dui-progress` |
+| Raw `<svg>` with manual sizing | `dui-icon` with SVG in its slot |
+| `overflow: auto` div | `dui-scroll-area` |
+| Raw `<a>` tag | `dui-link` |
+
+See `references/rules.md` for incorrect/correct code pairs for every rule.
 
 ## Theming
 
@@ -174,4 +203,5 @@ When the inspector is not available, fall back to the static component reference
 ## Detailed references
 
 - [references/components.md](references/components.md) — Full catalog of all 43 component families with properties, slots, parts, and CSS custom properties
+- [references/rules.md](references/rules.md) — Incorrect/correct code pairs for every critical rule
 - [references/inspector.md](references/inspector.md) — Complete inspector API reference
