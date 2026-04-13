@@ -43,6 +43,23 @@ export class DuiPopoverTrigger extends LitElement {
     this.#ctx.value?.setTriggerEl(el);
   }
 
+  /** Mirror open state onto the slotted element so its theme can style it. */
+  #syncOpenAttr(): void {
+    const slot = this.shadowRoot?.querySelector("slot");
+    const el = slot?.assignedElements()?.[0] as HTMLElement | undefined;
+    if (!el) return;
+    const isOpen = this.#ctx.value?.open ?? false;
+    if (isOpen) {
+      el.setAttribute("data-open", "");
+    } else {
+      el.removeAttribute("data-open");
+    }
+  }
+
+  protected override updated(): void {
+    this.#syncOpenAttr();
+  }
+
   override render(): TemplateResult {
     const isOpen = this.#ctx.value?.open ?? false;
     const popupId = this.#ctx.value?.popupId ?? "";

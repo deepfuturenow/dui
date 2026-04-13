@@ -27,6 +27,10 @@ export const selectStyles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
+  .Trigger[data-open] {
+    filter: brightness(0.92);
+  }
+
   .Trigger[data-disabled] {
     opacity: 0.4;
   }
