@@ -1502,6 +1502,18 @@ export const componentRegistry: ComponentMeta[] = [
     cssParts: [
       { name: "root", description: "The toggle button" },
     ],
+    themeAttributes: [
+      { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
+    ],
+    themeCssProperties: [
+      { name: "--toggle-height", description: "Component height" },
+      { name: "--toggle-padding-y", description: "Vertical padding" },
+      { name: "--toggle-padding-x", description: "Horizontal padding" },
+      { name: "--toggle-gap", description: "Gap between icon and label" },
+      { name: "--toggle-radius", description: "Border radius" },
+      { name: "--toggle-font-size", description: "Font size" },
+      { name: "--toggle-icon-size", description: "Icon size" },
+    ],
   },
   {
     tagName: "dui-toggle-group",
