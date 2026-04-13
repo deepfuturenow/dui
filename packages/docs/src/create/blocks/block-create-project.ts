@@ -6,9 +6,9 @@ export class BlockCreateProject extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
       box-shadow: var(--shadow-lg);
@@ -18,36 +18,36 @@ export class BlockCreateProject extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: var(--space-5, 1.25rem);
+      margin-bottom: var(--space-5);
     }
 
     .header h3 {
-      font-size: var(--font-size-lg, 1.125rem);
+      font-size: var(--font-size-lg);
       font-weight: 600;
       margin: 0;
-      letter-spacing: var(--letter-spacing-tighter, -0.01em);
+      letter-spacing: var(--letter-spacing-tighter);
     }
 
     .field {
-      margin-bottom: var(--space-4, 1rem);
+      margin-bottom: var(--space-4);
     }
 
     .field:last-of-type {
-      margin-bottom: var(--space-6, 1.5rem);
+      margin-bottom: var(--space-6);
     }
 
     .label {
       display: block;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 500;
-      margin-bottom: var(--space-2, 0.5rem);
+      margin-bottom: var(--space-2);
       color: var(--text-1);
     }
 
     .footer {
       display: flex;
       justify-content: flex-end;
-      gap: var(--space-2, 0.5rem);
+      gap: var(--space-2);
     }
   `;
 

@@ -6,18 +6,18 @@ export class BlockEvents extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .section {
-      padding: var(--space-4, 1rem) var(--space-6, 1.5rem);
+      padding: var(--space-4) var(--space-6);
     }
 
     .section + .section {
-      border-top: var(--border-width-thin, 1px) solid var(--border);
+      border-top: var(--border-width-thin) solid var(--border);
     }
 
     /* ── Header ── */
@@ -29,7 +29,7 @@ export class BlockEvents extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0;
     }
@@ -39,7 +39,7 @@ export class BlockEvents extends LitElement {
     .filters {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-2, 0.5rem);
+      gap: var(--space-2);
     }
 
     /* ── Category dot ── */
@@ -48,8 +48,8 @@ export class BlockEvents extends LitElement {
       display: inline-block;
       width: 6px;
       height: 6px;
-      border-radius: var(--radius-full, 9999px);
-      margin-right: var(--space-1, 0.25rem);
+      border-radius: var(--radius-full);
+      margin-right: var(--space-1);
       vertical-align: middle;
     }
 
@@ -63,8 +63,8 @@ export class BlockEvents extends LitElement {
 
     .event {
       position: relative;
-      padding-left: var(--space-5, 1.25rem);
-      padding-bottom: var(--space-5, 1.25rem);
+      padding-left: var(--space-5);
+      padding-bottom: var(--space-5);
     }
 
     .event:last-child {
@@ -94,34 +94,34 @@ export class BlockEvents extends LitElement {
       top: 6px;
       width: 7px;
       height: 7px;
-      border-radius: var(--radius-full, 9999px);
+      border-radius: var(--radius-full);
       background: var(--accent);
     }
 
     .event-header {
       display: flex;
       align-items: center;
-      gap: var(--space-2, 0.5rem);
-      margin-bottom: var(--space-1, 0.25rem);
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
     }
 
     .event-time {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin-left: auto;
     }
 
     .event-title {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 500;
-      margin: 0 0 var(--space-2, 0.5rem);
+      margin: 0 0 var(--space-2);
       line-height: 1.4;
     }
 
     .event-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-1, 0.25rem);
+      gap: var(--space-1);
     }
   `;
 
@@ -137,12 +137,12 @@ export class BlockEvents extends LitElement {
       </div>
 
       <div class="section">
-        <dui-toggle-group type="single" value="today">
-          <dui-toggle value="today">Today</dui-toggle>
-          <dui-toggle value="1d">1d ago</dui-toggle>
-          <dui-toggle value="2d">2d ago</dui-toggle>
-          <dui-toggle value="3d">3d ago</dui-toggle>
-        </dui-toggle-group>
+        <div class="filters">
+          <dui-button size="sm">Today</dui-button>
+          <dui-button size="sm" appearance="outline">1d ago</dui-button>
+          <dui-button size="sm" appearance="outline">2d ago</dui-button>
+          <dui-button size="sm" appearance="outline">3d ago</dui-button>
+        </div>
 
       </div>
 

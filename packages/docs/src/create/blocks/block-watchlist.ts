@@ -79,12 +79,12 @@ export class BlockWatchlist extends LitElement {
     .chips {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-3, 0.75rem);
+      gap: var(--space-3);
     }
 
     .chip {
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
       background: var(--surface-2);
       color: var(--text-1);
       overflow: hidden;
@@ -96,31 +96,31 @@ export class BlockWatchlist extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding: var(--space-4, 1rem) var(--space-4, 1rem) 0;
+      padding: var(--space-4) var(--space-4) 0;
     }
 
     .symbol-group {
       display: flex;
       align-items: center;
-      gap: var(--space-1-5, 0.375rem);
+      gap: var(--space-1-5);
     }
 
     .arrow {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
     }
 
     .arrow.up { color: var(--color-green-500, #22c55e); }
     .arrow.down { color: var(--color-red-500, #ef4444); }
 
     .symbol {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
     }
 
     .pct {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       font-weight: 500;
-      font-family: var(--font-mono, monospace);
+      font-family: var(--font-mono);
     }
 
     .pct.up { color: var(--color-green-500, #22c55e); }
@@ -129,24 +129,24 @@ export class BlockWatchlist extends LitElement {
     .sub-row {
       display: flex;
       justify-content: space-between;
-      padding: 0 var(--space-4, 1rem);
+      padding: 0 var(--space-4);
     }
 
     .name {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
     }
 
     .change {
-      font-size: var(--font-size-xs, 0.75rem);
-      font-family: var(--font-mono, monospace);
+      font-size: var(--font-size-xs);
+      font-family: var(--font-mono);
     }
 
     .change.up { color: var(--color-green-500, #22c55e); }
     .change.down { color: var(--color-red-500, #ef4444); }
 
     .chart {
-      padding: var(--space-2, 0.5rem) var(--space-4, 1rem) 0;
+      padding: var(--space-2) var(--space-4) 0;
       flex: 1;
     }
 
@@ -157,10 +157,9 @@ export class BlockWatchlist extends LitElement {
     }
 
     .price {
-      font-size: var(--font-size-2xl, 1.5rem);
-      font-weight: 600;
-      font-family: var(--font-mono, monospace);
-      padding: var(--space-2, 0.5rem) var(--space-4, 1rem) var(--space-4, 1rem);
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      padding: var(--space-3) var(--space-4) var(--space-2);
     }
   `;
 

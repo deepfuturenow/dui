@@ -6,9 +6,9 @@ export class BlockChat extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-5, 1.25rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
       background: var(--surface-2);
       color: var(--text-1);
     }
@@ -18,16 +18,16 @@ export class BlockChat extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--space-3, 0.75rem);
+      margin-bottom: var(--space-3);
     }
 
     /* ── Input card ── */
     .input-card {
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
       background: var(--surface-1);
-      padding: var(--space-4, 1rem);
-      margin-bottom: var(--space-4, 1rem);
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
     }
 
     .input-card dui-textarea {
@@ -52,44 +52,38 @@ export class BlockChat extends LitElement {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: var(--space-3, 0.75rem);
+      margin-top: var(--space-3);
     }
 
     .toolbar-left {
       display: flex;
       align-items: center;
-      gap: var(--space-1, 0.25rem);
+      gap: var(--space-1);
     }
 
     .toolbar-right {
       display: flex;
       align-items: center;
-      gap: var(--space-1, 0.25rem);
+      gap: var(--space-1);
     }
 
-    .toolbar-sep {
-      width: 1px;
-      height: 16px;
-      background: var(--border);
-      margin: 0 var(--space-1, 0.25rem);
-    }
 
     /* ── Source chips row ── */
     .sources {
       display: flex;
-      gap: var(--space-2, 0.5rem);
+      gap: var(--space-2);
       flex-wrap: wrap;
     }
 
     .dot {
       width: 8px;
       height: 8px;
-      border-radius: var(--radius-full, 9999px);
+      border-radius: var(--radius-full);
       flex-shrink: 0;
     }
 
     .plus {
-      font-size: var(--font-size-lg, 1.125rem);
+      font-size: var(--font-size-lg);
       color: var(--text-3);
       line-height: 1;
     }
@@ -125,20 +119,9 @@ export class BlockChat extends LitElement {
               <dui-icon style="margin-right: var(--space-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></dui-icon>
               Files
             </dui-button>
-            <dui-button appearance="ghost" size="sm">
-              <dui-icon style="margin-right: var(--space-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7v7a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4V7"/><path d="M2 7h20"/><path d="M6 3h4l2 4"/><path d="M18 3h-4l-2 4"/></svg></dui-icon>
-              Sources
-            </dui-button>
+
           </div>
           <div class="toolbar-right">
-            <dui-tooltip side="bottom">
-              <dui-tooltip-trigger>
-                <dui-button appearance="ghost" size="icon-sm">
-                  <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></dui-icon>
-                </dui-button>
-              </dui-tooltip-trigger>
-              <dui-tooltip-popup>Search</dui-tooltip-popup>
-            </dui-tooltip>
             <dui-tooltip side="bottom">
               <dui-tooltip-trigger>
                 <dui-button appearance="ghost" size="icon-sm">
@@ -147,15 +130,10 @@ export class BlockChat extends LitElement {
               </dui-tooltip-trigger>
               <dui-tooltip-popup>Settings</dui-tooltip-popup>
             </dui-tooltip>
-            <div class="toolbar-sep"></div>
-            <dui-tooltip side="bottom">
-              <dui-tooltip-trigger>
-                <dui-button appearance="ghost" size="icon-sm">
-                  <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></dui-icon>
-                </dui-button>
-              </dui-tooltip-trigger>
-              <dui-tooltip-popup>Voice input</dui-tooltip-popup>
-            </dui-tooltip>
+            <dui-separator orientation="vertical" style="height: 16px; align-self: center; padding-right: 0.75rem"></dui-separator>
+            <dui-button size="sm" style="--button-padding-x: var(--space-4)">
+              <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></dui-icon>
+            </dui-button>
           </div>
         </div>
       </div>
@@ -163,7 +141,7 @@ export class BlockChat extends LitElement {
       <div class="sources">
         <dui-button appearance="outline" size="sm">
           <span class="dot" style="background: var(--color-blue-500, #3b82f6)"></span>
-          Web search
+          Web
           <span class="plus">+</span>
         </dui-button>
         <dui-button appearance="outline" size="sm">

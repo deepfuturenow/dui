@@ -11,11 +11,11 @@ interface Member {
 
 const COLUMNS: ColumnDef<Member>[] = [
   { key: "name", header: "Name", sortable: true },
-  { key: "email", header: "Email", sortable: true },
   { key: "role", header: "Role", sortable: true },
   {
     key: "status",
     header: "Status",
+    width: "1%",
     render: (value) => {
       const v = value as string;
       return html`<dui-badge variant="${v === "Active" ? "success" : "default"}" appearance="${v === "Active" ? "default" : "outline"}">${v}</dui-badge>`;
@@ -39,9 +39,9 @@ export class BlockMembers extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
@@ -50,11 +50,11 @@ export class BlockMembers extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--space-4, 1rem);
+      margin-bottom: var(--space-4);
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0;
     }
@@ -66,8 +66,8 @@ export class BlockMembers extends LitElement {
 
     .search-row {
       display: flex;
-      gap: var(--space-2, 0.5rem);
-      margin-bottom: var(--space-3, 0.75rem);
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
     }
 
     .search-row dui-input {

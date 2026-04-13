@@ -6,9 +6,9 @@ export class BlockFormControls extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
@@ -16,29 +16,29 @@ export class BlockFormControls extends LitElement {
     .stack {
       display: flex;
       flex-direction: column;
-      gap: var(--space-4, 1rem);
+      gap: var(--space-4);
     }
 
     .button-row {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-2, 0.5rem);
+      gap: var(--space-2);
     }
 
     .tfa-card {
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-md, 0.5rem);
-      padding: var(--space-4, 1rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
     }
 
     .tfa-title {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .tfa-desc {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-3);
     }

@@ -11,21 +11,21 @@ export class BlockAudio extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .subtitle {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
@@ -41,7 +41,7 @@ export class BlockAudio extends LitElement {
     .freq-bar {
       flex: 1;
       background: var(--accent);
-      border-radius: var(--radius-sm, 0.25rem) var(--radius-sm, 0.25rem) 0 0;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
       opacity: 0.8;
       min-width: 0;
     }

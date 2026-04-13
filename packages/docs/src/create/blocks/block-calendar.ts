@@ -13,28 +13,28 @@ export class BlockCalendar extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .subtitle {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
 
     .layout {
       display: flex;
-      gap: var(--space-4, 1rem);
+      gap: var(--space-4);
     }
 
     dui-calendar {
@@ -46,12 +46,21 @@ export class BlockCalendar extends LitElement {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: var(--space-2, 0.5rem);
+      gap: var(--space-2);
       min-width: 100px;
     }
 
+    .slots-header {
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--text-2);
+      text-align: center;
+      margin: 0 0 var(--space-1);
+    }
+
     .slots dui-button {
-      width: 100%;
+      display: block;
+      --button-width: 100%;
     }
   `;
 
@@ -65,6 +74,7 @@ export class BlockCalendar extends LitElement {
       <div class="layout">
         <dui-calendar default-value="${iso}"></dui-calendar>
         <div class="slots">
+          <p class="slots-header">Time</p>
           ${TIME_SLOTS.map(
             (t) => html`
               <dui-button appearance="outline" size="sm">${t}</dui-button>

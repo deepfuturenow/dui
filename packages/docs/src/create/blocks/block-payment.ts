@@ -6,18 +6,18 @@ export class BlockPayment extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .section {
-      padding: var(--space-5, 1.25rem) var(--space-6, 1.5rem);
+      padding: var(--space-4) var(--space-5);
     }
 
     .section + .section {
-      border-top: var(--border-width-thin, 1px) solid var(--border);
+      border-top: var(--border-width-thin) solid var(--border);
     }
 
     /* ── Header ── */
@@ -25,14 +25,13 @@ export class BlockPayment extends LitElement {
     .header {
       display: flex;
       align-items: center;
-      gap: var(--space-3, 0.75rem);
-      margin-bottom: var(--space-4, 1rem);
+      gap: var(--space-3);
     }
 
     .avatar {
       width: 40px;
       height: 40px;
-      border-radius: var(--radius-full, 9999px);
+      border-radius: var(--radius-full);
       background: var(--surface-1);
       display: flex;
       align-items: center;
@@ -46,13 +45,13 @@ export class BlockPayment extends LitElement {
     }
 
     .shop-name {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
       margin: 0;
     }
 
     .shop-address {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: 0;
     }
@@ -62,59 +61,59 @@ export class BlockPayment extends LitElement {
     .summary-row {
       display: flex;
       align-items: center;
-      gap: var(--space-3, 0.75rem);
+      gap: var(--space-3);
     }
 
     .summary-row span {
       flex: 1;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 500;
     }
 
     /* ── Order total ── */
 
     .section-title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
-      margin: 0 0 var(--space-3, 0.75rem);
+      margin: 0 0 var(--space-2);
     }
 
     .line-item {
       display: flex;
       justify-content: space-between;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
-      margin-bottom: var(--space-1, 0.25rem);
+      margin-bottom: var(--space-1);
     }
 
     .total-line {
       display: flex;
       justify-content: space-between;
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
-      padding-top: var(--space-3, 0.75rem);
-      border-top: var(--border-width-thin, 1px) solid var(--border);
-      margin-top: var(--space-2, 0.5rem);
+      padding-top: var(--space-2);
+      border-top: var(--border-width-thin) solid var(--border);
+      margin-top: var(--space-2);
     }
 
     .cart-items {
       display: flex;
       flex-direction: column;
-      gap: var(--space-1, 0.25rem);
-      padding-top: var(--space-3, 0.75rem);
+      gap: var(--space-1);
+      padding-top: var(--space-2);
     }
 
     .cart-item {
       display: flex;
       justify-content: space-between;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
     }
 
     .disclaimer {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
-      margin: var(--space-3, 0.75rem) 0 0;
+      margin: var(--space-3) 0 0;
     }
   `;
 
@@ -130,14 +129,13 @@ export class BlockPayment extends LitElement {
             <p class="shop-address">482 Main Street</p>
           </div>
         </div>
-        <dui-button style="width: 100%">Continue to payment</dui-button>
       </div>
 
       <div class="section">
         <dui-collapsible default-open>
           <div slot="trigger" class="summary-row">
             <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></dui-icon>
-            <span>Cart summary (5 items)</span>
+            <span>Cart summary (4 items)</span>
           </div>
           <div class="cart-items">
             <div class="cart-item">
@@ -153,10 +151,6 @@ export class BlockPayment extends LitElement {
               <span>$22.00</span>
             </div>
             <div class="cart-item">
-              <span>Sparkling Water × 2</span>
-              <span>$12.00</span>
-            </div>
-            <div class="cart-item">
               <span>Tiramisu</span>
               <span>$16.00</span>
             </div>
@@ -168,17 +162,16 @@ export class BlockPayment extends LitElement {
         <p class="section-title">Order total</p>
         <div class="line-item">
           <span>Subtotal</span>
-          <span>$88.50</span>
+          <span>$76.50</span>
         </div>
         <div class="line-item">
           <span>Taxes</span>
-          <span>$7.85</span>
+          <span>$6.79</span>
         </div>
         <div class="total-line">
           <span>Total</span>
-          <span>$96.35</span>
+          <span>$83.29</span>
         </div>
-        <p class="disclaimer">Prices may be lower in store.</p>
       </div>
     `;
   }

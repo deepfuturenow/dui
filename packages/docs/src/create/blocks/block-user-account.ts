@@ -7,17 +7,17 @@ export class BlockUserAccount extends LitElement {
     :host {
       display: block;
       position: relative;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .more-btn {
       position: absolute;
-      top: var(--space-3, 0.75rem);
-      right: var(--space-3, 0.75rem);
+      top: var(--space-3);
+      right: var(--space-3);
     }
 
     .profile {
@@ -28,13 +28,13 @@ export class BlockUserAccount extends LitElement {
     }
 
     .name {
-      font-size: var(--font-size-lg, 1.125rem);
+      font-size: var(--font-size-lg);
       font-weight: 600;
       margin: var(--space-4) 0 var(--space-1);
     }
 
     .bio {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
       line-height: 1.5;
@@ -55,7 +55,7 @@ export class BlockUserAccount extends LitElement {
         <dui-avatar
           src="https://i.pravatar.cc/128?u=daniel-olmstead"
           alt="Billie Williams"
-          size="var(--space-20, 5rem)"
+          size="var(--space-20)"
         >DO</dui-avatar>
 
         <p class="name">Billie Williams</p>

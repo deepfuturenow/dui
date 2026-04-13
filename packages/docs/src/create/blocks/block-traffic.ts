@@ -15,9 +15,9 @@ export class BlockTraffic extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
@@ -30,13 +30,13 @@ export class BlockTraffic extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0;
     }
 
     .subtitle {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
@@ -68,7 +68,7 @@ export class BlockTraffic extends LitElement {
 
     .bar {
       flex: 1;
-      border-radius: var(--radius-sm, 0.25rem) var(--radius-sm, 0.25rem) 0 0;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
       min-height: 4px;
     }
 
@@ -96,7 +96,7 @@ export class BlockTraffic extends LitElement {
       display: flex;
       align-items: center;
       gap: var(--space-1);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
     }
 
@@ -119,7 +119,7 @@ export class BlockTraffic extends LitElement {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-2);
-      border-top: var(--border-width-thin, 1px) solid var(--border);
+      border-top: var(--border-width-thin) solid var(--border);
       padding-top: var(--space-3);
     }
 
@@ -131,7 +131,7 @@ export class BlockTraffic extends LitElement {
     }
 
     .stat-value {
-      font-size: var(--font-size-lg, 1.125rem);
+      font-size: var(--font-size-lg);
       font-weight: 700;
       margin-top: var(--space-1);
     }
@@ -145,7 +145,7 @@ export class BlockTraffic extends LitElement {
     return html`
       <div class="header">
         <p class="title">Traffic Channels</p>
-        <dui-toggle-group type="single" value="6m">
+        <dui-toggle-group type="single" .defaultValue=${["6m"]}>
           <dui-toggle value="6m">6M</dui-toggle>
           <dui-toggle value="12m">12M</dui-toggle>
         </dui-toggle-group>

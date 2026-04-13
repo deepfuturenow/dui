@@ -1,7 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import "./blocks/block-create-project.ts";
-import "./blocks/block-codespaces.ts";
 import "./blocks/block-calendar.ts";
 import "./blocks/block-members.ts";
 import "./blocks/block-traffic.ts";
@@ -52,7 +51,6 @@ export class CreatePreview extends LitElement {
   override render() {
     return html`
       <div class="columns">
-        <block-codespaces></block-codespaces>
         <block-create-project></block-create-project>
         <block-traffic></block-traffic>
         <block-watchlist></block-watchlist>

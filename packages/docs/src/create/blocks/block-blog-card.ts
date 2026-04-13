@@ -6,8 +6,8 @@ export class BlockBlogCard extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
       background: var(--surface-2);
       color: var(--text-1);
       overflow: hidden;
@@ -20,18 +20,18 @@ export class BlockBlogCard extends LitElement {
     }
 
     .content {
-      padding: var(--space-6, 1.5rem);
+      padding: var(--space-6);
     }
 
     .content h3 {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0 0 var(--space-2);
       line-height: 1.4;
     }
 
     .content p {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
       line-height: 1.5;

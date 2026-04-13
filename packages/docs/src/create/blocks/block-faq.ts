@@ -6,27 +6,27 @@ export class BlockFaq extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
       background: var(--surface-2);
       color: var(--text-1);
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .subtitle {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
 
     .answer {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       line-height: 1.5;
     }
