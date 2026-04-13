@@ -109,8 +109,8 @@ export class BlockWatchlist extends LitElement {
       font-size: var(--font-size-xs);
     }
 
-    .arrow.up { color: var(--color-green-500, #22c55e); }
-    .arrow.down { color: var(--color-red-500, #ef4444); }
+    .arrow.up { color: #22c55e; }
+    .arrow.down { color: #ef4444; }
 
     .symbol {
       font-size: var(--font-size-sm);
@@ -123,8 +123,8 @@ export class BlockWatchlist extends LitElement {
       font-family: var(--font-mono);
     }
 
-    .pct.up { color: var(--color-green-500, #22c55e); }
-    .pct.down { color: var(--color-red-500, #ef4444); }
+    .pct.up { color: #22c55e; }
+    .pct.down { color: #ef4444; }
 
     .sub-row {
       display: flex;
@@ -142,8 +142,8 @@ export class BlockWatchlist extends LitElement {
       font-family: var(--font-mono);
     }
 
-    .change.up { color: var(--color-green-500, #22c55e); }
-    .change.down { color: var(--color-red-500, #ef4444); }
+    .change.up { color: #22c55e; }
+    .change.down { color: #ef4444; }
 
     .chart {
       padding: var(--space-2) var(--space-4) 0;
@@ -172,8 +172,8 @@ export class BlockWatchlist extends LitElement {
           const sign = up ? "+" : "";
           const { line, area } = sparklinePath(s.series, 200, 48);
           const color = up
-            ? "var(--color-green-500, #22c55e)"
-            : "var(--color-red-500, #ef4444)";
+            ? "#22c55e"
+            : "#ef4444";
           const id = `grad-${s.symbol.toLowerCase()}`;
 
           return html`

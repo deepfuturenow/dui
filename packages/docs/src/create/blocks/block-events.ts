@@ -34,14 +34,6 @@ export class BlockEvents extends LitElement {
       margin: 0;
     }
 
-    /* ── Filters ── */
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
     /* ── Category dot ── */
 
     .dot {
@@ -53,11 +45,11 @@ export class BlockEvents extends LitElement {
       vertical-align: middle;
     }
 
-    .dot-blue { background: var(--color-blue-500, #3b82f6); }
-    .dot-green { background: var(--color-green-500, #22c55e); }
-    .dot-orange { background: var(--color-orange-500, #f97316); }
-    .dot-red { background: var(--color-red-500, #ef4444); }
-    .dot-purple { background: var(--color-purple-500, #a855f7); }
+    .dot-blue { background: #3b82f6; }
+    .dot-green { background: #22c55e; }
+    .dot-orange { background: #f97316; }
+    .dot-red { background: #ef4444; }
+    .dot-purple { background: #a855f7; }
 
     /* ── Timeline ── */
 
@@ -137,16 +129,12 @@ export class BlockEvents extends LitElement {
       </div>
 
       <div class="section">
-        <div class="filters">
-          <dui-button size="sm">Today</dui-button>
-          <dui-button size="sm" appearance="outline">1d ago</dui-button>
-          <dui-button size="sm" appearance="outline">2d ago</dui-button>
-          <dui-button size="sm" appearance="outline">3d ago</dui-button>
-        </div>
-
-      </div>
-
-      <div class="section">
+        <dui-toggle-group type="single" .defaultValue=${["today"]}>
+          <dui-toggle value="today">Today</dui-toggle>
+          <dui-toggle value="1d">1d ago</dui-toggle>
+          <dui-toggle value="2d">2d ago</dui-toggle>
+          <dui-toggle value="3d">3d ago</dui-toggle>
+        </dui-toggle-group>
         <div class="event">
           <div class="event-header">
             <dui-badge variant="info">LAUNCH</dui-badge>

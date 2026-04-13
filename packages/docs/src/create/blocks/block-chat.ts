@@ -140,17 +140,17 @@ export class BlockChat extends LitElement {
 
       <div class="sources">
         <dui-button appearance="outline" size="sm">
-          <span class="dot" style="background: var(--color-blue-500, #3b82f6)"></span>
+          <span class="dot" style="background: #3b82f6"></span>
           Web
           <span class="plus">+</span>
         </dui-button>
         <dui-button appearance="outline" size="sm">
-          <span class="dot" style="background: var(--color-purple-500, #a855f7)"></span>
+          <span class="dot" style="background: #a855f7"></span>
           Knowledge base
           <span class="plus">+</span>
         </dui-button>
         <dui-button appearance="outline" size="sm">
-          <span class="dot" style="background: var(--color-orange-500, #f97316)"></span>
+          <span class="dot" style="background: #f97316"></span>
           Documents
           <span class="plus">+</span>
         </dui-button>
