@@ -76,6 +76,7 @@ export const buttonStyles = css`
     --button-radius: var(--radius-md);
     --button-font-size: var(--font-size-sm);
     --button-icon-size: var(--space-4_5);
+    width: var(--button-width);
   }
 
   :host([size="sm"]) {
