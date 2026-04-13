@@ -55,7 +55,6 @@ const CATEGORIES: { name: string; tags: string[] }[] = [
   {
     name: "Layout",
     tags: [
-      "dui-hstack", "dui-vstack", "dui-center", "dui-page-inset",
       "dui-scroll-area", "dui-portal",
     ],
   },

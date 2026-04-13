@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 43 component families, 88+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 39 component families, 84+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -25,11 +25,11 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Parts:** `root`
 
 ### dui-toggle
-**Properties:** `pressed` (boolean | undefined), `defaultPressed` (boolean), `disabled` (boolean), `value` (string | undefined)
+**Properties:** `pressed` (boolean | undefined), `defaultPressed` (boolean), `disabled` (boolean), `value` (string | undefined), `size` ("sm" | "md" | "lg")
 **Events:** `pressed-change` ({ pressed: boolean })
 **Slots:** default (Toggle content (text and/or icons)), icon (Optional leading icon)
 **Parts:** `root`
-**Tokens:** `--toggle-gap`
+**Tokens:** `--toggle-gap`, `--toggle-height`, `--toggle-padding-y`, `--toggle-padding-x`, `--toggle-radius`, `--toggle-font-size`, `--toggle-icon-size`
 
 ### dui-toggle-group
 **Properties:** `value` (string[] | undefined), `defaultValue` (string[]), `type` ("single" | "multiple"), `orientation` ("horizontal" | "vertical"), `disabled` (boolean), `loop` (boolean)
@@ -300,8 +300,6 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ---
 
 ## Layout
-
-For rows, columns, centering, and page margins, use standard CSS flexbox and grid directly. DUI does not provide layout wrapper components.
 
 ### dui-scroll-area
 **Properties:** `orientation` (string), `fade` (boolean), `maxHeight` (string | undefined)

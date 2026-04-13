@@ -1,26 +1,63 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const toggleStyles = css`
-  /* --_select / --_interact alpha overlay pattern */
+  /* ---------------------------------------------------------------
+   * Sizes (swap dimensions)
+   * --------------------------------------------------------------- */
+
+  :host {
+    --toggle-height: var(--component-height-md);
+    --toggle-padding-y: var(--space-2);
+    --toggle-padding-x: var(--space-2_5);
+    --toggle-gap: var(--space-1_5);
+    --toggle-radius: var(--radius-md);
+    --toggle-font-size: var(--font-size-sm);
+    --toggle-icon-size: var(--space-4_5);
+  }
+
+  :host([size="sm"]) {
+    --toggle-height: var(--component-height-sm);
+    --toggle-padding-y: var(--space-1_5);
+    --toggle-padding-x: var(--space-2);
+    --toggle-gap: var(--space-1);
+    --toggle-font-size: var(--font-size-xs);
+    --toggle-icon-size: var(--space-4);
+  }
+
+  :host([size="lg"]) {
+    --toggle-height: var(--component-height-lg);
+    --toggle-padding-y: var(--space-2_5);
+    --toggle-padding-x: var(--space-3);
+    --toggle-gap: var(--space-1_5);
+    --toggle-font-size: var(--font-size-sm);
+    --toggle-icon-size: var(--space-4_5);
+  }
+
+  /* ---------------------------------------------------------------
+   * Base appearance — --_select / --_interact alpha overlay pattern
+   * --------------------------------------------------------------- */
 
   [part="root"] {
     --_select: 0;
     --_interact: 0;
-    --toggle-gap: var(--space-1_5);
-    --icon-size: var(--space-4);
+    --icon-size: var(--toggle-icon-size);
     --icon-color: currentColor;
-    height: var(--component-height-md);
-    padding: 0 var(--space-2_5);
-    border-radius: var(--radius-md);
+    gap: var(--toggle-gap);
+    padding: var(--toggle-padding-y) var(--toggle-padding-x);
+    height: var(--toggle-height);
+    border-radius: var(--toggle-radius);
     border: var(--border-width-thin) solid var(--border);
-    ${type("sm")}
+    font-family: var(--font-sans);
     font-weight: var(--font-weight-medium);
+    font-size: var(--toggle-font-size);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-snug);
+    white-space: nowrap;
     color: var(--text-2);
     background: oklch(from var(--foreground) l c h / calc(var(--_select) + var(--_interact)));
     transition-property: background, color, box-shadow;
     transition-duration: var(--duration-fast);
-    min-width: var(--component-height-md);
+    min-width: var(--toggle-height);
   }
 
   @media (hover: hover) {
