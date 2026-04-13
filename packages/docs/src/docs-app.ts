@@ -661,11 +661,6 @@ export class DocsApp extends LitElement {
               Prose
             </a>
             <a class="top-bar-link"
-              href="#/blocks"
-              aria-current=${this.#isTopNavActive("blocks") ? "page" : "false"}>
-              Blocks
-            </a>
-            <a class="top-bar-link"
               href="#/create"
               aria-current=${this.#isTopNavActive("create") ? "page" : "false"}>
               Create
@@ -784,7 +779,6 @@ export class DocsApp extends LitElement {
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
-    if (section === "blocks") return html`<docs-page-blocks></docs-page-blocks>`;
     if (section === "prose") return html`<docs-page-prose></docs-page-prose>`;
     if (section === "create") return html`<docs-page-create></docs-page-create>`;
 
