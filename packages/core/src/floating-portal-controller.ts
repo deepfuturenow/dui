@@ -28,6 +28,8 @@ export type FloatingPortalControllerOptions = {
   getAnchor: () => HTMLElement | null | undefined;
   /** Whether the popup width should match the anchor width. Default: true. */
   matchWidth?: boolean;
+  /** Set popup min-width to anchor width instead of fixing width. Default: false. */
+  minMatchWidth?: boolean;
   /** Floating UI placement. Default: "bottom-start". */
   placement?: Placement;
   /** Offset in px between anchor and popup. Default: 4. */
@@ -71,6 +73,7 @@ export class FloatingPortalController implements ReactiveController {
   #host: PortalHost;
   #getAnchor: () => HTMLElement | null | undefined;
   #matchWidth: boolean;
+  #minMatchWidth: boolean;
   #placement: Placement;
   #offset: number;
   #styles?: CSSResultOrNative[];
@@ -130,6 +133,7 @@ export class FloatingPortalController implements ReactiveController {
     this.#host = host;
     this.#getAnchor = options.getAnchor;
     this.#matchWidth = options.matchWidth ?? true;
+    this.#minMatchWidth = options.minMatchWidth ?? false;
     this.#placement = options.placement ?? "bottom-start";
     this.#offset = options.offset ?? 4;
     this.#styles = options.styles;
@@ -293,6 +297,7 @@ export class FloatingPortalController implements ReactiveController {
       placement: this.#placement,
       offsetPx: this.#offset,
       matchWidth: this.#matchWidth,
+      minMatchWidth: this.#minMatchWidth,
       onPosition: this.#onPosition,
     });
   }

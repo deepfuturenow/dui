@@ -5,10 +5,10 @@ export const selectStyles = css`
   .Trigger {
     height: var(--component-height-md);
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background: var(--sunken);
+    background: transparent;
     color: var(--text-1);
     font-family: var(--font-sans);
     ${type("sm")}
@@ -29,7 +29,7 @@ export const selectStyles = css`
 
   :host([size="sm"]) .Trigger {
     height: var(--component-height-sm);
-    padding: var(--space-1_5) var(--space-2_5);
+    padding: var(--space-1_5) var(--space-1_5) var(--space-1_5) var(--space-2_5);
     font-size: var(--font-size-xs);
   }
 
@@ -50,6 +50,8 @@ export const selectStyles = css`
   }
 
   .Icon {
+    display: flex;
+    align-items: center;
     --icon-size: var(--space-4);
     color: var(--text-1);
   }
@@ -61,6 +63,7 @@ export const selectStyles = css`
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
+    max-width: 320px;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
