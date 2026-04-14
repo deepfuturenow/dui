@@ -5,7 +5,7 @@ export const numberFieldStyles = css`
   [part="root"] {
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background: var(--sunken);
+    background: transparent;
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }

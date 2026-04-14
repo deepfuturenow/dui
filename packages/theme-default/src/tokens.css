@@ -223,19 +223,19 @@
   /* -----------------------------------------------------------
    * Component Sizing
    * ----------------------------------------------------------- */
-  --component-height-xxs: 1.25rem;
-  --component-height-xs: 1.5rem;
-  --component-height-sm: 1.75rem;
-  --component-height-md: 2rem;
-  --component-height-lg: 2.25rem;
-  --component-height-xl: 2.5rem;
+  --component-height-xxs: 1.25rem; /* 20px */
+  --component-height-xs: 1.5rem; /* 24px */
+  --component-height-sm: 1.75rem; /* 28px */
+  --component-height-md: 2rem; /* 32px */
+  --component-height-lg: 2.25rem; /* 36px */
+  --component-height-xl: 2.5rem; /* 40px */
 
   /* -----------------------------------------------------------
    * Focus Ring
    * ----------------------------------------------------------- */
-  --focus-ring-color: var(--accent);
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 2px;
+  --focus-ring-color: color-mix(in oklch, var(--accent), transparent 50%);
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 0px;
   --focus-ring-duration: var(--duration-fast);
   --focus-ring-easing: var(--ease-out-3);
 

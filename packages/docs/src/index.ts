@@ -45,6 +45,7 @@ import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-styling.ts";
 import "./pages/docs-page-theming.ts";
 import "./pages/docs-page-colors.ts";
+import "./pages/docs-page-typography.ts";
 import "./pages/docs-page-prose.ts";
 import "./create/docs-page-create.ts";
 import { applyTheme } from "@dui/core/apply-theme";

@@ -17,7 +17,7 @@ export const radioStyles = css`
 
   [part="root"][data-unchecked] {
     border: var(--border-width-thin) solid var(--border);
-    background: var(--sunken);
+    background: transparent;
   }
 
   [part="root"][data-checked] {

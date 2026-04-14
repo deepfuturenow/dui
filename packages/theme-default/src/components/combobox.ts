@@ -10,7 +10,7 @@ export const comboboxStyles = css`
     border-radius: var(--radius-md);
     padding: var(--space-1) var(--space-8) var(--space-1) var(--space-1_5);
     min-height: var(--component-height-md);
-    background: var(--sunken);
+    background: transparent;
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }
@@ -61,7 +61,7 @@ export const comboboxStyles = css`
     border-radius: var(--radius-md);
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
-    background: var(--sunken);
+    background: transparent;
   }
 
   .InputWrapper .Input:focus-visible {
