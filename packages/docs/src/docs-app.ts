@@ -162,13 +162,13 @@ export class DocsApp extends LitElement {
     /* ── Body ── */
     .body {
       display: grid;
-      grid-template-columns: 260px 1fr 260px;
+      grid-template-columns: 260px 1fr;
       flex: 1;
       transition: grid-template-columns 0.25s var(--ease-out-3);
     }
 
     :host([sidebar-closed]) .body {
-      grid-template-columns: 0px 1fr 0px;
+      grid-template-columns: 0px 1fr;
     }
 
     /* ── Sidebar ── */
@@ -208,18 +208,7 @@ export class DocsApp extends LitElement {
       pointer-events: none;
     }
 
-    /* 2-column: drop farside when viewport can't fit all three */
-    @media (max-width: 1279px) {
-      .body {
-        grid-template-columns: 260px 1fr;
-      }
-      :host([sidebar-closed]) .body {
-        grid-template-columns: 0px 1fr;
-      }
-      .farside {
-        display: none;
-      }
-    }
+
 
     /* Mobile: hide sidebar, show only content */
     @media (max-width: 767px) {
@@ -297,10 +286,7 @@ export class DocsApp extends LitElement {
       border-left: none;
     }
 
-    /* ── Farside (right spacer column) ── */
-    .farside {
-      /* Empty balancing column — same width as sidebar */
-    }
+
 
     /* ── Content ── */
     .content {
@@ -656,14 +642,14 @@ export class DocsApp extends LitElement {
               Colors
             </a>
             <a class="top-bar-link"
+              href="#/typography"
+              aria-current=${this.#isTopNavActive("typography") ? "page" : "false"}>
+              Typography
+            </a>
+            <a class="top-bar-link"
               href="#/prose"
               aria-current=${this.#isTopNavActive("prose") ? "page" : "false"}>
               Prose
-            </a>
-            <a class="top-bar-link"
-              href="#/blocks"
-              aria-current=${this.#isTopNavActive("blocks") ? "page" : "false"}>
-              Blocks
             </a>
             <a class="top-bar-link"
               href="#/create"
@@ -698,7 +684,6 @@ export class DocsApp extends LitElement {
         <main class="content ${isCreate ? "content--create" : ""}" style=${contentStyle}>
           ${this.#renderPage()}
         </main>
-        <div class="farside"></div>
       </div>
 
       ${this.#searchOpen ? this.#renderSearch() : nothing}
@@ -784,7 +769,7 @@ export class DocsApp extends LitElement {
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
-    if (section === "blocks") return html`<docs-page-blocks></docs-page-blocks>`;
+    if (section === "typography") return html`<docs-page-typography></docs-page-typography>`;
     if (section === "prose") return html`<docs-page-prose></docs-page-prose>`;
     if (section === "create") return html`<docs-page-create></docs-page-create>`;
 

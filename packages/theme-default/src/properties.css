@@ -53,7 +53,7 @@
 }
 
 @property --button-width {
-  syntax: "<length> | auto";
+  syntax: "<length-percentage> | auto";
   inherits: true;
   initial-value: auto;
 }

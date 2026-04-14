@@ -76,6 +76,16 @@ export const buttonStyles = css`
     --button-radius: var(--radius-md);
     --button-font-size: var(--font-size-sm);
     --button-icon-size: var(--space-4_5);
+    width: var(--button-width);
+  }
+
+  :host([size="xs"]) {
+    --button-height: var(--component-height-xs);
+    --button-padding-y: var(--space-1);
+    --button-padding-x: var(--space-1_5);
+    --button-gap: var(--space-1);
+    --button-font-size: var(--font-size-xs);
+    --button-icon-size: var(--space-3_5);
   }
 
   :host([size="sm"]) {
@@ -168,8 +178,15 @@ export const buttonStyles = css`
     text-underline-offset: 4px;
   }
 
-  /* Open state (e.g. button is a popover trigger) */
-  :host([data-open]) [part="root"]:not(:disabled):not([aria-disabled="true"]) {
-    background: oklch(from var(--foreground) l c h / 0.05);
+  /* Open state — mirrors :active so the trigger looks pressed while its overlay is open */
+
+  :host([data-open]:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="link"]))
+    [part="root"]:not(:disabled):not([aria-disabled="true"]) {
+    filter: brightness(0.80);
+  }
+
+  :host([data-open][appearance="ghost"]) [part="root"]:not(:disabled):not([aria-disabled="true"]),
+  :host([data-open][appearance="outline"]) [part="root"]:not(:disabled):not([aria-disabled="true"]) {
+    background: oklch(from var(--foreground) l c h / 0.10);
   }
 `;

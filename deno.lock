@@ -12,6 +12,7 @@
     "npm:lit@^3.3.2": "3.3.2",
     "npm:pi-web-access@~0.10.4": "0.10.4",
     "npm:shiki@3": "3.23.0",
+    "npm:three@~0.183.2": "0.183.2",
     "npm:typescript@5.7": "5.7.3"
   },
   "jsr": {
@@ -706,6 +707,9 @@
         "character-entities-legacy"
       ]
     },
+    "three@0.183.2": {
+      "integrity": "sha512-di3BsL2FEQ1PA7Hcvn4fyJOlxRRgFYBpMTcyOgkwJIaDOdJMebEFPA+t98EvjuljDx4hNulAGwF6KIjtwI5jgQ=="
+    },
     "trim-lines@3.0.1": {
       "integrity": "sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg=="
     },
@@ -783,6 +787,7 @@
     "packageJson": {
       "dependencies": [
         "npm:pi-web-access@~0.10.4",
+        "npm:three@~0.183.2",
         "npm:typescript@5.7"
       ]
     },
@@ -803,7 +808,8 @@
         "dependencies": [
           "npm:esbuild@~0.27.2",
           "npm:lit@^3.3.2",
-          "npm:shiki@3"
+          "npm:shiki@3",
+          "npm:three@~0.183.2"
         ]
       },
       "packages/inspector": {

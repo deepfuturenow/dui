@@ -52,7 +52,7 @@ export class DuiDocsDemo extends LitElement {
       justify-content: center;
     }
 
-    .demo > ::slotted(*) {
+    .demo-holder > ::slotted(*) {
       width: 100%;
       max-width: var(--demo-width);
     }
@@ -228,7 +228,7 @@ export class DuiDocsDemo extends LitElement {
         style="${this.demoWidth ? `--demo-width: ${this.demoWidth}` : ""}"
       >
         ${this.label ? html`<div class="demo-label">${this.label}</div>` : ""}
-        <div class="demo-holder">
+        <div class="demo-holder" part="demo-holder">
           <slot></slot>
         </div>
       </div>

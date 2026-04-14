@@ -4,6 +4,7 @@ export const checkboxStyles = css`
   :host {
     --checkbox-size: var(--space-4_5);
     gap: var(--space-2);
+    font-size: var(--font-size-sm);
   }
 
   [part="root"] {

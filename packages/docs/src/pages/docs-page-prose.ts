@@ -1,9 +1,10 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
+import { proseSheet } from "@dui/theme-default/prose";
 
 @customElement("docs-page-prose")
 export class DocsPageProse extends LitElement {
-  static override styles = css`
+  static override styles = [proseSheet, css`
     :host {
       display: block;
     }
@@ -118,7 +119,7 @@ export class DocsPageProse extends LitElement {
       vertical-align: middle;
       margin-right: var(--space-1_5);
     }
-  `;
+  `];
 
   override render() {
     return html`

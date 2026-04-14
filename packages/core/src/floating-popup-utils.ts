@@ -70,6 +70,8 @@ export type ComputeFixedPositionOptions = {
   placement?: Placement;
   offsetPx?: number;
   matchWidth?: boolean;
+  /** Set `min-width` to the anchor width instead of fixing `width`. */
+  minMatchWidth?: boolean;
   padding?: number;
 };
 
@@ -86,6 +88,7 @@ export const computeFixedPosition = (
     placement = "bottom-start",
     offsetPx = 4,
     matchWidth = false,
+    minMatchWidth = false,
     padding = 8,
   } = options;
 
@@ -101,6 +104,16 @@ export const computeFixedPosition = (
         apply({ rects, elements }) {
           Object.assign(elements.floating.style, {
             width: `${rects.reference.width}px`,
+          });
+        },
+      }),
+    );
+  } else if (minMatchWidth) {
+    middleware.push(
+      size({
+        apply({ rects, elements }) {
+          Object.assign(elements.floating.style, {
+            minWidth: `${rects.reference.width}px`,
           });
         },
       }),

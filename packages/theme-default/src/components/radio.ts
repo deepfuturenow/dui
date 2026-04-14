@@ -4,6 +4,7 @@ export const radioStyles = css`
   :host {
     --radio-size: var(--space-4_5);
     gap: var(--space-2);
+    font-size: var(--font-size-sm);
   }
 
   [part="root"] {
@@ -16,7 +17,7 @@ export const radioStyles = css`
 
   [part="root"][data-unchecked] {
     border: var(--border-width-thin) solid var(--border);
-    background: var(--sunken);
+    background: transparent;
   }
 
   [part="root"][data-checked] {

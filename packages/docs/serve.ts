@@ -101,6 +101,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/tooltip-popup": "./src/components/tooltip-popup.ts",
       "./tokens": "./src/tokens.ts",
       "./tokens-raw": "./src/tokens-raw.ts",
+      "./prose": "./src/prose.ts",
       "./components/dialog": "./src/components/dialog.ts",
       "./components/dialog-popup": "./src/components/dialog-popup.ts",
       "./components/alert-dialog": "./src/components/alert-dialog.ts",

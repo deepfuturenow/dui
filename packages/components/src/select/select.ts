@@ -97,6 +97,9 @@ const portalPopupStyles = [
 
     .ItemText {
       flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `,
 ];
@@ -146,6 +149,8 @@ export class DuiSelect extends LitElement {
   #popup = new FloatingPortalController(this, {
     getAnchor: () =>
       this.shadowRoot?.querySelector<HTMLElement>(".Trigger"),
+    matchWidth: false,
+    minMatchWidth: true,
     styles: portalPopupStyles,
     onOpen: () => {
       this.#highlightedIndex = this.#selectedIndex;

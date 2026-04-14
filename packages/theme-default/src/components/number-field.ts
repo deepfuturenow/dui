@@ -5,7 +5,7 @@ export const numberFieldStyles = css`
   [part="root"] {
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
-    background: var(--sunken);
+    background: transparent;
     transition-property: border-color, box-shadow;
     transition-duration: var(--duration-fast);
   }
@@ -32,15 +32,27 @@ export const numberFieldStyles = css`
     color: var(--text-1);
   }
 
+  :host([size="sm"]) [part="input"] {
+    height: var(--component-height-sm);
+    width: var(--space-14);
+    font-size: var(--font-size-xs);
+  }
+
   [part="decrement"],
   [part="increment"] {
-    width: var(--space-8);
-    height: var(--space-8);
+    width: var(--component-height-md);
+    height: var(--component-height-md);
     color: var(--text-2);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-lg);
     transition-property: background, color;
     transition-duration: var(--duration-fast);
+  }
+
+  :host([size="sm"]) [part="decrement"],
+  :host([size="sm"]) [part="increment"] {
+    width: var(--component-height-sm);
+    height: var(--component-height-sm);
   }
 
   @media (hover: hover) {

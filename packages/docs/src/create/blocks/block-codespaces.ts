@@ -1,16 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-codespaces")
 export class BlockCodespaces extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
-      background: var(--surface-2);
-      color: var(--text-1);
+      padding: var(--space-6);
     }
 
     .header {
@@ -21,13 +17,13 @@ export class BlockCodespaces extends LitElement {
     }
 
     .header-text h3 {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0;
     }
 
     .header-text p {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: var(--space-1) 0 0;
     }
@@ -43,37 +39,37 @@ export class BlockCodespaces extends LitElement {
       align-items: center;
       justify-content: center;
       gap: var(--space-2);
-      padding: var(--space-8, 2rem) var(--space-4);
+      padding: var(--space-8) var(--space-4);
       text-align: center;
     }
 
     .empty-state h4 {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       font-weight: 600;
       margin: 0;
     }
 
     .empty-state p {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin: 0;
       max-width: 280px;
     }
 
     .learn-more {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       text-decoration: underline;
       cursor: pointer;
     }
 
     .footer-note {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--font-size-xs);
       color: var(--text-2);
       margin-top: var(--space-4);
       text-align: center;
     }
-  `;
+  `];
 
   override render() {
     return html`

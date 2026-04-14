@@ -1,26 +1,22 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-invite-team")
 export class BlockInviteTeam extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-lg, 0.75rem);
-      padding: var(--space-6, 1.5rem);
-      background: var(--surface-2);
-      color: var(--text-1);
+      padding: var(--space-6);
     }
 
     .title {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--font-size-base);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .subtitle {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
@@ -44,7 +40,7 @@ export class BlockInviteTeam extends LitElement {
     }
 
     .share-label {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--font-size-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-2);
     }
@@ -58,7 +54,7 @@ export class BlockInviteTeam extends LitElement {
     .link-row dui-input {
       flex: 1;
     }
-  `;
+  `];
 
   override render() {
     return html`
@@ -66,7 +62,7 @@ export class BlockInviteTeam extends LitElement {
       <p class="subtitle">Add members to your workspace</p>
 
       <div class="invite-row">
-        <dui-input placeholder="name@example.com"></dui-input>
+        <dui-input placeholder="name@example.com" value="sarah@acme.co"></dui-input>
         <dui-select
           placeholder="Role"
           .options=${[
@@ -78,7 +74,7 @@ export class BlockInviteTeam extends LitElement {
       </div>
 
       <div class="invite-row">
-        <dui-input placeholder="name@example.com"></dui-input>
+        <dui-input placeholder="name@example.com" value="james@acme.co"></dui-input>
         <dui-select
           placeholder="Role"
           .options=${[

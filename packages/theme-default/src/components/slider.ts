@@ -16,7 +16,7 @@ export const sliderStyles = css`
 
   [part="track"] {
     height: var(--slider-track-height);
-    background: var(--surface-1);
+    background: color-mix(in oklch, var(--foreground) 15%, transparent);
     border-radius: calc(var(--slider-track-height) / 2);
   }
 

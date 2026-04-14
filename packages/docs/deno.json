@@ -10,6 +10,7 @@
   "imports": {
     "lit": "npm:lit@^3.3.2",
     "esbuild": "npm:esbuild@^0.27.2",
-    "shiki": "npm:shiki@^3"
+    "shiki": "npm:shiki@^3",
+    "three": "npm:three@^0.183.2"
   }
 }

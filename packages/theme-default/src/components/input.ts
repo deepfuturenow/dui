@@ -9,7 +9,7 @@ export const inputStyles = css`
     height: var(--component-height-md);
     color: var(--text-1);
     border: var(--border-width-thin) solid var(--border);
-    background: var(--sunken);
+    background: transparent;
     border-radius: var(--radius-md);
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
@@ -31,6 +31,12 @@ export const inputStyles = css`
 
   [part="input"][data-invalid] {
     border-color: var(--destructive);
+  }
+
+  :host([size="sm"]) [part="input"] {
+    height: var(--component-height-sm);
+    padding: var(--space-1_5);
+    font-size: var(--font-size-xs);
   }
 
   [part="input"][data-invalid]:focus-visible {
