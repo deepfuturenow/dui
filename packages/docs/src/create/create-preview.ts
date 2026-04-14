@@ -16,6 +16,7 @@ import "./blocks/block-colors.ts";
 import "./blocks/block-typography.ts";
 import "./blocks/block-3d-scene.ts";
 import "./blocks/block-token-usage.ts";
+import "./blocks/block-sidebar.ts";
 
 @customElement("create-preview")
 export class CreatePreview extends LitElement {
@@ -99,6 +100,7 @@ export class CreatePreview extends LitElement {
         <block-user-account></block-user-account>
         <block-members></block-members>
         <block-token-usage></block-token-usage>
+        <block-sidebar></block-sidebar>
         <block-3d-scene></block-3d-scene>
       </div>
 
