@@ -30,7 +30,7 @@ export class BlockCalendar extends LitElement {
 
     .layout {
       display: flex;
-      gap: var(--space-6);
+      gap: var(--space-8);
     }
 
     dui-calendar {
@@ -44,6 +44,7 @@ export class BlockCalendar extends LitElement {
       justify-content: center;
       gap: var(--space-2);
       min-width: 100px;
+      flex-shrink: 0;
     }
 
     .slots-header {
