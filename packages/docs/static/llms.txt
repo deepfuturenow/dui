@@ -657,6 +657,15 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Events: none
 - Slots: default (Main content)
 
+### Split Button
+- Tag: `<dui-split-button>`
+- Import: `@dui/components/split-button`
+- Description: A button with an attached dropdown menu trigger. The action zone (left) performs a primary action. The menu trigger (right) opens a dropdown of dui-menu-item children for secondary actions.
+- Properties: disabled (boolean, false)
+- Events: dui-action ({})
+- Slots: default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
+- CSS Parts: root (The outer container wrapping both zones), action (The left action button), divider (The vertical separator between zones), trigger (The right dropdown trigger button)
+
 ### Separator
 - Tag: `<dui-separator>`
 - Import: `@dui/components/separator`

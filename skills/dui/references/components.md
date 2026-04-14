@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 39 component families, 84+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 40 component families, 85+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -17,6 +17,13 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (Button label content)
 **Parts:** `root`
 **Tokens:** `--button-bg`, `--button-fg`, `--button-border`, `--button-height`, `--button-width`, `--button-padding-y`, `--button-padding-x`, `--button-gap`, `--button-radius`, `--button-font-size`, `--button-icon-size`
+
+### dui-split-button
+**Properties:** `disabled` (boolean), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost"), `size` ("xs" | "sm" | "md" | "lg")
+**Events:** `dui-action` ({})
+**Slots:** default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
+**Parts:** `root`, `action`, `divider`, `trigger`
+**Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`
 
 ### dui-link
 **Properties:** `href` (string)

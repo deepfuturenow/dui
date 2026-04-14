@@ -20,7 +20,7 @@ const OUTPUT = join(ROOT, "skills/dui/references/components.md");
 const CATEGORIES: { name: string; tags: string[] }[] = [
   {
     name: "Actions",
-    tags: ["dui-button", "dui-link", "dui-toggle", "dui-toggle-group", "dui-toolbar"],
+    tags: ["dui-button", "dui-split-button", "dui-link", "dui-toggle", "dui-toggle-group", "dui-toolbar"],
   },
   {
     name: "Forms",

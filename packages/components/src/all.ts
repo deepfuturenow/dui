@@ -222,6 +222,10 @@ export type { SelectOption } from "./select/index.ts";
 import { DuiSeparator } from "./separator/index.ts";
 export { DuiSeparator };
 
+// --- Split Button ---
+import { DuiSplitButton } from "./split-button/index.ts";
+export { DuiSplitButton };
+
 // --- Sidebar ---
 import { DuiSidebarProvider,
   DuiSidebar,
@@ -368,6 +372,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiScrollArea,
   DuiSelect,
   DuiSeparator,
+  DuiSplitButton,
   DuiSidebarProvider,
   DuiSidebar,
   DuiSidebarTrigger,

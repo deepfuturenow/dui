@@ -26,5 +26,10 @@ export type TextareaVariant = "default" | "ghost";
 export type SidebarVariant = "sidebar" | "floating" | "inset";
 export type SidebarMenuButtonSize = "default" | "sm" | "lg";
 
+// --- Split Button ---
+export type SplitButtonVariant = "neutral" | "primary" | "danger";
+export type SplitButtonAppearance = "filled" | "outline" | "ghost";
+export type SplitButtonSize = "xs" | "sm" | "md" | "lg";
+
 // --- Toolbar ---
 export type ToolbarSize = "sm" | "md" | "lg" | "xl";

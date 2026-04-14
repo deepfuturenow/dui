@@ -86,7 +86,8 @@
     "./components/toggle-group": "./src/components/toggle-group.ts",
     "./components/number-field": "./src/components/number-field.ts",
     "./components/menubar": "./src/components/menubar.ts",
-    "./components/calendar": "./src/components/calendar.ts"
+    "./components/calendar": "./src/components/calendar.ts",
+    "./components/split-button": "./src/components/split-button.ts"
   },
   "imports": {
     "lit": "npm:lit@^3.3.2"

@@ -73,6 +73,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./number-field": "./src/number-field/index.ts",
       "./menubar": "./src/menubar/index.ts",
       "./calendar": "./src/calendar/index.ts",
+      "./split-button": "./src/split-button/index.ts",
     },
   },
   "@dui/inspector": {

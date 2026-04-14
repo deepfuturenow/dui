@@ -69,6 +69,7 @@ import { sidebarMenuButtonStyles } from "./components/sidebar-menu-button.ts";
 import { sidebarSeparatorStyles } from "./components/sidebar-separator.ts";
 import { sidebarInsetStyles } from "./components/sidebar-inset.ts";
 import { separatorStyles } from "./components/separator.ts";
+import { splitButtonStyles } from "./components/split-button.ts";
 import { progressStyles } from "./components/progress.ts";
 import { toggleStyles } from "./components/toggle.ts";
 import { toggleGroupStyles } from "./components/toggle-group.ts";
@@ -152,6 +153,7 @@ export const defaultTheme: DuiTheme = {
     ["dui-sidebar-separator", sidebarSeparatorStyles],
     ["dui-sidebar-inset", sidebarInsetStyles],
     ["dui-separator", separatorStyles],
+    ["dui-split-button", splitButtonStyles],
     ["dui-progress", progressStyles],
     ["dui-toggle", toggleStyles],
     ["dui-toggle-group", toggleGroupStyles],
@@ -231,6 +233,7 @@ export { sidebarMenuButtonStyles } from "./components/sidebar-menu-button.ts";
 export { sidebarSeparatorStyles } from "./components/sidebar-separator.ts";
 export { sidebarInsetStyles } from "./components/sidebar-inset.ts";
 export { separatorStyles } from "./components/separator.ts";
+export { splitButtonStyles } from "./components/split-button.ts";
 export { progressStyles } from "./components/progress.ts";
 export { toggleStyles } from "./components/toggle.ts";
 export { toggleGroupStyles } from "./components/toggle-group.ts";
@@ -257,5 +260,8 @@ export type {
   TextareaVariant,
   SidebarVariant,
   SidebarMenuButtonSize,
+  SplitButtonVariant,
+  SplitButtonAppearance,
+  SplitButtonSize,
   ToolbarSize,
 } from "./types.ts";

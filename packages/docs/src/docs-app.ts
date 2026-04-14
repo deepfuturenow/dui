@@ -2,7 +2,8 @@ import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { componentRegistry } from "./component-registry.ts";
 import { currentRoute, onRouteChange, navigate, setSidebarParam, type Route } from "./docs-router.ts";
-import { FONT_OPTIONS } from "./create/create-config.ts";
+import { SANS_FONT_OPTIONS, SERIF_FONT_OPTIONS, MONO_FONT_OPTIONS, COLOR_PRIMITIVES } from "./create/create-config.ts";
+import { parseOklch, formatOklch, type Oklch } from "./create/color-utils.ts";
 import { loadGoogleFont } from "./create/font-loader.ts";
 import "./create/create-controls.ts";
 
@@ -17,6 +18,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
       "link", "menu", "menubar", "number-field", "popover",
       "preview-card", "progress", "radio-group", "scroll-area",
       "select", "separator", "sidebar-provider", "slider", "spinner",
+      "split-button",
       "switch", "tabs", "textarea", "toggle", "toggle-group", "toolbar",
       "tooltip",
     ],
@@ -437,13 +439,20 @@ export class DocsApp extends LitElement {
 
   /* ── Create page state ── */
   @state()
-  accessor #selectedFont = "Geist";
+  accessor #selectedFontSans = "Geist";
+
+  @state()
+  accessor #selectedFontSerif = "Lora";
+
+  @state()
+  accessor #selectedFontMono = "Geist Mono";
 
   @state()
   accessor #selectedRadius = "0.5rem";
 
+  /** OKLCH values keyed by token name, e.g. { "--accent": { l: 0.55, c: 0.25, h: 260 } } */
   @state()
-  accessor #selectedIconLib = "Lucide";
+  accessor #selectedColors: Record<string, Oklch> = {};
 
   #cleanup?: () => void;
 
@@ -459,9 +468,17 @@ export class DocsApp extends LitElement {
       this.#syncSidebarAttr();
     });
     document.addEventListener("keydown", this.#handleGlobalKeydown);
-    // Preload the default font for the Create page
-    const opt = FONT_OPTIONS.find((f) => f.family === this.#selectedFont);
-    if (opt) loadGoogleFont(opt.family, opt.weights);
+    // Preload the default fonts for the Create page
+    for (const [list, sel] of [
+      [SANS_FONT_OPTIONS, this.#selectedFontSans],
+      [SERIF_FONT_OPTIONS, this.#selectedFontSerif],
+      [MONO_FONT_OPTIONS, this.#selectedFontMono],
+    ] as const) {
+      const opt = list.find((f) => f.family === sel);
+      if (opt) loadGoogleFont(opt.family, opt.weights);
+    }
+    // Compute initial hex colors from the theme's oklch primitives
+    this.#syncColorDefaults();
   }
 
   override disconnectedCallback(): void {
@@ -504,32 +521,62 @@ export class DocsApp extends LitElement {
   #toggleTheme(): void {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
     document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+    this.#syncColorDefaults();
     this.requestUpdate();
+  }
+
+  /** Parse oklch defaults from the current theme's primitive strings. */
+  #syncColorDefaults(): void {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    const colors: Record<string, Oklch> = {};
+    for (const c of COLOR_PRIMITIVES) {
+      colors[c.token] = parseOklch(isDark ? c.dark : c.light);
+    }
+    this.#selectedColors = colors;
   }
 
   #onControlChange(e: CustomEvent<{ prop: string; value: string }>): void {
     const { prop, value } = e.detail;
     switch (prop) {
-      case "font": {
-        this.#selectedFont = value;
-        const opt = FONT_OPTIONS.find((f) => f.family === value);
+      case "fontSans": {
+        this.#selectedFontSans = value;
+        const opt = SANS_FONT_OPTIONS.find((f) => f.family === value);
+        if (opt) loadGoogleFont(opt.family, opt.weights);
+        break;
+      }
+      case "fontSerif": {
+        this.#selectedFontSerif = value;
+        const opt = SERIF_FONT_OPTIONS.find((f) => f.family === value);
+        if (opt) loadGoogleFont(opt.family, opt.weights);
+        break;
+      }
+      case "fontMono": {
+        this.#selectedFontMono = value;
+        const opt = MONO_FONT_OPTIONS.find((f) => f.family === value);
         if (opt) loadGoogleFont(opt.family, opt.weights);
         break;
       }
       case "radius":
         this.#selectedRadius = value;
         break;
-      case "iconLib":
-        this.#selectedIconLib = value;
+      default:
+        // Color changes come as "color:--token-name" with an oklch() string value
+        if (prop.startsWith("color:")) {
+          const token = prop.slice(6);
+          this.#selectedColors = { ...this.#selectedColors, [token]: parseOklch(value) };
+        }
         break;
     }
   }
 
   #computeRadiusScale(base: string): Record<string, string> {
     const val = parseFloat(base);
+    if (val === 0) {
+      return { "--radius-sm": "0", "--radius-md": "0", "--radius-lg": "0" };
+    }
     return {
       "--radius-sm": `${Math.max(val - 0.25, 0)}rem`,
-      "--radius-md": base === "0" ? "0" : base,
+      "--radius-md": base,
       "--radius-lg": `${val + 0.25}rem`,
     };
   }
@@ -611,7 +658,18 @@ export class DocsApp extends LitElement {
     if (isCreate) {
       const radii = this.#computeRadiusScale(this.#selectedRadius);
       contentStyle = [
-        `--font-sans: '${this.#selectedFont}', system-ui, sans-serif`,
+        // Color primitive overrides (applied as oklch strings)
+        ...Object.entries(this.#selectedColors).map(([k, v]) => `${k}: ${formatOklch(v)}`),
+        // Font overrides
+        `--font-sans: '${this.#selectedFontSans}', system-ui, sans-serif`,
+        `--font-serif: '${this.#selectedFontSerif}', Georgia, serif`,
+        `--font-mono: '${this.#selectedFontMono}', ui-monospace, monospace`,
+        // Re-resolve inherited properties so plain elements in blocks pick up overrides.
+        // Custom property changes alone don't re-evaluate values inherited from :root.
+        `color: var(--text-1)`,
+        `background-color: var(--background)`,
+        `font-family: var(--font-sans)`,
+        // Radius overrides
         ...Object.entries(radii).map(([k, v]) => `${k}: ${v}`),
       ].join("; ");
     }
@@ -695,9 +753,11 @@ export class DocsApp extends LitElement {
       return html`
         <nav class="sidebar" @control-change=${this.#onControlChange}>
           <create-controls
-            selectedFont=${this.#selectedFont}
+            selectedFontSans=${this.#selectedFontSans}
+            selectedFontSerif=${this.#selectedFontSerif}
+            selectedFontMono=${this.#selectedFontMono}
             selectedRadius=${this.#selectedRadius}
-            selectedIconLib=${this.#selectedIconLib}
+            .colors=${this.#selectedColors}
           ></create-controls>
         </nav>
       `;
@@ -808,6 +868,7 @@ export class DocsApp extends LitElement {
         case "command": return html`<docs-page-command></docs-page-command>`;
         case "sidebar-provider": return html`<docs-page-sidebar></docs-page-sidebar>`;
         case "separator": return html`<docs-page-separator></docs-page-separator>`;
+        case "split-button": return html`<docs-page-split-button></docs-page-split-button>`;
         case "progress": return html`<docs-page-progress></docs-page-progress>`;
         case "toggle": return html`<docs-page-toggle></docs-page-toggle>`;
         case "toggle-group": return html`<docs-page-toggle-group></docs-page-toggle-group>`;
