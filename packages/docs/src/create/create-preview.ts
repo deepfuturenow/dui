@@ -12,9 +12,38 @@ import "./blocks/block-faq.ts";
 import "./blocks/block-settings.ts";
 import "./blocks/block-chat.ts";
 import "./blocks/block-user-account.ts";
+import "./blocks/block-colors.ts";
+import "./blocks/block-typography.ts";
+import "./blocks/block-3d-scene.ts";
+import "./blocks/block-token-usage.ts";
 
 @customElement("create-preview")
 export class CreatePreview extends LitElement {
+  #gridVisible = false;
+
+  #onKeydown = (e: KeyboardEvent) => {
+    // Ignore when typing in inputs / textareas / contenteditable
+    const tag = (e.target as HTMLElement)?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable) return;
+    if (e.key === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      this.#gridVisible = !this.#gridVisible;
+      this.style.setProperty(
+        "--block-grid-opacity",
+        this.#gridVisible ? "0.08" : "0",
+      );
+    }
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener("keydown", this.#onKeydown);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("keydown", this.#onKeydown);
+  }
+
   static override styles = css`
     :host {
       display: block;
@@ -23,12 +52,12 @@ export class CreatePreview extends LitElement {
 
     .columns {
       column-count: 4;
-      column-gap: var(--space-4, 1rem);
+      column-gap: var(--space-6);
     }
 
     .columns > * {
       break-inside: avoid;
-      margin-bottom: var(--space-4, 1rem);
+      margin-bottom: var(--space-6);
     }
 
     @container (max-width: 1400px) {
@@ -45,6 +74,12 @@ export class CreatePreview extends LitElement {
 
     @container (max-width: 500px) {
       .columns { column-count: 1; }
+    }
+
+    .divider {
+      border: none;
+      border-top: var(--border-width-thin) solid var(--border);
+      margin: var(--space-10) 0;
     }
   `;
 
@@ -63,7 +98,15 @@ export class CreatePreview extends LitElement {
         <block-chat></block-chat>
         <block-user-account></block-user-account>
         <block-members></block-members>
+        <block-token-usage></block-token-usage>
+        <block-3d-scene></block-3d-scene>
       </div>
+
+      <hr class="divider">
+      <block-colors></block-colors>
+
+      <hr class="divider">
+      <block-typography></block-typography>
     `;
   }
 }

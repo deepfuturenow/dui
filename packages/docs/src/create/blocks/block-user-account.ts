@@ -1,17 +1,13 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-user-account")
 export class BlockUserAccount extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
       position: relative;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     .more-btn {
@@ -41,14 +37,21 @@ export class BlockUserAccount extends LitElement {
     }
 
 
-  `;
+  `];
 
   override render() {
     return html`
       <div class="more-btn">
-        <dui-button appearance="ghost" size="icon-sm">
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></dui-icon>
-        </dui-button>
+        <dui-menu>
+          <dui-button slot="trigger" appearance="ghost" size="icon-sm">
+            <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></dui-icon>
+          </dui-button>
+          <dui-menu-item>Edit profile</dui-menu-item>
+          <dui-menu-item>Change avatar</dui-menu-item>
+          <dui-menu-item>Account settings</dui-menu-item>
+          <dui-menu-item>Privacy</dui-menu-item>
+          <dui-menu-item variant="danger">Delete account</dui-menu-item>
+        </dui-menu>
       </div>
 
       <div class="profile">

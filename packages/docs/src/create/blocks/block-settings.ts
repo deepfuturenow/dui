@@ -1,16 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-settings")
 export class BlockSettings extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     .title {
@@ -27,9 +23,8 @@ export class BlockSettings extends LitElement {
 
     .setting {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-4);
+      flex-direction: column;
+      gap: var(--space-1);
       padding: var(--space-3) 0;
       border-bottom: var(--border-width-thin) solid var(--border);
     }
@@ -39,15 +34,14 @@ export class BlockSettings extends LitElement {
       padding-bottom: 0;
     }
 
-    .setting-text {
-      flex: 1;
-      min-width: 0;
+    .setting dui-switch,
+    .setting dui-checkbox {
+      flex-direction: row-reverse;
+      justify-content: space-between;
     }
 
     .setting-label {
-      font-size: var(--font-size-sm);
       font-weight: 500;
-      margin: 0 0 var(--space-1);
     }
 
     .setting-desc {
@@ -55,11 +49,6 @@ export class BlockSettings extends LitElement {
       color: var(--text-2);
       margin: 0;
       line-height: 1.4;
-    }
-
-    .setting-control {
-      flex-shrink: 0;
-      padding-top: var(--space-1);
     }
 
     /* ── Radio group ── */
@@ -78,17 +67,17 @@ export class BlockSettings extends LitElement {
       margin: 0 0 var(--space-1);
     }
 
-    .radio-group-desc {
-      font-size: var(--font-size-xs);
-      color: var(--text-2);
-      margin: 0 0 var(--space-2);
-    }
-
     /* ── Slider row ── */
 
     .slider-row {
       padding: var(--space-3) 0;
       border-bottom: var(--border-width-thin) solid var(--border);
+    }
+
+    .slider-label {
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      margin: 0;
     }
 
     .slider-header {
@@ -116,35 +105,25 @@ export class BlockSettings extends LitElement {
       align-items: center;
       margin-bottom: var(--space-2);
     }
-  `;
+  `];
 
   override render() {
     return html`
       <p class="title">Flight Settings</p>
 
       <div class="setting">
-        <div class="setting-text">
-          <p class="setting-label">Obstacle Avoidance</p>
-          <p class="setting-desc">Use sensors to detect and avoid collisions</p>
-        </div>
-        <div class="setting-control">
-          <dui-switch checked></dui-switch>
-        </div>
+        <dui-switch default-checked><span class="setting-label">Obstacle Avoidance</span></dui-switch>
+        <p class="setting-desc">Use sensors to detect and avoid collisions</p>
       </div>
 
       <div class="setting">
-        <div class="setting-text">
-          <p class="setting-label">GPS Logging</p>
-          <p class="setting-desc">Record flight path coordinates for review</p>
-        </div>
-        <div class="setting-control">
-          <dui-checkbox checked></dui-checkbox>
-        </div>
+        <dui-checkbox default-checked><span class="setting-label">GPS Logging</span></dui-checkbox>
+        <p class="setting-desc checkbox-desc">Record flight path coordinates for review</p>
       </div>
 
       <div class="radio-group">
         <p class="radio-group-label">Flight Mode</p>
-        <dui-radio-group value="standard">
+        <dui-radio-group default-value="standard">
           <dui-radio value="beginner">Beginner — limited speed and altitude</dui-radio>
           <dui-radio value="standard">Standard — balanced controls</dui-radio>
           <dui-radio value="sport">Sport — maximum responsiveness</dui-radio>
@@ -153,7 +132,7 @@ export class BlockSettings extends LitElement {
 
       <div class="slider-row">
         <div class="slider-header">
-          <p class="setting-label" style="margin: 0">Max Altitude</p>
+          <p class="slider-label">Max Altitude</p>
           <span class="slider-value">120 m</span>
         </div>
         <dui-slider value="260" min="30" max="400"></dui-slider>

@@ -1,16 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-faq")
 export class BlockFaq extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     .title {
@@ -30,7 +26,7 @@ export class BlockFaq extends LitElement {
       color: var(--text-2);
       line-height: 1.5;
     }
-  `;
+  `];
 
   override render() {
     return html`

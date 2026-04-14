@@ -1,15 +1,11 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-blog-card")
 export class BlockBlogCard extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface-2);
-      color: var(--text-1);
       overflow: hidden;
     }
 
@@ -42,7 +38,7 @@ export class BlockBlogCard extends LitElement {
       align-items: center;
       gap: var(--space-2);
     }
-  `;
+  `];
 
   override render() {
     return html`

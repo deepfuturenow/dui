@@ -1,19 +1,13 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-payment")
 export class BlockPayment extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface-2);
-      color: var(--text-1);
-    }
+  static override styles = [blockBase, css`
 
     .section {
-      padding: var(--space-4) var(--space-5);
+      padding: var(--space-3) var(--space-5);
     }
 
     .section + .section {
@@ -32,7 +26,8 @@ export class BlockPayment extends LitElement {
       width: 40px;
       height: 40px;
       border-radius: var(--radius-full);
-      background: var(--surface-1);
+      background: var(--accent-subtle);
+      color: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -115,7 +110,16 @@ export class BlockPayment extends LitElement {
       color: var(--text-2);
       margin: var(--space-3) 0 0;
     }
-  `;
+
+    dui-collapsible::part(trigger) {
+      padding-inline: 0;
+    }
+
+    dui-collapsible::part(content) {
+      padding-inline: 0;
+      padding-bottom: 0;
+    }
+  `];
 
   override render() {
     return html`

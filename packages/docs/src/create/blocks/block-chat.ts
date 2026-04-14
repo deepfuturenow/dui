@@ -1,16 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-chat")
 export class BlockChat extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-5);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     /* ── Top bar: dropdowns ── */
@@ -23,6 +19,8 @@ export class BlockChat extends LitElement {
 
     /* ── Input card ── */
     .input-card {
+      transition-property: border-color, box-shadow;
+      transition-duration: var(--duration-fast);
       border: var(--border-width-thin) solid var(--border);
       border-radius: var(--radius-lg);
       background: var(--surface-1);
@@ -36,16 +34,14 @@ export class BlockChat extends LitElement {
     }
 
     .input-card dui-textarea::part(textarea) {
-      border: none;
-      background: transparent;
-      padding: 0;
       resize: none;
     }
 
-    /* Hide the textarea border */
-    .input-card dui-textarea {
-      --border-color: transparent;
-      --ring-color: transparent;
+    /* Draw focus ring on the card instead of the textarea */
+    .input-card:focus-within {
+      box-shadow:
+        0 0 0 var(--focus-ring-offset) var(--background),
+        0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
     }
 
     .toolbar {
@@ -87,7 +83,7 @@ export class BlockChat extends LitElement {
       color: var(--text-3);
       line-height: 1;
     }
-  `;
+  `];
 
   override render() {
     return html`
@@ -109,6 +105,7 @@ export class BlockChat extends LitElement {
 
       <div class="input-card">
         <dui-textarea
+          variant="ghost"
           placeholder="Ask anything. Type @ to mention sources."
           rows="3"
         ></dui-textarea>

@@ -1,17 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-create-project")
 export class BlockCreateProject extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
-      box-shadow: var(--shadow-lg);
     }
 
     .header {
@@ -49,7 +44,7 @@ export class BlockCreateProject extends LitElement {
       justify-content: flex-end;
       gap: var(--space-2);
     }
-  `;
+  `];
 
   override render() {
     return html`

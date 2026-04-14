@@ -1,16 +1,12 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-form-controls")
 export class BlockFormControls extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     .stack {
@@ -42,7 +38,7 @@ export class BlockFormControls extends LitElement {
       color: var(--text-2);
       margin: 0 0 var(--space-3);
     }
-  `;
+  `];
 
   override render() {
     return html`

@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 const TIME_SLOTS = [
@@ -10,14 +11,9 @@ const TIME_SLOTS = [
 
 @customElement("block-calendar")
 export class BlockCalendar extends LitElement {
-  static override styles = css`
+  static override styles = [blockBase, css`
     :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      background: var(--surface-2);
-      color: var(--text-1);
     }
 
     .title {
@@ -62,7 +58,7 @@ export class BlockCalendar extends LitElement {
       display: block;
       --button-width: 100%;
     }
-  `;
+  `];
 
   override render() {
     const today = new Date();

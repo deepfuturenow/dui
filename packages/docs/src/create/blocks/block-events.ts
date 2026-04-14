@@ -1,16 +1,10 @@
 import { LitElement, html, css } from "lit";
+import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-events")
 export class BlockEvents extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface-2);
-      color: var(--text-1);
-    }
+  static override styles = [blockBase, css`
 
     .section {
       padding: var(--space-4) var(--space-6);
@@ -115,7 +109,11 @@ export class BlockEvents extends LitElement {
       flex-wrap: wrap;
       gap: var(--space-1);
     }
-  `;
+
+    dui-toggle-group {
+      margin-bottom: var(--space-4);
+    }
+  `];
 
   override render() {
     return html`
@@ -130,10 +128,10 @@ export class BlockEvents extends LitElement {
 
       <div class="section">
         <dui-toggle-group type="single" .defaultValue=${["today"]}>
-          <dui-toggle value="today">Today</dui-toggle>
-          <dui-toggle value="1d">1d ago</dui-toggle>
-          <dui-toggle value="2d">2d ago</dui-toggle>
-          <dui-toggle value="3d">3d ago</dui-toggle>
+          <dui-toggle size="sm" value="today">Today</dui-toggle>
+          <dui-toggle size="sm" value="1d">1d ago</dui-toggle>
+          <dui-toggle size="sm" value="2d">2d ago</dui-toggle>
+          <dui-toggle size="sm" value="3d">3d ago</dui-toggle>
         </dui-toggle-group>
         <div class="event">
           <div class="event-header">
