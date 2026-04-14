@@ -14,6 +14,7 @@ export class BlockCalendar extends LitElement {
   static override styles = [blockBase, css`
     :host {
       padding: var(--space-6);
+      container-type: inline-size;
     }
 
     .title {
@@ -28,23 +29,21 @@ export class BlockCalendar extends LitElement {
       margin: 0 0 var(--space-4);
     }
 
+    /* Stacked layout (default / narrow) */
     .layout {
       display: flex;
-      gap: var(--space-8);
+      flex-direction: column;
+      gap: var(--space-2);
     }
 
     dui-calendar {
-      flex: 1;
-      min-width: 0;
+      width: 100%;
     }
 
     .slots {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       gap: var(--space-2);
-      min-width: 100px;
-      flex-shrink: 0;
     }
 
     .slots-header {
@@ -53,11 +52,35 @@ export class BlockCalendar extends LitElement {
       color: var(--text-2);
       text-align: center;
       margin: 0 0 var(--space-1);
+      display: none;
     }
 
     .slots dui-button {
       display: block;
       --button-width: 100%;
+    }
+
+    /* Side-by-side layout when container is wide enough */
+    @container (min-width: 420px) {
+      .layout {
+        flex-direction: row;
+        gap: var(--space-6);
+      }
+
+      dui-calendar {
+        flex: 1;
+        width: auto;
+      }
+
+      .slots {
+        justify-content: center;
+        flex: 0 0 auto;
+        min-width: 100px;
+      }
+
+      .slots-header {
+        display: block;
+      }
     }
   `];
 
