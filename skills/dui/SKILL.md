@@ -22,7 +22,7 @@ Before writing any DUI code, check the project's DUI status:
 2. **Inspect before styling or debugging.** Before overriding any DUI token or adding custom CSS to a DUI component, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. Do the same when debugging unexpected behavior (events not firing, props not updating, context not propagating). The inspector is the ground truth — it's faster and more reliable than guessing token names or reading `node_modules` source.
 3. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
 4. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
-5. **Use semantic design tokens.** Use `--color-fg`, `--color-bg`, `--color-primary` — never hardcoded colors like `#3b82f6`.
+5. **Use semantic design tokens.** Try tokens (e.g. `--foreground`, `--background`, `--accent`) before hardcoded colors like `#3b82f6`.
 6. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
 
 ## Critical rules
@@ -32,8 +32,8 @@ Before writing any DUI code, check the project's DUI status:
 - **CSS custom properties are the styling API.** Override `--button-bg`, `--button-radius`, etc. — not internal shadow DOM elements.
 - **`::part(root)` for everything else.** Filters, transforms, backdrop-filter, box-shadow — anything not covered by a token.
 - **No `!important`.** If you need `!important`, you're fighting the system — use the right token or part instead.
-- **Semantic tokens for colors.** `--color-fg`, `--color-bg`, `--color-primary`, `--color-surface` — never raw color values.
-- **Dark mode via `class="dark"` on a parent.** The theme handles the rest via custom property overrides. Never add manual dark-mode color logic.
+- **Semantic tokens for colors.** `--foreground`, `--background`, `--accent`, `--surface-1`/`--surface-2` — never raw color values, unless absolutely necessary.
+- **Dark mode via `data-theme="dark"` on `<html>`.** The theme handles the rest via custom property overrides. Never add manual dark-mode color logic.
 
 ### Composition
 
@@ -67,12 +67,12 @@ Read `references/components.md` for the full catalog. Quick lookup:
 
 DUI's color system is built on 4 primitives with compositional operations via `oklch(from ...)`:
 
-- `--color-bg` — page/app background
-- `--color-fg` — primary text/foreground
-- `--color-primary` — accent/brand color
-- `--color-surface` — elevated surfaces (cards, dialogs)
+- `--background` — page/app background
+- `--foreground` — primary text/foreground
+- `--accent` — accent/brand color
+- `--destructive` — danger/error color
 
-Everything else is derived: hover states, muted text, borders, focus rings. The theme owns all visual decisions.
+Everything else is derived: `--surface-1`/`2`/`3` (elevated surfaces), `--text-1`/`2`/`3` (text tiers), `--border`/`--border-strong`, `--accent-subtle`, `--destructive-subtle`. The theme owns all visual decisions.
 
 Themes are composed via `applyTheme()` which layers styles in order:
 1. **Base reset** — structural resets from `@dui/core`
@@ -83,12 +83,12 @@ Themes are composed via `applyTheme()` which layers styles in order:
 ### Dark mode
 
 ```html
-<body class="dark">
+<html data-theme="dark">
   <!-- All DUI components render in dark mode -->
-</body>
+</html>
 ```
 
-Toggle by adding/removing the `dark` class. The theme's custom properties handle the color swap.
+Toggle by setting/removing `data-theme="dark"` on `<html>`. The theme's custom properties handle the color swap.
 
 ## Inspector workflow
 

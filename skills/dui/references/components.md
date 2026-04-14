@@ -329,23 +329,26 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 
 These are set on `:root` by the theme and affect all components:
 
-**Colors:**
-`--color-bg`, `--color-fg`, `--color-primary`, `--color-surface`, `--color-border`, `--color-muted-fg`, `--color-danger`, `--color-success`, `--color-warning`
+**Color primitives:**
+`--background`, `--foreground`, `--accent`, `--destructive`
 
-**Spacing:**
-`--space-xs`, `--space-sm`, `--space-md`, `--space-lg`, `--space-xl`
+**Derived colors:**
+`--sunken`, `--surface-1`, `--surface-2`, `--surface-3`, `--text-1`, `--text-2`, `--text-3`, `--border`, `--border-strong`, `--accent-subtle`, `--accent-text`, `--destructive-subtle`, `--destructive-text`, `--scrim`
+
+**Spacing (Tailwind base-4):**
+`--space-0` through `--space-96` (e.g. `--space-1` = 0.25rem, `--space-2` = 0.5rem, `--space-4` = 1rem, `--space-6` = 1.5rem, `--space-8` = 2rem)
 
 **Radii:**
-`--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-full`
+`--radius-none`, `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`, `--radius-2xl`, `--radius-full`
 
 **Typography:**
-`--font-sans`, `--font-mono`, `--text-base`, `--text-sm`, `--text-lg`, `--text-xl`, `--font-weight-normal`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--leading-normal`, `--leading-tight`
+`--font-sans`, `--font-serif`, `--font-mono`, `--font-size-xs` through `--font-size-7xl`, `--font-weight-regular`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--line-height-none`, `--line-height-tight`, `--line-height-snug`, `--line-height-normal`, `--line-height-relaxed`
 
 **Shadows:**
-`--shadow-sm`, `--shadow-md`, `--shadow-lg`
+`--shadow-xs`, `--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-xl`, `--shadow-2xl`, `--shadow-none`
 
 **Focus:**
 `--focus-ring-color`, `--focus-ring-width`, `--focus-ring-offset`
 
-**Transitions:**
-`--transition-fast`, `--transition-normal`, `--transition-slow`
+**Motion:**
+`--duration-instant`, `--duration-fastest`, `--duration-faster`, `--duration-fast`, `--duration-normal`, `--duration-slow`, `--duration-slower`
