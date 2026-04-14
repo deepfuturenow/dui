@@ -44,6 +44,7 @@ const styles = css`
 
   [part="panel"] {
     overflow: hidden;
+    contain: content;
     transition-property: height;
   }
 `;
