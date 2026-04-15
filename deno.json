@@ -26,6 +26,6 @@
     "version": "deno run --allow-all scripts/version.ts",
     "publish": "deno run --allow-all scripts/publish.ts",
     "publish:live": "deno run --allow-all scripts/publish.ts --publish",
-    "generate": "deno run --allow-all scripts/generate-skill-components.ts"
+    "generate": "deno run --allow-all scripts/generate-skill-components.ts && deno run --allow-all scripts/generate-skill-inspector.ts"
   }
 }

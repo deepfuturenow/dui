@@ -70,8 +70,8 @@ The docs dev server (`packages/docs`) is a multi-page site with sidebar navigati
 
 The DUI agent skill lives at `skills/dui/`. When changing component APIs or the inspector:
 
-- **Component changes** (properties, slots, parts, events, tokens): run `deno task generate` to regenerate `skills/dui/references/components.md` from `component-registry.ts`. Include the regenerated file in the same commit.
-- **Inspector API changes** (new globals, changed signatures, new return fields): update both `docs/inspector.md` and `skills/dui/references/inspector.md` in the same commit.
+- **Component changes** (properties, slots, parts, events, tokens): run `deno task generate` to regenerate skill references. Include the regenerated files in the same commit.
+- **Inspector API changes** (new globals, changed signatures, new return fields): edit `docs/inspector.md` (the single source of truth), then run `deno task generate` to regenerate `skills/dui/references/inspector.md`. Include the regenerated file in the same commit.
 - **New components**: add to `component-registry.ts` first, then `deno task generate` picks it up automatically. Also update the category mapping in `scripts/generate-skill-components.ts` if the component doesn't fit an existing category.
 
 ## Detailed conventions
