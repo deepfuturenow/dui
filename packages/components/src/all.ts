@@ -165,6 +165,10 @@ export type { MenubarContext } from "./menubar/index.ts";
 import { DuiNumberField } from "./number-field/index.ts";
 export { DuiNumberField };
 
+// --- Stepper ---
+import { DuiStepper } from "./stepper/index.ts";
+export { DuiStepper };
+
 
 
 // --- Popover ---
@@ -357,6 +361,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiMenuItem,
   DuiMenubar,
   DuiNumberField,
+  DuiStepper,
 
   DuiPopover,
   DuiPopoverTrigger,

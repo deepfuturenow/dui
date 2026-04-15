@@ -74,6 +74,7 @@ import { progressStyles } from "./components/progress.ts";
 import { toggleStyles } from "./components/toggle.ts";
 import { toggleGroupStyles } from "./components/toggle-group.ts";
 import { numberFieldStyles } from "./components/number-field.ts";
+import { stepperStyles } from "./components/stepper.ts";
 import { menubarStyles } from "./components/menubar.ts";
 import { calendarStyles } from "./components/calendar.ts";
 import { proseSheet } from "./prose.ts";
@@ -158,6 +159,7 @@ export const defaultTheme: DuiTheme = {
     ["dui-toggle", toggleStyles],
     ["dui-toggle-group", toggleGroupStyles],
     ["dui-number-field", numberFieldStyles],
+    ["dui-stepper", stepperStyles],
     ["dui-menubar", menubarStyles],
     ["dui-calendar", calendarStyles],
   ]),
@@ -238,6 +240,7 @@ export { progressStyles } from "./components/progress.ts";
 export { toggleStyles } from "./components/toggle.ts";
 export { toggleGroupStyles } from "./components/toggle-group.ts";
 export { numberFieldStyles } from "./components/number-field.ts";
+export { stepperStyles } from "./components/stepper.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
 
