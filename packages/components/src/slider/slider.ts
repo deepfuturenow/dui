@@ -23,7 +23,7 @@ const styles = css`
   [part="root"] {
     position: relative;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
     touch-action: none;
     user-select: none;
@@ -31,6 +31,19 @@ const styles = css`
 
   [part="root"][data-disabled] {
     pointer-events: none;
+  }
+
+  [part="label"] {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .slider-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
   }
 
   [part="track"] {
@@ -45,6 +58,28 @@ const styles = css`
     left: 0;
     height: 100%;
     width: var(--slider-progress, 0%);
+  }
+
+  [part="readout"] {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    color: inherit;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  [part="unit"] {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
   }
 
   [part="thumb"] {
@@ -77,7 +112,8 @@ const styles = css`
  * A slider for selecting numeric values within a range.
  *
  * Supports pointer drag, keyboard navigation (arrows, Page Up/Down, Home/End),
- * and a hidden native range input for accessibility.
+ * a hidden native range input for accessibility, and an optional click-to-type
+ * value readout (enabled via the `field` variant).
  */
 export class DuiSlider extends LitElement {
   static tagName = "dui-slider" as const;
@@ -107,6 +143,18 @@ export class DuiSlider extends LitElement {
   @property()
   accessor name = "";
 
+  /** Label text displayed by the slider. */
+  @property({ reflect: true })
+  accessor label = "";
+
+  /** Unit suffix on the value readout (e.g. `m`, `°`, `%`). */
+  @property({ reflect: true })
+  accessor unit = "";
+
+  /** Decimal places for value readout. Auto-inferred from `step` if not set. */
+  @property({ type: Number })
+  accessor precision: number | undefined = undefined;
+
   @state()
   accessor #dragging = false;
 
@@ -114,6 +162,18 @@ export class DuiSlider extends LitElement {
     const range = this.max - this.min;
     if (range === 0) return 0;
     return ((this.value - this.min) / range) * 100;
+  }
+
+  get #inferredPrecision(): number {
+    const stepStr = String(this.step);
+    const dotIndex = stepStr.indexOf(".");
+    if (dotIndex === -1) return 0;
+    return stepStr.length - dotIndex - 1;
+  }
+
+  get #displayValue(): string {
+    const p = this.precision ?? this.#inferredPrecision;
+    return this.value.toFixed(p);
   }
 
   #clampValue(value: number): number {
@@ -240,14 +300,21 @@ export class DuiSlider extends LitElement {
         style="--slider-progress: ${this.#progress}%"
         @pointerdown=${this.#onPointerDown}
       >
-        <div part="track">
-          <div part="indicator"></div>
+        <span part="label">${this.label}</span>
+
+        <div class="slider-row">
+          <div part="track">
+            <div part="indicator"></div>
+            <span part="readout">${this.#displayValue}</span>
+            <span part="unit">${this.unit}</span>
+          </div>
+          <div
+            part="thumb"
+            tabindex=${this.disabled ? -1 : 0}
+            @keydown=${this.#onKeyDown}
+          ></div>
         </div>
-        <div
-          part="thumb"
-          tabindex=${this.disabled ? -1 : 0}
-          @keydown=${this.#onKeyDown}
-        ></div>
+
         <input
           class="native-input"
           type="range"
@@ -260,6 +327,7 @@ export class DuiSlider extends LitElement {
           aria-valuenow=${this.value}
           aria-valuemin=${this.min}
           aria-valuemax=${this.max}
+          aria-label=${this.label || "Slider"}
           @input=${this.#onNativeInput}
           @change=${this.#onNativeChange}
         />
