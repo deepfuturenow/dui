@@ -71,6 +71,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./progress": "./src/progress/index.ts",
       "./toggle": "./src/toggle/index.ts",
       "./number-field": "./src/number-field/index.ts",
+      "./stepper": "./src/stepper/index.ts",
       "./menubar": "./src/menubar/index.ts",
       "./calendar": "./src/calendar/index.ts",
       "./split-button": "./src/split-button/index.ts",

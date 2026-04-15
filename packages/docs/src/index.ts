@@ -41,6 +41,7 @@ import "./pages/docs-page-progress.ts";
 import "./pages/docs-page-toggle.ts";
 import "./pages/docs-page-toggle-group.ts";
 import "./pages/docs-page-number-field.ts";
+import "./pages/docs-page-stepper.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-styling.ts";
@@ -88,6 +89,7 @@ import { DuiSplitButton } from "@dui/components/split-button";
 import { DuiProgress } from "@dui/components/progress";
 import { DuiToggle, DuiToggleGroup } from "@dui/components/toggle";
 import { DuiNumberField } from "@dui/components/number-field";
+import { DuiStepper } from "@dui/components/stepper";
 import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
 
@@ -177,6 +179,7 @@ applyTheme({
     DuiToggle,
     DuiToggleGroup,
     DuiNumberField,
+    DuiStepper,
     DuiMenubar,
     DuiCalendar,
   ],

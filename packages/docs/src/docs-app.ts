@@ -18,7 +18,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
       "link", "menu", "menubar", "number-field", "popover",
       "preview-card", "progress", "radio-group", "scroll-area",
       "select", "separator", "sidebar-provider", "slider", "spinner",
-      "split-button",
+      "split-button", "stepper",
       "switch", "tabs", "textarea", "toggle", "toggle-group", "toolbar",
       "tooltip",
     ],
@@ -873,6 +873,7 @@ export class DocsApp extends LitElement {
         case "toggle": return html`<docs-page-toggle></docs-page-toggle>`;
         case "toggle-group": return html`<docs-page-toggle-group></docs-page-toggle-group>`;
         case "number-field": return html`<docs-page-number-field></docs-page-number-field>`;
+        case "stepper": return html`<docs-page-stepper></docs-page-stepper>`;
         case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
         case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
       }
