@@ -165,6 +165,10 @@ export type { MenubarContext } from "./menubar/index.ts";
 import { DuiNumberField } from "./number-field/index.ts";
 export { DuiNumberField };
 
+// --- Stepper ---
+import { DuiStepper } from "./stepper/index.ts";
+export { DuiStepper };
+
 
 
 // --- Popover ---
@@ -221,6 +225,10 @@ export type { SelectOption } from "./select/index.ts";
 // --- Separator ---
 import { DuiSeparator } from "./separator/index.ts";
 export { DuiSeparator };
+
+// --- Split Button ---
+import { DuiSplitButton } from "./split-button/index.ts";
+export { DuiSplitButton };
 
 // --- Sidebar ---
 import { DuiSidebarProvider,
@@ -353,6 +361,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiMenuItem,
   DuiMenubar,
   DuiNumberField,
+  DuiStepper,
 
   DuiPopover,
   DuiPopoverTrigger,
@@ -368,6 +377,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiScrollArea,
   DuiSelect,
   DuiSeparator,
+  DuiSplitButton,
   DuiSidebarProvider,
   DuiSidebar,
   DuiSidebarTrigger,

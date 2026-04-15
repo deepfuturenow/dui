@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 39 component families, 84+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 41 component families, 86+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -17,6 +17,13 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (Button label content)
 **Parts:** `root`
 **Tokens:** `--button-bg`, `--button-fg`, `--button-border`, `--button-height`, `--button-width`, `--button-padding-y`, `--button-padding-x`, `--button-gap`, `--button-radius`, `--button-font-size`, `--button-icon-size`
+
+### dui-split-button
+**Properties:** `disabled` (boolean), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost"), `size` ("xs" | "sm" | "md" | "lg")
+**Events:** `dui-action` ({})
+**Slots:** default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
+**Parts:** `root`, `action`, `divider`, `trigger`
+**Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`
 
 ### dui-link
 **Properties:** `href` (string)
@@ -98,15 +105,22 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Tokens:** `--switch-thumb-offset`, `--switch-checked-offset`
 
 ### dui-slider
-**Properties:** `value` (number), `min` (number), `max` (number), `step` (number), `disabled` (boolean), `name` (string)
+**Properties:** `value` (number), `min` (number), `max` (number), `step` (number), `disabled` (boolean), `name` (string), `label` (string), `unit` (string), `precision` (number | undefined), `variant` ("field")
 **Events:** `value-change` ({ value: number }), `value-committed` ({ value: number })
 **Slots:** —
-**Parts:** `root`, `track`, `indicator`, `thumb`
-**Tokens:** `--slider-track-height`, `--slider-thumb-size`
+**Parts:** `root`, `track`, `indicator`, `thumb`, `label`, `readout`, `unit`
+**Tokens:** `--slider-track-height`, `--slider-thumb-size`, `--slider-track-bg`, `--slider-indicator-color`, `--slider-indicator-opacity`
 
 ### dui-number-field
+**Properties:** `value` (number | undefined), `defaultValue` (number | undefined), `min` (number | undefined), `max` (number | undefined), `step` (number), `largeStep` (number), `disabled` (boolean), `readOnly` (boolean), `required` (boolean), `name` (string | undefined), `label` (string), `labelPosition` (string), `iconPosition` (string), `unit` (string), `precision` (number | undefined), `scrubLabel` (boolean), `scrubValue` (boolean), `scrubField` (boolean), `clickLabel` (boolean), `clickValue` (boolean), `clickField` (boolean), `label-position` ("inside-left" | "above" | "below" | "outside-left"), `icon-position` ("inside-left" | "inside-right" | "outside-left")
+**Events:** `value-change` ({ value: number }), `value-committed` ({ value: number })
+**Slots:** icon (Icon content (SVG, dui-icon, etc.), positioned by icon-position)
+**Parts:** `root`, `label`, `icon`, `input`, `unit`
+**Tokens:** `--number-field-bg`, `--number-field-fg`, `--number-field-border`, `--number-field-height`, `--number-field-radius`, `--number-field-font-size`, `--number-field-value-align`, `--number-field-label-bg`, `--number-field-label-fg`, `--number-field-label-width`
+
+### dui-stepper
 **Properties:** `value` (number | undefined), `defaultValue` (number | undefined), `min` (number | undefined), `max` (number | undefined), `step` (number), `largeStep` (number), `disabled` (boolean), `readOnly` (boolean), `required` (boolean), `name` (string | undefined)
-**Events:** `value-change` ({ value: number })
+**Events:** `value-change` ({ value: number }), `value-committed` ({ value: number })
 **Slots:** decrement (Custom decrement button content), increment (Custom increment button content)
 **Parts:** `root`, `input`, `decrement`, `increment`
 

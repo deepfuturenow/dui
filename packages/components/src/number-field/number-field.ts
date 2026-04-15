@@ -11,6 +11,11 @@ export const valueChangeEvent = customEvent<{ value: number }>(
   { bubbles: true, composed: true },
 );
 
+export const valueCommittedEvent = customEvent<{ value: number }>(
+  "value-committed",
+  { bubbles: true, composed: true },
+);
+
 /** Structural styles only — layout CSS. */
 const styles = css`
   :host {
@@ -18,8 +23,40 @@ const styles = css`
   }
 
   [part="root"] {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition-property: background, box-shadow, border-color, color, opacity;
+  }
+
+  [part="root"][data-scrub] {
+    cursor: ew-resize;
+  }
+
+  [part="root"][data-disabled] {
+    pointer-events: none;
+  }
+
+  [part="label"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  [part="label"][data-scrub] {
+    cursor: ew-resize;
+  }
+
+  [part="icon"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   [part="input"] {
@@ -29,32 +66,21 @@ const styles = css`
     background: none;
     font: inherit;
     color: inherit;
-    text-align: center;
     min-width: 0;
+    flex: 1;
+  }
+
+  [part="input"][data-scrub] {
+    cursor: ew-resize;
   }
 
   [part="input"]:disabled {
     cursor: not-allowed;
   }
 
-  [part="decrement"],
-  [part="increment"] {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    background: none;
-    padding: 0;
-    margin: 0;
-    font: inherit;
-    color: inherit;
+  [part="unit"] {
     flex-shrink: 0;
-  }
-
-  [part="decrement"]:disabled,
-  [part="increment"]:disabled {
-    cursor: not-allowed;
+    pointer-events: none;
   }
 
   .HiddenInput {
@@ -67,14 +93,22 @@ const styles = css`
   }
 `;
 
+/** Drag threshold in px before scrub starts. */
+const DRAG_THRESHOLD = 3;
+
 /**
- * `<dui-number-field>` — A numeric input with increment/decrement buttons.
+ * `<dui-number-field>` — A numeric input with optional label, icon,
+ * unit suffix, drag-to-scrub behavior, and precision formatting.
+ *
+ * For simple step-up/step-down with buttons, use `<dui-stepper>` instead.
  *
  * @csspart root - The outer container.
+ * @csspart label - Label text element.
+ * @csspart icon - Icon slot wrapper.
  * @csspart input - The text input element.
- * @csspart decrement - The decrement button.
- * @csspart increment - The increment button.
+ * @csspart unit - Unit suffix element.
  * @fires value-change - Fired when value changes. Detail: { value: number }
+ * @fires value-committed - Fired on pointerup (end of drag), blur, or Enter. Detail: { value: number }
  */
 export class DuiNumberField extends LitElement {
   static tagName = "dui-number-field" as const;
@@ -85,6 +119,8 @@ export class DuiNumberField extends LitElement {
   };
 
   static override styles = [base, styles];
+
+  // ── Core properties ────────────────────────────────────────────────
 
   @property({ type: Number })
   accessor value: number | undefined = undefined;
@@ -116,15 +152,70 @@ export class DuiNumberField extends LitElement {
   @property()
   accessor name: string | undefined = undefined;
 
+  // ── Display properties ─────────────────────────────────────────────
+
+  @property({ reflect: true })
+  accessor label = "";
+
+  @property({ reflect: true, attribute: "label-position" })
+  accessor labelPosition = "";
+
+  @property({ reflect: true, attribute: "icon-position" })
+  accessor iconPosition = "";
+
+  @property({ reflect: true })
+  accessor unit = "";
+
+  @property({ type: Number })
+  accessor precision: number | undefined = undefined;
+
+  // ── Interaction zone booleans ──────────────────────────────────────
+
+  @property({ type: Boolean, reflect: true, attribute: "scrub-label" })
+  accessor scrubLabel = false;
+
+  @property({ type: Boolean, reflect: true, attribute: "scrub-value" })
+  accessor scrubValue = false;
+
+  @property({ type: Boolean, reflect: true, attribute: "scrub-field" })
+  accessor scrubField = false;
+
+  @property({ type: Boolean, reflect: true, attribute: "click-label" })
+  accessor clickLabel = false;
+
+  @property({ type: Boolean, reflect: true, attribute: "click-value" })
+  accessor clickValue = false;
+
+  @property({ type: Boolean, reflect: true, attribute: "click-field" })
+  accessor clickField = false;
+
+  // ── Internal state ─────────────────────────────────────────────────
+
   @state()
   accessor #internalValue: number | undefined = undefined;
 
   @state()
   accessor #inputText = "";
 
+  @state()
+  accessor #dragging = false;
+
+  @state()
+  accessor #editing = false;
+
   @consume({ context: fieldContext, subscribe: true })
   @state()
   accessor _fieldCtx!: FieldContext;
+
+  // ── Drag state (not reactive) ──────────────────────────────────────
+
+  #dragStartX = 0;
+  #dragStartValue = 0;
+  #dragStarted = false;
+  #dragPointerId: number | null = null;
+  #dragZoneAllowsClick = false;
+
+  // ── Computed getters ───────────────────────────────────────────────
 
   get #currentValue(): number | undefined {
     return this.value ?? this.#internalValue;
@@ -138,17 +229,71 @@ export class DuiNumberField extends LitElement {
     return this._fieldCtx?.invalid ?? false;
   }
 
-  get #canDecrement(): boolean {
-    const v = this.#currentValue;
-    if (v === undefined) return true;
-    return this.min === undefined || v > this.min;
+  get #inferredPrecision(): number {
+    const stepStr = String(this.step);
+    const dotIndex = stepStr.indexOf(".");
+    if (dotIndex === -1) return 0;
+    return stepStr.length - dotIndex - 1;
   }
 
-  get #canIncrement(): boolean {
+  get #displayValue(): string {
     const v = this.#currentValue;
-    if (v === undefined) return true;
-    return this.max === undefined || v < this.max;
+    if (v === undefined) return "";
+    const p = this.precision ?? this.#inferredPrecision;
+    return v.toFixed(p);
   }
+
+  /** Whether any interaction boolean is explicitly set by the consumer. */
+  get #hasExplicitInteraction(): boolean {
+    return (
+      this.scrubLabel ||
+      this.scrubValue ||
+      this.scrubField ||
+      this.clickLabel ||
+      this.clickValue ||
+      this.clickField
+    );
+  }
+
+  /** Effective scrub-label: explicit or default. */
+  get #effectiveScrubLabel(): boolean {
+    if (this.#hasExplicitInteraction) return this.scrubLabel;
+    // Default: scrub on label when a label is present
+    return this.label !== "";
+  }
+
+  /** Effective scrub-value: explicit or default. */
+  get #effectiveScrubValue(): boolean {
+    if (this.#hasExplicitInteraction) return this.scrubValue;
+    return false;
+  }
+
+  /** Effective scrub-field: explicit or default. */
+  get #effectiveScrubField(): boolean {
+    if (this.#hasExplicitInteraction) return this.scrubField;
+    // Default: scrub on field when no label
+    return this.label === "";
+  }
+
+  /** Effective click-label: explicit or default. */
+  get #effectiveClickLabel(): boolean {
+    if (this.#hasExplicitInteraction) return this.clickLabel;
+    return false;
+  }
+
+  /** Effective click-value: explicit or default. */
+  get #effectiveClickValue(): boolean {
+    if (this.#hasExplicitInteraction) return this.clickValue;
+    return true;
+  }
+
+  /** Effective click-field: explicit or default. */
+  get #effectiveClickField(): boolean {
+    if (this.#hasExplicitInteraction) return this.clickField;
+    return false;
+  }
+
+  // ── Lifecycle ──────────────────────────────────────────────────────
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -159,12 +304,15 @@ export class DuiNumberField extends LitElement {
   }
 
   override willUpdate(): void {
-    this.#syncInputText();
+    if (!this.#editing) {
+      this.#syncInputText();
+    }
   }
 
+  // ── Value helpers ──────────────────────────────────────────────────
+
   #syncInputText(): void {
-    const v = this.#currentValue;
-    this.#inputText = v !== undefined ? String(v) : "";
+    this.#inputText = this.#displayValue;
   }
 
   #clamp(val: number): number {
@@ -205,31 +353,190 @@ export class DuiNumberField extends LitElement {
     } else {
       this.#setValue(parsed);
     }
+    this.#editing = false;
+    const v = this.#currentValue;
+    if (v !== undefined) {
+      this.dispatchEvent(valueCommittedEvent({ value: v }));
+    }
   }
+
+  #focusInputAndSelectAll(): void {
+    const input = this.shadowRoot?.querySelector<HTMLInputElement>(
+      '[part="input"]',
+    );
+    if (input) {
+      this.#editing = true;
+      input.focus();
+      input.select();
+    }
+  }
+
+  // ── Drag-to-scrub ─────────────────────────────────────────────────
+
+  #startDrag(e: PointerEvent, allowsClick: boolean): void {
+    if (this.#isDisabled || this.readOnly) return;
+
+    this.#dragPointerId = e.pointerId;
+    this.#dragStartX = e.clientX;
+    this.#dragStartValue = this.#currentValue ?? 0;
+    this.#dragStarted = false;
+    this.#dragZoneAllowsClick = allowsClick;
+
+    this.setPointerCapture(e.pointerId);
+    this.addEventListener("pointermove", this.#onPointerMove);
+    this.addEventListener("pointerup", this.#onPointerUp);
+    this.addEventListener("pointercancel", this.#onPointerUp);
+  }
+
+  #onPointerMove = (e: PointerEvent): void => {
+    if (e.pointerId !== this.#dragPointerId) return;
+
+    const deltaX = e.clientX - this.#dragStartX;
+
+    if (!this.#dragStarted) {
+      if (Math.abs(deltaX) < DRAG_THRESHOLD) return;
+      this.#dragStarted = true;
+      this.#dragging = true;
+    }
+
+    let sensitivity = this.step;
+    if (e.shiftKey) {
+      sensitivity = this.step * 0.1;
+    } else if (e.ctrlKey || e.metaKey) {
+      sensitivity = this.largeStep;
+    }
+
+    const newValue = this.#dragStartValue + deltaX * sensitivity;
+    this.#setValue(newValue);
+  };
+
+  #onPointerUp = (e: PointerEvent): void => {
+    if (e.pointerId !== this.#dragPointerId) return;
+
+    this.releasePointerCapture(e.pointerId);
+    this.removeEventListener("pointermove", this.#onPointerMove);
+    this.removeEventListener("pointerup", this.#onPointerUp);
+    this.removeEventListener("pointercancel", this.#onPointerUp);
+
+    if (this.#dragStarted) {
+      this.#dragging = false;
+      const v = this.#currentValue;
+      if (v !== undefined) {
+        this.dispatchEvent(valueCommittedEvent({ value: v }));
+      }
+    } else if (this.#dragZoneAllowsClick) {
+      this.#focusInputAndSelectAll();
+    }
+
+    this.#dragPointerId = null;
+  };
+
+  // ── Zone pointer handlers ──────────────────────────────────────────
+
+  #onLabelPointerDown = (e: PointerEvent): void => {
+    if (e.button !== 0) return;
+    // Field-wide flags apply to all zones
+    const allowsScrub = this.#effectiveScrubLabel || this.#effectiveScrubField;
+    const allowsClick = this.#effectiveClickLabel || this.#effectiveClickField;
+
+    if (allowsScrub && allowsClick) {
+      e.preventDefault();
+      this.#startDrag(e, true);
+    } else if (allowsScrub) {
+      e.preventDefault();
+      this.#startDrag(e, false);
+    } else if (allowsClick) {
+      e.preventDefault();
+      this.#focusInputAndSelectAll();
+    }
+  };
+
+  #onInputPointerDown = (e: PointerEvent): void => {
+    if (e.button !== 0) return;
+    // Field-wide flags apply to all zones
+    const allowsScrub = this.#effectiveScrubValue || this.#effectiveScrubField;
+    const allowsClick = this.#effectiveClickValue || this.#effectiveClickField;
+
+    if (allowsScrub && allowsClick) {
+      e.preventDefault();
+      this.#startDrag(e, true);
+    } else if (allowsScrub) {
+      e.preventDefault();
+      this.#startDrag(e, false);
+    } else if (allowsClick) {
+      this.#editing = true;
+    }
+  };
+
+  #onRootPointerDown = (e: PointerEvent): void => {
+    if (e.button !== 0) return;
+    // Root handler only fires for clicks on the root background itself
+    const rootEl = this.shadowRoot?.querySelector('[part="root"]');
+    if (e.target !== rootEl) return;
+
+    const allowsScrub = this.#effectiveScrubField;
+    const allowsClick = this.#effectiveClickField;
+
+    if (allowsScrub && allowsClick) {
+      e.preventDefault();
+      this.#startDrag(e, true);
+    } else if (allowsScrub) {
+      e.preventDefault();
+      this.#startDrag(e, false);
+    } else if (allowsClick) {
+      e.preventDefault();
+      this.#focusInputAndSelectAll();
+    }
+  };
+
+  // ── Input event handlers ───────────────────────────────────────────
 
   #onInput = (e: InputEvent): void => {
     this.#inputText = (e.target as HTMLInputElement).value;
   };
 
   #onBlur = (): void => {
-    this.#commitInput();
+    if (this.#editing) {
+      this.#commitInput();
+    }
     this._fieldCtx?.setFocused(false);
     this._fieldCtx?.markTouched();
   };
 
   #onFocus = (): void => {
+    this.#editing = true;
     this._fieldCtx?.setFocused(true);
+    const input = this.shadowRoot?.querySelector<HTMLInputElement>(
+      '[part="input"]',
+    );
+    if (input) {
+      requestAnimationFrame(() => input.select());
+    }
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
     switch (e.key) {
       case "ArrowUp":
         e.preventDefault();
-        this.#increment(e.shiftKey ? this.largeStep : this.step);
+        if (e.shiftKey) {
+          this.#increment(this.step * 0.1);
+        } else if (e.ctrlKey || e.metaKey) {
+          this.#increment(this.largeStep);
+        } else {
+          this.#increment(this.step);
+        }
+        this.#syncInputText();
         break;
       case "ArrowDown":
         e.preventDefault();
-        this.#decrement(e.shiftKey ? this.largeStep : this.step);
+        if (e.shiftKey) {
+          this.#decrement(this.step * 0.1);
+        } else if (e.ctrlKey || e.metaKey) {
+          this.#decrement(this.largeStep);
+        } else {
+          this.#decrement(this.step);
+        }
+        this.#syncInputText();
         break;
       case "Home":
         if (this.min !== undefined) {
@@ -246,16 +553,19 @@ export class DuiNumberField extends LitElement {
       case "Enter":
         this.#commitInput();
         break;
+      case "Escape": {
+        this.#editing = false;
+        this.#syncInputText();
+        const input = this.shadowRoot?.querySelector<HTMLInputElement>(
+          '[part="input"]',
+        );
+        if (input) input.blur();
+        break;
+      }
     }
   };
 
-  #onDecrementClick = (): void => {
-    this.#decrement(this.step);
-  };
-
-  #onIncrementClick = (): void => {
-    this.#increment(this.step);
-  };
+  // ── Render ─────────────────────────────────────────────────────────
 
   override render(): TemplateResult {
     const isDisabled = this.#isDisabled;
@@ -263,48 +573,56 @@ export class DuiNumberField extends LitElement {
     const controlId = this._fieldCtx?.controlId ?? "";
     const currentValue = this.#currentValue;
 
+    // Compute which zones are scrubbable for cursor styling
+    const labelScrub = this.#effectiveScrubLabel || this.#effectiveScrubField;
+    const inputScrub = this.#effectiveScrubValue || this.#effectiveScrubField;
+    const rootScrub = this.#effectiveScrubField;
+
     return html`
+      <span
+        part="label"
+        ?data-scrub="${labelScrub}"
+        @pointerdown="${this.#onLabelPointerDown}"
+      >${this.label}</span>
+
       <div
         part="root"
+        ?data-scrub="${rootScrub}"
+        ?data-dragging="${this.#dragging}"
         ?data-disabled="${isDisabled}"
+        ?data-readonly="${this.readOnly}"
         ?data-invalid="${isInvalid}"
+        @pointerdown="${this.#onRootPointerDown}"
       >
-        <button
-          part="decrement"
-          type="button"
-          tabindex="-1"
-          aria-label="Decrease"
-          ?disabled="${isDisabled || this.readOnly || !this.#canDecrement}"
-          @click="${this.#onDecrementClick}"
-        >
-          <slot name="decrement">&minus;</slot>
-        </button>
+        <span part="icon">
+          <slot name="icon"></slot>
+        </span>
+
         <input
           part="input"
           id="${controlId || nothing}"
           type="text"
           inputmode="decimal"
+          ?data-scrub="${inputScrub}"
           .value="${live(this.#inputText)}"
           ?disabled="${isDisabled}"
           ?readonly="${this.readOnly}"
           ?required="${this.required}"
+          aria-label="${this.label || nothing}"
+          aria-valuenow="${currentValue ?? nothing}"
+          aria-valuemin="${this.min ?? nothing}"
+          aria-valuemax="${this.max ?? nothing}"
           aria-invalid="${isInvalid ? "true" : nothing}"
           ?data-disabled="${isDisabled}"
+          @pointerdown="${this.#onInputPointerDown}"
           @input="${this.#onInput}"
           @keydown="${this.#onKeyDown}"
           @focus="${this.#onFocus}"
           @blur="${this.#onBlur}"
         />
-        <button
-          part="increment"
-          type="button"
-          tabindex="-1"
-          aria-label="Increase"
-          ?disabled="${isDisabled || this.readOnly || !this.#canIncrement}"
-          @click="${this.#onIncrementClick}"
-        >
-          <slot name="increment">+</slot>
-        </button>
+
+        <span part="unit">${this.unit}</span>
+
         ${this.name
           ? html`<input
               type="hidden"

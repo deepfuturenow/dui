@@ -36,10 +36,12 @@ import "./pages/docs-page-data-table.ts";
 import "./pages/docs-page-command.ts";
 import "./pages/docs-page-sidebar.ts";
 import "./pages/docs-page-separator.ts";
+import "./pages/docs-page-split-button.ts";
 import "./pages/docs-page-progress.ts";
 import "./pages/docs-page-toggle.ts";
 import "./pages/docs-page-toggle-group.ts";
 import "./pages/docs-page-number-field.ts";
+import "./pages/docs-page-stepper.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-styling.ts";
@@ -83,9 +85,11 @@ import { DuiDataTable } from "@dui/components/data-table";
 import { DuiCommand, DuiCommandInput, DuiCommandList, DuiCommandGroup, DuiCommandItem, DuiCommandEmpty, DuiCommandSeparator, DuiCommandShortcut } from "@dui/components/command";
 import { DuiSidebarProvider, DuiSidebar, DuiSidebarTrigger, DuiSidebarContent, DuiSidebarHeader, DuiSidebarFooter, DuiSidebarGroup, DuiSidebarGroupLabel, DuiSidebarMenu, DuiSidebarMenuItem, DuiSidebarMenuButton, DuiSidebarSeparator, DuiSidebarInset } from "@dui/components/sidebar";
 import { DuiSeparator } from "@dui/components/separator";
+import { DuiSplitButton } from "@dui/components/split-button";
 import { DuiProgress } from "@dui/components/progress";
 import { DuiToggle, DuiToggleGroup } from "@dui/components/toggle";
 import { DuiNumberField } from "@dui/components/number-field";
+import { DuiStepper } from "@dui/components/stepper";
 import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
 
@@ -170,10 +174,12 @@ applyTheme({
     DuiSidebarSeparator,
     DuiSidebarInset,
     DuiSeparator,
+    DuiSplitButton,
     DuiProgress,
     DuiToggle,
     DuiToggleGroup,
     DuiNumberField,
+    DuiStepper,
     DuiMenubar,
     DuiCalendar,
   ],

@@ -16,6 +16,7 @@ import "./blocks/block-colors.ts";
 import "./blocks/block-typography.ts";
 import "./blocks/block-3d-scene.ts";
 import "./blocks/block-token-usage.ts";
+import "./blocks/block-sidebar.ts";
 
 @customElement("create-preview")
 export class CreatePreview extends LitElement {
@@ -52,12 +53,12 @@ export class CreatePreview extends LitElement {
 
     .columns {
       column-count: 4;
-      column-gap: var(--space-6);
+      column-gap: var(--space-8);
     }
 
     .columns > * {
       break-inside: avoid;
-      margin-bottom: var(--space-6);
+      margin-bottom: var(--space-8);
     }
 
     @container (max-width: 1400px) {
@@ -88,18 +89,19 @@ export class CreatePreview extends LitElement {
       <div class="columns">
         <block-create-project></block-create-project>
         <block-traffic></block-traffic>
-        <block-watchlist></block-watchlist>
-        <block-calendar></block-calendar>
-        <block-payment></block-payment>
-        <block-invite-team></block-invite-team>
-        <block-events></block-events>
-        <block-faq></block-faq>
-        <block-settings></block-settings>
         <block-chat></block-chat>
+        <block-calendar></block-calendar>
+        <block-sidebar></block-sidebar>
+        <block-invite-team></block-invite-team>
+        <block-3d-scene></block-3d-scene>
+        <block-faq></block-faq>
+        <block-watchlist></block-watchlist>
+        <block-settings></block-settings>
+        <block-token-usage></block-token-usage>
+        <block-payment></block-payment>
         <block-user-account></block-user-account>
         <block-members></block-members>
-        <block-token-usage></block-token-usage>
-        <block-3d-scene></block-3d-scene>
+        <block-events></block-events>
       </div>
 
       <hr class="divider">

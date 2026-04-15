@@ -33,8 +33,13 @@ export const selectStyles = css`
     font-size: var(--font-size-xs);
   }
 
-  .Trigger[data-open] {
-    filter: brightness(0.92);
+  .Trigger:hover:not([data-disabled]) {
+    background: oklch(from var(--foreground) l c h / 0.05);
+  }
+
+  .Trigger:active:not([data-disabled]),
+  .Trigger[data-open]:not([data-disabled]) {
+    background: oklch(from var(--foreground) l c h / 0.10);
   }
 
   .Trigger[data-disabled] {

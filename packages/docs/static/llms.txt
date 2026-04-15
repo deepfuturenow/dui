@@ -296,10 +296,10 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Slider
 - Tag: `<dui-slider>`
 - Import: `@dui/components/slider`
-- Description: A slider for selecting numeric values within a range.
-- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, "")
+- Description: A slider for selecting numeric values within a range. Supports a field variant with value readout, label, unit suffix, and gradient track backgrounds.
+- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, ""), variant (string, ""), label (string, ""), unit (string, ""), precision (number | undefined)
 - Events: value-change ({ value: number }), value-committed ({ value: number })
-- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb)
+- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb), label (Label text element), readout (Value readout input overlaid on the track. Click to type), marker (Position marker/indicator line. Hidden by default — consumer opt-in via ::part(marker)), unit (Unit suffix element)
 
 ### Spinner
 - Tag: `<dui-spinner>`
@@ -657,6 +657,15 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Events: none
 - Slots: default (Main content)
 
+### Split Button
+- Tag: `<dui-split-button>`
+- Import: `@dui/components/split-button`
+- Description: A button with an attached dropdown menu trigger. The action zone (left) performs a primary action. The menu trigger (right) opens a dropdown of dui-menu-item children for secondary actions.
+- Properties: disabled (boolean, false)
+- Events: dui-action ({})
+- Slots: default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
+- CSS Parts: root (The outer container wrapping both zones), action (The left action button), divider (The vertical separator between zones), trigger (The right dropdown trigger button)
+
 ### Separator
 - Tag: `<dui-separator>`
 - Import: `@dui/components/separator`
@@ -696,9 +705,18 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Number Field
 - Tag: `<dui-number-field>`
 - Import: `@dui/components/number-field`
-- Description: A numeric input with increment/decrement buttons and keyboard controls.
+- Description: A numeric input with optional label, icon, unit suffix, drag-to-scrub, and precision formatting. For simple +/- stepping, use dui-stepper.
+- Properties: value (number | undefined), defaultValue (number | undefined), min (number | undefined), max (number | undefined), step (number, 1), largeStep (number, 10), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), label (string, ""), labelPosition (string, ""), iconPosition (string, ""), unit (string, ""), precision (number | undefined), scrubLabel (boolean, false), scrubValue (boolean, false), scrubField (boolean, false), clickLabel (boolean, false), clickValue (boolean, false), clickField (boolean, false)
+- Events: value-change ({ value: number }), value-committed ({ value: number })
+- Slots: icon (Icon content (SVG, dui-icon, etc.), positioned by icon-position)
+- CSS Parts: root (The outer container (receives data-dragging, data-disabled, data-readonly)), label (Label text element), icon (Icon slot wrapper), input (The text input element), unit (Unit suffix element)
+
+### Stepper
+- Tag: `<dui-stepper>`
+- Import: `@dui/components/stepper`
+- Description: A simple numeric input with increment/decrement buttons. For labels, icons, scrubbing, and units, use dui-number-field.
 - Properties: value (number | undefined), defaultValue (number | undefined), min (number | undefined), max (number | undefined), step (number, 1), largeStep (number, 10), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined)
-- Events: value-change ({ value: number })
+- Events: value-change ({ value: number }), value-committed ({ value: number })
 - Slots: decrement (Custom decrement button content), increment (Custom increment button content)
 - CSS Parts: root (The outer container), input (The numeric input element), decrement (The decrement button), increment (The increment button)
 
