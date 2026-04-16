@@ -13,6 +13,10 @@ import {
 
 const hostStyles = css`
   :host {
+    display: contents;
+  }
+
+  .slot-wrapper {
     display: none;
   }
 `;
@@ -137,6 +141,6 @@ export class DuiTooltipPopup extends LitElement {
   }
 
   override render(): TemplateResult {
-    return html`<slot></slot>`;
+    return html`<div class="slot-wrapper"><slot></slot></div>`;
   }
 }

@@ -11,17 +11,17 @@ const styles = css`
     display: block;
   }
 
-  :host([data-hidden]) {
+  .wrapper {
+    display: contents;
+  }
+
+  .wrapper[hidden] {
     display: none;
   }
 
   [part="panel"] {
     position: relative;
     outline: 0;
-  }
-
-  [part="panel"][hidden] {
-    display: none;
   }
 `;
 
@@ -55,21 +55,14 @@ export class DuiTabsPanel extends LitElement {
     }
   }
 
-  override render(): TemplateResult | typeof nothing {
+  override render(): TemplateResult {
     const isActive = this.#isActive;
 
-    if (!isActive && !this.keepMounted) {
-      return nothing;
-    }
-
     return html`
-      <div
-        part="panel"
-        role="tabpanel"
-        ?hidden=${!isActive}
-        tabindex="0"
-      >
-        <slot></slot>
+      <div class="wrapper" ?hidden=${!isActive}>
+        ${isActive || this.keepMounted
+          ? html`<div part="panel" role="tabpanel" tabindex="0"><slot></slot></div>`
+          : nothing}
       </div>
     `;
   }

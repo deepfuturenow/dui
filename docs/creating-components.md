@@ -225,6 +225,77 @@ Always set `bubbles: true` and `composed: true` so events cross shadow DOM bound
 
 ---
 
+## Host styling: protect behavior-critical CSS
+
+The `:host` element is a **public surface** — outer-document styles always beat `:host` rules in the cascade, regardless of specificity. This is per-spec: the host is intentionally an "open surface" the consumer controls.
+
+**Principle:** If a style is functionally critical to the component's behavior (e.g., `display: none` for hiding), it must live on an internal shadow DOM element — not on `:host`. Putting critical styles on `:host` creates a fragile contract where any external `dui-my-component { display: flex }` silently breaks the component.
+
+### What's safe on `:host`
+
+- `display: block` / `display: inline-block` — sane defaults replacing the browser's `inline`
+- CSS custom property definitions (`--foo: bar`)
+- `box-sizing: border-box`
+
+### What must be on internal elements
+
+- `display: none` toggled by state (show/hide behavior)
+- `visibility: hidden` / `opacity: 0` for functional state changes
+- Any style where an external override would silently **break** the component
+
+### Pattern: state-driven visibility
+
+For components that toggle visibility (tabs panels, command items, filtered elements), hide the internal element instead of the host:
+
+```css
+:host {
+  display: block;
+}
+
+/* Target shadow DOM child — external styles can't reach .Item */
+:host([data-hidden]) .Item {
+  display: none;
+}
+```
+
+For components that always need hidden slot content (portal-based popups), use a wrapper:
+
+```css
+:host {
+  display: contents; /* host generates no box */
+}
+
+.slot-wrapper {
+  display: none; /* always hidden — content is rendered via portal */
+}
+```
+
+### Pattern: always-rendered wrapper
+
+When a component needs to hide even when returning `nothing` (e.g., tabs panels without `keepMounted`), always render a wrapper div so there's always an internal element to hide:
+
+```typescript
+override render(): TemplateResult {
+  const isActive = this.#isActive;
+  return html`
+    <div class="wrapper" ?hidden=${!isActive}>
+      ${isActive || this.keepMounted
+        ? html`<div part="panel" role="tabpanel"><slot></slot></div>`
+        : nothing}
+    </div>
+  `;
+}
+```
+
+```css
+.wrapper { display: contents; }  /* transparent when visible */
+.wrapper[hidden] { display: none; }  /* protected hiding */
+```
+
+The `data-hidden` attribute can still be set on the host as a **state signal** for external code, but it should not be relied on for CSS hiding.
+
+---
+
 ## Structural vs aesthetic CSS
 
 This is the core distinction in the unstyled architecture.
@@ -548,6 +619,7 @@ In `packages/theme-default/deno.json`, add `"./components/badge": "./src/compone
 - [ ] **`static tagName`** with `as const` — no `@customElement` decorator
 - [ ] **`static override styles = [base, styles]`** — `base` from `@dui/core/base`
 - [ ] **Structural CSS only** — no colors, fonts, or spacing values in the component
+- [ ] **No behavior-critical styles on `:host`** — `display: none`, `visibility: hidden`, `opacity: 0` for state must be on internal elements
 - [ ] **No token references** — no `var(--space-*)`, `var(--accent)`, etc.
 - [ ] **No variant union types** — `variant` and `size` are `string = ""`
 - [ ] **`part="root"`** on root internal element

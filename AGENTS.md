@@ -35,6 +35,7 @@ This is a Deno workspace. The root `deno.json` declares all four packages.
 - `static tagName = "dui-foo" as const` identifies each component.
 - Structural CSS lives in the component. Aesthetic CSS lives in the theme.
 - Properties use `@property()` with `accessor`. Internal state uses `@state() accessor #name`.
+- Behavior-critical styles (`display: none`, `opacity: 0` for state) must live on internal shadow DOM elements, never on `:host`. The host is a public surface that consumers legitimately style.
 - Private methods use native `#private` syntax.
 - Events use the `customEvent()` factory from `@dui/core/event`.
 - Design tokens are CSS custom properties — never hardcode `px` or `rem` values.

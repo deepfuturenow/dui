@@ -297,9 +297,9 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-slider>`
 - Import: `@dui/components/slider`
 - Description: A slider for selecting numeric values within a range. Supports a field variant with value readout, label, unit suffix, and gradient track backgrounds.
-- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, ""), variant (string, ""), label (string, ""), unit (string, ""), precision (number | undefined)
+- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, ""), label (string, ""), unit (string, ""), precision (number | undefined)
 - Events: value-change ({ value: number }), value-committed ({ value: number })
-- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb), label (Label text element), readout (Value readout input overlaid on the track. Click to type), marker (Position marker/indicator line. Hidden by default — consumer opt-in via ::part(marker)), unit (Unit suffix element)
+- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb), label (Label text element), readout (Value readout overlaid on the track), unit (Unit suffix element)
 
 ### Spinner
 - Tag: `<dui-spinner>`

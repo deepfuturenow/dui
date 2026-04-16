@@ -14,7 +14,7 @@ const styles = css`
     display: block;
   }
 
-  :host([data-hidden]) {
+  :host([data-hidden]) .Group {
     display: none;
   }
 
