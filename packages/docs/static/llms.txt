@@ -297,9 +297,9 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-slider>`
 - Import: `@dui/components/slider`
 - Description: A slider for selecting numeric values within a range. Supports a field variant with value readout, label, unit suffix, and gradient track backgrounds.
-- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, ""), variant (string, ""), label (string, ""), unit (string, ""), precision (number | undefined)
+- Properties: value (number, 0), min (number, 0), max (number, 100), step (number, 1), disabled (boolean, false), name (string, ""), label (string, ""), unit (string, ""), precision (number | undefined)
 - Events: value-change ({ value: number }), value-committed ({ value: number })
-- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb), label (Label text element), readout (Value readout input overlaid on the track. Click to type), marker (Position marker/indicator line. Hidden by default — consumer opt-in via ::part(marker)), unit (Unit suffix element)
+- CSS Parts: root (The slider container), track (The track background), indicator (The filled portion of the track), thumb (The draggable thumb), label (Label text element), readout (Value readout overlaid on the track), unit (Unit suffix element)
 
 ### Spinner
 - Tag: `<dui-spinner>`
@@ -737,3 +737,100 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Events: value-change ({ value: string })
 - Slots: prev (Custom previous month button content), next (Custom next month button content)
 - CSS Parts: root (The calendar container), header (The month/year header row), heading (The month/year label), prev (Previous month button), next (Next month button), grid (The date grid), weekday (Weekday header cells), day (Individual day buttons)
+
+### Map
+- Tag: `<dui-map>`
+- Import: `@dui/map`
+- Description: Root map component wrapping MapLibre GL JS. Initializes the map, provides context to children, auto-detects dark/light theme.
+- Properties: center ([number, number], [0, 0]), zoom (number, 1), bearing (number, 0), pitch (number, 0), theme ("light" | "dark" | undefined), styleLight (string | undefined), styleDark (string | undefined), loading (boolean, false), noWorldCopies (boolean, false), controlled (boolean, false), minZoom (number, 0), maxZoom (number, 22), maxBounds ([[number, number], [number, number]] | undefined), bounds ([[number, number], [number, number]] | undefined), boundsPadding (number, 50)
+- Events: dui-map-viewport-change (MapViewport), dui-map-load, dui-map-click (MapClickDetail), dui-map-dblclick (MapClickDetail), dui-map-contextmenu (MapClickDetail)
+- Slots: default (Map overlay content (controls, markers, popups, routes))
+- CSS Parts: container (The map container div), loader (The loading indicator overlay)
+
+### MapControls
+- Tag: `<dui-map-controls>`
+- Import: `@dui/map`
+- Description: Zoom, compass, locate, and fullscreen map controls.
+- Properties: position ("top-left" | "top-right" | "bottom-left" | "bottom-right", "bottom-right"), showZoom (boolean, true), showCompass (boolean, false), showLocate (boolean, false), showFullscreen (boolean, false)
+- Events: dui-map-locate ({ longitude: number; latitude: number })
+- CSS Parts: root (The outer controls wrapper), group (A control group container), control-button (Individual control buttons)
+
+### MapMarker
+- Tag: `<dui-map-marker>`
+- Import: `@dui/map`
+- Description: Places a marker at a coordinate on the map.
+- Properties: longitude (number, 0), latitude (number, 0), draggable (boolean, false), rotation (number, 0), offset ([number, number], [0, 0])
+- Events: dui-marker-dragstart ({ lng: number; lat: number }), dui-marker-drag ({ lng: number; lat: number }), dui-marker-dragend ({ lng: number; lat: number })
+- Slots: default (Marker sub-components)
+
+### MapMarkerContent
+- Tag: `<dui-map-marker-content>`
+- Import: `@dui/map`
+- Description: Custom marker DOM content. Renders slotted content into the marker element.
+- Events: none
+- Slots: default (Custom marker content)
+- CSS Parts: root (Wrapper div inside the marker element)
+
+### MapMarkerPopup
+- Tag: `<dui-map-marker-popup>`
+- Import: `@dui/map`
+- Description: Click-to-open popup on a marker.
+- Properties: popupOffset (number, 16), closeButton (boolean, false)
+- Events: none
+- Slots: default (Popup content)
+- CSS Parts: popup (The popup content wrapper)
+
+### MapMarkerTooltip
+- Tag: `<dui-map-marker-tooltip>`
+- Import: `@dui/map`
+- Description: Hover tooltip on a marker.
+- Properties: tooltipOffset (number, 16)
+- Events: none
+- Slots: default (Tooltip content)
+- CSS Parts: tooltip (The tooltip content wrapper)
+
+### MapMarkerLabel
+- Tag: `<dui-map-marker-label>`
+- Import: `@dui/map`
+- Description: Static label above or below a marker.
+- Properties: position ("top" | "bottom", "top")
+- Events: none
+- Slots: default (Label text content)
+- CSS Parts: label (The label element)
+
+### MapPopup
+- Tag: `<dui-map-popup>`
+- Import: `@dui/map`
+- Description: Standalone popup at coordinates on the map.
+- Properties: longitude (number, 0), latitude (number, 0), popupOffset (number, 16), closeButton (boolean, false)
+- Events: dui-map-popup-close
+- Slots: default (Popup content)
+- CSS Parts: popup (The popup content wrapper)
+
+### MapRoute
+- Tag: `<dui-map-route>`
+- Import: `@dui/map`
+- Description: GeoJSON LineString route layer on the map.
+- Properties: routeId (string), coordinates ([number, number][], []), color (string, "#4285F4"), width (number, 3), opacity (number, 0.8), dashArray ([number, number] | undefined), interactive (boolean, true)
+- Events: dui-route-click
+
+### MapRegion
+- Tag: `<dui-map-region>`
+- Import: `@dui/map`
+- Description: GeoJSON polygon fill layer for regional overlays on the map.
+- Properties: regionId (string), data (string | GeoJSON.Feature | GeoJSON.FeatureCollection), fillColor (string, "rgba(59, 130, 246, 0.3)"), fillOpacity (number, 1), strokeColor (string, "#3b82f6"), strokeWidth (number, 2), strokeOpacity (number, 1), interactive (boolean, true)
+- Events: dui-region-click
+
+### MapClusterLayer
+- Tag: `<dui-map-cluster-layer>`
+- Import: `@dui/map`
+- Description: Clustered point visualization on the map.
+- Properties: data (string | GeoJSON.FeatureCollection), clusterMaxZoom (number, 14), clusterRadius (number, 50), clusterColors ([string, string, string], ["#22c55e", "#eab308", "#ef4444"]), clusterThresholds ([number, number], [100, 750]), pointColor (string, "#3b82f6")
+- Events: dui-cluster-point-click ({ feature, coordinates }), dui-cluster-click ({ clusterId, coordinates, pointCount })
+
+### MapHeatmap
+- Tag: `<dui-map-heatmap>`
+- Import: `@dui/map`
+- Description: Heatmap density visualization on the map.
+- Properties: data (string | GeoJSON.FeatureCollection), radius (number, 20), intensity (number, 1), opacity (number, 0.8), weight (string, ""), maxZoom (number, 9), showPoints (boolean, true), pointColor (string, "#3b82f6"), colorRamp (string[]), heatmapId (string)
+- Events: none

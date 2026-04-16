@@ -62,6 +62,15 @@ const CATEGORIES: { name: string; tags: string[] }[] = [
     name: "Utility",
     tags: ["dui-icon"],
   },
+  {
+    name: "Map",
+    tags: [
+      "dui-map", "dui-map-controls", "dui-map-marker", "dui-map-marker-content",
+      "dui-map-marker-popup", "dui-map-marker-tooltip", "dui-map-marker-label",
+      "dui-map-popup", "dui-map-route", "dui-map-region",
+      "dui-map-cluster-layer", "dui-map-heatmap",
+    ],
+  },
 ];
 
 /** Build a lookup from tag name to ComponentMeta. */
