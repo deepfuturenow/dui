@@ -3,6 +3,7 @@
     "./packages/core",
     "./packages/components",
     "./packages/theme-default",
+    "./packages/map",
     "./packages/docs",
     "./packages/inspector"
   ],

@@ -84,6 +84,19 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./api": "./src/api.ts",
     },
   },
+  "@dui/map": {
+    dir: join(WORKSPACE_ROOT, "packages/map"),
+    exports: {
+      ".": "./src/index.ts",
+      "./map": "./src/map/index.ts",
+      "./marker": "./src/marker/index.ts",
+      "./controls": "./src/controls/index.ts",
+      "./popup": "./src/popup/index.ts",
+      "./route": "./src/route/index.ts",
+      "./region": "./src/region/index.ts",
+      "./cluster-layer": "./src/cluster-layer/index.ts",
+    },
+  },
   "@dui/theme-default": {
     dir: join(WORKSPACE_ROOT, "packages/theme-default"),
     exports: {

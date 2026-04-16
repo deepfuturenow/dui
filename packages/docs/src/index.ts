@@ -50,8 +50,10 @@ import "./pages/docs-page-colors.ts";
 import "./pages/docs-page-typography.ts";
 import "./pages/docs-page-prose.ts";
 import "./create/docs-page-create.ts";
+import "./pages/docs-page-map.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
+import { mapFamily, mapStyles } from "@dui/map";
 import { DuiAccordion, DuiAccordionItem } from "@dui/components/accordion";
 import { DuiBadge } from "@dui/components/badge";
 import { DuiButton } from "@dui/components/button";
@@ -94,8 +96,12 @@ import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
 
 applyTheme({
-  theme: defaultTheme,
+  theme: {
+    ...defaultTheme,
+    styles: new Map([...defaultTheme.styles, ...mapStyles]),
+  },
   components: [
+    ...mapFamily,
     DuiAccordion,
     DuiAccordionItem,
     DuiBadge,
@@ -184,3 +190,4 @@ applyTheme({
     DuiCalendar,
   ],
 });
+
