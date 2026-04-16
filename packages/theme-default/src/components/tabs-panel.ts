@@ -1,6 +1,11 @@
 import { css } from "lit";
 
 export const tabsPanelStyles = css`
+  :host(:not([data-hidden])) {
+    flex: 1;
+    min-height: 0;
+  }
+
   [part="panel"] {
     transition-property: box-shadow;
     transition-duration: var(--duration-fast);
