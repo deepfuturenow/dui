@@ -1,6 +1,6 @@
 {
   "name": "@dui/core",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "exports": {
     ".": "./src/index.ts",
     "./event": "./src/event.ts",
