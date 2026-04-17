@@ -30,6 +30,10 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "Data Display",
     slugs: ["key-value", "market-table"],
   },
+  {
+    label: "Content Blocks",
+    slugs: ["briefing-block", "empty-state", "numbered-insight"],
+  },
 ];
 
 export const templateRegistry: TemplateMeta[] = [
@@ -267,6 +271,69 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: [],
+  },
+  {
+    tagName: "dui-briefing-block",
+    name: "Briefing Block",
+    description:
+      "An AI-generated summary block with header, metadata, and body. Use for intelligence briefings, AI summaries, analysis blocks, or any authored content with clear attribution and source metadata.",
+    importPath: "@dui/theme-default-templates/content",
+    category: "Content Blocks",
+    properties: [
+      { name: "title", type: "string", default: '""', description: "Primary title for the briefing" },
+      { name: "source", type: "string", default: '""', description: 'Source or author attribution (e.g. "AI Analysis", "GPT-4o")' },
+      { name: "timestamp", type: "string", default: '""', description: 'Display timestamp (e.g. "2 min ago", "14:23 UTC")' },
+      { name: "category", type: "string", default: '""', description: "Category or topic label — renders as a neutral badge" },
+      { name: "confidence", type: "string", default: '""', description: 'Confidence level label — renders as a primary badge (e.g. "High", "Medium")' },
+      { name: "body", type: "string", default: '""', description: "Body text content" },
+    ],
+    slots: [
+      { name: "body", description: "Rich body content (overrides body prop)" },
+      { name: "actions", description: "Optional action buttons or links below the body" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-badge", "dui-separator", "dui-icon"],
+  },
+  {
+    tagName: "dui-empty-state",
+    name: "Empty State",
+    description:
+      "A centered placeholder for no-data panels. Shows an optional icon, heading, description, and action slot for a primary CTA.",
+    importPath: "@dui/theme-default-templates/content",
+    category: "Content Blocks",
+    properties: [
+      { name: "heading", type: "string", default: '""', description: 'Primary heading text (e.g. "No events yet")' },
+      { name: "description", type: "string", default: '""', description: "Supporting description text" },
+    ],
+    slots: [
+      { name: "icon", description: "Custom icon content (overrides the default empty-box icon)" },
+      { name: "actions", description: "Primary call-to-action button(s)" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-icon"],
+  },
+  {
+    tagName: "dui-numbered-insight",
+    name: "Numbered Insight",
+    description:
+      "An ordinal-numbered insight with title, badges, and description. Use for ranked findings, prioritized recommendations, or numbered takeaways in analysis panels.",
+    importPath: "@dui/theme-default-templates/content",
+    category: "Content Blocks",
+    properties: [
+      { name: "ordinal", type: "number", default: "1", description: "Ordinal number (e.g. 1, 2, 3)" },
+      { name: "title", type: "string", default: '""', description: "Primary insight title" },
+      { name: "category", type: "string", default: '""', description: "Category label — renders as a neutral badge" },
+      { name: "severity", type: '"critical" | "high" | "medium" | "low"', default: '""', description: "Severity level — maps to badge variant" },
+      { name: "description", type: "string", default: '""', description: "Descriptive body text" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-badge"],
   },
   {
     tagName: "dui-market-table",
