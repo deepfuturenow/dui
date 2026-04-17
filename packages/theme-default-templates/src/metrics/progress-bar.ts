@@ -68,7 +68,7 @@ const styles = css`
     padding-top: var(--space-1);
   }
 
-  .actions:not(:has(*)) {
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 `;

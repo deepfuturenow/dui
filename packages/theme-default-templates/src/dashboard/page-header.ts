@@ -65,7 +65,7 @@ const styles = css`
     flex-shrink: 0;
   }
 
-  .actions:not(:has(*)) {
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 

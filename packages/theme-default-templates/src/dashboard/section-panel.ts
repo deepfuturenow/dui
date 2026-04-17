@@ -50,7 +50,7 @@ const styles = css`
     display: contents;
   }
 
-  .icon-slot:not(:has(*)) {
+  .icon-slot:not(:has(::slotted(*))) {
     display: none;
   }
 
@@ -140,7 +140,7 @@ const styles = css`
     display: contents;
   }
 
-  .actions-slot:not(:has(*)) {
+  .actions-slot:not(:has(::slotted(*))) {
     display: none;
   }
 

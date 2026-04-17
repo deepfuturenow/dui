@@ -96,7 +96,7 @@ const styles = css`
     flex-wrap: wrap;
   }
 
-  .sub-metrics:not(:has(*)) {
+  .sub-metrics:not(:has(::slotted(*))) {
     display: none;
   }
 
@@ -107,7 +107,7 @@ const styles = css`
     gap: var(--space-2);
   }
 
-  .actions:not(:has(*)) {
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 `;

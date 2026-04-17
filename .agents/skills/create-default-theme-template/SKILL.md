@@ -110,8 +110,9 @@ const styles = css`
     color: var(--foreground);
   }
 
-  /* Hide actions container when slot is empty */
-  .actions:not(:has(*)) {
+  /* Hide actions container when slot is empty — must use ::slotted(*) not bare *,
+     because a <slot> element is always present as a child in shadow DOM. */
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 `;

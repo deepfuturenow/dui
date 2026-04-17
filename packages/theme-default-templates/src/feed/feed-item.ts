@@ -94,7 +94,7 @@ const styles = css`
   }
 
   /* Hide actions container when slot is empty */
-  .actions:not(:has(*)) {
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 `;

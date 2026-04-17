@@ -77,7 +77,6 @@ const styles = css`
     line-height: var(--line-height-normal);
     color: var(--text-3);
     margin: 0;
-    padding-top: var(--space-0_5);
   }
 
   /* Hide actions container when slot is empty */
@@ -88,7 +87,7 @@ const styles = css`
     padding-top: var(--space-2);
   }
 
-  .actions:not(:has(*)) {
+  .actions:not(:has(::slotted(*))) {
     display: none;
   }
 `;
