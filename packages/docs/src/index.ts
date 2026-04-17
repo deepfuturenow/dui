@@ -60,6 +60,7 @@ import "./pages/docs-page-score-item.ts";
 import "./pages/docs-page-risk-gauge.ts";
 import "./pages/docs-page-progress-bar.ts";
 import "./pages/docs-page-activity-item.ts";
+import "./pages/docs-page-social-post.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { mapFamily, mapStyles } from "@dui/map";
@@ -104,7 +105,7 @@ import { DuiStepper } from "@dui/components/stepper";
 import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
 import { DuiCardGrid } from "@dui/components/card-grid";
-import { DuiFeedItem, DuiActivityItem } from "@dui/theme-default-templates/feed";
+import { DuiFeedItem, DuiActivityItem, DuiSocialPost } from "@dui/theme-default-templates/feed";
 import { DuiSectionPanel, DuiPageHeader } from "@dui/theme-default-templates/dashboard";
 import { DuiStatCard, DuiScoreItem, DuiRiskGauge, DuiProgressBar } from "@dui/theme-default-templates/metrics";
 
@@ -204,6 +205,7 @@ applyTheme({
     DuiCardGrid,
     DuiFeedItem,
     DuiActivityItem,
+    DuiSocialPost,
     DuiSectionPanel,
     DuiPageHeader,
     DuiStatCard,

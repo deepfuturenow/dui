@@ -24,7 +24,7 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
   },
   {
     label: "Feed & Events",
-    slugs: ["feed-item", "activity-item"],
+    slugs: ["feed-item", "activity-item", "social-post"],
   },
 ];
 
@@ -201,5 +201,27 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-badge"],
+  },
+  {
+    tagName: "dui-social-post",
+    name: "Social Post",
+    description:
+      "A social signal card for monitoring dashboards. Displays an author, handle, timestamp, body text, optional source badge, and avatar.",
+    importPath: "@dui/theme-default-templates/feed",
+    category: "Feed & Events",
+    properties: [
+      { name: "author", type: "string", default: '""', description: "Display name of the post author" },
+      { name: "handle", type: "string", default: '""', description: 'Handle / username (e.g. "@analyst_jane")' },
+      { name: "timestamp", type: "string", default: '""', description: 'Display timestamp (e.g. "2 min ago")' },
+      { name: "body", type: "string", default: '""', description: "Post body text" },
+      { name: "source", type: "string", default: '""', description: 'Source platform label (e.g. "X", "Bluesky", "Telegram")' },
+    ],
+    slots: [
+      { name: "avatar", description: "Profile picture (dui-avatar recommended)" },
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-avatar", "dui-badge"],
   },
 ];
