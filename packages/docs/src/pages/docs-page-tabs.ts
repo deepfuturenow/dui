@@ -9,7 +9,7 @@ export class DocsPageTabs extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-tabs" .additionalTags=${["dui-tabs-list","dui-tab","dui-tabs-panel","dui-tabs-indicator"]}>
-        <dui-docs-demo label="Default">
+        <dui-docs-demo label="Default" demo-width="26rem">
         <dui-tabs default-value="account">
           <dui-tabs-list>
             <dui-tab value="account">Account</dui-tab>
@@ -18,18 +18,18 @@ export class DocsPageTabs extends LitElement {
             <dui-tabs-indicator></dui-tabs-indicator>
           </dui-tabs-list>
           <dui-tabs-panel value="account">
-            <p>Account settings content goes here.</p>
+            Nisi veniam nisi cillum excepteur. Deserunt id aliquip fugiat amet adipisicing ipsum consectetur ad amet non ex officia reprehenderit ipsum. 
           </dui-tabs-panel>
           <dui-tabs-panel value="password">
-            <p>Password settings content goes here.</p>
+            Ut aliqua culpa exercitation nostrud ipsum ea do sint veniam est. Incididunt in excepteur voluptate mollit amet elit culpa. Aute tempor ipsum aliqua fugiat.
           </dui-tabs-panel>
           <dui-tabs-panel value="settings">
-            <p>General settings content goes here.</p>
+            Ad nulla elit laborum officia veniam quis aute. Adipisicing aliquip consectetur exercitation labore veniam excepteur incididunt magna eiusmod. Enim irure ea in sint irure excepteur.
           </dui-tabs-panel>
         </dui-tabs>
       </dui-docs-demo>
 
-      <dui-docs-demo label="With disabled tab">
+      <dui-docs-demo label="With disabled tab" demo-width="26rem">
         <dui-tabs default-value="first">
           <dui-tabs-list>
             <dui-tab value="first">First</dui-tab>
@@ -38,13 +38,13 @@ export class DocsPageTabs extends LitElement {
             <dui-tabs-indicator></dui-tabs-indicator>
           </dui-tabs-list>
           <dui-tabs-panel value="first">
-            <p>First panel content.</p>
+            First panel content.
           </dui-tabs-panel>
           <dui-tabs-panel value="second">
-            <p>Second panel content.</p>
+            Second panel content.
           </dui-tabs-panel>
           <dui-tabs-panel value="third">
-            <p>Third panel content.</p>
+            Third panel content.
           </dui-tabs-panel>
         </dui-tabs>
       </dui-docs-demo>
