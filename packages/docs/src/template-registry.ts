@@ -19,6 +19,10 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
     slugs: ["section-panel", "page-header"],
   },
   {
+    label: "Metrics & Gauges",
+    slugs: ["stat-card", "score-item", "risk-gauge", "progress-bar"],
+  },
+  {
     label: "Feed & Events",
     slugs: ["feed-item"],
   },
@@ -90,5 +94,90 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-breadcrumb", "dui-breadcrumb-item", "dui-breadcrumb-link", "dui-breadcrumb-page", "dui-breadcrumb-separator", "dui-separator"],
+  },
+  {
+    tagName: "dui-stat-card",
+    name: "Stat Card",
+    description:
+      "A single metric card displaying a label, prominent value, optional trend indicator, and description text. Ideal for KPI rows at the top of dashboards.",
+    importPath: "@dui/theme-default-templates/metrics",
+    category: "Metrics & Gauges",
+    properties: [
+      { name: "label", type: "string", default: '""', description: "Metric label (e.g. \"Total Events\")" },
+      { name: "value", type: "string", default: '""', description: "Primary metric value (e.g. \"1,284\")" },
+      { name: "trend", type: "string", default: '""', description: "Trend text (e.g. \"+12%\")" },
+      { name: "trend-direction", type: '"up" | "down" | "stable"', default: '""', description: "Trend direction — determines arrow and color" },
+      { name: "description", type: "string", default: '""', description: "Supporting context text" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-icon"],
+  },
+  {
+    tagName: "dui-score-item",
+    name: "Score Item",
+    description:
+      "An entity with a prominent score and optional sub-metric breakdown. Use for ranked lists, country risk scores, or leaderboards.",
+    importPath: "@dui/theme-default-templates/metrics",
+    category: "Metrics & Gauges",
+    properties: [
+      { name: "entity", type: "string", default: '""', description: "Entity name (e.g. country, department, agent)" },
+      { name: "subtitle", type: "string", default: '""', description: "Secondary context below the entity name" },
+      { name: "score", type: "string", default: '""', description: "Prominent score value (e.g. \"87\", \"A+\")" },
+      { name: "score-label", type: "string", default: '""', description: "Label beneath the score (e.g. \"Risk Score\")" },
+      { name: "severity", type: "string", default: '""', description: "Severity level for optional tagging" },
+    ],
+    slots: [
+      { name: "sub-metrics", description: "Additional metric breakdowns below the main row" },
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-badge", "dui-separator"],
+  },
+  {
+    tagName: "dui-risk-gauge",
+    name: "Risk Gauge",
+    description:
+      "A semicircular arc gauge with a central value, severity label, and optional trend indicator. The arc fills proportionally to value (0–100).",
+    importPath: "@dui/theme-default-templates/metrics",
+    category: "Metrics & Gauges",
+    properties: [
+      { name: "label", type: "string", default: '""', description: "Metric label displayed below the gauge" },
+      { name: "value", type: "number", default: "0", description: "Gauge value (0–100)" },
+      { name: "severity", type: '"critical" | "high" | "medium" | "low" | "info"', default: '""', description: "Severity level — determines arc color" },
+      { name: "trend", type: "string", default: '""', description: "Trend text (e.g. \"+5 pts\")" },
+      { name: "trend-direction", type: '"up" | "down" | "stable"', default: '""', description: "Trend direction — determines arrow and color" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: [],
+  },
+  {
+    tagName: "dui-progress-bar",
+    name: "Progress Bar",
+    description:
+      "A labeled capacity/completion indicator wrapping dui-progress. Displays a metric label, value text, progress bar, and optional description.",
+    importPath: "@dui/theme-default-templates/metrics",
+    category: "Metrics & Gauges",
+    properties: [
+      { name: "label", type: "string", default: '""', description: "Metric label (e.g. \"CPU Usage\")" },
+      { name: "value", type: "number", default: "0", description: "Current value (0–max)" },
+      { name: "max", type: "number", default: "100", description: "Maximum value" },
+      { name: "value-text", type: "string", default: '""', description: "Custom display text (overrides auto percentage)" },
+      { name: "description", type: "string", default: '""', description: "Supporting description text" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-progress"],
   },
 ];

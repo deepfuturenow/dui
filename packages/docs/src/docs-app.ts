@@ -863,6 +863,10 @@ export class DocsApp extends LitElement {
         case "section-panel": return html`<docs-page-section-panel></docs-page-section-panel>`;
         case "page-header": return html`<docs-page-page-header></docs-page-page-header>`;
         case "feed-item": return html`<docs-page-feed-item></docs-page-feed-item>`;
+        case "stat-card": return html`<docs-page-stat-card></docs-page-stat-card>`;
+        case "score-item": return html`<docs-page-score-item></docs-page-score-item>`;
+        case "risk-gauge": return html`<docs-page-risk-gauge></docs-page-risk-gauge>`;
+        case "progress-bar": return html`<docs-page-progress-bar></docs-page-progress-bar>`;
       }
     }
     if (section === "templates") {

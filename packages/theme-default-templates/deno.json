@@ -4,6 +4,7 @@
   "exports": {
     "./feed": "./src/feed/index.ts",
     "./dashboard": "./src/dashboard/index.ts",
+    "./metrics": "./src/metrics/index.ts",
     "./all": "./src/all.ts"
   },
   "imports": {
