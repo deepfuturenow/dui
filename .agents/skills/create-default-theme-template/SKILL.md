@@ -110,9 +110,8 @@ const styles = css`
     color: var(--foreground);
   }
 
-  /* Hide actions container when slot is empty — must use ::slotted(*) not bare *,
-     because a <slot> element is always present as a child in shadow DOM. */
-  .actions:not(:has(::slotted(*))) {
+  /* Override display:flex when hidden attribute is set by slotchange handler */
+  .actions[hidden] {
     display: none;
   }
 `;
@@ -131,11 +130,19 @@ export class Dui{Name} extends LitElement {
   @property() accessor title = "";
   // ... more props
 
+  /** Toggle hidden on slot wrapper when slotted content changes. */
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   override render(): TemplateResult {
     return html`
       <article part="article">
         <!-- Semantic HTML + DUI components -->
-        <slot name="actions"></slot>
+        <div class="actions" hidden>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
+        </div>
       </article>
     `;
   }

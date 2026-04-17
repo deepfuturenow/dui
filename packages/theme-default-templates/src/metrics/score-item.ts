@@ -13,8 +13,8 @@ const styles = css`
   article {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
+    gap: var(--space-0);
+    padding: var(--space-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-1);
@@ -70,9 +70,8 @@ const styles = css`
   }
 
   .score {
-    font-family: var(--font-mono);
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-normal);
     line-height: var(--line-height-tight);
     color: var(--foreground);
@@ -92,11 +91,11 @@ const styles = css`
   .sub-metrics {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-3);
     flex-wrap: wrap;
   }
 
-  .sub-metrics:not(:has(::slotted(*))) {
+  .sub-metrics[hidden] {
     display: none;
   }
 
@@ -107,7 +106,7 @@ const styles = css`
     gap: var(--space-2);
   }
 
-  .actions:not(:has(::slotted(*))) {
+  .actions[hidden] {
     display: none;
   }
 `;
@@ -146,6 +145,11 @@ export class DuiScoreItem extends LitElement {
   /** Severity level — maps to badge for optional tagging (critical | high | medium | low). */
   @property() accessor severity = "";
 
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   override render(): TemplateResult {
     return html`
       <article part="article">
@@ -165,12 +169,12 @@ export class DuiScoreItem extends LitElement {
           </div>
         </div>
 
-        <div class="sub-metrics" part="sub-metrics">
-          <slot name="sub-metrics"></slot>
+        <div class="sub-metrics" part="sub-metrics" hidden>
+          <slot name="sub-metrics" @slotchange=${this.#onSlotChange}></slot>
         </div>
 
-        <div class="actions">
-          <slot name="actions"></slot>
+        <div class="actions" hidden>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
         </div>
       </article>
     `;

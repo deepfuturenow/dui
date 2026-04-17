@@ -24,7 +24,7 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
   },
   {
     label: "Feed & Events",
-    slugs: ["feed-item"],
+    slugs: ["feed-item", "activity-item"],
   },
 ];
 
@@ -179,5 +179,27 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-progress"],
+  },
+  {
+    tagName: "dui-activity-item",
+    name: "Activity Item",
+    description:
+      "A timestamped event in a vertical timeline. Stack multiple items to form a timeline. Color-coded dots indicate status, with optional status badges and descriptions.",
+    importPath: "@dui/theme-default-templates/feed",
+    category: "Feed & Events",
+    properties: [
+      { name: "title", type: "string", default: '""', description: "Event title" },
+      { name: "timestamp", type: "string", default: '""', description: 'Display timestamp (e.g. "2 min ago")' },
+      { name: "description", type: "string", default: '""', description: "Optional description text" },
+      { name: "status", type: '"success" | "error" | "warning" | "info" | "pending"', default: '""', description: "Status \u2014 determines dot color" },
+      { name: "status-label", type: "string", default: '""', description: "Optional status label \u2014 renders as a badge" },
+      { name: "last", type: "boolean", default: "false", description: "Hide the trailing timeline line" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-badge"],
   },
 ];

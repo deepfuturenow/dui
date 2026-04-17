@@ -7,7 +7,7 @@ export const progressStyles = css`
 
   [part="track"] {
     height: var(--progress-height);
-    background: var(--surface-1);
+    background: color-mix(in oklch, var(--foreground) 08%, transparent);
     border-radius: var(--radius-full);
   }
 

@@ -83,6 +83,7 @@
   --letter-spacing-normal: 0em;
   --letter-spacing-wide: 0.006em;
   --letter-spacing-wider: 0.012em;
+  --letter-spacing-widest: 0.018em;
 
   --font-size-fluid-sm: clamp(0.813rem, 0.75rem + 0.315vw, 0.875rem);
   --font-size-fluid-md: clamp(0.875rem, 0.813rem + 0.315vw, 1rem);

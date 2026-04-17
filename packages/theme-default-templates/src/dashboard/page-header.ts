@@ -65,7 +65,7 @@ const styles = css`
     flex-shrink: 0;
   }
 
-  .actions:not(:has(::slotted(*))) {
+  .actions[hidden] {
     display: none;
   }
 
@@ -110,6 +110,11 @@ export class DuiPageHeader extends LitElement {
 
   /** Comma-separated breadcrumb trail (e.g. "Home, Settings, Profile"). */
   @property() accessor breadcrumbs = "";
+
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
 
   #renderBreadcrumbs(): TemplateResult | typeof nothing {
     if (!this.breadcrumbs) return nothing;
@@ -165,8 +170,8 @@ export class DuiPageHeader extends LitElement {
               : nothing}
           </div>
 
-          <div class="actions">
-            <slot name="actions"></slot>
+          <div class="actions" hidden>
+            <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
           </div>
         </div>
       </header>

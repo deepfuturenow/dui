@@ -28,8 +28,8 @@ const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-5) var(--space-4);
+    gap: var(--space-1);
+    padding: var(--space-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-1);
@@ -63,7 +63,7 @@ const styles = css`
   }
 
   .center-number {
-    font-family: var(--font-mono);
+    /* font-family: var(--font-mono); */
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-none);
@@ -106,9 +106,10 @@ const styles = css`
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    margin-top: var(--space-1);
   }
 
-  .actions:not(:has(::slotted(*))) {
+  .actions[hidden] {
     display: none;
   }
 `;
@@ -177,6 +178,11 @@ export class DuiRiskGauge extends LitElement {
     `;
   }
 
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   override render(): TemplateResult {
     const sevColor = SEVERITY_COLORS[this.severity.toLowerCase()] ?? "var(--accent)";
     const trendArrow = TREND_ARROWS[this.trendDirection.toLowerCase()];
@@ -210,8 +216,8 @@ export class DuiRiskGauge extends LitElement {
             </span>`
           : nothing}
 
-        <div class="actions">
-          <slot name="actions"></slot>
+        <div class="actions" hidden>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
         </div>
       </article>
     `;

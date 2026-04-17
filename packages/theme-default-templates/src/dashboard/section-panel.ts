@@ -50,7 +50,7 @@ const styles = css`
     display: contents;
   }
 
-  .icon-slot:not(:has(::slotted(*))) {
+  .icon-slot[hidden] {
     display: none;
   }
 
@@ -140,7 +140,7 @@ const styles = css`
     display: contents;
   }
 
-  .actions-slot:not(:has(::slotted(*))) {
+  .actions-slot[hidden] {
     display: none;
   }
 
@@ -234,6 +234,11 @@ export class DuiSectionPanel extends LitElement {
   /** Whether the collapsible panel starts open (only relevant when collapsible). */
   @property({ type: Boolean, attribute: "default-open" }) accessor defaultOpen = true;
 
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   #onOpenChange(e: CustomEvent<{ open: boolean }>): void {
     this.toggleAttribute("data-open", e.detail.open);
   }
@@ -248,7 +253,7 @@ export class DuiSectionPanel extends LitElement {
   #renderHeaderContent(): TemplateResult {
     return html`
       <div class="header-left">
-        <span class="icon-slot"><slot name="icon"></slot></span>
+        <span class="icon-slot" hidden><slot name="icon" @slotchange=${this.#onSlotChange}></slot></span>
         <span class="title">${this.title}</span>
         ${this.badge
           ? html`<dui-badge appearance="ghost">${this.badge}</dui-badge>`
@@ -270,8 +275,8 @@ export class DuiSectionPanel extends LitElement {
           : nothing}
       </div>
       <div class="header-right">
-        <span class="actions-slot" @click=${this.collapsible ? this.#stopProp : nothing}>
-          <slot name="actions"></slot>
+        <span class="actions-slot" hidden @click=${this.collapsible ? this.#stopProp : nothing}>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
         </span>
         ${this.collapsible
           ? html`<span class="chevron">

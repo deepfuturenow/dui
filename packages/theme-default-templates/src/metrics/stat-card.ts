@@ -28,8 +28,8 @@ const styles = css`
   article {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-    padding: var(--space-4) var(--space-5);
+    gap: none;
+    padding: var(--space-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-1);
@@ -47,7 +47,7 @@ const styles = css`
   .value-row {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: none;
   }
 
   .value {
@@ -79,7 +79,6 @@ const styles = css`
     margin: 0;
   }
 
-  /* Hide actions container when slot is empty */
   .actions {
     display: flex;
     align-items: center;
@@ -87,7 +86,7 @@ const styles = css`
     padding-top: var(--space-2);
   }
 
-  .actions:not(:has(::slotted(*))) {
+  .actions[hidden] {
     display: none;
   }
 `;
@@ -123,6 +122,11 @@ export class DuiStatCard extends LitElement {
   /** Supporting context text. */
   @property() accessor description = "";
 
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   override render(): TemplateResult {
     const cfg = TREND_CONFIG[this.trendDirection.toLowerCase()];
 
@@ -148,8 +152,8 @@ export class DuiStatCard extends LitElement {
           ? html`<p class="description" part="description">${this.description}</p>`
           : nothing}
 
-        <div class="actions">
-          <slot name="actions"></slot>
+        <div class="actions" hidden>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
         </div>
       </article>
     `;

@@ -18,7 +18,7 @@ export class DocsPageScoreItem extends LitElement {
               score="87"
               score-label="Risk Score"
             >
-              <div slot="sub-metrics" style="display: flex; gap: var(--space-4); font-family: var(--font-sans); font-size: var(--font-size-xs); color: var(--text-2);">
+              <div slot="sub-metrics" style="display: flex; gap: var(--space-2); font-family: var(--font-sans); font-size: var(--font-size-sm); color: var(--text-2);">
                 <span>Political: <strong style="color: var(--foreground);">72</strong></span>
                 <span>Economic: <strong style="color: var(--foreground);">91</strong></span>
                 <span>Security: <strong style="color: var(--foreground);">84</strong></span>
@@ -31,7 +31,7 @@ export class DocsPageScoreItem extends LitElement {
               score="42"
               score-label="Risk Score"
             >
-              <div slot="sub-metrics" style="display: flex; gap: var(--space-4); font-family: var(--font-sans); font-size: var(--font-size-xs); color: var(--text-2);">
+              <div slot="sub-metrics" style="display: flex; gap: var(--space-2); font-family: var(--font-sans); font-size: var(--font-size-sm); color: var(--text-2);">
                 <span>Political: <strong style="color: var(--foreground);">38</strong></span>
                 <span>Economic: <strong style="color: var(--foreground);">45</strong></span>
                 <span>Security: <strong style="color: var(--foreground);">41</strong></span>

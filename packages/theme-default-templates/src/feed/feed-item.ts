@@ -23,8 +23,8 @@ const styles = css`
   article {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1_5);
-    padding: var(--space-3) var(--space-4);
+    gap: var(--space-0_5);
+    padding: var(--space-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-1);
@@ -53,6 +53,7 @@ const styles = css`
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    flex: 1;
   }
 
   .badges {
@@ -60,12 +61,13 @@ const styles = css`
     align-items: center;
     gap: var(--space-1_5);
     flex-shrink: 0;
+    justify-self: flex-end;
   }
 
   .meta {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-1);
     font-family: var(--font-sans);
     font-size: var(--font-size-xs);
     letter-spacing: var(--letter-spacing-wide);
@@ -82,7 +84,7 @@ const styles = css`
     font-size: var(--font-size-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
-    color: var(--text-2);
+    color: var(--text-1);
     margin: 0;
   }
 
@@ -93,8 +95,7 @@ const styles = css`
     padding-top: var(--space-1);
   }
 
-  /* Hide actions container when slot is empty */
-  .actions:not(:has(::slotted(*))) {
+  .actions[hidden] {
     display: none;
   }
 `;
@@ -134,6 +135,11 @@ export class DuiFeedItem extends LitElement {
   /** Optional body text. */
   @property() accessor description = "";
 
+  #onSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    slot.parentElement!.hidden = slot.assignedElements().length === 0;
+  }
+
   override render(): TemplateResult {
     const sev = SEVERITY_MAP[this.severity.toLowerCase()];
 
@@ -170,8 +176,8 @@ export class DuiFeedItem extends LitElement {
             </p>`
           : nothing}
 
-        <div class="actions">
-          <slot name="actions"></slot>
+        <div class="actions" hidden>
+          <slot name="actions" @slotchange=${this.#onSlotChange}></slot>
         </div>
       </article>
     `;
