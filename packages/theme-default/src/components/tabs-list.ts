@@ -1,7 +1,12 @@
 import { css } from "lit";
 
 export const tabsListStyles = css`
+  :host {
+    --tabs-list-justify: start;
+  }
+
   [part="list"] {
+    justify-content: var(--tabs-list-justify);
     padding-inline: 0;
     gap: 0;
   }
