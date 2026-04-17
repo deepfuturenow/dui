@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { type } from "../typography.ts";
 
 export const tabsPanelStyles = css`
   :host {
@@ -15,18 +16,23 @@ export const tabsPanelStyles = css`
     padding: var(--tabs-panel-padding);
     border: var(--tabs-panel-border-width) solid var(--tabs-panel-border-color);
     border-radius: var(--tabs-panel-border-radius);
-    background: var(--tabs-panel-background); 
+    background: var(--tabs-panel-background);
   }
 
   [part="panel"] {
     transition-property: box-shadow;
     transition-duration: var(--duration-fast);
+    font-family: var(--font-sans);
+    ${type("sm")}
+    font-weight: var(--font-weight-regular);
+    color: var(--text-2);
   }
 
   [part="panel"]:focus-visible {
     box-shadow:
       0 0 0 var(--focus-ring-offset) var(--background),
-      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width))
+        var(--focus-ring-color);
     border-radius: var(--radius-md);
   }
 `;
