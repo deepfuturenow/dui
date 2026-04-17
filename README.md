@@ -146,6 +146,36 @@ DUI uses CSS custom properties for theming. Toggle dark mode by adding `class="d
 </body>
 ```
 
+## Templates
+
+Pre-composed UI patterns built from DUI components — ready-to-use cards, feed items, and other building blocks. Templates are theme-scoped: they use the default theme's variant vocabulary and tokens, so they adapt automatically to dark mode and custom token overrides.
+
+```bash
+npm install @deepfuture/dui-theme-default-templates
+```
+
+```typescript
+import { DuiFeedItem } from "@deepfuture/dui-theme-default-templates/feed";
+
+applyTheme({
+  theme: defaultTheme,
+  components: [DuiFeedItem],  // dependencies (DuiBadge, etc.) auto-register
+});
+```
+
+```html
+<dui-feed-item
+  title="Earthquake detected"
+  subtitle="USGS Pacific Northwest"
+  timestamp="2 min ago"
+  category="Seismic"
+  severity="high"
+  description="Magnitude 4.2 recorded near Portland, OR."
+></dui-feed-item>
+```
+
+Templates declare their component dependencies via `static dependencies` — `applyTheme` auto-registers them, so you don't need to import `DuiBadge` separately.
+
 ## Packages
 
 | Package | Purpose |
@@ -153,6 +183,7 @@ DUI uses CSS custom properties for theming. Toggle dark mode by adding `class="d
 | [`@deepfuture/dui-core`](https://www.npmjs.com/package/@deepfuture/dui-core) | `applyTheme()`, event factory, base styles |
 | [`@deepfuture/dui-components`](https://www.npmjs.com/package/@deepfuture/dui-components) | Unstyled component classes |
 | [`@deepfuture/dui-theme-default`](https://www.npmjs.com/package/@deepfuture/dui-theme-default) | Design tokens + aesthetic styles |
+| [`@deepfuture/dui-theme-default-templates`](https://www.npmjs.com/package/@deepfuture/dui-theme-default-templates) | Pre-composed UI patterns for the default theme |
 | [`@deepfuture/dui-cdn`](https://www.npmjs.com/package/@deepfuture/dui-cdn) | Pre-bundled CDN build (all deps inlined) |
 
 ## Dev Tools
@@ -177,6 +208,7 @@ See **[Inspector docs](docs/inspector.md)** for the full API reference and usage
 - **[Live Docs](https://deepfuturenow.github.io/dui/)** — interactive demos for every component
 - [Architecture](docs/architecture.md) — mental model, package responsibilities, design decisions
 - [Creating Components](docs/creating-components.md) — guide for adding new components
+- [Creating Templates](docs/creating-templates.md) — guide for building theme-scoped templates
 - [Theming](docs/theming.md) — theme system, design tokens, writing component styles
 - [Consuming](docs/consuming.md) — integrating DUI into an app
 - [Inspector](docs/inspector.md) — runtime inspection, mutation API, and visual editor

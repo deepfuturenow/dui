@@ -61,6 +61,17 @@ const PACKAGES = [
       "lit": "^3.3.2",
     },
   },
+  {
+    name: "@deepfuture/dui-theme-default-templates",
+    srcDir: "packages/theme-default-templates",
+    distDir: "dui-theme-default-templates",
+    description: "DUI templates for the default theme — pre-composed UI patterns built from DUI components",
+    dependencies: {
+      "@deepfuture/dui-core": "0.1.0",
+      "@deepfuture/dui-components": "0.1.0",
+      "lit": "^3.3.2",
+    },
+  },
 ] as const;
 
 /** Read version from packages/core/deno.json */
@@ -78,6 +89,7 @@ function rewriteImports(content: string): string {
     ["@dui/components", "@deepfuture/dui-components"],
     ["@dui/theme-default", "@deepfuture/dui-theme-default"],
     ["@dui/inspector", "@deepfuture/dui-inspector"],
+    ["@dui/theme-default-templates", "@deepfuture/dui-theme-default-templates"],
   ];
   let result = content;
   for (const [from, to] of rewrites) {
@@ -176,6 +188,8 @@ async function compilePackage(
         "@dui/theme-default/*": [join(ROOT, "packages/theme-default/src/*.ts")],
         "@dui/inspector": [join(ROOT, "packages/inspector/src/index.ts")],
         "@dui/inspector/*": [join(ROOT, "packages/inspector/src/*.ts")],
+        "@dui/theme-default-templates": [join(ROOT, "packages/theme-default-templates/src/all.ts")],
+        "@dui/theme-default-templates/*": [join(ROOT, "packages/theme-default-templates/src/*.ts")],
       },
     },
     include: [srcRoot + "/**/*.ts"],
@@ -413,6 +427,7 @@ async function main() {
   console.log("   dist/dui-components/");
   console.log("   dist/dui-theme-default/");
   console.log("   dist/dui-inspector/");
+  console.log("   dist/dui-theme-default-templates/");
 }
 
 /** Remove .js and .d.ts files that tsc leaked into source directories */

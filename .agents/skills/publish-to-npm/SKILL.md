@@ -1,15 +1,16 @@
 ---
-name: dui-npm-publish
+name: publish-to-npm
 description: Publish a new DUI release to npm. Bumps version across all packages, builds, verifies, and publishes to the @deepfuture npm org. Use when the user says "push a new release to npm", "publish a new release", "publish to npm", "release a new version", "bump and publish", or "npm publish".
 ---
 
 # Publish DUI to npm
 
-Lockstep publish of all four DUI packages to npm:
+Lockstep publish of all DUI packages to npm:
 
 - `@deepfuture/dui-core`
 - `@deepfuture/dui-components`
 - `@deepfuture/dui-theme-default`
+- `@deepfuture/dui-theme-default-templates`
 - `@deepfuture/dui-cdn`
 
 All packages share the same version number. The source of truth for the current version is `packages/core/deno.json`.
@@ -59,11 +60,12 @@ This updates `version` in all four `packages/*/deno.json` files.
 deno task build
 ```
 
-Compiles all packages via tsc to `dist/`. Verify the output shows ✅ for all three packages:
+Compiles all packages via tsc to `dist/`. Verify the output shows ✅ for all packages:
 
 - `dist/dui-core/`
 - `dist/dui-components/`
 - `dist/dui-theme-default/`
+- `dist/dui-theme-default-templates/`
 
 If the build fails, stop and fix the issue before continuing.
 
@@ -89,7 +91,8 @@ This runs `npm publish --access public` for each package in dependency order:
 1. `dui-core` (no DUI deps)
 2. `dui-components` (depends on core)
 3. `dui-theme-default` (depends on core)
-4. `dui-cdn` (bundles everything)
+4. `dui-theme-default-templates` (depends on core + components)
+5. `dui-cdn` (bundles everything)
 
 ### 7. Commit and tag
 

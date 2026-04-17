@@ -1,6 +1,6 @@
 # Creating Components
 
-Step-by-step guide for adding a new unstyled component to dui.
+Conventions and patterns for unstyled DUI components. For the step-by-step procedure (file creation, config updates, verification), use the `/create-component` skill.
 
 ---
 
@@ -11,8 +11,7 @@ Every component creates files in two packages:
 ```
 packages/components/src/{name}/
   {name}.ts              # Component class + structural styles
-  index.ts               # Re-exports class + types
-  register.ts            # Standalone registration (non-theme usage)
+  index.ts               # Re-exports class + types + family array
 
 packages/theme-default/src/components/
   {name}.ts              # Aesthetic styles for this component
@@ -464,27 +463,30 @@ Set `--icon-size` and `--icon-fg` in theme styles for slotted icons:
 
 ---
 
-## Exports and registration
+## Exports
 
-### `index.ts` — re-export class
+### `index.ts` — re-export class + family array
 
 ```typescript
 // packages/components/src/badge/index.ts
-export { DuiBadge } from "./badge.ts";
+import { DuiBadge } from "./badge.ts";
+export { DuiBadge };
+
+export const badgeFamily = [DuiBadge];
 ```
 
-### `register.ts` — standalone registration
-
-For non-theme usage (testing, simple apps):
+For compound components, the family includes all sub-components:
 
 ```typescript
-// packages/components/src/badge/register.ts
-import { DuiBadge } from "./index.ts";
+// packages/components/src/accordion/index.ts
+import { DuiAccordion } from "./accordion.ts";
+import { DuiAccordionItem } from "./accordion-item.ts";
+export { DuiAccordion, DuiAccordionItem };
 
-if (!customElements.get(DuiBadge.tagName)) {
-  customElements.define(DuiBadge.tagName, DuiBadge);
-}
+export const accordionFamily = [DuiAccordion, DuiAccordionItem];
 ```
+
+Consumers use families for convenient registration: `applyTheme({ components: [...accordionFamily] })`.
 
 ### Add to package exports
 
@@ -503,113 +505,6 @@ In `packages/components/deno.json`:
 See [theming.md](./theming.md) for adding theme styles and registering in the theme's styles map.
 
 ---
-
-## Worked example: adding `dui-badge`
-
-### 1. Component class (`packages/components/src/badge/badge.ts`)
-
-```typescript
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { base } from "@dui/core/base";
-
-const styles = css`
-  :host { display: inline-block; }
-  [part="root"] { display: inline-flex; align-items: center; }
-`;
-
-export class DuiBadge extends LitElement {
-  static tagName = "dui-badge" as const;
-  static override styles = [base, styles];
-
-  @property({ reflect: true })
-  accessor variant: string = "";
-
-  override render(): TemplateResult {
-    return html`<span part="root"><slot></slot></span>`;
-  }
-}
-```
-
-### 2. Index (`packages/components/src/badge/index.ts`)
-
-```typescript
-export { DuiBadge } from "./badge.ts";
-```
-
-### 3. Register (`packages/components/src/badge/register.ts`)
-
-```typescript
-import { DuiBadge } from "./index.ts";
-if (!customElements.get(DuiBadge.tagName)) {
-  customElements.define(DuiBadge.tagName, DuiBadge);
-}
-```
-
-### 4. Theme styles (`packages/theme-default/src/components/badge.ts`)
-
-```typescript
-import { css } from "lit";
-
-export const badgeStyles = css`
-  :host {
-    --badge-bg: var(--accent);
-    --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
-    --badge-border: transparent;
-    --badge-icon-size: var(--space-3);
-  }
-
-  :host([variant="secondary"]) {
-    --badge-bg: var(--surface-1);
-    --badge-fg: var(--text-1);
-  }
-
-  /* ... more variants ... */
-
-  [part="root"] {
-    --icon-size: var(--badge-icon-size);
-    --icon-fg: var(--badge-fg);
-    gap: var(--space-1);
-    height: var(--space-5);
-    padding: 0 var(--space-2);
-    border-radius: var(--radius-full);
-    background-color: var(--badge-bg);
-    color: var(--badge-fg);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    border: var(--border-width-thin) solid var(--badge-border);
-  }
-`;
-```
-
-### 5. Theme variant types (`packages/theme-default/src/types.ts`)
-
-```typescript
-export type BadgeVariant =
-  | "default" | "secondary" | "destructive" | "outline"
-  | "success" | "warning" | "info";
-```
-
-### 6. Register in theme (`packages/theme-default/src/index.ts`)
-
-```typescript
-import { badgeStyles } from "./components/badge.ts";
-
-export const defaultTheme: DuiTheme = {
-  tokens: tokenSheet,
-  base: themedBase,
-  styles: new Map([
-    // ... existing entries ...
-    ["dui-badge", badgeStyles],
-  ]),
-};
-```
-
-### 7. Add exports to `deno.json`
-
-In `packages/components/deno.json`, add `"./badge": "./src/badge/index.ts"`.
-
-In `packages/theme-default/deno.json`, add `"./components/badge": "./src/components/badge.ts"`.
 
 ---
 
@@ -630,8 +525,7 @@ In `packages/theme-default/deno.json`, add `"./components/badge": "./src/compone
 - [ ] **All lifecycle overrides** use the `override` keyword
 - [ ] **Events** use `customEvent()` factory with `bubbles: true, composed: true`
 - [ ] **JSDoc** with `@slot`, `@csspart`, `@fires` as needed
-- [ ] **`index.ts`** re-exports class (no variant types — those go in the theme)
-- [ ] **`register.ts`** provides standalone registration
+- [ ] **`index.ts`** re-exports class + family array (no variant types — those go in the theme)
 - [ ] **Package exports** added to `deno.json`
 - [ ] **Theme styles** created in `packages/theme-default/src/components/`
 - [ ] **Theme styles registered** in `defaultTheme.styles` map

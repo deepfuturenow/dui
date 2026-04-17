@@ -1,6 +1,6 @@
 ---
-name: add-component
-description: Scaffold a new unstyled DUI component with all required files. Use when the user asks to add, create, or scaffold a new component, or says "add component", "new component", "create dui-foo", etc.
+name: create-component
+description: Scaffold a new unstyled DUI component with all required files. Use when the user asks to add, create, or scaffold a new component, or says "create component", "new component", "create dui-foo", "add a component", etc.
 ---
 
 # Add Component
@@ -16,8 +16,7 @@ Every new component requires files in two packages plus configuration updates. T
 ```
 packages/components/src/{name}/
   {name}.ts              # Component class + structural styles
-  index.ts               # Re-exports class + types
-  register.ts            # Standalone registration
+  index.ts               # Re-exports class + types + family array
 
 packages/theme-default/src/components/
   {name}.ts              # Aesthetic styles
@@ -51,8 +50,7 @@ If the user provides a reference (shadcn, Base UI, existing component), use the 
 Before writing any code, read these existing files for patterns:
 
 - `packages/components/src/badge/badge.ts` — simplest component reference
-- `packages/components/src/badge/index.ts` — index pattern
-- `packages/components/src/badge/register.ts` — register pattern
+- `packages/components/src/badge/index.ts` — index pattern (includes family array)
 - `packages/theme-default/src/components/badge.ts` — theme styles pattern
 - `packages/theme-default/src/index.ts` — theme registration pattern
 - `packages/components/deno.json` — export map pattern
@@ -67,7 +65,7 @@ import { css, html, LitElement, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 
-export type {Name}Variant = "default" | "secondary" | "destructive";
+/* No variant types here — variant names are a theme concern. */
 
 /** Structural styles only — layout CSS. */
 const styles = css`
@@ -93,7 +91,7 @@ export class Dui{Name} extends LitElement {
   static override styles = [base, styles];
 
   @property({ reflect: true })
-  accessor variant: {Name}Variant = "default";
+  accessor variant: string = "";
 
   override render(): TemplateResult {
     return html`
@@ -119,23 +117,25 @@ export class Dui{Name} extends LitElement {
 Create `packages/components/src/{name}/index.ts`:
 
 ```typescript
-export { Dui{Name} } from "./{name}.ts";
-export type { {Name}Variant } from "./{name}.ts";
+import { Dui{Name} } from "./{name}.ts";
+export { Dui{Name} };
+
+export const {name}Family = [Dui{Name}];
 ```
 
-### Step 5 — Create the register
-
-Create `packages/components/src/{name}/register.ts`:
+For compound components, the family includes all sub-components:
 
 ```typescript
-import { Dui{Name} } from "./index.ts";
+import { Dui{Name} } from "./{name}.ts";
+import { Dui{Name}Item } from "./{name}-item.ts";
+export { Dui{Name}, Dui{Name}Item };
 
-if (!customElements.get(Dui{Name}.tagName)) {
-  customElements.define(Dui{Name}.tagName, Dui{Name});
-}
+export const {name}Family = [Dui{Name}, Dui{Name}Item];
 ```
 
-### Step 6 — Create the theme styles
+### Step 5 — Create the theme styles
+
+> Note: Not every component needs the two-axis intent/appearance pattern. Simple components may just set variables directly on `:host`. Use the pattern when the component has semantic variants.
 
 Create `packages/theme-default/src/components/{name}.ts`:
 
@@ -143,25 +143,44 @@ Create `packages/theme-default/src/components/{name}.ts`:
 import { css } from "lit";
 
 export const {name}Styles = css`
-  :host {
-    --{name}-bg: var(--primary);
-    --{name}-fg: var(--primary-foreground);
+  /* Layer 1 — Intent */
+  :host,
+  :host([variant=""]),
+  :host([variant="neutral"]) {
+    --_intent-base: var(--foreground);
+    --_intent-base-fg: var(--background);
+    --_intent-subtle-fg: var(--text-1);
+  }
+
+  :host([variant="primary"]) {
+    --_intent-base: var(--accent);
+    --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+    --_intent-subtle-fg: var(--accent-text);
+  }
+
+  :host([variant="danger"]) {
+    --_intent-base: var(--destructive);
+    --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
+    --_intent-subtle-fg: var(--destructive-text);
+  }
+
+  /* Layer 2 — Appearance */
+  :host,
+  :host([appearance="filled"]) {
+    --{name}-bg: var(--_intent-base);
+    --{name}-fg: var(--_intent-base-fg);
     --{name}-border: transparent;
   }
 
-  :host([variant="secondary"]) {
-    --{name}-bg: var(--secondary);
-    --{name}-fg: var(--secondary-foreground);
-  }
-
-  :host([variant="destructive"]) {
-    --{name}-bg: var(--destructive);
-    --{name}-fg: var(--destructive-foreground);
+  :host([appearance="outline"]) {
+    --{name}-bg: transparent;
+    --{name}-fg: var(--_intent-subtle-fg);
+    --{name}-border: var(--border);
   }
 
   [part="root"] {
     gap: var(--space-1);
-    background-color: var(--{name}-bg);
+    background: var(--{name}-bg);
     color: var(--{name}-fg);
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
@@ -177,7 +196,7 @@ export const {name}Styles = css`
 - Override variables in `:host([attr])` selectors for variants
 - Internal elements consume variables via `var()`
 
-### Step 7 — Update configuration
+### Step 6 — Update configuration
 
 **`packages/components/deno.json`** — add to exports:
 
@@ -203,11 +222,11 @@ import { {name}Styles } from "./components/{name}.ts";
 export { {name}Styles } from "./components/{name}.ts";
 ```
 
-### Step 8 — Add to docs
+### Step 7 — Add to docs
 
-Use the `/add-to-docs` skill to wire the new component into the docs dev server.
+Use the `/edit-docs` skill to wire the new component into the docs dev server.
 
-### Step 9 — Verify
+### Step 8 — Verify
 
 Run `deno check` from the repo root to verify everything compiles.
 
@@ -224,8 +243,7 @@ Run `deno check` from the repo root to verify everything compiles.
 - [ ] Internal state uses `@state() accessor #name`
 - [ ] Private methods use `#private` syntax
 - [ ] Events use `customEvent()` factory with `bubbles: true, composed: true`
-- [ ] `index.ts` re-exports class + types
-- [ ] `register.ts` provides standalone registration
+- [ ] `index.ts` re-exports class + family array (no variant types — those go in theme)
 - [ ] `deno.json` exports added in both packages
 - [ ] Theme styles use design tokens only
 - [ ] Theme styles registered in `defaultTheme.styles` map

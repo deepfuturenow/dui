@@ -18,7 +18,7 @@ Before writing any DUI code, check the project's DUI status:
 
 ## Principles
 
-1. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
+1. **Use DUI templates and components first.** Before writing custom markup, check if a DUI template or component exists. Read `references/components.md` for the component catalog. Templates are pre-composed patterns (feed items, social posts, etc.) in `@dui/theme-default-templates`.
 2. **Inspect before styling or debugging.** Before overriding any DUI token or adding custom CSS to a DUI component, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. Do the same when debugging unexpected behavior (events not firing, props not updating, context not propagating). The inspector is the ground truth — it's faster and more reliable than guessing token names or reading `node_modules` source.
 3. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
 4. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
@@ -91,6 +91,33 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Raw `<a>` tag | `dui-link` |
 
 See `references/rules.md` for incorrect/correct code pairs for every rule.
+
+## Templates
+
+DUI templates are pre-composed UI patterns in `@dui/theme-default-templates`. They combine DUI components + vanilla HTML/CSS into ready-to-use elements like feed items, social posts, and activity timeline entries. Templates are theme-scoped — they use the default theme's variant vocabulary.
+
+Templates declare their component dependencies via `static dependencies`. When passed to `applyTheme`, dependencies auto-register:
+
+```typescript
+import { DuiFeedItem } from "@dui/theme-default-templates/feed";
+
+applyTheme({
+  theme: defaultTheme,
+  components: [DuiFeedItem],  // DuiBadge auto-registers
+});
+```
+
+```html
+<dui-feed-item
+  title="Earthquake detected"
+  subtitle="USGS Pacific Northwest"
+  timestamp="2 min ago"
+  category="Seismic"
+  severity="high"
+></dui-feed-item>
+```
+
+Templates are presentational — feed them props, they render. No data fetching, no global state. They can compose interactive DUI components (tabs, accordion) but don't implement their own interaction logic.
 
 ## Theming
 

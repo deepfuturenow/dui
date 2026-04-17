@@ -97,6 +97,13 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./cluster-layer": "./src/cluster-layer/index.ts",
     },
   },
+  "@dui/theme-default-templates": {
+    dir: join(WORKSPACE_ROOT, "packages/theme-default-templates"),
+    exports: {
+      "./feed": "./src/feed/index.ts",
+      "./all": "./src/all.ts",
+    },
+  },
   "@dui/theme-default": {
     dir: join(WORKSPACE_ROOT, "packages/theme-default"),
     exports: {

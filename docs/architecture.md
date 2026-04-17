@@ -1,9 +1,14 @@
 # Architecture
 
-## Two-layer architecture
+## Three-layer architecture
 
 ```
 ┌─────────────────────────────────────────────┐
+│  Templates (theme-scoped compositions)      │
+│  └── @dui/theme-default-templates           │
+│       Pre-composed UI patterns that render  │
+│       themed components + vanilla HTML/CSS  │
+├─────────────────────────────────────────────┤
 │  Theme (owns all aesthetics)                │
 │  ├── @property declarations (typed API)     │
 │  ├── Tokens (theme-internal, optional)      │
@@ -17,7 +22,7 @@
 └─────────────────────────────────────────────┘
 ```
 
-The **library** provides structure and behaviour with zero visual opinions. **Themes** own all aesthetics — tokens, variant vocabularies, component-level CSS custom property contracts, and `@property` declarations.
+The **library** provides structure and behaviour with zero visual opinions. **Themes** own all aesthetics — tokens, variant vocabularies, component-level CSS custom property contracts, and `@property` declarations. **Templates** sit on top: pre-composed patterns that combine themed components with layout, aimed at specific use cases (feed items, social posts, activity timelines).
 
 `theme-default` ships a comprehensive token system and a ShadCN-inspired variant vocabulary — but those are its design choices, not library requirements. A different theme can use entirely different token names, variant names, or no tokens at all.
 
@@ -35,6 +40,25 @@ Called once before any DUI component is used. Here's what it does step by step:
 applyTheme({
   theme: defaultTheme,
   components: [DuiButton, DuiSwitch, DuiBadge],
+});
+```
+
+### Dependency resolution
+
+Components and templates can declare `static dependencies` — an array of component classes they render internally. `applyTheme` resolves these recursively (depth-first) so dependencies register before dependents. This is especially useful for templates, which render DUI components in their shadow DOM:
+
+```typescript
+// Template declares what it renders internally
+class DuiFeedItem extends LitElement {
+  static tagName = "dui-feed-item" as const;
+  static dependencies = [DuiBadge];
+  // ...
+}
+
+// Consumer only needs to list the template — DuiBadge auto-registers
+applyTheme({
+  theme: defaultTheme,
+  components: [DuiFeedItem],
 });
 ```
 
@@ -88,6 +112,17 @@ Components provide structure and behaviour only. Properties like `variant` and `
 | `@dui/theme-default/components/badge` | `badgeStyles` CSSResult |
 
 The theme includes its own token system, variant vocabulary, and typed CSS custom property API via `@property` declarations. These are all `theme-default`'s design choices — a different theme defines its own.
+
+### `@dui/theme-default-templates`
+
+Pre-composed UI patterns for the default theme. Templates are Lit web components that render DUI components + vanilla HTML, styled exclusively with design tokens so they adapt to dark mode and token overrides.
+
+Templates are **theme-scoped** — they use `theme-default`'s variant vocabulary (`variant="danger"`, `appearance="ghost"`, etc.) and token names. A different theme would ship its own templates package. This is why templates live in a separate package rather than in `@dui/components` (which is theme-agnostic).
+
+| Export | Purpose |
+|--------|---------|
+| `@dui/theme-default-templates/feed` | Feed & events templates (`DuiFeedItem`, etc.) |
+| `@dui/theme-default-templates/all` | All template families |
 
 ### `@dui/docs`
 

@@ -15,10 +15,11 @@ Unstyled web components + composable themes. Components provide structure and be
 
 ```
 packages/
-├── core/            # Base styles, event factory, applyTheme, floating UI utilities
-├── components/      # Unstyled component classes (structural CSS only)
-├── theme-default/   # Design tokens, themed base, per-component aesthetic styles
-└── docs/            # Dev server for visual testing
+├── core/                      # Base styles, event factory, applyTheme, floating UI utilities
+├── components/                # Unstyled component classes (structural CSS only)
+├── theme-default/             # Design tokens, themed base, per-component aesthetic styles
+├── theme-default-templates/   # Pre-composed UI patterns for the default theme
+└── docs/                      # Dev server for visual testing
 ```
 
 This is a Deno workspace. The root `deno.json` declares all four packages.
@@ -61,7 +62,8 @@ chrome_devtools_resize_page → { width: 1280, height: 1000 }
 
 The docs dev server (`packages/docs`) is a multi-page site with sidebar navigation, hash routing, and per-component demo pages.
 
-- Adding a component to docs: use the `/add-to-docs` skill
+- Adding a component to docs: use the `/edit-docs` skill
+- Adding a template: use the `/create-default-theme-template` skill
 - Component metadata: `packages/docs/src/component-registry.ts` (drives nav, API tables, and `llms.txt`)
 - Shell + routing: `packages/docs/src/docs-app.ts` + `docs-router.ts`
 - Per-component pages: `packages/docs/src/pages/docs-page-{name}.ts`
@@ -75,9 +77,19 @@ The DUI agent skill lives at `skills/dui/`. When changing component APIs or the 
 - **Inspector API changes** (new globals, changed signatures, new return fields): edit `docs/inspector.md` (the single source of truth), then run `deno task generate` to regenerate `skills/dui/references/inspector.md`. Include the regenerated file in the same commit.
 - **New components**: add to `component-registry.ts` first, then `deno task generate` picks it up automatically. Also update the category mapping in `scripts/generate-skill-components.ts` if the component doesn't fit an existing category.
 
+## Templates
+
+Templates are theme-scoped, pre-composed UI patterns in `packages/theme-default-templates/`. They combine DUI components + vanilla HTML/CSS, use design tokens for all styling, and declare component dependencies via `static dependencies` (auto-registered by `applyTheme`).
+
+- Templates own all their CSS (no structure/theme split)
+- Templates are presentational only — no data fetching, no global state
+- Templates can compose interactive DUI components (tabs, accordion) but don't implement their own interaction logic
+- Creating templates: `docs/creating-templates.md`
+
 ## Detailed conventions
 
 - Architecture & mental model: `docs/architecture.md`
 - Creating components: `docs/creating-components.md`
+- Creating templates: `docs/creating-templates.md`
 - Theming system: `docs/theming.md`
 - App integration: `docs/consuming.md`

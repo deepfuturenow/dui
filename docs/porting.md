@@ -2,7 +2,7 @@
 
 How to port a component from ShadCN/ui or Base UI into dui's unstyled architecture.
 
-For step-by-step workflows, see the porting skills (`.claude/skills/port-shadcn/`, `.claude/skills/port-base-ui/`). This guide covers the mental model and principles.
+For step-by-step workflows, use the `/port-shadcn` or `/port-base-ui` skills. This guide covers the mental model and principles.
 
 ---
 
@@ -56,10 +56,10 @@ Tailwind utility classes map to design tokens with a consistent naming pattern. 
 | Typography | `text-sm`, `font-medium` | `var(--font-size-sm)`, `var(--font-weight-medium)` |
 | Radius | `rounded-md` | `var(--radius-md)` |
 | Heights | `h-9` | `var(--component-height-md)` |
-| Colors | `bg-primary`, `text-muted-foreground` | `var(--primary)`, `var(--muted-foreground)` |
+| Colors | `bg-primary`, `text-muted-foreground` | `var(--foreground)`, `var(--text-2)` (see `/port-shadcn` skill for full mapping) |
 | Motion | `duration-200`, `ease-out` | `var(--duration-normal)`, `var(--ease-out-3)` |
 
-The full mapping tables are in `.claude/skills/port-shadcn/SKILL.md` (Step 4). The pattern is predictable enough that an agent can extrapolate for unlisted values.
+The full mapping tables are in the `/port-shadcn` skill (Step 4). DUI does NOT use ShadCN's token names — see the skill for the correct mapping from ShadCN colors to DUI's 4-primitive system.
 
 ---
 
@@ -76,15 +76,25 @@ const buttonVariants = cva("base-classes", {
   }
 });
 
-// DUI theme styles
+// DUI theme styles — uses two-axis intent/appearance pattern
 export const buttonStyles = css`
-  :host {
-    --button-bg: var(--primary);
-    --button-fg: var(--primary-foreground);
+  /* Layer 1: Intent */
+  :host, :host([variant="neutral"]) {
+    --_intent-base: var(--foreground);
+    --_intent-base-fg: var(--background);
   }
-  :host([variant="secondary"]) {
-    --button-bg: var(--secondary);
-    --button-fg: var(--secondary-foreground);
+  :host([variant="primary"]) {
+    --_intent-base: var(--accent);
+    --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+  }
+  /* Layer 2: Appearance */
+  :host, :host([appearance="filled"]) {
+    --button-bg: var(--_intent-base);
+    --button-fg: var(--_intent-base-fg);
+  }
+  :host([appearance="ghost"]) {
+    --button-bg: transparent;
+    --button-fg: var(--text-1);
   }
   :host([size="sm"]) {
     --button-height: var(--component-height-sm);
@@ -113,7 +123,7 @@ Base UI uses `data-*` attributes (`data-checked`, `data-disabled`, `data-open`) 
 
 ```css
 /* In theme styles */
-[part="root"][data-checked] { background-color: var(--primary); }
+[part="root"][data-checked] { background: var(--accent); }
 ```
 
 ---

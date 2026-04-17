@@ -148,16 +148,23 @@ Same mapping for `m-*`, `gap-*`, `px-*`, `py-*`, etc.
 
 ### Colors
 
-| Tailwind | Token |
-|----------|-------|
-| `bg-primary` | `var(--primary)` |
-| `text-primary-foreground` | `var(--primary-foreground)` |
-| `bg-secondary` | `var(--secondary)` |
-| `bg-destructive` | `var(--destructive)` |
-| `bg-muted` | `var(--muted)` |
-| `text-muted-foreground` | `var(--muted-foreground)` |
-| `border-input` | `var(--input)` |
-| `ring-ring` | `var(--ring)` |
+DUI does NOT use ShadCN's token names. Map ShadCN colors to DUI's 4-primitive system:
+
+| ShadCN Tailwind | DUI Token | Notes |
+|----------|-------|-------|
+| `bg-primary` | `var(--foreground)` | DUI's "neutral filled" |
+| `text-primary-foreground` | `var(--background)` | Contrast text on primary |
+| `bg-accent` / `bg-primary` (brand) | `var(--accent)` | Brand/interactive color |
+| `text-accent-foreground` | `oklch(from var(--accent) 0.98 0.01 h)` | Auto-contrast |
+| `bg-destructive` | `var(--destructive)` | Same concept |
+| `bg-muted` / `bg-secondary` | `var(--surface-1)` or `var(--surface-2)` | Elevated surfaces |
+| `text-muted-foreground` | `var(--text-2)` or `var(--text-3)` | Reduced text |
+| `border` / `border-input` | `var(--border)` | Semi-transparent foreground |
+| `ring-ring` | `var(--focus-ring-color)` | Focus ring color |
+| `bg-background` | `var(--background)` | Page canvas |
+| `text-foreground` | `var(--foreground)` | Primary text |
+
+See `docs/theming.md` for the full color system (4 primitives + 13 derived tokens).
 
 ### Motion
 
@@ -172,7 +179,10 @@ Same mapping for `m-*`, `gap-*`, `px-*`, `py-*`, etc.
 
 ## Step 5 — Variant translation
 
-ShadCN uses `cva()` for variants. In DUI, variants go in the **theme styles** using `:host([attr])` selectors:
+ShadCN uses `cva()` for variants. In DUI, variants use a **two-axis system** in theme styles:
+
+- **Variant** (intent axis): `:host([variant="..."])` — sets `--_intent-*` private tokens
+- **Appearance** (treatment axis): `:host([appearance="..."])` — maps `--_intent-*` to `--{name}-*` public tokens
 
 ```typescript
 // ShadCN cva()
@@ -180,39 +190,74 @@ const buttonVariants = cva("base-classes", {
   variants: {
     variant: {
       default: "bg-primary text-primary-foreground",
-      secondary: "bg-secondary text-secondary-foreground",
+      destructive: "bg-destructive text-destructive-foreground",
+      outline: "border bg-background hover:bg-accent",
+      ghost: "hover:bg-accent hover:text-accent-foreground",
     },
     size: {
       sm: "h-8 px-3 text-xs",
-      md: "h-9 px-4",
+      default: "h-9 px-4",
     }
   }
 });
 
 // DUI theme styles (packages/theme-default/src/components/{name}.ts)
 export const {name}Styles = css`
-  :host {
-    --{name}-bg: var(--primary);
-    --{name}-fg: var(--primary-foreground);
-    --{name}-height: var(--component-height-md);
+  /* Layer 1 — Intent (sets private tokens) */
+  :host,
+  :host([variant="neutral"]) {
+    --_intent-base: var(--foreground);
+    --_intent-base-fg: var(--background);
+    --_intent-subtle-fg: var(--text-1);
   }
 
-  :host([variant="secondary"]) {
-    --{name}-bg: var(--secondary);
-    --{name}-fg: var(--secondary-foreground);
+  :host([variant="primary"]) {
+    --_intent-base: var(--accent);
+    --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+    --_intent-subtle-fg: var(--accent-text);
   }
 
-  :host([size="sm"]) {
-    --{name}-height: var(--component-height-sm);
-    --{name}-font-size: var(--font-size-xs);
+  :host([variant="danger"]) {
+    --_intent-base: var(--destructive);
+    --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
+    --_intent-subtle-fg: var(--destructive-text);
   }
 
+  /* Layer 2 — Appearance (maps intent to component tokens) */
+  :host,
+  :host([appearance="filled"]) {
+    --{name}-bg: var(--_intent-base);
+    --{name}-fg: var(--_intent-base-fg);
+    --{name}-border: transparent;
+  }
+
+  :host([appearance="outline"]) {
+    --{name}-bg: transparent;
+    --{name}-fg: var(--_intent-subtle-fg);
+    --{name}-border: var(--border);
+  }
+
+  :host([appearance="ghost"]) {
+    --{name}-bg: transparent;
+    --{name}-fg: var(--_intent-subtle-fg);
+    --{name}-border: transparent;
+  }
+
+  /* Sizes */
+  :host { --{name}-height: var(--component-height-md); }
+  :host([size="sm"]) { --{name}-height: var(--component-height-sm); }
+
+  /* Root element */
   [part="root"] {
-    background-color: var(--{name}-bg);
+    background: var(--{name}-bg);
     color: var(--{name}-fg);
     height: var(--{name}-height);
+    border: var(--border-width-thin) solid var(--{name}-border);
   }
 `;
+```
+
+**Key mapping:** ShadCN's `variant: "outline"` and `variant: "ghost"` become DUI's `appearance` axis, not `variant`. ShadCN's `variant: "destructive"` becomes DUI's `variant="danger"`.
 ```
 
 The component class just declares the reflected properties:
@@ -247,13 +292,14 @@ accessor size: {Name}Size = "md";
 
 ## Step 7 — Create the files
 
-Use the `/add-component` skill's file structure. Create:
+Use the `/create-component` skill's file structure. Create:
 
 1. **Component class** — `packages/components/src/{name}/{name}.ts` (structural CSS only)
-2. **Index** — `packages/components/src/{name}/index.ts`
-3. **Register** — `packages/components/src/{name}/register.ts`
-4. **Theme styles** — `packages/theme-default/src/components/{name}.ts` (aesthetic CSS)
-5. **Config updates** — both `deno.json` files + theme index
+2. **Index** — `packages/components/src/{name}/index.ts` (re-exports + family array)
+3. **Theme styles** — `packages/theme-default/src/components/{name}.ts` (aesthetic CSS)
+4. **Config updates** — both `deno.json` files + theme index
+
+There is no `register.ts` — registration is handled by `applyTheme()`.
 
 Add a provenance comment at the top of the component file:
 
@@ -265,16 +311,25 @@ Add a provenance comment at the top of the component file:
 
 ## Step 8 — Hover pattern
 
-For interactive components, use `color-mix(in oklch, ...)` for hover effects in the theme styles:
+For interactive components, use the standard DUI hover patterns in theme styles:
 
 ```css
-:host {
-  --{name}-hover-bg: color-mix(in oklch, var(--{name}-bg) 95%, var(--foreground));
-  --{name}-active-bg: color-mix(in oklch, var(--{name}-bg) 90%, var(--foreground));
+/* Filled variants: darken with filter */
+[part="root"]:hover:not(:disabled):not([aria-disabled="true"]) {
+  filter: brightness(0.88);
 }
 
-[part="root"]:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--{name}-hover-bg);
+[part="root"]:active:not(:disabled):not([aria-disabled="true"]) {
+  filter: brightness(0.80);
+}
+
+/* Ghost/outline variants: foreground alpha overlay */
+:host([appearance="ghost"]) [part="root"]:hover:not(:disabled) {
+  background: oklch(from var(--foreground) l c h / 0.05);
+}
+
+:host([appearance="ghost"]) [part="root"]:active:not(:disabled) {
+  background: oklch(from var(--foreground) l c h / 0.10);
 }
 ```
 
@@ -288,8 +343,8 @@ For focusable components, add the standard focus ring in theme styles:
 [part="root"]:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 var(--space-0_5) var(--background),
-    0 0 0 var(--space-1) var(--ring);
+    0 0 0 var(--focus-ring-offset) var(--background),
+    0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
 }
 ```
 
@@ -310,7 +365,7 @@ If the component supports slotted icons, set `--icon-size` and `--icon-fg` in th
 
 ## Step 11 — Add to docs
 
-Use the `/add-to-docs` skill to wire into the docs dev server.
+Use the `/edit-docs` skill to wire into the docs dev server.
 
 ---
 
@@ -327,15 +382,19 @@ Run `deno check` from the repo root.
 - [ ] Theme styles use design tokens — no hardcoded values
 - [ ] No Tailwind classes in output — all translated to tokens
 - [ ] No React-isms — no `className`, no JSX, no hooks
-- [ ] Variants use `:host([attr])` in theme styles with reflected properties
+- [ ] Two-axis variant system: intent (`:host([variant])`) + appearance (`:host([appearance])`)
 - [ ] `static tagName` with `as const` — no `@customElement`
 - [ ] `static override styles = [base, styles]`
 - [ ] `part="root"` on root internal element
 - [ ] Properties use `accessor` keyword
 - [ ] Private methods use `#private` syntax
 - [ ] Events use `customEvent()` factory
-- [ ] `index.ts` re-exports, `register.ts` provides standalone registration
+- [ ] `index.ts` re-exports + family array
 - [ ] Config updates in both `deno.json` files
-- [ ] Theme styles registered in `defaultTheme.styles` map
+- [ ] Theme styles registered in `defaultTheme.styles` map in `packages/theme-default/src/index.ts`
+- [ ] Hover: `filter: brightness(0.88)` for filled, `oklch(from var(--foreground) l c h / 0.05)` for ghost/outline
+- [ ] Focus ring uses `--focus-ring-offset`, `--focus-ring-width`, `--focus-ring-color` tokens
+- [ ] Disabled: `opacity: 0.4; cursor: not-allowed`
+- [ ] Uses `background` shorthand (not `background-color`)
 - [ ] Keyboard and ARIA attributes match ShadCN behavior
 - [ ] `deno check` passes

@@ -18,9 +18,39 @@ export interface DuiTheme {
   prose?: CSSStyleSheet;
 }
 
+/** A DUI component or template class passed to applyTheme. */
+export type DuiComponentClass = typeof LitElement & {
+  tagName: string;
+  /** Optional component classes this element renders internally (auto-registered). */
+  dependencies?: DuiComponentClass[];
+};
+
 export interface ApplyThemeOptions {
   theme: DuiTheme;
-  components: Array<typeof LitElement & { tagName: string }>;
+  components: DuiComponentClass[];
+}
+
+/**
+ * Collect all component classes including their declared dependencies.
+ * Dependencies are emitted before the classes that depend on them.
+ * Deduplicates by tagName.
+ */
+function flattenWithDependencies(roots: DuiComponentClass[]): DuiComponentClass[] {
+  const seen = new Set<string>();
+  const result: DuiComponentClass[] = [];
+
+  function visit(cls: DuiComponentClass): void {
+    if (seen.has(cls.tagName)) return;
+    seen.add(cls.tagName);
+    // Visit dependencies first so they register before this class
+    if (cls.dependencies) {
+      for (const dep of cls.dependencies) visit(dep);
+    }
+    result.push(cls);
+  }
+
+  for (const cls of roots) visit(cls);
+  return result;
 }
 
 let activeTheme: DuiTheme | null = null;
@@ -41,8 +71,11 @@ export function applyTheme({ theme, components }: ApplyThemeOptions): void {
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, theme.prose];
   }
 
-  // 2. For each component, create a themed subclass and register it
-  for (const Base of components) {
+  // 2. Flatten dependency tree (breadth-first) so deps register before dependents
+  const ordered = flattenWithDependencies(components);
+
+  // 3. For each component, create a themed subclass and register it
+  for (const Base of ordered) {
     const tagName = Base.tagName;
     if (customElements.get(tagName)) continue;
 

@@ -24,8 +24,9 @@ These docs contain the full conventions. This skill focuses on Base-UI-specific 
 
 - `docs/creating-components.md` — file structure, properties, events, lifecycle, validation checklist
 - `docs/porting.md` — structural vs aesthetic decomposition, React → Lit mapping
-- `docs/theming.md` — theme interface, token categories, component style patterns (hover, focus ring, disabled)
+- `docs/theming.md` — theme interface, color system, alpha compositing, surface depth model, styling philosophy
 - `docs/accessibility.md` — ARIA patterns, keyboard interactions, focus management, disabled patterns, hidden form inputs
+- An existing component for reference (e.g., `packages/components/src/button/button.ts` + `packages/theme-default/src/components/button.ts`)
 
 ---
 
@@ -62,9 +63,10 @@ Key Base-UI-specific notes:
 - Use the component-scoped CSS variable pattern: define on `:host`, override in `:host([attr])`, consume in `[part]`
 
 Standard theme patterns to apply (see `docs/theming.md` for full details):
-- **Hover:** `color-mix(in oklch, var(--button-bg) 95%, var(--foreground))` for perceptually correct hover effects
-- **Focus ring:** double `box-shadow` approach — `0 0 0 var(--space-0_5) var(--background), 0 0 0 var(--space-1) var(--ring)`
-- **Disabled:** `opacity: 0.2; cursor: not-allowed` on `[part]:disabled, [part][aria-disabled="true"]`
+- **Hover (filled):** `filter: brightness(0.88)` for filled variants; `background: oklch(from var(--foreground) l c h / 0.05)` for ghost/outline variants
+- **Active:** `filter: brightness(0.80)` for filled; `oklch(from var(--foreground) l c h / 0.10)` for ghost/outline
+- **Focus ring:** double `box-shadow` — `0 0 0 var(--focus-ring-offset) var(--background), 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color)`
+- **Disabled:** `opacity: 0.4; cursor: not-allowed` on `[part="root"]:disabled, [part="root"][aria-disabled="true"]`
 
 ---
 
@@ -283,7 +285,20 @@ See `docs/accessibility.md` for the full hidden input pattern and structural CSS
 
 ## Step 7 — Create the files
 
-Create all files using the standard DUI structure. See `/add-component` skill for the full file list and configuration updates.
+Create all files using the standard DUI structure. See `/create-component` skill for the full file list and configuration updates.
+
+File structure per component:
+
+```
+packages/components/src/{name}/
+  {name}.ts              # Component class + structural styles
+  index.ts               # Re-exports class + types + family array
+
+packages/theme-default/src/components/
+  {name}.ts              # Aesthetic styles for this component
+```
+
+There is no `register.ts` — registration is handled by `applyTheme()`.
 
 Add provenance comment:
 
@@ -314,7 +329,7 @@ See `docs/accessibility.md` for the full FieldContext shape and ARIA wiring patt
 
 ## Step 9 — Add to docs, verify
 
-Use `/add-to-docs` to wire into the docs dev server. Run `deno check` from the repo root.
+Use `/edit-docs` to wire into the docs dev server. Run `deno check` from the repo root.
 
 ---
 
@@ -336,18 +351,19 @@ Use `/add-to-docs` to wire into the docs dev server. Run `deno check` from the r
 - [ ] JSDoc with `@slot`, `@csspart`, `@fires` as needed
 
 ### Exports and registration
-- [ ] `index.ts` re-exports class + types
-- [ ] `register.ts` provides standalone registration
+- [ ] `index.ts` re-exports class + types + family array
 - [ ] Package exports added to components `deno.json`
 - [ ] Theme exports added to theme's `deno.json`
-- [ ] Theme styles registered in `defaultTheme.styles` map
+- [ ] Theme styles registered in `defaultTheme.styles` map in `packages/theme-default/src/index.ts`
 
 ### Theme styles
 - [ ] All token values use design tokens — no hardcoded `px` or `rem`
-- [ ] Component-scoped CSS variables defined on `:host`, consumed in `[part]`
-- [ ] Hover styles use `color-mix(in oklch, ...)` pattern
-- [ ] Focus ring uses double `box-shadow` pattern
-- [ ] Disabled styles use `opacity: 0.2; cursor: not-allowed`
+- [ ] Two-axis variant system: intent (`:host([variant])`) + appearance (`:host([appearance])`)
+- [ ] Component-scoped CSS variables defined on `:host`, consumed in `[part="root"]`
+- [ ] Hover: `filter: brightness(0.88)` for filled, `oklch(from var(--foreground) l c h / 0.05)` for ghost/outline
+- [ ] Focus ring uses double `box-shadow` with `--focus-ring-offset`, `--focus-ring-width`, `--focus-ring-color`
+- [ ] Disabled styles use `opacity: 0.4; cursor: not-allowed`
+- [ ] Uses `background` shorthand (not `background-color`) so variables accept gradients
 
 ### Accessibility
 - [ ] `data-*` attributes on internal elements match Base UI originals

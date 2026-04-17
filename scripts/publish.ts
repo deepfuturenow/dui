@@ -20,6 +20,7 @@ const PACKAGES = [
   "dui-core",
   "dui-components",
   "dui-theme-default",
+  "dui-theme-default-templates",
   "dui-inspector",
   "dui-cdn",
 ] as const;

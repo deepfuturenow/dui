@@ -84,6 +84,54 @@ This avoids needing to know every sub-component — `dialogFamily` includes `Dui
 
 ---
 
+## Using templates
+
+Templates are pre-composed UI patterns for the default theme. Install alongside the core packages:
+
+```bash
+npm install @deepfuture/dui-theme-default-templates
+```
+
+Templates declare their DUI component dependencies via `static dependencies`. When you pass a template to `applyTheme`, its dependencies auto-register — you don't need to import them separately:
+
+```typescript
+import { applyTheme } from "@dui/core/apply-theme";
+import { defaultTheme } from "@dui/theme-default";
+import { DuiFeedItem } from "@dui/theme-default-templates/feed";
+
+// DuiBadge auto-registers because DuiFeedItem declares it as a dependency
+applyTheme({
+  theme: defaultTheme,
+  components: [DuiFeedItem],
+});
+```
+
+Or register all templates at once:
+
+```typescript
+import { allTemplates } from "@dui/theme-default-templates/all";
+
+applyTheme({
+  theme: defaultTheme,
+  components: [...allComponents, ...allTemplates],
+});
+```
+
+Then use in HTML:
+
+```html
+<dui-feed-item
+  title="Earthquake detected"
+  subtitle="USGS Pacific Northwest"
+  timestamp="2 min ago"
+  category="Seismic"
+  severity="high"
+  description="Magnitude 4.2 recorded near Portland, OR."
+></dui-feed-item>
+```
+
+---
+
 ## Event handling
 
 ### `dui-navigate` for link buttons

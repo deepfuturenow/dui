@@ -34,10 +34,10 @@ A different theme may expose different variables and different variant names. Th
 Each component's theme styles expose CSS custom properties that control its appearance. These are the values that variants (`variant="destructive"`) and sizes (`size="lg"`) toggle internally.
 
 ```css
-/* Change the button's base color — hover/active auto-derive from this */
+/* Change the button's base color */
 dui-button {
   --button-bg: var(--accent);
-  --button-fg: var(--accent-foreground);
+  --button-fg: oklch(from var(--accent) 0.98 0.01 h);
 }
 
 /* Gradient backgrounds work because the theme uses `background`, not `background-color` */
@@ -73,7 +73,7 @@ Variables cascade through the DOM, so a parent can theme all its descendant comp
 ```css
 .danger-zone {
   --button-bg: var(--destructive);
-  --button-fg: var(--destructive-foreground);
+  --button-fg: oklch(from var(--destructive) 0.98 0.01 h);
 }
 ```
 
@@ -192,11 +192,12 @@ Additionally, `theme-default` uses `@property` declarations to register its CSS 
 
 ```css
 :root {
-  --primary: oklch(0.6 0.2 280);
-  --primary-foreground: white;
+  --accent: oklch(0.6 0.2 280);
   --radius-md: 0.75rem;
   --font-sans: 'Inter', system-ui, sans-serif;
 }
 ```
+
+The color system is built on 4 primitives: `--background`, `--foreground`, `--accent`, `--destructive`. All other colors are derived. See [theming.md](./theming.md) for the full color system.
 
 These are `theme-default`'s token names — a different theme may use different names. See `packages/theme-default/src/tokens.css` for the full token list.

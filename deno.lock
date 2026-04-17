@@ -977,6 +977,11 @@
         "dependencies": [
           "npm:lit@^3.3.2"
         ]
+      },
+      "packages/theme-default-templates": {
+        "dependencies": [
+          "npm:lit@^3.3.2"
+        ]
       }
     }
   }

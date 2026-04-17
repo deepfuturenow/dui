@@ -1,0 +1,11 @@
+{
+  "name": "@dui/theme-default-templates",
+  "version": "0.0.16",
+  "exports": {
+    "./feed": "./src/feed/index.ts",
+    "./all": "./src/all.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2"
+  }
+}

@@ -1,6 +1,7 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { componentRegistry } from "./component-registry.ts";
+import { templateRegistry, TEMPLATE_NAV_GROUPS } from "./template-registry.ts";
 import { currentRoute, onRouteChange, navigate, setSidebarParam, type Route } from "./docs-router.ts";
 import { SANS_FONT_OPTIONS, SERIF_FONT_OPTIONS, MONO_FONT_OPTIONS, COLOR_PRIMITIVES } from "./create/create-config.ts";
 import { parseOklch, formatOklch, type Oklch } from "./create/color-utils.ts";
@@ -714,6 +715,11 @@ export class DocsApp extends LitElement {
               Prose
             </a>
             <a class="top-bar-link"
+              href="#/templates"
+              aria-current=${this.#isTopNavActive("templates") ? "page" : "false"}>
+              Templates
+            </a>
+            <a class="top-bar-link"
               href="#/create"
               aria-current=${this.#isTopNavActive("create") ? "page" : "false"}>
               Create
@@ -763,6 +769,26 @@ export class DocsApp extends LitElement {
             selectedRadius=${this.#selectedRadius}
             .colors=${this.#selectedColors}
           ></create-controls>
+        </nav>
+      `;
+    }
+
+    if (this.#route.section === "templates") {
+      return html`
+        <nav class="sidebar">
+          ${TEMPLATE_NAV_GROUPS.map((group) => html`
+            ${group.label ? html`<div class="section-label">${group.label}</div>` : nothing}
+            ${group.slugs.map((slug) => {
+              const meta = templateRegistry.find((t) => t.tagName === `dui-${slug}`);
+              return html`
+                <a class="nav-link"
+                  href="#/templates/${slug}"
+                  aria-current=${this.#isActive("templates", slug) ? "page" : "false"}>
+                  ${meta?.name ?? slug}
+                </a>
+              `;
+            })}
+          `)}
         </nav>
       `;
     }
@@ -829,6 +855,16 @@ export class DocsApp extends LitElement {
 
   #renderPage() {
     const { section, component } = this.#route;
+
+    if (section === "templates" && component) {
+      switch (component) {
+        case "feed-item": return html`<docs-page-feed-item></docs-page-feed-item>`;
+      }
+    }
+    if (section === "templates") {
+      // Default to first template when no specific one is selected
+      return html`<docs-page-feed-item></docs-page-feed-item>`;
+    }
 
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
