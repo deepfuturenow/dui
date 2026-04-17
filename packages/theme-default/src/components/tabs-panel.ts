@@ -3,8 +3,10 @@ import { css } from "lit";
 export const tabsPanelStyles = css`
   :host {
     --tabs-panel-padding: var(--space-3);
-    --tabs-panel-border-width: 0px;
+    --tabs-panel-border-width: var(--border-width-thin);
     --tabs-panel-border-color: var(--border);
+    --tabs-panel-border-radius: var(--radius-md);
+    --tabs-panel-background: none;
   }
 
   :host(:not([data-hidden])) {
@@ -12,6 +14,8 @@ export const tabsPanelStyles = css`
     min-height: 0;
     padding: var(--tabs-panel-padding);
     border: var(--tabs-panel-border-width) solid var(--tabs-panel-border-color);
+    border-radius: var(--tabs-panel-border-radius);
+    background: var(--tabs-panel-background); 
   }
 
   [part="panel"] {
