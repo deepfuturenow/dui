@@ -46,8 +46,8 @@ const styles = css`
 
   .value-row {
     display: flex;
-    align-items: baseline;
-    gap: var(--space-2);
+    flex-direction: column;
+    gap: var(--space-1);
   }
 
   .value {
