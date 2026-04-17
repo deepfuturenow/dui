@@ -870,6 +870,8 @@ export class DocsApp extends LitElement {
         case "score-item": return html`<docs-page-score-item></docs-page-score-item>`;
         case "risk-gauge": return html`<docs-page-risk-gauge></docs-page-risk-gauge>`;
         case "progress-bar": return html`<docs-page-progress-bar></docs-page-progress-bar>`;
+        case "key-value": return html`<docs-page-key-value></docs-page-key-value>`;
+        case "market-table": return html`<docs-page-market-table></docs-page-market-table>`;
       }
     }
     if (section === "templates") {

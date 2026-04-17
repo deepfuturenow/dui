@@ -26,6 +26,10 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "Feed & Events",
     slugs: ["feed-item", "headline-item", "activity-item", "social-post"],
   },
+  {
+    label: "Data Display",
+    slugs: ["key-value", "market-table"],
+  },
 ];
 
 export const templateRegistry: TemplateMeta[] = [
@@ -243,5 +247,43 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-avatar", "dui-badge"],
+  },
+  {
+    tagName: "dui-key-value",
+    name: "Key Value",
+    description:
+      "A label\u2013value pair for metadata display. Supports stacked (label above value) and inline (side by side) layouts. Compose multiple pairs in grids or lists for detail panels.",
+    importPath: "@dui/theme-default-templates/data",
+    category: "Data Display",
+    properties: [
+      { name: "label", type: "string", default: '""', description: "The label text (e.g. \"Status\", \"Region\")" },
+      { name: "value", type: "string", default: '""', description: "The value text (e.g. \"Active\", \"142ms\")" },
+      { name: "description", type: "string", default: '""', description: "Optional supporting description below the value" },
+      { name: "layout", type: '"stacked" | "inline"', default: '"stacked"', description: "Layout mode: stacked (label above value) or inline (side by side)" },
+    ],
+    slots: [
+      { name: "(default)", description: "Custom value content (overrides value prop)" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: [],
+  },
+  {
+    tagName: "dui-market-table",
+    name: "Market Table",
+    description:
+      "A compact financial ticker table. Renders rows of symbols with prices, absolute change, and percentage change. Positive changes are colored with accent; negative with destructive.",
+    importPath: "@dui/theme-default-templates/data",
+    category: "Data Display",
+    properties: [
+      { name: "data", type: "MarketRow[]", default: "[]", description: "Array of market data rows ({ symbol, name?, price, change, changePercent })" },
+      { name: "price-precision", type: "number", default: "2", description: "Decimal places for price formatting" },
+      { name: "currency-symbol", type: "string", default: '"$"', description: "Currency symbol prepended to prices" },
+      { name: "empty-text", type: "string", default: '"No market data"', description: "Text shown when data is empty" },
+    ],
+    slots: [],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-icon"],
   },
 ];

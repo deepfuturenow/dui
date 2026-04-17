@@ -108,6 +108,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./feed": "./src/feed/index.ts",
       "./dashboard": "./src/dashboard/index.ts",
       "./metrics": "./src/metrics/index.ts",
+      "./data": "./src/data/index.ts",
       "./all": "./src/all.ts",
     },
   },
