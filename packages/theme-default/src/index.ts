@@ -77,6 +77,7 @@ import { numberFieldStyles } from "./components/number-field.ts";
 import { stepperStyles } from "./components/stepper.ts";
 import { menubarStyles } from "./components/menubar.ts";
 import { calendarStyles } from "./components/calendar.ts";
+import { cardGridStyles } from "./components/card-grid.ts";
 import { proseSheet } from "./prose.ts";
 import { tokenSheet } from "./tokens.ts";
 
@@ -162,6 +163,7 @@ export const defaultTheme: DuiTheme = {
     ["dui-stepper", stepperStyles],
     ["dui-menubar", menubarStyles],
     ["dui-calendar", calendarStyles],
+    ["dui-card-grid", cardGridStyles],
   ]),
 };
 
@@ -243,6 +245,7 @@ export { numberFieldStyles } from "./components/number-field.ts";
 export { stepperStyles } from "./components/stepper.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
+export { cardGridStyles } from "./components/card-grid.ts";
 
 // --- Prose ---
 export { proseSheet } from "./prose.ts";

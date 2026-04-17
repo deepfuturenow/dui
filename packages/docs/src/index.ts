@@ -44,6 +44,7 @@ import "./pages/docs-page-number-field.ts";
 import "./pages/docs-page-stepper.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
+import "./pages/docs-page-card-grid.ts";
 import "./pages/docs-page-styling.ts";
 import "./pages/docs-page-theming.ts";
 import "./pages/docs-page-colors.ts";
@@ -52,6 +53,8 @@ import "./pages/docs-page-prose.ts";
 import "./create/docs-page-create.ts";
 import "./pages/docs-page-map.ts";
 import "./pages/docs-page-feed-item.ts";
+import "./pages/docs-page-section-panel.ts";
+import "./pages/docs-page-page-header.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { mapFamily, mapStyles } from "@dui/map";
@@ -95,7 +98,9 @@ import { DuiNumberField } from "@dui/components/number-field";
 import { DuiStepper } from "@dui/components/stepper";
 import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
+import { DuiCardGrid } from "@dui/components/card-grid";
 import { DuiFeedItem } from "@dui/theme-default-templates/feed";
+import { DuiSectionPanel, DuiPageHeader } from "@dui/theme-default-templates/dashboard";
 
 applyTheme({
   theme: {
@@ -190,7 +195,10 @@ applyTheme({
     DuiStepper,
     DuiMenubar,
     DuiCalendar,
+    DuiCardGrid,
     DuiFeedItem,
+    DuiSectionPanel,
+    DuiPageHeader,
   ],
 });
 

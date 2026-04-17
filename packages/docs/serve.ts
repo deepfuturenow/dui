@@ -7,7 +7,11 @@ const STATIC_DIR = resolve(import.meta.dirname!, "static");
 const DOCS_ENTRY = resolve(import.meta.dirname!, "src/index.ts");
 const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
 const INSPECTOR_ENTRY = resolve(import.meta.dirname!, "src/inspector.ts");
+const PREVIEW_TEMPLATE_ENTRY = resolve(import.meta.dirname!, "src/preview-template.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
+const CORE_VERSION: string = JSON.parse(
+  Deno.readTextFileSync(join(WORKSPACE_ROOT, "packages/core/deno.json")),
+).version;
 
 /**
  * Resolve `@dui/*` workspace package imports using their deno.json exports maps.
@@ -75,6 +79,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./menubar": "./src/menubar/index.ts",
       "./calendar": "./src/calendar/index.ts",
       "./split-button": "./src/split-button/index.ts",
+      "./card-grid": "./src/card-grid/index.ts",
     },
   },
   "@dui/inspector": {
@@ -101,6 +106,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
     dir: join(WORKSPACE_ROOT, "packages/theme-default-templates"),
     exports: {
       "./feed": "./src/feed/index.ts",
+      "./dashboard": "./src/dashboard/index.ts",
       "./all": "./src/all.ts",
     },
   },
@@ -187,6 +193,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/number-field": "./src/components/number-field.ts",
       "./components/menubar": "./src/components/menubar.ts",
       "./components/calendar": "./src/components/calendar.ts",
+      "./components/card-grid": "./src/components/card-grid.ts",
     },
   },
 };
@@ -357,7 +364,7 @@ const buildMode = Deno.args.includes("--build");
 
 if (buildMode) {
   await esbuild.build({
-    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY],
+    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY, PREVIEW_TEMPLATE_ENTRY],
     bundle: true,
     format: "esm",
     target: "es2022",
@@ -366,12 +373,13 @@ if (buildMode) {
     minify: true,
     plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
     nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
+    define: { __DUI_VERSION__: JSON.stringify(CORE_VERSION) },
   });
   console.log("Build complete → packages/docs/static/");
   esbuild.stop();
 } else {
   const ctx = await esbuild.context({
-    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY],
+    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY, PREVIEW_TEMPLATE_ENTRY],
     bundle: true,
     format: "esm",
     target: "es2022",
@@ -379,6 +387,7 @@ if (buildMode) {
     write: false,
     plugins: [duiWorkspacePlugin, rawTextPlugin, cssRawTextPlugin],
     nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
+    define: { __DUI_VERSION__: JSON.stringify(CORE_VERSION) },
     banner: {
       js: `(() => { new EventSource("/esbuild").addEventListener("change", () => location.reload()); })();`,
     },

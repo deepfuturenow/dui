@@ -1,3 +1,5 @@
+declare const __DUI_VERSION__: string;
+
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { componentRegistry } from "./component-registry.ts";
@@ -14,7 +16,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "",
     slugs: [
       "accordion", "alert-dialog", "avatar", "badge", "breadcrumb",
-      "button", "calendar", "checkbox", "collapsible", "combobox",
+      "button", "calendar", "card-grid", "checkbox", "collapsible", "combobox",
       "command", "data-table", "dialog", "dropzone", "icon", "input",
       "link", "menu", "menubar", "number-field", "popover",
       "preview-card", "progress", "radio-group", "scroll-area",
@@ -682,7 +684,7 @@ export class DocsApp extends LitElement {
     return html`
       <header class="top-bar">
         <div class="top-bar-left">
-          <a class="top-bar-logo" href="#/components">DUI<span>v0.1</span></a>
+          <a class="top-bar-logo" href="#/components">DUI<span>v${__DUI_VERSION__}</span></a>
           <nav class="top-bar-nav">
             <a class="top-bar-link"
               href="#/components"
@@ -858,12 +860,14 @@ export class DocsApp extends LitElement {
 
     if (section === "templates" && component) {
       switch (component) {
+        case "section-panel": return html`<docs-page-section-panel></docs-page-section-panel>`;
+        case "page-header": return html`<docs-page-page-header></docs-page-page-header>`;
         case "feed-item": return html`<docs-page-feed-item></docs-page-feed-item>`;
       }
     }
     if (section === "templates") {
       // Default to first template when no specific one is selected
-      return html`<docs-page-feed-item></docs-page-feed-item>`;
+      return html`<docs-page-section-panel></docs-page-section-panel>`;
     }
 
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
@@ -916,6 +920,7 @@ export class DocsApp extends LitElement {
         case "stepper": return html`<docs-page-stepper></docs-page-stepper>`;
         case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
         case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
+        case "card-grid": return html`<docs-page-card-grid></docs-page-card-grid>`;
         case "map": return html`<docs-page-map></docs-page-map>`;
       }
     }

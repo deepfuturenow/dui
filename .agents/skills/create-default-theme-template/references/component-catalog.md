@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 54 component families, 99+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 41 component families, 86+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -336,77 +336,6 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (SVG element to display)
 **Parts:** `root`
 **Tokens:** `--icon-size`, `--icon-color`
-
----
-
-## Map
-
-### dui-map
-**Properties:** `center` ([number, number]), `zoom` (number), `bearing` (number), `pitch` (number), `theme` ("light" | "dark" | undefined), `styleLight` (string | undefined), `styleDark` (string | undefined), `loading` (boolean), `noWorldCopies` (boolean), `controlled` (boolean), `minZoom` (number), `maxZoom` (number), `maxBounds` ([[number, number], [number, number]] | undefined), `bounds` ([[number, number], [number, number]] | undefined), `boundsPadding` (number)
-**Events:** `dui-map-viewport-change` (MapViewport), `dui-map-load`, `dui-map-click` (MapClickDetail), `dui-map-dblclick` (MapClickDetail), `dui-map-contextmenu` (MapClickDetail)
-**Slots:** default (Map overlay content (controls, markers, popups, routes))
-**Parts:** `container`, `loader`
-
-### dui-map-controls
-**Properties:** `position` ("top-left" | "top-right" | "bottom-left" | "bottom-right"), `showZoom` (boolean), `showCompass` (boolean), `showLocate` (boolean), `showFullscreen` (boolean)
-**Events:** `dui-map-locate` ({ longitude: number; latitude: number })
-**Slots:** —
-**Parts:** `root`, `group`, `control-button`
-
-### dui-map-marker
-**Properties:** `longitude` (number), `latitude` (number), `draggable` (boolean), `rotation` (number), `offset` ([number, number])
-**Events:** `dui-marker-dragstart` ({ lng: number; lat: number }), `dui-marker-drag` ({ lng: number; lat: number }), `dui-marker-dragend` ({ lng: number; lat: number })
-**Slots:** default (Marker sub-components)
-**Parts:** `root`
-
-### dui-map-marker-content
-**Properties:** —
-**Slots:** default (Custom marker content)
-**Parts:** `root`
-
-### dui-map-marker-popup
-**Properties:** `popupOffset` (number), `closeButton` (boolean)
-**Slots:** default (Popup content)
-**Parts:** `popup`
-
-### dui-map-marker-tooltip
-**Properties:** `tooltipOffset` (number)
-**Slots:** default (Tooltip content)
-**Parts:** `tooltip`
-
-### dui-map-marker-label
-**Properties:** `position` ("top" | "bottom")
-**Slots:** default (Label text content)
-**Parts:** `label`
-
-### dui-map-popup
-**Properties:** `longitude` (number), `latitude` (number), `popupOffset` (number), `closeButton` (boolean)
-**Events:** `dui-map-popup-close`
-**Slots:** default (Popup content)
-**Parts:** `popup`
-
-### dui-map-route
-**Properties:** `routeId` (string), `coordinates` ([number, number][]), `color` (string), `width` (number), `opacity` (number), `dashArray` ([number, number] | undefined), `interactive` (boolean)
-**Events:** `dui-route-click`
-**Slots:** —
-**Parts:** `root`
-
-### dui-map-region
-**Properties:** `regionId` (string), `data` (string | GeoJSON.Feature | GeoJSON.FeatureCollection), `fillColor` (string), `fillOpacity` (number), `strokeColor` (string), `strokeWidth` (number), `strokeOpacity` (number), `interactive` (boolean)
-**Events:** `dui-region-click`
-**Slots:** —
-**Parts:** `root`
-
-### dui-map-cluster-layer
-**Properties:** `data` (string | GeoJSON.FeatureCollection), `clusterMaxZoom` (number), `clusterRadius` (number), `clusterColors` ([string, string, string]), `clusterThresholds` ([number, number]), `pointColor` (string)
-**Events:** `dui-cluster-point-click` ({ feature, coordinates }), `dui-cluster-click` ({ clusterId, coordinates, pointCount })
-**Slots:** —
-**Parts:** `root`
-
-### dui-map-heatmap
-**Properties:** `data` (string | GeoJSON.FeatureCollection), `radius` (number), `intensity` (number), `opacity` (number), `weight` (string), `maxZoom` (number), `showPoints` (boolean), `pointColor` (string), `colorRamp` (string[]), `heatmapId` (string)
-**Slots:** —
-**Parts:** `root`
 
 ---
 

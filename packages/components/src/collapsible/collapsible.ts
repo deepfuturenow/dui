@@ -33,8 +33,9 @@ const styles = css`
     cursor: default;
   }
 
-  [part="indicator"] {
-    flex-shrink: 0;
+  slot[name="trigger"] {
+    flex: 1;
+    min-width: 0;
   }
 
   [part="panel"] {
@@ -43,21 +44,6 @@ const styles = css`
     transition-property: height;
   }
 `;
-
-// Inline chevron-down SVG to avoid icon component dependency
-const chevronSvg = html`<svg
-  part="indicator"
-  width="16"
-  height="16"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="m6 9 6 6 6-6" />
-</svg>`;
 
 export class DuiCollapsible extends LitElement {
   static tagName = "dui-collapsible" as const;
@@ -207,7 +193,6 @@ export class DuiCollapsible extends LitElement {
         @click=${this.#onClick}
       >
         <slot name="trigger"></slot>
-        ${chevronSvg}
       </button>
       ${shouldRender
         ? html`

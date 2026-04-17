@@ -1,5 +1,8 @@
-import { css } from "lit";
+import { css, unsafeCSS } from "lit";
 import { type } from "../typography.ts";
+
+// Chevron-down SVG encoded for use as a CSS mask
+const chevronMask = unsafeCSS(`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`);
 
 export const collapsibleStyles = css`
   /* ── Trigger ── */
@@ -7,7 +10,7 @@ export const collapsibleStyles = css`
   [part="trigger"] {
     gap: var(--space-4);
     padding-block: var(--space-2);
-    padding-inline: var(--space-4);
+    padding-inline: var(--space-2);
     color: var(--text-1);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
@@ -36,17 +39,23 @@ export const collapsibleStyles = css`
     opacity: 0.4;
   }
 
-  /* ── Indicator ── */
+  /* ── Indicator (theme-owned) ── */
 
-  [part="indicator"] {
+  [part="trigger"]::after {
+    content: "";
+    display: var(--collapsible-indicator-display, block);
     width: var(--space-4);
     height: var(--space-4);
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: ${chevronMask} center / contain no-repeat;
+    mask: ${chevronMask} center / contain no-repeat;
     transition-property: transform;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
-  [part="trigger"][data-open] [part="indicator"] {
+  [part="trigger"][data-open]::after {
     transform: rotate(180deg);
   }
 
@@ -63,7 +72,7 @@ export const collapsibleStyles = css`
   }
 
   [part="content"] {
-    padding: var(--space-1) var(--space-4) var(--space-3);
+    padding: var(--space-1) var(--space-2) var(--space-3);
     font-family: var(--font-sans);
     ${type("sm")}
     font-weight: var(--font-weight-regular);
@@ -74,7 +83,7 @@ export const collapsibleStyles = css`
 
   @media (prefers-reduced-motion: reduce) {
     [part="trigger"],
-    [part="indicator"],
+    [part="trigger"]::after,
     [part="panel"] {
       transition-duration: 0s;
     }

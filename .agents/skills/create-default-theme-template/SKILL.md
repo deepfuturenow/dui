@@ -16,6 +16,18 @@ Read these reference files before starting:
 3. The template registry: `packages/docs/src/template-registry.ts`
 4. `packages/docs/src/docs-app.ts` — routing and sidebar nav
 
+## Reference documents
+
+Read these references before writing the template. They provide the design vocabulary and component API knowledge needed for high-quality output.
+
+| Reference | Path | Purpose |
+|-----------|------|---------|
+| UX principles | [references/ux-principles.md](references/ux-principles.md) | Visual hierarchy, whitespace, typography rhythm, action placement |
+| Component selection | [references/component-selection.md](references/component-selection.md) | When to use which DUI component — decision table for every UI scenario |
+| Component catalog | [references/component-catalog.md](references/component-catalog.md) | All 41 DUI component families — properties, slots, parts, CSS custom properties |
+| Design tokens | [references/design-tokens.md](references/design-tokens.md) | Full token reference — colors, spacing, typography, radii, shadows, motion |
+| Styling rules | [references/styling-rules.md](references/styling-rules.md) | Correct/incorrect code pairs for DUI styling idioms |
+
 ## Overview
 
 Templates are theme-scoped, pre-composed Lit web components that combine DUI components + vanilla HTML/CSS. They:
@@ -54,6 +66,14 @@ Before writing code, clarify:
 - **What slots should it offer?** (at minimum, `slot="actions"`)
 
 ### Step 2 — Create the template class
+
+Before writing code, consult the reference documents:
+
+1. **Select components.** Use [references/component-selection.md](references/component-selection.md) to choose the right DUI component for each UI element. Prefer DUI components over custom markup in every case (e.g., `dui-separator` not `<hr>`, `dui-badge` not a styled `<span>`, `dui-icon` not raw `<svg>`).
+2. **Apply UX principles.** Follow [references/ux-principles.md](references/ux-principles.md) — clear visual hierarchy (size → weight → color), generous whitespace between sections, tighter spacing within groups, correct action placement.
+3. **Look up component APIs.** Use [references/component-catalog.md](references/component-catalog.md) to verify property names, slot names, and available variants for each DUI component the template will render.
+4. **Style with tokens.** Use semantic tokens from [references/design-tokens.md](references/design-tokens.md). Never hardcode colors, spacing, or typography values.
+5. **Verify against rules.** Check [references/styling-rules.md](references/styling-rules.md) for correct/incorrect patterns. No hardcoded hex colors, no `!important`, no raw HTML where a DUI component exists.
 
 Create `packages/theme-default-templates/src/{category}/{name}.ts`:
 
@@ -131,7 +151,79 @@ export class Dui{Name} extends LitElement {
 - Use semantic HTML: `<article>`, `<header>`, `<time>`, `<nav>`, `<section>`
 - Expose CSS parts for consumer overrides: `part="article"`, `part="header"`, etc.
 
-### Step 3 — Create or update the category index
+### Step 3 — Preview & iterate
+
+Before wiring the template into docs, preview it in the standalone harness so the user can review and provide feedback. Only the template class file from Step 2 exists at this point — nothing else has been modified.
+
+1. **Write `packages/docs/src/preview-template.ts`** to import the template via a relative path (no export-map changes needed) and render sample instances:
+
+   ```typescript
+   import { html, render } from "lit";
+   import { tokenSheet } from "@dui/theme-default/tokens";
+   import { applyTheme } from "@dui/core/apply-theme";
+   import { defaultTheme } from "@dui/theme-default";
+   import { Dui{Name} } from "../../theme-default-templates/src/{category}/{name}.ts";
+
+   // Inject design tokens
+   document.adoptedStyleSheets = [...document.adoptedStyleSheets, tokenSheet];
+
+   // Register the template and its component dependencies
+   applyTheme({
+     theme: defaultTheme,
+     components: [...Dui{Name}.dependencies, Dui{Name}],
+   });
+
+   // Render preview samples with realistic data
+   render(html`
+     <h2 style="margin: 0; font-family: var(--font-sans); color: var(--foreground);">
+       Template Preview: &lt;dui-{name}&gt;
+     </h2>
+     <dui-{name} title="Example title" ...other-props></dui-{name}>
+     <dui-{name} title="Another example" ...other-props></dui-{name}>
+   `, document.querySelector('#preview')!);
+   ```
+
+   Use Lit's `html` + `render` so property bindings (`.prop=${value}`) work correctly. Show multiple instances with varied, realistic sample data to demonstrate the template's range.
+
+2. **Ensure the dev server is running.** Check if `http://localhost:4040` is reachable. If not, start it:
+
+   ```bash
+   cd packages/docs && deno task dev &
+   ```
+
+   Wait a few seconds for the server to start. Note the port in the output (may differ from 4040 if that port is in use).
+
+3. **Navigate and screenshot** (always resize first per project conventions):
+
+   ```
+   chrome_devtools_navigate_page → url: "http://localhost:{port}/preview-template.html"
+   chrome_devtools_resize_page  → { width: 1280, height: 1000 }
+   chrome_devtools_take_screenshot
+   ```
+
+4. **Ask the user for feedback.** Present the screenshot and ask:
+
+   > Here's how the template looks. Would you like to:
+   > - **Approve** and proceed with docs wiring, or
+   > - **Request changes** (describe what to adjust), or
+   > - **Reject** and discard the template?
+
+5. **Handle the response:**
+   - **Changes requested** → Edit the template class file, update `preview-template.ts` if the sample data needs adjusting, reload the browser, take a new screenshot. Repeat from sub-step 4.
+   - **Approved** → Restore `preview-template.ts` to its default stub content (see below) and proceed to Step 4.
+   - **Rejected** → Restore `preview-template.ts` to its default stub, delete the template class file. Stop here — nothing else to clean up.
+
+6. **Restore the preview stub** (on approve or reject):
+
+   ```typescript
+   // Rewritten by the create-default-theme-template skill to preview templates
+   // before committing to full docs wiring.
+   //
+   // Navigate to http://localhost:4040/preview-template.html
+   console.log("No template preview configured.");
+   ```
+
+### Step 4 — Create or update the category index
 
 If this is a **new category**, create `packages/theme-default-templates/src/{category}/index.ts`:
 
@@ -145,7 +237,7 @@ export const {category}Family = [Dui{Name}];
 
 If the category already exists, add the new template to the existing index and family array.
 
-### Step 4 — Update all.ts
+### Step 5 — Update all.ts
 
 In `packages/theme-default-templates/src/all.ts`:
 
@@ -160,7 +252,7 @@ export const allTemplates = [
 ];
 ```
 
-### Step 5 — Update deno.json exports (new categories only)
+### Step 6 — Update deno.json exports (new categories only)
 
 If you created a new category, add its export path to `packages/theme-default-templates/deno.json`:
 
@@ -173,7 +265,7 @@ If you created a new category, add its export path to `packages/theme-default-te
 }
 ```
 
-### Step 6 — Update the docs dev server resolver (new categories only)
+### Step 7 — Update the docs dev server resolver (new categories only)
 
 In `packages/docs/serve.ts`, add the export to the `@dui/theme-default-templates` workspace entry:
 
@@ -187,7 +279,7 @@ In `packages/docs/serve.ts`, add the export to the `@dui/theme-default-templates
 },
 ```
 
-### Step 7 — Add to the template registry
+### Step 8 — Add to the template registry
 
 In `packages/docs/src/template-registry.ts`:
 
@@ -224,7 +316,7 @@ export const TEMPLATE_NAV_GROUPS = [
 
 If the category already exists, add the slug to its `slugs` array.
 
-### Step 8 — Add the route
+### Step 9 — Add the route
 
 In `packages/docs/src/docs-app.ts`, add a case in the `#renderPage()` method inside the `section === "templates"` switch:
 
@@ -232,7 +324,7 @@ In `packages/docs/src/docs-app.ts`, add a case in the `#renderPage()` method ins
 case "{name}": return html`<docs-page-{name}></docs-page-{name}>`;
 ```
 
-### Step 9 — Import and register
+### Step 10 — Import and register
 
 In `packages/docs/src/index.ts`:
 
@@ -256,7 +348,7 @@ applyTheme({
 });
 ```
 
-### Step 10 — Create the demo page
+### Step 11 — Create the demo page
 
 Create `packages/docs/src/pages/docs-page-{name}.ts`:
 
@@ -298,7 +390,7 @@ export class DocsPage{Name} extends LitElement {
 - Demonstrate all prop variations and optional features
 - Constrain width with `max-width: 560px` for card-style templates
 
-### Step 11 — Verify
+### Step 12 — Verify
 
 1. Run `deno check` from the repo root
 2. Start the dev server: `cd packages/docs && deno task dev`
@@ -313,17 +405,6 @@ export class DocsPage{Name} extends LitElement {
    - Sidebar shows the template under the correct category
 
 ---
-
-## Available design tokens
-
-| Category | Tokens |
-|---|---|
-| Spacing | `--space-0` through `--space-96` |
-| Typography | `--font-sans`, `--font-mono`, `--font-size-2xs` through `--font-size-7xl`, `--font-weight-regular`/`medium`/`semibold`/`bold`, `--letter-spacing-*`, `--line-height-*` |
-| Colors | `--foreground`, `--background`, `--surface-1`/`2`/`3`, `--sunken`, `--text-1`/`2`/`3`, `--border`, `--border-strong`, `--accent`, `--accent-subtle`, `--accent-text`, `--destructive`, `--destructive-subtle`, `--destructive-text` |
-| Borders | `--radius-none`/`xs`/`sm`/`md`/`lg`/`xl`/`2xl`/`full`, `--border-width-hairline`/`thin`/`medium`/`thick` |
-| Motion | `--duration-fast`, `--duration-normal`, `--duration-slow`, `--ease-out-3` |
-| Shadows | `--shadow-xs`, `--shadow-sm`, `--shadow-md`, `--shadow-lg` |
 
 ## Default theme variant vocabulary
 
@@ -343,6 +424,7 @@ Badge also supports custom colors via `--badge-bg`, `--badge-fg`, `--badge-borde
 - [ ] Semantic HTML internally (`<article>`, `<time>`, etc.)
 - [ ] CSS parts exposed for key regions
 - [ ] `slot="actions"` available as extension point
+- [ ] **Preview approved by user before docs wiring**
 - [ ] Category index re-exports the template with a family array
 - [ ] `all.ts` updated with the new family
 - [ ] `deno.json` exports updated (if new category)

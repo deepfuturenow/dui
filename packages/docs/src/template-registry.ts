@@ -15,12 +15,40 @@ export interface TemplateMeta {
 /** Sidebar navigation groups for the Templates section. */
 export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
   {
+    label: "Dashboard",
+    slugs: ["section-panel", "page-header"],
+  },
+  {
     label: "Feed & Events",
     slugs: ["feed-item"],
   },
 ];
 
 export const templateRegistry: TemplateMeta[] = [
+  {
+    tagName: "dui-section-panel",
+    name: "Section Panel",
+    description:
+      "A bordered container with a header bar — the fundamental building block for dashboard panels. Supports an optional icon, badge count, LIVE indicator, help tooltip, trailing actions, and collapsible mode.",
+    importPath: "@dui/theme-default-templates/dashboard",
+    category: "Dashboard",
+    properties: [
+      { name: "title", type: "string", default: '""', description: "Panel title displayed in the header" },
+      { name: "badge", type: "string", default: '""', description: "Badge count shown after the title" },
+      { name: "live", type: "boolean", default: "false", description: "Show a pulsing LIVE indicator" },
+      { name: "help", type: "string", default: '""', description: "Tooltip text for a help \"?\" indicator" },
+      { name: "collapsible", type: "boolean", default: "false", description: "Enable collapsible mode" },
+      { name: "default-open", type: "boolean", default: "true", description: "Whether the collapsible panel starts open" },
+    ],
+    slots: [
+      { name: "(default)", description: "Body content" },
+      { name: "icon", description: "Optional leading icon (dui-icon recommended)" },
+      { name: "actions", description: "Trailing actions in the header bar" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-badge", "dui-icon", "dui-collapsible", "dui-tooltip", "dui-tooltip-trigger", "dui-tooltip-popup"],
+  },
   {
     tagName: "dui-feed-item",
     name: "Feed Item",
@@ -43,5 +71,24 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-badge"],
+  },
+  {
+    tagName: "dui-page-header",
+    name: "Page Header",
+    description:
+      "Full-width top bar for dashboard pages. Renders an optional breadcrumb trail, a title, an optional subtitle, and trailing action buttons with a bottom separator.",
+    importPath: "@dui/theme-default-templates/dashboard",
+    category: "Dashboard",
+    properties: [
+      { name: "title", type: "string", default: '""', description: "Page title displayed prominently" },
+      { name: "subtitle", type: "string", default: '""', description: "Supporting text below the title" },
+      { name: "breadcrumbs", type: "string", default: '""', description: 'Comma-separated breadcrumb trail (e.g. "Home, Settings, Profile")' },
+    ],
+    slots: [
+      { name: "actions", description: "Trailing action buttons or controls" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-breadcrumb", "dui-breadcrumb-item", "dui-breadcrumb-link", "dui-breadcrumb-page", "dui-breadcrumb-separator", "dui-separator"],
   },
 ];

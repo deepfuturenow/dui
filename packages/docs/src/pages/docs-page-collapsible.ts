@@ -9,7 +9,7 @@ export class DocsPageCollapsible extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-collapsible">
-        <dui-docs-demo label="Default (closed)">
+        <dui-docs-demo label="Default (closed)" demo-width="26rem">
         <dui-collapsible>
           <span slot="trigger">Click to expand</span>
           This content is revealed when the collapsible is opened. It animates
@@ -17,21 +17,21 @@ export class DocsPageCollapsible extends LitElement {
         </dui-collapsible>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Default open">
+      <dui-docs-demo label="Default open" demo-width="26rem">
         <dui-collapsible default-open>
           <span slot="trigger">Started open</span>
           This collapsible starts in the open state using the default-open attribute.
         </dui-collapsible>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Disabled">
+      <dui-docs-demo label="Disabled" demo-width="26rem">
         <dui-collapsible disabled>
           <span slot="trigger">Cannot toggle</span>
           This content is not reachable.
         </dui-collapsible>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Multiple collapsibles">
+      <dui-docs-demo label="Multiple collapsibles" demo-width="26rem">
         <dui-collapsible>
           <span slot="trigger">First section</span>
           Each collapsible operates independently.

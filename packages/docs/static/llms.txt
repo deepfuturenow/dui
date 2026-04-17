@@ -738,6 +738,15 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Slots: prev (Custom previous month button content), next (Custom next month button content)
 - CSS Parts: root (The calendar container), header (The month/year header row), heading (The month/year label), prev (Previous month button), next (Next month button), grid (The date grid), weekday (Weekday header cells), day (Individual day buttons)
 
+### Card Grid
+- Tag: `<dui-card-grid>`
+- Import: `@dui/components/card-grid`
+- Description: A responsive grid layout for cards and panels. Distributes children into equal-width columns that collapse at narrow container widths.
+- Properties: columns (string, "3")
+- Events: none
+- Slots: default (Grid children (cards, panels, or any block content))
+- CSS Parts: root (The grid container element)
+
 ### Map
 - Tag: `<dui-map>`
 - Import: `@dui/map`

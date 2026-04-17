@@ -1738,6 +1738,24 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "day", description: "Individual day buttons" },
     ],
   },
+  // --- Layout components ---
+  {
+    tagName: "dui-card-grid",
+    name: "Card Grid",
+    description: "A responsive grid layout for cards and panels. Distributes children into equal-width columns that collapse at narrow container widths.",
+    importPath: "@dui/components/card-grid",
+    properties: [
+      { name: "columns", type: "string", default: '"3"', description: "Maximum number of columns (1–4). Responsive breakpoints reduce this automatically." },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Grid children (cards, panels, or any block content)" },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The grid container element" },
+    ],
+  },
   // --- Map components ---
   {
     tagName: "dui-map",

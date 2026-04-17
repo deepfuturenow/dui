@@ -3,6 +3,7 @@
   "version": "0.0.16",
   "exports": {
     "./feed": "./src/feed/index.ts",
+    "./dashboard": "./src/dashboard/index.ts",
     "./all": "./src/all.ts"
   },
   "imports": {
