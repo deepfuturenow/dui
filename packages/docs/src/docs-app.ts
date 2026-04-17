@@ -863,6 +863,7 @@ export class DocsApp extends LitElement {
         case "section-panel": return html`<docs-page-section-panel></docs-page-section-panel>`;
         case "page-header": return html`<docs-page-page-header></docs-page-page-header>`;
         case "feed-item": return html`<docs-page-feed-item></docs-page-feed-item>`;
+        case "headline-item": return html`<docs-page-headline-item></docs-page-headline-item>`;
         case "activity-item": return html`<docs-page-activity-item></docs-page-activity-item>`;
         case "social-post": return html`<docs-page-social-post></docs-page-social-post>`;
         case "stat-card": return html`<docs-page-stat-card></docs-page-stat-card>`;

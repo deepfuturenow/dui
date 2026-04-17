@@ -24,7 +24,7 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
   },
   {
     label: "Feed & Events",
-    slugs: ["feed-item", "activity-item", "social-post"],
+    slugs: ["feed-item", "headline-item", "activity-item", "social-post"],
   },
 ];
 
@@ -75,6 +75,26 @@ export const templateRegistry: TemplateMeta[] = [
     events: [],
     cssProperties: [],
     dependencies: ["dui-badge"],
+  },
+  {
+    tagName: "dui-headline-item",
+    name: "Headline Item",
+    description:
+      "A minimal headline row: title, source, and timestamp. Designed for dense headline lists and news tickers where space is at a premium.",
+    importPath: "@dui/theme-default-templates/feed",
+    category: "Feed & Events",
+    properties: [
+      { name: "title", type: "string", default: '""', description: "Primary headline text" },
+      { name: "source", type: "string", default: '""', description: "Source or publication name" },
+      { name: "timestamp", type: "string", default: '""', description: 'Display timestamp (e.g. "2 min ago", "14:23 UTC")' },
+      { name: "href", type: "string", default: '""', description: "Optional URL — when set, the title renders as a dui-link" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional trailing action buttons or links" },
+    ],
+    events: [],
+    cssProperties: [],
+    dependencies: ["dui-link"],
   },
   {
     tagName: "dui-page-header",
