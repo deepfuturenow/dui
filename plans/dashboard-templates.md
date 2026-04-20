@@ -96,15 +96,17 @@ These are thin wrappers around existing `dui-badge` variants and simple styled m
 | `empty-state` | Centered placeholder for no-data panels |
 | `numbered-insight` | Ordinal + title + badges + description |
 
-### Tier 7: Controls & Filtering
+### ~~Tier 7: Controls & Filtering~~ Skipped
 
-| Template | Description |
+Consumers can achieve these with existing DUI components (`dui-toggle-group`, `dui-toggle`, `dui-badge`) directly — no template wrappers needed.
+
+| Template | Status |
 |---|---|
-| `filter-chip-group` | Row of toggleable filter chips |
-| `severity-toggle` | Button group for severity levels |
-| `legend` | Horizontal row of colored dots + labels |
+| ~~`filter-chip-group`~~ | Skipped — use `dui-toggle-group` + `dui-toggle` |
+| ~~`severity-toggle`~~ | Skipped — use `dui-toggle-group` + `dui-toggle` |
+| ~~`legend`~~ | Skipped — simple styled markup, not a composed pattern |
 
-### Tier 8: Media
+### ~~Tier 8: Media~~ ✅
 
 | Template | Description |
 |---|---|

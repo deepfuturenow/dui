@@ -34,6 +34,10 @@ export const TEMPLATE_NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "Content Blocks",
     slugs: ["briefing-block", "empty-state", "numbered-insight"],
   },
+  {
+    label: "Media",
+    slugs: ["avatar-row", "media-grid"],
+  },
 ];
 
 export const templateRegistry: TemplateMeta[] = [
@@ -333,6 +337,46 @@ export const templateRegistry: TemplateMeta[] = [
     ],
     events: [],
     cssProperties: [],
+    dependencies: ["dui-badge"],
+  },
+  {
+    tagName: "dui-avatar-row",
+    name: "Avatar Row",
+    description:
+      "A horizontal scrollable row of circular avatars with labels. Ideal for displaying teams, participants, agents, or any list of people/entities in a compact horizontal strip.",
+    importPath: "@dui/theme-default-templates/media",
+    category: "Media",
+    properties: [
+      { name: "data", type: "AvatarItem[]", default: "[]", description: "Array of avatar items ({ src?, name, label? })" },
+      { name: "empty-text", type: "string", default: '"No items"', description: "Text shown when data is empty" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional trailing action (e.g. an \"Add\" button)" },
+    ],
+    events: [],
+    cssProperties: [
+      { name: "--avatar-row-size", description: "Avatar diameter (default: 3rem)" },
+    ],
+    dependencies: ["dui-avatar", "dui-scroll-area"],
+  },
+  {
+    tagName: "dui-media-grid",
+    name: "Media Grid",
+    description:
+      "A responsive grid of image/video thumbnails with label and timestamp overlays. Ideal for camera feeds, location galleries, media libraries, or any visual monitoring grid.",
+    importPath: "@dui/theme-default-templates/media",
+    category: "Media",
+    properties: [
+      { name: "data", type: "MediaItem[]", default: "[]", description: "Array of media items ({ src, alt?, label?, timestamp? })" },
+      { name: "empty-text", type: "string", default: '"No media"', description: "Text shown when data is empty" },
+    ],
+    slots: [
+      { name: "actions", description: "Optional action buttons below the grid" },
+    ],
+    events: [],
+    cssProperties: [
+      { name: "--media-grid-min-width", description: "Minimum cell width for the auto-fill grid (default: 10rem)" },
+    ],
     dependencies: ["dui-badge"],
   },
   {

@@ -67,6 +67,8 @@ import "./pages/docs-page-market-table.ts";
 import "./pages/docs-page-briefing-block.ts";
 import "./pages/docs-page-empty-state.ts";
 import "./pages/docs-page-numbered-insight.ts";
+import "./pages/docs-page-avatar-row.ts";
+import "./pages/docs-page-media-grid.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { mapFamily, mapStyles } from "@dui/map";
@@ -116,6 +118,7 @@ import { DuiSectionPanel, DuiPageHeader } from "@dui/theme-default-templates/das
 import { DuiStatCard, DuiScoreItem, DuiRiskGauge, DuiProgressBar } from "@dui/theme-default-templates/metrics";
 import { DuiKeyValue, DuiMarketTable } from "@dui/theme-default-templates/data";
 import { DuiBriefingBlock, DuiEmptyState, DuiNumberedInsight } from "@dui/theme-default-templates/content";
+import { DuiAvatarRow, DuiMediaGrid } from "@dui/theme-default-templates/media";
 
 applyTheme({
   theme: {
@@ -226,6 +229,8 @@ applyTheme({
     DuiBriefingBlock,
     DuiEmptyState,
     DuiNumberedInsight,
+    DuiAvatarRow,
+    DuiMediaGrid,
   ],
 });
 

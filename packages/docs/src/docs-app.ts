@@ -875,6 +875,8 @@ export class DocsApp extends LitElement {
         case "briefing-block": return html`<docs-page-briefing-block></docs-page-briefing-block>`;
         case "empty-state": return html`<docs-page-empty-state></docs-page-empty-state>`;
         case "numbered-insight": return html`<docs-page-numbered-insight></docs-page-numbered-insight>`;
+        case "avatar-row": return html`<docs-page-avatar-row></docs-page-avatar-row>`;
+        case "media-grid": return html`<docs-page-media-grid></docs-page-media-grid>`;
       }
     }
     if (section === "templates") {
