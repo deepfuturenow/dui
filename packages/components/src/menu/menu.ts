@@ -1,7 +1,7 @@
 /** Ported from original DUI: deep-future-app/app/client/components/dui/menu */
 
 import { css, html, LitElement, type TemplateResult } from "lit";
-import { state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 import { FloatingPortalController } from "@dui/core/floating-portal-controller";
 import { DuiMenuItem } from "./menu-item.ts";
@@ -49,6 +49,10 @@ export class DuiMenu extends LitElement {
   static tagName = "dui-menu" as const;
   static override styles = [base, hostStyles, componentStyles];
 
+  /** Sets `min-width` on the popup panel (e.g. `"200px"`). Defaults to `"var(--space-28)".` */
+  @property({ attribute: "popup-min-width" })
+  accessor popupMinWidth: string = "var(--space-28)";
+
   @state()
   accessor #highlightedIndex = -1;
 
@@ -64,7 +68,7 @@ export class DuiMenu extends LitElement {
     matchWidth: false,
     styles: portalPopupStyles,
     contentContainer: ".Menu",
-    contentSelector: "dui-menu-item",
+    contentSelector: "dui-menu-item, dui-separator",
     onOpen: () => {
       this.#highlightedIndex = -1;
       this.#getTriggerElement()?.setAttribute("data-open", "");
@@ -76,6 +80,7 @@ export class DuiMenu extends LitElement {
     renderPopup: (portal) => html`
       <div
         class="Popup"
+        style="${this.popupMinWidth ? `min-width:${this.popupMinWidth}` : ""}"
         ?data-starting-style="${portal.isStarting}"
         ?data-ending-style="${portal.isEnding}"
       >

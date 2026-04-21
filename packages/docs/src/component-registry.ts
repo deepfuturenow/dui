@@ -312,7 +312,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "soft"', description: "Visual treatment" },
     ],
     themeCssProperties: [
       { name: "--badge-bg", description: "Background color" },
@@ -344,7 +344,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost" | "link"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "soft" | "link"', description: "Visual treatment" },
       { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
@@ -471,7 +471,9 @@ export const componentRegistry: ComponentMeta[] = [
     name: "Menu",
     description: "A popup menu triggered by a slotted element with keyboard navigation.",
     importPath: "@dui/components/menu",
-    properties: [],
+    properties: [
+      { name: "popup-min-width", type: "string", default: "\"var(--space-28)\"", description: "Sets min-width on the popup panel (e.g. \"200px\")" },
+    ],
     events: [],
     slots: [
       { name: "trigger", description: "The element that opens the menu on click" },
@@ -866,23 +868,6 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "image", description: "The avatar image element" },
       { name: "fallback", description: "The fallback content (initials/icon)" },
     ],
-  },
-
-  {
-    tagName: "dui-link",
-    name: "Link",
-    description: "Layout-transparent SPA link. Dispatches spa-navigate on click; modifier-clicks fall through for new-tab behavior.",
-    importPath: "@dui/components/link",
-    properties: [
-      { name: "href", type: "string", default: '""', description: "The URL to navigate to" },
-    ],
-    events: [
-      { name: "spa-navigate", detail: "{ href: string }", description: "Fired on plain left-click" },
-    ],
-    slots: [
-      { name: "default", description: "Link content" },
-    ],
-    cssProperties: [],
   },
 
   {
