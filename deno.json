@@ -4,6 +4,7 @@
     "./packages/components",
     "./packages/theme-default",
     "./packages/map",
+    "./packages/chart",
     "./packages/theme-default-templates",
     "./packages/docs",
     "./packages/inspector"

@@ -843,3 +843,12 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: Heatmap density visualization on the map.
 - Properties: data (string | GeoJSON.FeatureCollection), radius (number, 20), intensity (number, 1), opacity (number, 0.8), weight (string, ""), maxZoom (number, 9), showPoints (boolean, true), pointColor (string, "#3b82f6"), colorRamp (string[]), heatmapId (string)
 - Events: none
+
+### Chart
+- Tag: `<dui-chart>`
+- Import: `@dui/chart`
+- Description: Chart component wrapping Observable Plot. Pass a Plot spec object to render SVG charts with automatic theming and responsive sizing.
+- Properties: spec (PlotOptions), variant (string, ""), responsive (boolean, true)
+- Events: dui-chart-render ({ element: SVGElement | HTMLElement }), dui-chart-input ({ value: unknown })
+- CSS Variables: --chart-color-1 (Series color 1), --chart-color-2 (Series color 2), --chart-color-3 (Series color 3), --chart-color-4 (Series color 4), --chart-color-5 (Series color 5), --chart-color-6 (Series color 6), --chart-color-7 (Series color 7), --chart-color-8 (Series color 8), --chart-bg (Plot background), --chart-grid-color (Grid line color), --chart-axis-color (Axis text/line color), --chart-font-family (Chart text font), --chart-font-size (Axis/tick label size)
+- CSS Parts: root (The chart container div)
