@@ -1,14 +1,15 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { gridOverlay } from "./block-base.ts";
+import * as Plot from "@observablehq/plot";
 
 const MONTHS = [
-  { label: "Jan", value: 75 },
-  { label: "Feb", value: 60 },
-  { label: "Mar", value: 85 },
-  { label: "Apr", value: 70 },
-  { label: "May", value: 90 },
-  { label: "Jun", value: 80 },
+  { month: "Jan", visitors: 75 },
+  { month: "Feb", visitors: 60 },
+  { month: "Mar", visitors: 85 },
+  { month: "Apr", visitors: 70 },
+  { month: "May", visitors: 90 },
+  { month: "Jun", visitors: 80 },
 ];
 
 @customElement("block-traffic")
@@ -26,44 +27,12 @@ export class BlockTraffic extends LitElement {
       --card-action-offset-end: 0;
     }
 
-    .chart {
-      display: flex;
-      align-items: flex-end;
-      gap: var(--space-2);
-      height: 120px;
-    }
-
-    .bar-group {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-1);
-      height: 100%;
-    }
-
-    .bars {
-      display: flex;
-      align-items: flex-end;
-      flex: 1;
-      width: 100%;
-    }
-
-    .bar {
-      width: 100%;
-      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-      min-height: var(--space-1);
-      background: var(--accent);
-    }
-
-    .bar-label {
-      font-size: var(--text-2xs);
-      color: var(--text-2);
-      text-box: trim-both cap alphabetic;
+    dui-chart {
+      margin-bottom: var(--space-3);
     }
 
     /* Footer */
-    
+
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -104,18 +73,40 @@ export class BlockTraffic extends LitElement {
           <dui-toggle value="12m">12M</dui-toggle>
         </dui-toggle-group>
 
-        <div class="chart">
-          ${MONTHS.map(
-            (m) => html`
-              <div class="bar-group">
-                <div class="bars">
-                  <div class="bar" style="height: ${m.value}%"></div>
-                </div>
-                <span class="bar-label">${m.label}</span>
-              </div>
-            `,
-          )}
-        </div>
+        <dui-chart
+          .spec=${{
+            marks: [
+              Plot.barY(MONTHS, {
+                x: "month",
+                y: "visitors",
+                fill: "var(--chart-color-1)",
+                ry1: 3,
+              }),
+              Plot.tip(MONTHS, Plot.pointerX({
+                x: "month",
+                y: "visitors",
+                channels: { Month: "month", Visitors: "visitors" },
+                format: { x: false, y: false, Month: true, Visitors: true },
+                lineHeight: 1.4,
+              })),
+              Plot.ruleY([0], { strokeWidth: 0 }),
+            ],
+            x: {
+              label: null,
+              paddingInner: 0.15,
+              paddingOuter: 0,
+              tickSize: 0,
+              domain: MONTHS.map((m) => m.month),
+            },
+            y: { label: null, domain: [0, 100], ticks: 0 },
+            height: 120,
+            marginTop: 0,
+            marginBottom: 24,
+            marginLeft: 0,
+            marginRight: 0,
+            style: { background: "transparent" },
+          }}
+        ></dui-chart>
 
         <div slot="footer" class="stats">
           <div>
