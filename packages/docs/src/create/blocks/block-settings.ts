@@ -56,20 +56,7 @@ export class BlockSettings extends LitElement {
       text-box: trim-both cap alphabetic;
     }
 
-    /* ── Radio group ── */
 
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .radio-group-label {
-      font-size: var(--text-sm);
-      font-weight: var(--font-weight-medium);
-      margin: 0;
-      text-box: trim-both cap alphabetic;
-    }
 
     /* ── Slider row ── */
 
@@ -112,14 +99,14 @@ export class BlockSettings extends LitElement {
             <p class="setting-desc">Record flight path coordinates for review</p>
           </div>
 
-          <div class="radio-group">
-            <p class="radio-group-label">Flight Mode</p>
+          <dui-field>
+            <span slot="label">Flight Mode</span>
             <dui-radio-group default-value="standard">
               <dui-radio value="beginner">Beginner — limited speed and altitude</dui-radio>
               <dui-radio value="standard">Standard — balanced controls</dui-radio>
               <dui-radio value="sport">Sport — maximum responsiveness</dui-radio>
             </dui-radio-group>
-          </div>
+          </dui-field>
 
           <div>
             <div class="slider-header">

@@ -15,15 +15,6 @@ export class BlockCreateProject extends LitElement {
       flex-direction: column;
       gap: var(--space-5);
     }
-
-    .label {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: var(--font-weight-medium);
-      margin-bottom: var(--space-3);
-      color: var(--text-1);
-      text-box: trim-both cap alphabetic;
-    }
   `];
 
   override render() {
@@ -48,18 +39,18 @@ export class BlockCreateProject extends LitElement {
         </dui-button>
 
         <div class="content">
-          <div class="field">
-            <label class="label">What are you exploring?</label>
+          <dui-field>
+            <span slot="label">What are you exploring?</span>
             <dui-input placeholder="Name your project"></dui-input>
-          </div>
-  
-          <div class="field">
-            <label class="label">What are some key project details?</label>
+          </dui-field>
+
+          <dui-field>
+            <span slot="label">What are some key project details?</span>
             <dui-textarea
               placeholder="Describe the topic, scope, and goals of this project"
               rows="3"
             ></dui-textarea>
-          </div>
+          </dui-field>
         </div>
 
         <dui-button slot="footer" appearance="soft">Cancel</dui-button>
