@@ -17,7 +17,6 @@ import "./blocks/block-typography.ts";
 import "./blocks/block-3d-scene.ts";
 import "./blocks/block-token-usage.ts";
 import "./blocks/block-sidebar.ts";
-import "./blocks/block-form-controls.ts";
 
 @customElement("create-preview")
 export class CreatePreview extends LitElement {
@@ -103,7 +102,6 @@ export class CreatePreview extends LitElement {
         <block-user-account></block-user-account>
         <block-members></block-members>
         <block-events></block-events>
-        <block-form-controls></block-form-controls>
       </div>
 
       <hr class="divider">
