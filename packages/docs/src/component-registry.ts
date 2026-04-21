@@ -471,7 +471,9 @@ export const componentRegistry: ComponentMeta[] = [
     name: "Menu",
     description: "A popup menu triggered by a slotted element with keyboard navigation.",
     importPath: "@dui/components/menu",
-    properties: [],
+    properties: [
+      { name: "popup-min-width", type: "string", default: "\"var(--space-28)\"", description: "Sets min-width on the popup panel (e.g. \"200px\")" },
+    ],
     events: [],
     slots: [
       { name: "trigger", description: "The element that opens the menu on click" },
