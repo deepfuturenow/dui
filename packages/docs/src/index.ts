@@ -45,6 +45,9 @@ import "./pages/docs-page-stepper.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
 import "./pages/docs-page-card-grid.ts";
+import "./pages/docs-page-field.ts";
+import "./pages/docs-page-fieldset.ts";
+import "./pages/docs-page-forms.ts";
 import "./pages/docs-page-styling.ts";
 import "./pages/docs-page-theming.ts";
 import "./pages/docs-page-colors.ts";
@@ -101,6 +104,8 @@ import { DuiPortal } from "@dui/components/portal";
 import { DuiInput } from "@dui/components/input";
 import { DuiRadio, DuiRadioGroup } from "@dui/components/radio";
 import { DuiDropzone } from "@dui/components/dropzone";
+import { DuiField } from "@dui/components/field";
+import { DuiFieldset } from "@dui/components/fieldset";
 import { DuiSelect } from "@dui/components/select";
 import { DuiPreviewCard, DuiPreviewCardTrigger, DuiPreviewCardPopup } from "@dui/components/preview-card";
 import { DuiDataTable } from "@dui/components/data-table";
@@ -181,6 +186,8 @@ applyTheme({
     DuiRadio,
     DuiRadioGroup,
     DuiDropzone,
+    DuiField,
+    DuiFieldset,
     DuiSelect,
     DuiPreviewCard,
     DuiPreviewCardTrigger,

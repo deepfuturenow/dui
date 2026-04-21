@@ -43,6 +43,8 @@ import { inputStyles } from "./components/input.ts";
 import { radioStyles } from "./components/radio.ts";
 import { radioGroupStyles } from "./components/radio-group.ts";
 import { dropzoneStyles } from "./components/dropzone.ts";
+import { fieldStyles } from "./components/field.ts";
+import { fieldsetStyles } from "./components/fieldset.ts";
 import { selectStyles } from "./components/select.ts";
 import { previewCardStyles } from "./components/preview-card.ts";
 import { previewCardPopupStyles } from "./components/preview-card-popup.ts";
@@ -129,6 +131,8 @@ export const defaultTheme: DuiTheme = {
     ["dui-radio", radioStyles],
     ["dui-radio-group", radioGroupStyles],
     ["dui-dropzone", dropzoneStyles],
+    ["dui-field", fieldStyles],
+    ["dui-fieldset", fieldsetStyles],
     ["dui-select", selectStyles],
     ["dui-preview-card", previewCardStyles],
     ["dui-preview-card-popup", previewCardPopupStyles],
@@ -211,6 +215,8 @@ export { inputStyles } from "./components/input.ts";
 export { radioStyles } from "./components/radio.ts";
 export { radioGroupStyles } from "./components/radio-group.ts";
 export { dropzoneStyles } from "./components/dropzone.ts";
+export { fieldStyles } from "./components/field.ts";
+export { fieldsetStyles } from "./components/fieldset.ts";
 export { selectStyles } from "./components/select.ts";
 export { previewCardStyles } from "./components/preview-card.ts";
 export { previewCardPopupStyles } from "./components/preview-card-popup.ts";

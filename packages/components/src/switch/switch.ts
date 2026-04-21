@@ -1,9 +1,7 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
-import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
-import { type FieldContext, fieldContext } from "../field/field-context.ts";
 
 export const checkedChangeEvent = customEvent<{ checked: boolean }>(
   "checked-change",
@@ -44,14 +42,6 @@ const styles = css`
     transform: translateX(var(--switch-checked-offset, 0));
   }
 
-  .HiddenInput {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    margin: 0;
-    width: 0;
-    height: 0;
-  }
 `;
 
 /**
@@ -63,8 +53,16 @@ const styles = css`
  */
 export class DuiSwitch extends LitElement {
   static tagName = "dui-switch" as const;
+  static formAssociated = true;
 
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: Boolean, reflect: true })
   accessor checked: boolean | undefined = undefined;
@@ -93,20 +91,12 @@ export class DuiSwitch extends LitElement {
   @state()
   accessor #internalChecked = false;
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   get #isChecked(): boolean {
     return this.checked ?? this.#internalChecked;
   }
 
   get #isDisabled(): boolean {
-    return this.disabled || (this._fieldCtx?.disabled ?? false);
-  }
-
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
+    return this.disabled;
   }
 
   override connectedCallback(): void {
@@ -115,6 +105,15 @@ export class DuiSwitch extends LitElement {
       this.#internalChecked = true;
     }
     this.addEventListener("click", this.#handleHostClick);
+  }
+
+  override willUpdate(): void {
+    this.#syncFormValue();
+  }
+
+  #syncFormValue(): void {
+    const formValue = this.#isChecked ? this.value : this.uncheckedValue;
+    this.#internals.setFormValue(formValue || null);
   }
 
   override disconnectedCallback(): void {
@@ -135,9 +134,6 @@ export class DuiSwitch extends LitElement {
       this.#internalChecked = newChecked;
     }
 
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.markTouched();
-
     this.dispatchEvent(checkedChangeEvent({ checked: newChecked }));
   };
 
@@ -151,40 +147,24 @@ export class DuiSwitch extends LitElement {
   override render(): TemplateResult {
     const isChecked = this.#isChecked;
     const isDisabled = this.#isDisabled;
-    const isInvalid = this.#isInvalid;
-    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span
         part="root"
         role="switch"
-        id="${controlId || nothing}"
         aria-checked="${String(isChecked)}"
         aria-disabled="${isDisabled ? "true" : nothing}"
         aria-readonly="${this.readOnly ? "true" : nothing}"
         aria-required="${this.required ? "true" : nothing}"
-        aria-invalid="${isInvalid ? "true" : nothing}"
         tabindex="${isDisabled ? nothing : "0"}"
         ?data-checked="${isChecked}"
         ?data-unchecked="${!isChecked}"
         ?data-disabled="${isDisabled}"
         ?data-readonly="${this.readOnly}"
         ?data-required="${this.required}"
-        ?data-invalid="${isInvalid}"
         @keydown="${this.#handleKeyDown}"
       >
         <span part="thumb"></span>
-        <input
-          type="checkbox"
-          name="${this.name ?? nothing}"
-          value="${isChecked ? this.value : this.uncheckedValue}"
-          .checked="${isChecked}"
-          ?disabled="${isDisabled}"
-          ?required="${this.required}"
-          class="HiddenInput"
-          aria-hidden="true"
-          tabindex="-1"
-        />
       </span>
       <slot></slot>
     `;

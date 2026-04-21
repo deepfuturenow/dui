@@ -26,7 +26,8 @@ export class DocsPageStepper extends LitElement {
         </dui-docs-demo>
 
         <dui-docs-demo label="With Field Label">
-          <dui-field label="Quantity">
+          <dui-field>
+            <span slot="label">Quantity</span>
             <dui-stepper default-value="1" min="1" max="99"></dui-stepper>
           </dui-field>
         </dui-docs-demo>

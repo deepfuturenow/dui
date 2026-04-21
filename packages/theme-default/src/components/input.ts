@@ -29,7 +29,7 @@ export const inputStyles = css`
     opacity: 0.4;
   }
 
-  [part="input"][data-invalid] {
+  :host([aria-invalid="true"]) [part="input"] {
     border-color: var(--destructive);
   }
 
@@ -39,7 +39,7 @@ export const inputStyles = css`
     font-size: var(--font-size-xs);
   }
 
-  [part="input"][data-invalid]:focus-visible {
+  :host([aria-invalid="true"]) [part="input"]:focus-visible {
     box-shadow:
       0 0 0 var(--focus-ring-offset) var(--background),
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);

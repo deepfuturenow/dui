@@ -117,7 +117,15 @@ const styles = css`
  */
 export class DuiSlider extends LitElement {
   static tagName = "dui-slider" as const;
+  static formAssociated = true;
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** Current value. */
   @property({ type: Number })
@@ -154,6 +162,10 @@ export class DuiSlider extends LitElement {
   /** Decimal places for value readout. Auto-inferred from `step` if not set. */
   @property({ type: Number })
   accessor precision: number | undefined = undefined;
+
+  override willUpdate(): void {
+    this.#internals.setFormValue(String(this.value));
+  }
 
   @state()
   accessor #dragging = false;

@@ -2060,4 +2060,48 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "tooltip", description: "The HTML tooltip overlay" },
     ],
   },
+  {
+    tagName: "dui-field",
+    name: "Field",
+    description: "Slot-based form field wrapper. Provides label, description, and error slots with automatic ARIA wiring and field state tracking.",
+    importPath: "@dui/components/field",
+    properties: [
+      { name: "disabled", type: "boolean", default: "false", description: "Disables the child control" },
+      { name: "invalid", type: "boolean", default: "false", description: "Marks the field as invalid" },
+      { name: "orientation", type: '"vertical" | "horizontal"', default: '"vertical"', description: "Layout direction" },
+    ],
+    events: [],
+    slots: [
+      { name: "label", description: "Label text (e.g. <span slot=\"label\">Email</span>)" },
+      { name: "default", description: "The form control" },
+      { name: "description", description: "Help text (e.g. <span slot=\"description\">…</span>)" },
+      { name: "error", description: "Error message (e.g. <span slot=\"error\">Required</span>)" },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The field container element" },
+      { name: "label", description: "The label wrapper" },
+      { name: "description", description: "The description wrapper" },
+      { name: "error", description: "The error wrapper (hidden unless invalid)" },
+    ],
+  },
+  {
+    tagName: "dui-fieldset",
+    name: "Fieldset",
+    description: "Semantic grouping for related form fields using a native fieldset element.",
+    importPath: "@dui/components/fieldset",
+    properties: [
+      { name: "disabled", type: "boolean", default: "false", description: "Disables all child form controls" },
+    ],
+    events: [],
+    slots: [
+      { name: "legend", description: "Legend text (e.g. <span slot=\"legend\">Personal Info</span>)" },
+      { name: "default", description: "Field children" },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The native fieldset element" },
+      { name: "legend", description: "The native legend element" },
+    ],
+  },
 ];

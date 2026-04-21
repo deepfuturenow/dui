@@ -23,20 +23,11 @@ export class BlockCreateProject extends LitElement {
       letter-spacing: var(--letter-spacing-tighter);
     }
 
-    .field {
-      margin-bottom: var(--space-4);
-    }
-
-    .field:last-of-type {
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
       margin-bottom: var(--space-6);
-    }
-
-    .label {
-      display: block;
-      font-size: var(--font-size-sm);
-      font-weight: 500;
-      margin-bottom: var(--space-2);
-      color: var(--text-1);
     }
 
     .footer {
@@ -68,17 +59,19 @@ export class BlockCreateProject extends LitElement {
         </dui-button>
       </div>
 
-      <div class="field">
-        <label class="label">What are you exploring?</label>
-        <dui-input placeholder="Name your project"></dui-input>
-      </div>
+      <div class="fields">
+        <dui-field>
+          <span slot="label">What are you exploring?</span>
+          <dui-input placeholder="Name your project"></dui-input>
+        </dui-field>
 
-      <div class="field">
-        <label class="label">What are some key project details?</label>
-        <dui-textarea
-          placeholder="Describe the topic, scope, and goals of this project"
-          rows="3"
-        ></dui-textarea>
+        <dui-field>
+          <span slot="label">What are some key project details?</span>
+          <dui-textarea
+            placeholder="Describe the topic, scope, and goals of this project"
+            rows="3"
+          ></dui-textarea>
+        </dui-field>
       </div>
 
       <div class="footer">

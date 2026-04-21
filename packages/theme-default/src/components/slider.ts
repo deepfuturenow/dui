@@ -53,7 +53,7 @@ export const sliderStyles = css`
   [part="thumb"] {
     width: var(--slider-thumb-size);
     height: var(--slider-thumb-size);
-    background: var(--background);
+    background: white;
     border: var(--border-width-medium) solid var(--accent);
     border-radius: 50%;
     transition-property: left, box-shadow;

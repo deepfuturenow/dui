@@ -3,11 +3,9 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
-import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
 import { FloatingPortalController } from "@dui/core/floating-portal-controller";
-import { type FieldContext, fieldContext } from "../field/field-context.ts";
 
 
 export type SelectOption = {
@@ -114,7 +112,15 @@ const portalPopupStyles = [
  */
 export class DuiSelect extends LitElement {
   static tagName = "dui-select" as const;
+  static formAssociated = true;
   static override styles = [base, hostStyles, componentStyles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** The available options. */
   @property({ attribute: false })
@@ -136,10 +142,6 @@ export class DuiSelect extends LitElement {
   @property({ type: String })
   accessor name = "";
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   @state()
   accessor #highlightedIndex = -1;
 
@@ -157,7 +159,6 @@ export class DuiSelect extends LitElement {
     },
     onClose: () => {
       this.#highlightedIndex = -1;
-      this._fieldCtx?.markTouched();
     },
     renderPopup: (portal) => {
       return html`
@@ -170,7 +171,7 @@ export class DuiSelect extends LitElement {
             class="Listbox"
             id="${this.#listboxId}"
             role="listbox"
-            aria-labelledby="${this._fieldCtx?.labelId ?? ""}"
+
             @mousedown="${this.#onListMouseDown}"
           >
             ${repeat(
@@ -184,15 +185,11 @@ export class DuiSelect extends LitElement {
     },
   });
 
+  override willUpdate(): void {
+    this.#internals.setFormValue(this.value);
+  }
+
   // ---- Computed ----
-
-  get #isDisabled(): boolean {
-    return this.disabled || (this._fieldCtx?.disabled ?? false);
-  }
-
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
-  }
 
   get #selectedOption(): SelectOption | undefined {
     return this.options.find((o) => o.value === this.value);
@@ -210,7 +207,7 @@ export class DuiSelect extends LitElement {
 
   #onTriggerClick = (event: MouseEvent): void => {
     event.stopPropagation();
-    if (this.#isDisabled) return;
+    if (this.disabled) return;
 
     if (this.#popup.isOpen) {
       this.#popup.close();
@@ -220,7 +217,7 @@ export class DuiSelect extends LitElement {
   };
 
   #onTriggerKeyDown = (event: KeyboardEvent): void => {
-    if (this.#isDisabled) return;
+    if (this.disabled) return;
 
     switch (event.key) {
       case "Enter":
@@ -319,8 +316,6 @@ export class DuiSelect extends LitElement {
 
   #selectOption(option: SelectOption): void {
     this.value = option.value;
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.setFilled(this.value.length > 0);
     this.dispatchEvent(valueChangeEvent({ value: option.value, option }));
     this.#popup.close();
     this.#focusTrigger();
@@ -379,22 +374,17 @@ export class DuiSelect extends LitElement {
         part="trigger"
         id="${this.#triggerId}"
         role="combobox"
-        tabindex="${this.#isDisabled ? -1 : 0}"
+        tabindex="${this.disabled ? -1 : 0}"
         aria-haspopup="listbox"
         aria-expanded="${this.#popup.isOpen}"
         aria-controls="${this.#listboxId}"
         aria-activedescendant="${this.#highlightedIndex >= 0
           ? `${this.#listboxId}-option-${this.#highlightedIndex}`
           : nothing}"
-        aria-labelledby="${this._fieldCtx?.labelId ?? ""}"
-        aria-invalid="${this.#isInvalid}"
-        ?data-disabled="${this.#isDisabled}"
-        ?data-invalid="${this.#isInvalid}"
+        ?data-disabled="${this.disabled}"
         ?data-open="${this.#popup.isOpen}"
         @click="${this.#onTriggerClick}"
         @keydown="${this.#onTriggerKeyDown}"
-        @focus="${() => this._fieldCtx?.setFocused(true)}"
-        @blur="${() => this._fieldCtx?.setFocused(false)}"
       >
         <span
           class="Value"
@@ -408,9 +398,6 @@ export class DuiSelect extends LitElement {
         </span>
       </div>
 
-      ${this.name
-        ? html`<input type="hidden" name="${this.name}" .value="${this.value}" />`
-        : nothing}
     `;
   }
 }

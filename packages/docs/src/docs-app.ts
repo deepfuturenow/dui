@@ -17,7 +17,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
     slugs: [
       "accordion", "alert-dialog", "avatar", "badge", "breadcrumb",
       "button", "calendar", "card-grid", "checkbox", "collapsible", "combobox",
-      "command", "data-table", "dialog", "dropzone", "icon", "input",
+      "command", "data-table", "dialog", "dropzone", "field", "fieldset", "icon", "input",
       "link", "menu", "menubar", "number-field", "popover",
       "preview-card", "progress", "radio-group", "scroll-area",
       "select", "separator", "sidebar-provider", "slider", "spinner",
@@ -696,6 +696,11 @@ export class DocsApp extends LitElement {
               Components
             </a>
             <a class="top-bar-link"
+              href="#/forms"
+              aria-current=${this.#isTopNavActive("forms") ? "page" : "false"}>
+              Forms
+            </a>
+            <a class="top-bar-link"
               href="#/styling"
               aria-current=${this.#isTopNavActive("styling") ? "page" : "false"}>
               Styling
@@ -888,6 +893,7 @@ export class DocsApp extends LitElement {
       return html`<docs-page-section-panel></docs-page-section-panel>`;
     }
 
+    if (section === "forms") return html`<docs-page-forms></docs-page-forms>`;
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
@@ -939,6 +945,8 @@ export class DocsApp extends LitElement {
         case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
         case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
         case "card-grid": return html`<docs-page-card-grid></docs-page-card-grid>`;
+        case "field": return html`<docs-page-field></docs-page-field>`;
+        case "fieldset": return html`<docs-page-fieldset></docs-page-fieldset>`;
         case "map": return html`<docs-page-map></docs-page-map>`;
         case "chart": return html`<docs-page-chart></docs-page-chart>`;
       }

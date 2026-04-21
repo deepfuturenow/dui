@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 55 component families, 100+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 57 component families, 102+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -52,6 +52,16 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ---
 
 ## Forms
+
+### dui-field
+**Properties:** `disabled` (boolean), `invalid` (boolean), `orientation` ("vertical" | "horizontal")
+**Slots:** label (Label text (e.g. <span slot="label">Email</span>)), default (The form control), description (Help text (e.g. <span slot="description">…</span>)), error (Error message (e.g. <span slot="error">Required</span>))
+**Parts:** `root`, `label`, `description`, `error`
+
+### dui-fieldset
+**Properties:** `disabled` (boolean)
+**Slots:** legend (Legend text (e.g. <span slot="legend">Personal Info</span>)), default (Field children)
+**Parts:** `root`, `legend`
 
 ### dui-input
 **Properties:** `type` (string), `value` (string), `placeholder` (string), `disabled` (boolean), `required` (boolean), `readonly` (boolean), `minLength` (number | undefined), `maxLength` (number | undefined), `pattern` (string | undefined), `name` (string), `autocomplete` (string | undefined), `autofocus` (boolean)

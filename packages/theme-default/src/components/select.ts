@@ -46,7 +46,7 @@ export const selectStyles = css`
     opacity: 0.4;
   }
 
-  .Trigger[data-invalid] {
+  :host([aria-invalid="true"]) .Trigger {
     border-color: var(--destructive);
   }
 

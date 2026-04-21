@@ -63,6 +63,7 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./avatar": "./src/avatar/index.ts",
       "./portal": "./src/portal/index.ts",
       "./field": "./src/field/index.ts",
+      "./fieldset": "./src/fieldset/index.ts",
       "./input": "./src/input/index.ts",
       "./radio": "./src/radio/index.ts",
       "./dropzone": "./src/dropzone/index.ts",

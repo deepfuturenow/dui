@@ -127,6 +127,14 @@ export type { DialogOpenChangeDetail, DialogContext } from "./dialog/index.ts";
 // --- Dropzone ---
 import { DuiDropzone } from "./dropzone/index.ts";
 export { DuiDropzone };
+
+// --- Field ---
+import { DuiField } from "./field/index.ts";
+export { DuiField };
+
+// --- Fieldset ---
+import { DuiFieldset } from "./fieldset/index.ts";
+export { DuiFieldset };
 export type {
   DropzoneErrorCode,
   DropzoneRejectionCode,
@@ -353,6 +361,8 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiDialogPopup,
   DuiDialogClose,
   DuiDropzone,
+  DuiField,
+  DuiFieldset,
 
   DuiIcon,
   DuiInput,

@@ -61,7 +61,7 @@ export const textareaStyles = css`
     opacity: 0.4;
   }
 
-  [part="textarea"][data-invalid] {
+  :host([aria-invalid="true"]) [part="textarea"] {
     border-color: var(--destructive);
   }
 

@@ -848,7 +848,25 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-chart>`
 - Import: `@dui/chart`
 - Description: Chart component wrapping Observable Plot. Pass a Plot spec object to render SVG charts with automatic theming and responsive sizing.
-- Properties: spec (PlotOptions), variant (string, ""), responsive (boolean, true)
+- Properties: spec (PlotOptions), variant (string, ""), tooltip (boolean, true), responsive (boolean, true)
 - Events: dui-chart-render ({ element: SVGElement | HTMLElement }), dui-chart-input ({ value: unknown })
-- CSS Variables: --chart-color-1 (Series color 1), --chart-color-2 (Series color 2), --chart-color-3 (Series color 3), --chart-color-4 (Series color 4), --chart-color-5 (Series color 5), --chart-color-6 (Series color 6), --chart-color-7 (Series color 7), --chart-color-8 (Series color 8), --chart-bg (Plot background), --chart-grid-color (Grid line color), --chart-axis-color (Axis text/line color), --chart-font-family (Chart text font), --chart-font-size (Axis/tick label size)
-- CSS Parts: root (The chart container div)
+- CSS Variables: --chart-color-1 (Series color 1), --chart-color-2 (Series color 2), --chart-color-3 (Series color 3), --chart-color-4 (Series color 4), --chart-color-5 (Series color 5), --chart-color-6 (Series color 6), --chart-color-7 (Series color 7), --chart-color-8 (Series color 8), --chart-bg (Plot background), --chart-grid-color (Grid line color), --chart-axis-color (Axis text/line color), --chart-font-family (Chart text font), --chart-font-size (Axis/tick label size), --chart-tooltip-bg (Tooltip background), --chart-tooltip-color (Tooltip text color), --chart-tooltip-border (Tooltip border color), --chart-tooltip-radius (Tooltip corner radius), --chart-tooltip-padding (Tooltip padding), --chart-tooltip-font-size (Tooltip font size), --chart-tooltip-line-height (Tooltip line height)
+- CSS Parts: root (The chart container div), tooltip (The HTML tooltip overlay)
+
+### Field
+- Tag: `<dui-field>`
+- Import: `@dui/components/field`
+- Description: Slot-based form field wrapper. Provides label, description, and error slots with automatic ARIA wiring and field state tracking.
+- Properties: disabled (boolean, false), invalid (boolean, false), orientation ("vertical" | "horizontal", "vertical")
+- Events: none
+- Slots: label (Label text (e.g. <span slot="label">Email</span>)), default (The form control), description (Help text (e.g. <span slot="description">…</span>)), error (Error message (e.g. <span slot="error">Required</span>))
+- CSS Parts: root (The field container element), label (The label wrapper), description (The description wrapper), error (The error wrapper (hidden unless invalid))
+
+### Fieldset
+- Tag: `<dui-fieldset>`
+- Import: `@dui/components/fieldset`
+- Description: Semantic grouping for related form fields using a native fieldset element.
+- Properties: disabled (boolean, false)
+- Events: none
+- Slots: legend (Legend text (e.g. <span slot="legend">Personal Info</span>)), default (Field children)
+- CSS Parts: root (The native fieldset element), legend (The native legend element)

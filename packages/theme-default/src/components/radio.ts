@@ -36,7 +36,7 @@ export const radioStyles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
-  [part="root"][data-invalid] {
+  :host([aria-invalid="true"]) [part="root"] {
     border-color: color-mix(in oklch, var(--destructive) 70%, transparent);
     background: color-mix(in oklch, var(--destructive) 15%, transparent);
   }

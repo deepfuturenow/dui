@@ -2,6 +2,7 @@
 
 import { css, html, LitElement, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { base } from "@dui/core/base";
@@ -59,11 +60,19 @@ const styles = css`
  */
 export class DuiTextarea extends LitElement {
   static tagName = "dui-textarea" as const;
+  static formAssociated = true;
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** Current textarea value. */
   @property()
@@ -103,9 +112,31 @@ export class DuiTextarea extends LitElement {
   @property({ attribute: "max-height" })
   accessor maxHeight: string | undefined = undefined;
 
+  override willUpdate(): void {
+    this.#internals.setFormValue(this.value);
+  }
+
+  #syncValidity(): void {
+    const textarea = this.shadowRoot?.querySelector("textarea");
+    if (textarea) {
+      this.#internals.setValidity(
+        textarea.validity,
+        textarea.validationMessage,
+        textarea,
+      );
+    }
+  }
+
+  override updated(): void {
+    this.#syncValidity();
+  }
+
   #onInput = (event: InputEvent): void => {
     const target = event.target as HTMLTextAreaElement;
     this.value = target.value;
+
+    this.#internals.setFormValue(this.value);
+
     this.dispatchEvent(textareaChangeEvent({ value: this.value }));
   };
 

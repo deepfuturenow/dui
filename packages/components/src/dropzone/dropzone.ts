@@ -289,6 +289,8 @@ export class DuiDropzone extends LitElement {
     }
   };
 
+
+
   #processFiles(files: File[]): void {
     const { acceptedFiles, rejectedFiles } = this.#validateFiles(files);
 
@@ -395,6 +397,7 @@ export class DuiDropzone extends LitElement {
         part="root"
         tabindex="${this.disabled ? -1 : 0}"
         ?data-dragover="${this.#isDragOver}"
+        ?data-disabled="${this.disabled}"
         @dragenter="${this.#handleDragEnter}"
         @dragover="${this.#handleDragOver}"
         @dragleave="${this.#handleDragLeave}"

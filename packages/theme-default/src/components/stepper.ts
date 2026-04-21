@@ -19,7 +19,7 @@ export const stepperStyles = css`
     opacity: 0.4;
   }
 
-  [part="root"][data-invalid] {
+  :host([aria-invalid="true"]) [part="root"] {
     border-color: var(--destructive);
   }
 

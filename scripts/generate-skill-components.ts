@@ -25,6 +25,7 @@ const CATEGORIES: { name: string; tags: string[] }[] = [
   {
     name: "Forms",
     tags: [
+      "dui-field", "dui-fieldset",
       "dui-input", "dui-textarea", "dui-select", "dui-combobox",
       "dui-checkbox", "dui-checkbox-group", "dui-radio",
       "dui-switch", "dui-slider", "dui-number-field", "dui-stepper", "dui-dropzone",

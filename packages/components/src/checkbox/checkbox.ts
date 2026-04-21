@@ -3,10 +3,8 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ContextConsumer } from "@lit/context";
-import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
-import { type FieldContext, fieldContext } from "../field/field-context.ts";
 import { checkboxGroupContext } from "./checkbox-group-context.ts";
 
 export const checkedChangeEvent = customEvent<{
@@ -57,14 +55,6 @@ const styles = css`
     display: none;
   }
 
-  .HiddenInput {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    margin: 0;
-    width: 0;
-    height: 0;
-  }
 `;
 
 const checkIcon = html`
@@ -110,8 +100,16 @@ const indeterminateIcon = html`
  */
 export class DuiCheckbox extends LitElement {
   static tagName = "dui-checkbox" as const;
+  static formAssociated = true;
 
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** Whether the checkbox is checked (controlled). */
   @property({ type: Boolean, reflect: true })
@@ -157,10 +155,6 @@ export class DuiCheckbox extends LitElement {
     subscribe: true,
   });
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   get #isChecked(): boolean {
     const ctx = this.#groupCtx.value;
     if (ctx && this.value !== undefined) {
@@ -189,13 +183,8 @@ export class DuiCheckbox extends LitElement {
   get #isDisabled(): boolean {
     return (
       this.disabled ||
-      (this.#groupCtx.value?.disabled ?? false) ||
-      (this._fieldCtx?.disabled ?? false)
+      (this.#groupCtx.value?.disabled ?? false)
     );
-  }
-
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
   }
 
   override connectedCallback(): void {
@@ -204,6 +193,18 @@ export class DuiCheckbox extends LitElement {
       this.#internalChecked = true;
     }
     this.addEventListener("click", this.#handleHostClick);
+  }
+
+  override willUpdate(): void {
+    this.#syncFormValue();
+  }
+
+  #syncFormValue(): void {
+    if (this.#isChecked) {
+      this.#internals.setFormValue(this.value ?? "on");
+    } else {
+      this.#internals.setFormValue(null);
+    }
   }
 
   override disconnectedCallback(): void {
@@ -227,8 +228,6 @@ export class DuiCheckbox extends LitElement {
       } else {
         ctx.toggle(this.value);
       }
-      this._fieldCtx?.markDirty();
-      this._fieldCtx?.markTouched();
       return;
     }
 
@@ -239,9 +238,6 @@ export class DuiCheckbox extends LitElement {
       this.#internalChecked = newChecked;
       this.indeterminate = false;
     }
-
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.markTouched();
 
     this.dispatchEvent(
       checkedChangeEvent({
@@ -262,20 +258,16 @@ export class DuiCheckbox extends LitElement {
     const isChecked = this.#isChecked;
     const isIndeterminate = this.#isIndeterminate;
     const isDisabled = this.#isDisabled;
-    const isInvalid = this.#isInvalid;
     const showIndicator = isChecked || isIndeterminate;
-    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span
         part="root"
         role="checkbox"
-        id="${controlId || nothing}"
         aria-checked="${isIndeterminate ? "mixed" : String(isChecked)}"
         aria-disabled="${isDisabled ? "true" : nothing}"
         aria-readonly="${this.readOnly ? "true" : nothing}"
         aria-required="${this.required ? "true" : nothing}"
-        aria-invalid="${isInvalid ? "true" : nothing}"
         tabindex="${isDisabled ? nothing : "0"}"
         ?data-checked="${isChecked && !isIndeterminate}"
         ?data-unchecked="${!isChecked && !isIndeterminate}"
@@ -283,7 +275,6 @@ export class DuiCheckbox extends LitElement {
         ?data-disabled="${isDisabled}"
         ?data-readonly="${this.readOnly}"
         ?data-required="${this.required}"
-        ?data-invalid="${isInvalid}"
         @keydown="${this.#handleKeyDown}"
       >
         <span
@@ -298,18 +289,6 @@ export class DuiCheckbox extends LitElement {
               : checkIcon
             : nothing}
         </span>
-        <input
-          type="checkbox"
-          name="${this.name ?? nothing}"
-          value="${this.value ?? nothing}"
-          .checked="${isChecked}"
-          .indeterminate="${isIndeterminate}"
-          ?disabled="${isDisabled}"
-          ?required="${this.required}"
-          class="HiddenInput"
-          aria-hidden="true"
-          tabindex="-1"
-        />
       </span>
       <slot></slot>
     `;
