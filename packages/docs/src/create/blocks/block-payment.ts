@@ -1,30 +1,37 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 @customElement("block-payment")
 export class BlockPayment extends LitElement {
-  static override styles = [blockBase, css`
-
-    .section {
-      padding: var(--space-3) var(--space-5);
+  static override styles = [gridOverlay, css`
+    :host {
+      display: block;
+      position: relative;
     }
 
-    .section + .section {
-      border-top: var(--border-width-thin) solid var(--border);
+    /* ── Card gap ── */
+
+    dui-card::part(root) {
+      gap: var(--space-4);
     }
 
     /* ── Header ── */
+    
+    dui-card::part(header) {
+      padding: var(--space-4) var(--space-3) var(--space-3);
+      border-bottom: var(--border-width-thin) solid var(--border);
+    }
 
-    .header {
+    .header-row {
       display: flex;
       align-items: center;
       gap: var(--space-3);
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: var(--space-10);
+      height: var(--space-10);
       border-radius: var(--radius-full);
       background: var(--accent-subtle);
       color: var(--accent);
@@ -37,18 +44,24 @@ export class BlockPayment extends LitElement {
     .header-text {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
     }
 
     .shop-name {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
       margin: 0;
+      text-box: trim-both cap alphabetic;
     }
 
     .shop-address {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
-      margin: 0;
+      margin: var(--space-1) 0 0;
+      font-weight: var(--font-weight-regular);
+      text-box: trim-both cap alphabetic;
     }
 
     /* ── Cart summary row ── */
@@ -61,34 +74,8 @@ export class BlockPayment extends LitElement {
 
     .summary-row span {
       flex: 1;
-      font-size: var(--font-size-sm);
-      font-weight: 500;
-    }
-
-    /* ── Order total ── */
-
-    .section-title {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
-      margin: 0 0 var(--space-2);
-    }
-
-    .line-item {
-      display: flex;
-      justify-content: space-between;
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin-bottom: var(--space-1);
-    }
-
-    .total-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: var(--font-size-sm);
-      font-weight: 600;
-      padding-top: var(--space-2);
-      border-top: var(--border-width-thin) solid var(--border);
-      margin-top: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
     }
 
     .cart-items {
@@ -101,14 +88,8 @@ export class BlockPayment extends LitElement {
     .cart-item {
       display: flex;
       justify-content: space-between;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
-    }
-
-    .disclaimer {
-      font-size: var(--font-size-xs);
-      color: var(--text-2);
-      margin: var(--space-3) 0 0;
     }
 
     dui-collapsible::part(trigger) {
@@ -119,12 +100,48 @@ export class BlockPayment extends LitElement {
       padding-inline: 0;
       padding-bottom: 0;
     }
+
+    /* ── Order total (footer) ── */
+
+    dui-card::part(footer) {
+      border-top: var(--border-width-thin) solid var(--border);
+      padding-top: var(--space-5);
+    }
+
+    .order-total {
+      width: 100%;
+    }
+
+    .order-total h3 {
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      margin: 0 0 var(--space-2);
+      text-box: trim-both cap alphabetic;
+    }
+
+    .line-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      margin-bottom: var(--space-1);
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      padding-top: var(--space-2);
+      border-top: var(--border-width-thin) solid var(--border);
+      margin-top: var(--space-2);
+    }
   `];
 
   override render() {
     return html`
-      <div class="section">
-        <div class="header">
+      <dui-card>
+        <div slot="title" class="header-row">
           <div class="avatar">
             <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg></dui-icon>
           </div>
@@ -133,9 +150,7 @@ export class BlockPayment extends LitElement {
             <p class="shop-address">482 Main Street</p>
           </div>
         </div>
-      </div>
 
-      <div class="section">
         <dui-collapsible default-open>
           <div slot="trigger" class="summary-row">
             <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></dui-icon>
@@ -160,23 +175,23 @@ export class BlockPayment extends LitElement {
             </div>
           </div>
         </dui-collapsible>
-      </div>
 
-      <div class="section">
-        <p class="section-title">Order total</p>
-        <div class="line-item">
-          <span>Subtotal</span>
-          <span>$76.50</span>
+        <div slot="footer" class="order-total">
+          <h3>Order total</h3>
+          <div class="line-item">
+            <span>Subtotal</span>
+            <span>$76.50</span>
+          </div>
+          <div class="line-item">
+            <span>Taxes</span>
+            <span>$6.79</span>
+          </div>
+          <div class="total-line">
+            <span>Total</span>
+            <span>$83.29</span>
+          </div>
         </div>
-        <div class="line-item">
-          <span>Taxes</span>
-          <span>$6.79</span>
-        </div>
-        <div class="total-line">
-          <span>Total</span>
-          <span>$83.29</span>
-        </div>
-      </div>
+      </dui-card>
     `;
   }
 }

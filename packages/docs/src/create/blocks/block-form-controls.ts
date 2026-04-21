@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-form-controls")
 export class BlockFormControls extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       padding: var(--space-6);
     }
@@ -27,14 +27,14 @@ export class BlockFormControls extends LitElement {
       padding: var(--space-4);
     }
 
-    .tfa-title {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
+    h3 {
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-1);
     }
 
     .tfa-desc {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-3);
     }
@@ -51,7 +51,7 @@ export class BlockFormControls extends LitElement {
         </div>
 
         <div class="tfa-card">
-          <p class="tfa-title">Two-factor authentication</p>
+          <h3>Two-factor authentication</h3>
           <p class="tfa-desc">
             Add an extra layer of security to your account.
           </p>

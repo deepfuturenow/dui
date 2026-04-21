@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 const TIME_SLOTS = [
   "9:00 AM",
@@ -11,22 +11,17 @@ const TIME_SLOTS = [
 
 @customElement("block-calendar")
 export class BlockCalendar extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, css`
     :host {
-      padding: var(--space-6);
+      display: block;
+      position: relative;
       container-type: inline-size;
     }
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0 0 var(--space-1);
-    }
-
-    .subtitle {
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-4);
+    /* Dui-card */
+    dui-card::part(root) {
+      gap: var(--space-2);
+      padding-bottom: var(--space-6);
     }
 
     /* Stacked layout (default / narrow) */
@@ -47,12 +42,13 @@ export class BlockCalendar extends LitElement {
     }
 
     .slots-header {
-      font-size: var(--font-size-sm);
-      font-weight: 500;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
       color: var(--text-2);
       text-align: center;
       margin: 0 0 var(--space-1);
       display: none;
+      text-box: trim-both cap alphabetic;
     }
 
     .slots dui-button {
@@ -89,19 +85,21 @@ export class BlockCalendar extends LitElement {
     const iso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
     return html`
-      <p class="title">Schedule</p>
-      <p class="subtitle">Pick a date and time for your meeting</p>
-      <div class="layout">
-        <dui-calendar default-value="${iso}"></dui-calendar>
-        <div class="slots">
-          <p class="slots-header">Time</p>
-          ${TIME_SLOTS.map(
-            (t) => html`
-              <dui-button appearance="outline" size="sm">${t}</dui-button>
-            `,
-          )}
+      <dui-card>
+        <span slot="title">Schedule</span>
+        <span slot="description">Pick a date and time for your meeting</span>
+        <div class="layout">
+          <dui-calendar default-value="${iso}"></dui-calendar>
+          <div class="slots">
+            <p class="slots-header">Time</p>
+            ${TIME_SLOTS.map(
+              (t) => html`
+                <dui-button appearance="outline" size="sm">${t}</dui-button>
+              `,
+            )}
+          </div>
         </div>
-      </div>
+      </dui-card>
     `;
   }
 }

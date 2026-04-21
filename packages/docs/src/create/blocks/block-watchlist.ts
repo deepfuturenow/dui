@@ -97,30 +97,34 @@ export class BlockWatchlist extends LitElement {
       justify-content: space-between;
       align-items: flex-start;
       padding: var(--space-4) var(--space-4) 0;
+      margin-bottom: var(--space-1_5);
     }
 
     .symbol-group {
       display: flex;
       align-items: center;
-      gap: var(--space-1-5);
+      gap: var(--space-1);
     }
 
     .arrow {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
+      text-box: trim-both cap alphabetic;
     }
 
     .arrow.up { color: #22c55e; }
     .arrow.down { color: #ef4444; }
 
     .symbol {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      text-box: trim-both cap alphabetic;
     }
 
     .pct {
-      font-size: var(--font-size-xs);
-      font-weight: 500;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
       font-family: var(--font-mono);
+      text-box: trim-both cap alphabetic;
     }
 
     .pct.up { color: #22c55e; }
@@ -133,13 +137,15 @@ export class BlockWatchlist extends LitElement {
     }
 
     .name {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
+      text-box: trim-both cap alphabetic;
     }
 
     .change {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
+      text-box: trim-both cap alphabetic;
     }
 
     .change.up { color: #22c55e; }
@@ -153,13 +159,14 @@ export class BlockWatchlist extends LitElement {
     .chart svg {
       display: block;
       width: 100%;
-      height: 48px;
+      height: var(--space-12);
     }
 
     .price {
-      font-size: var(--font-size-2xl);
-      font-weight: 700;
-      padding: var(--space-3) var(--space-4) var(--space-2);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-bold);
+      padding: var(--space-3) var(--space-4) var(--space-4);
+      text-box: trim-both cap alphabetic;
     }
   `;
 

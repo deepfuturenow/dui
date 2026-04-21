@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 const MONTHS = [
   { label: "Jan", value: 75 },
@@ -13,28 +13,17 @@ const MONTHS = [
 
 @customElement("block-traffic")
 export class BlockTraffic extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, css`
     :host {
-      padding: var(--space-6);
+      display: block;
+      position: relative;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-1);
-    }
+    /* Card */
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .subtitle {
-      font-size: var(--font-size-xs);
-      color: var(--text-2);
-      margin: 0 0 var(--space-4);
+    dui-card::part(root) {
+      --card-action-offset-top: 0;
+      --card-action-offset-end: 0;
     }
 
     .chart {
@@ -42,7 +31,6 @@ export class BlockTraffic extends LitElement {
       align-items: flex-end;
       gap: var(--space-2);
       height: 120px;
-      margin-bottom: var(--space-3);
     }
 
     .bar-group {
@@ -64,36 +52,41 @@ export class BlockTraffic extends LitElement {
     .bar {
       width: 100%;
       border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-      min-height: 4px;
+      min-height: var(--space-1);
       background: var(--accent);
     }
 
     .bar-label {
-      font-size: 10px;
+      font-size: var(--text-2xs);
       color: var(--text-2);
+      text-box: trim-both cap alphabetic;
     }
 
-
-
+    /* Footer */
+    
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-2);
       border-top: var(--border-width-thin) solid var(--border);
       padding-top: var(--space-3);
+      width: 100%;
     }
 
     .stat-label {
-      font-size: 10px;
-      color: var(--text-2);
+      font-size: var(--text-2xs);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-3);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      text-box: trim-both cap alphabetic;
+      margin-bottom: var(--space-3);
     }
 
     .stat-value {
-      font-size: var(--font-size-lg);
-      font-weight: 700;
-      margin-top: var(--space-1);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-semibold);
+      text-box: trim-both cap alphabetic;
     }
 
     .stat-value.positive {
@@ -103,42 +96,42 @@ export class BlockTraffic extends LitElement {
 
   override render() {
     return html`
-      <div class="header">
-        <p class="title">Traffic Channels</p>
-        <dui-toggle-group type="single" .defaultValue=${["6m"]}>
+      <dui-card>
+        <span slot="title">Traffic Channels</span>
+        <span slot="description">Traffic over the last 6 months</span>
+        <dui-toggle-group slot="action" type="single" .defaultValue=${["6m"]}>
           <dui-toggle value="6m">6M</dui-toggle>
           <dui-toggle value="12m">12M</dui-toggle>
         </dui-toggle-group>
-      </div>
-      <p class="subtitle">Traffic over the last 6 months</p>
 
-      <div class="chart">
-        ${MONTHS.map(
-          (m) => html`
-            <div class="bar-group">
-              <div class="bars">
-                <div class="bar" style="height: ${m.value}%"></div>
+        <div class="chart">
+          ${MONTHS.map(
+            (m) => html`
+              <div class="bar-group">
+                <div class="bars">
+                  <div class="bar" style="height: ${m.value}%"></div>
+                </div>
+                <span class="bar-label">${m.label}</span>
               </div>
-              <span class="bar-label">${m.label}</span>
-            </div>
-          `,
-        )}
-      </div>
+            `,
+          )}
+        </div>
 
-      <div class="stats">
-        <div>
-          <div class="stat-label">Desktop</div>
-          <div class="stat-value">1,224</div>
+        <div slot="footer" class="stats">
+          <div>
+            <div class="stat-label">Desktop</div>
+            <div class="stat-value">1,224</div>
+          </div>
+          <div>
+            <div class="stat-label">Mobile</div>
+            <div class="stat-value">860</div>
+          </div>
+          <div>
+            <div class="stat-label">Mix Delta</div>
+            <div class="stat-value positive">+42%</div>
+          </div>
         </div>
-        <div>
-          <div class="stat-label">Mobile</div>
-          <div class="stat-value">860</div>
-        </div>
-        <div>
-          <div class="stat-label">Mix Delta</div>
-          <div class="stat-value positive">+42%</div>
-        </div>
-      </div>
+      </dui-card>
     `;
   }
 }

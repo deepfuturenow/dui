@@ -1,5 +1,5 @@
 import { LitElement, html, css, svg } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 /* ── Lucide-style icon paths ── */
@@ -34,7 +34,7 @@ const statusIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 2
 
 @customElement("block-sidebar")
 export class BlockSidebar extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       /* Strip the default block card appearance */
       background: none;

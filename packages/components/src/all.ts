@@ -64,6 +64,10 @@ export { DuiButton };
 import { DuiCalendar } from "./calendar/index.ts";
 export { DuiCalendar };
 
+// --- Card ---
+import { DuiCard } from "./card/index.ts";
+export { DuiCard };
+
 
 
 // --- Checkbox ---
@@ -335,6 +339,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiButton,
   DuiCalendar,
 
+  DuiCard,
   DuiCheckbox,
   DuiCheckboxGroup,
   DuiCollapsible,

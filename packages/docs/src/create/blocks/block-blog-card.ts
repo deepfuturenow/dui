@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-blog-card")
 export class BlockBlogCard extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       overflow: hidden;
     }
@@ -20,17 +20,17 @@ export class BlockBlogCard extends LitElement {
     }
 
     .content h3 {
-      font-size: var(--font-size-base);
-      font-weight: 600;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-2);
-      line-height: 1.4;
+      line-height: var(--text-xl--line-height);
     }
 
     .content p {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
-      line-height: 1.5;
+      line-height: var(--line-height-normal);
     }
 
     .footer {

@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-chat")
 export class BlockChat extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       padding: var(--space-5);
     }
@@ -30,7 +30,7 @@ export class BlockChat extends LitElement {
 
     .input-card dui-textarea {
       width: 100%;
-      --textarea-min-height: 64px;
+      --textarea-min-height: var(--space-16);
     }
 
     .input-card dui-textarea::part(textarea) {
@@ -72,16 +72,16 @@ export class BlockChat extends LitElement {
     }
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: var(--space-2);
+      height: var(--space-2);
       border-radius: var(--radius-full);
       flex-shrink: 0;
     }
 
     .plus {
-      font-size: var(--font-size-lg);
+      font-size: var(--text-lg);
       color: var(--text-3);
-      line-height: 1;
+      line-height: var(--line-height-none);
     }
   `];
 
@@ -127,7 +127,7 @@ export class BlockChat extends LitElement {
               </dui-tooltip-trigger>
               <dui-tooltip-popup>Settings</dui-tooltip-popup>
             </dui-tooltip>
-            <dui-separator orientation="vertical" style="height: 16px; align-self: center; padding-right: 0.75rem"></dui-separator>
+            <dui-separator orientation="vertical" style="height: var(--space-4); align-self: center; padding-right: var(--space-3)"></dui-separator>
             <dui-button size="sm" style="--button-padding-x: var(--space-4)">
               <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></dui-icon>
             </dui-button>

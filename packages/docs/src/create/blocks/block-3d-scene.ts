@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement, state } from "lit/decorators.js";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -16,7 +16,7 @@ const MODEL_URL =
 
 @customElement("block-3d-scene")
 export class Block3dScene extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       position: relative;
       overflow: hidden;

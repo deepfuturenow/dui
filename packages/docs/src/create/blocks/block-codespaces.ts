@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-codespaces")
 export class BlockCodespaces extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       padding: var(--space-6);
     }
@@ -17,13 +17,13 @@ export class BlockCodespaces extends LitElement {
     }
 
     .header-text h3 {
-      font-size: var(--font-size-base);
-      font-weight: 600;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
       margin: 0;
     }
 
     .header-text p {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: var(--space-1) 0 0;
     }
@@ -44,27 +44,27 @@ export class BlockCodespaces extends LitElement {
     }
 
     .empty-state h4 {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
       margin: 0;
     }
 
     .empty-state p {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0;
-      max-width: 280px;
+      max-width: var(--space-72);
     }
 
     .learn-more {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       text-decoration: underline;
       cursor: pointer;
     }
 
     .footer-note {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin-top: var(--space-4);
       text-align: center;

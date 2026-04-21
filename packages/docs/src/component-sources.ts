@@ -69,6 +69,7 @@ import toggleGroupSrc from "../../components/src/toggle/toggle-group.ts?raw";
 import numberFieldSrc from "../../components/src/number-field/number-field.ts?raw";
 import menubarSrc from "../../components/src/menubar/menubar.ts?raw";
 import calendarSrc from "../../components/src/calendar/calendar.ts?raw";
+import cardSrc from "../../components/src/card/card.ts?raw";
 import cardGridSrc from "../../components/src/card-grid/card-grid.ts?raw";
 
 export const componentSources = new Map<string, string>([
@@ -143,5 +144,6 @@ export const componentSources = new Map<string, string>([
   ["dui-number-field", numberFieldSrc],
   ["dui-menubar", menubarSrc],
   ["dui-calendar", calendarSrc],
+  ["dui-card", cardSrc],
   ["dui-card-grid", cardGridSrc],
 ]);

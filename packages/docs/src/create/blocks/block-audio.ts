@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 const BAR_HEIGHTS = [
@@ -9,19 +9,19 @@ const BAR_HEIGHTS = [
 
 @customElement("block-audio")
 export class BlockAudio extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
       padding: var(--space-6);
     }
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
+    h3 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-1);
     }
 
     .subtitle {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
     }
@@ -29,8 +29,8 @@ export class BlockAudio extends LitElement {
     .visualizer {
       display: flex;
       align-items: flex-end;
-      gap: 2px;
-      height: 80px;
+      gap: var(--space-0_5);
+      height: var(--space-20);
       margin-bottom: var(--space-4);
     }
 
@@ -51,7 +51,7 @@ export class BlockAudio extends LitElement {
 
   override render() {
     return html`
-      <p class="title">Audio Frequency Visualizer</p>
+      <h3>Audio Frequency Visualizer</h3>
       <p class="subtitle">Real-time frequency analysis</p>
       <div class="visualizer">
         ${BAR_HEIGHTS.map(

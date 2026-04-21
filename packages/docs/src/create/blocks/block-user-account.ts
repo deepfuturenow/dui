@@ -1,13 +1,12 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-user-account")
 export class BlockUserAccount extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
-      position: relative;
-      padding: var(--space-6);
+      padding: var(--space-6) var(--space-5) var(--space-5);
     }
 
     .more-btn {
@@ -24,19 +23,24 @@ export class BlockUserAccount extends LitElement {
     }
 
     .name {
-      font-size: var(--font-size-lg);
-      font-weight: 600;
-      margin: var(--space-4) 0 var(--space-1);
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--text-lg--line-height);
+      margin: var(--space-4) 0 0;
+      text-box: trim-both cap alphabetic;
     }
 
     .bio {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
+      line-height: var(--line-height-tight);
       color: var(--text-2);
-      margin: 0 0 var(--space-4);
-      line-height: 1.5;
+      margin: var(--space-3) 0 0;
+      text-box: trim-both cap alphabetic;
     }
 
-
+    .view-link {
+      margin-top: var(--space-4);
+    }
   `];
 
   override render() {
@@ -63,7 +67,7 @@ export class BlockUserAccount extends LitElement {
 
         <p class="name">Billie Williams</p>
         <p class="bio">Eiusmod enim consequat aliqua nulla<br />eiusmod sint velit sunt laborum.</p>
-        <dui-button appearance="link">View network</dui-button>
+        <dui-button class="view-link" appearance="link">View network</dui-button>
       </div>
     `;
   }

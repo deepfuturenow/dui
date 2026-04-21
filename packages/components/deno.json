@@ -43,6 +43,7 @@
     "./menubar": "./src/menubar/index.ts",
     "./calendar": "./src/calendar/index.ts",
     "./split-button": "./src/split-button/index.ts",
+    "./card": "./src/card/index.ts",
     "./card-grid": "./src/card-grid/index.ts",
     "./all": "./src/all.ts"
   },
