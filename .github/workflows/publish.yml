@@ -52,6 +52,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Publish @deepfuture/dui-inspector
+        run: npm publish --access public
+        working-directory: dist/dui-inspector
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @deepfuture/dui-theme-default-templates
+        run: npm publish --access public
+        working-directory: dist/dui-theme-default-templates
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish @deepfuture/dui-cdn
         run: npm publish --access public
         working-directory: dist/dui-cdn
