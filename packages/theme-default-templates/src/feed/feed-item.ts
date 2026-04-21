@@ -44,7 +44,7 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -69,7 +69,7 @@ const styles = css`
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-2);
@@ -81,7 +81,7 @@ const styles = css`
 
   .body {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-1);
@@ -149,7 +149,7 @@ export class DuiFeedItem extends LitElement {
           <span class="title">${this.title}</span>
           <div class="badges">
             ${this.category
-              ? html`<dui-badge appearance="ghost">${this.category}</dui-badge>`
+              ? html`<dui-badge appearance="soft">${this.category}</dui-badge>`
               : nothing}
             ${sev
               ? html`<dui-badge variant=${sev.variant} appearance=${sev.appearance}>${this.severity}</dui-badge>`

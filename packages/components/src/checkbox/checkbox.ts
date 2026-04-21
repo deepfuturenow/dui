@@ -39,6 +39,7 @@ const styles = css`
     border: none;
     outline: 0;
     cursor: pointer;
+    user-select: none;
   }
 
   [part="root"][data-disabled] {

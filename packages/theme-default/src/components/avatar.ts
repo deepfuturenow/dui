@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const avatarStyles = css`
   :host {
-    --avatar-bg: var(--surface-1);
+    --avatar-bg: oklch(from var(--foreground) l c h / 0.08);
     --avatar-fg: var(--text-2);
   }
 

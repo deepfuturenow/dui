@@ -43,8 +43,8 @@ export class DocsPageCard extends LitElement {
                 <dui-input placeholder="Display name" value="Jane Doe"></dui-input>
                 <dui-input placeholder="Email" value="jane@example.com"></dui-input>
               </div>
-              <dui-button slot="footer" appearance="ghost">Cancel</dui-button>
-              <dui-button slot="footer">Save</dui-button>
+              <dui-button slot="footer" appearance="soft">Cancel</dui-button>
+              <dui-button slot="footer" variant="primary">Save</dui-button>
             </dui-card>
           </div>
         </dui-docs-demo>

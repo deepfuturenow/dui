@@ -534,8 +534,8 @@ export class DocsPageTheming extends LitElement {
             <div class="component-row">
               <dui-toggle>Toggle</dui-toggle>
               <dui-badge>Neutral</dui-badge>
-              <dui-badge variant="primary" appearance="ghost">Accent</dui-badge>
-              <dui-badge variant="danger" appearance="ghost">Danger</dui-badge>
+              <dui-badge variant="primary" appearance="soft">Accent</dui-badge>
+              <dui-badge variant="danger" appearance="soft">Danger</dui-badge>
             </div>
             <div class="component-row">
               <dui-input placeholder="Input field" style="width: 200px;"></dui-input>

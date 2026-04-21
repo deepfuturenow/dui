@@ -41,7 +41,7 @@ const styles = css`
 
   .label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-none);
@@ -58,7 +58,7 @@ const styles = css`
     text-align: center;
     color: var(--text-3);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
   }
 `;
 

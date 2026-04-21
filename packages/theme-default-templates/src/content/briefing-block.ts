@@ -52,7 +52,7 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -73,7 +73,7 @@ const styles = css`
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-3);
@@ -85,7 +85,7 @@ const styles = css`
 
   .body {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-relaxed);
     color: var(--text-1);
@@ -167,10 +167,10 @@ export class DuiBriefingBlock extends LitElement {
               <span class="title" part="title">${this.title}</span>
               <div class="badges">
                 ${this.category
-                  ? html`<dui-badge appearance="ghost">${this.category}</dui-badge>`
+                  ? html`<dui-badge appearance="soft">${this.category}</dui-badge>`
                   : nothing}
                 ${this.confidence
-                  ? html`<dui-badge variant="primary" appearance="ghost">${this.confidence}</dui-badge>`
+                  ? html`<dui-badge variant="primary" appearance="soft">${this.confidence}</dui-badge>`
                   : nothing}
               </div>
             </div>

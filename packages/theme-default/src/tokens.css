@@ -335,11 +335,11 @@
 
   /* Accent surfaces — for badges, pills, tinted cards */
   --accent-subtle:      oklch(from var(--accent) l c h / 0.10);
-  --accent-text:        oklch(from var(--accent) calc(l * 1.2) calc(c * 0.4) h);
+  --accent-text:        oklch(from var(--accent) calc(l * 1.1) calc(c * 0.8) h);
 
   /* Destructive surfaces */
   --destructive-subtle: oklch(from var(--destructive) l c h / 0.10);
-  --destructive-text:   color-mix(in oklch, var(--destructive) 80%, var(--foreground));
+  --destructive-text:   var(--destructive);
 
   /* Utility — scrim overlay for modals/dialogs */
   --scrim: oklch(from var(--foreground) l c h / 0.35);

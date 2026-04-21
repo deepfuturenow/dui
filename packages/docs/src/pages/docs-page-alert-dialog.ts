@@ -17,7 +17,7 @@ export class DocsPageAlertDialog extends LitElement {
           <dui-alert-dialog-popup>
             <span slot="title">Are you absolutely sure?</span>
             <span slot="description">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</span>
-            <div style="display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2); justify-content: flex-end;">
               <dui-alert-dialog-close>
                 <dui-button appearance="outline">Cancel</dui-button>
               </dui-alert-dialog-close>
@@ -37,7 +37,7 @@ export class DocsPageAlertDialog extends LitElement {
           <dui-alert-dialog-popup>
             <span slot="title">Unsaved Changes</span>
             <span slot="description">You have unsaved changes. Clicking the backdrop will not close this dialog — you must choose an action.</span>
-            <div style="display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2); justify-content: flex-end;">
               <dui-alert-dialog-close>
                 <dui-button appearance="outline">Discard</dui-button>
               </dui-alert-dialog-close>

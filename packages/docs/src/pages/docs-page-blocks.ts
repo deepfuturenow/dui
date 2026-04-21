@@ -9,7 +9,7 @@ export class DocsPageBlocks extends LitElement {
     }
 
     h1 {
-      font-size: var(--font-size-fluid-3xl, 2.5rem);
+      font-size: var(--text-3xl, 2.5rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tighter, -0.03em);
       margin: 0 0 var(--space-2);
@@ -17,7 +17,7 @@ export class DocsPageBlocks extends LitElement {
 
     .placeholder {
       font-family: var(--font-mono);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-2);
       margin-top: var(--space-8, 2rem);
       padding: var(--space-8, 2rem);

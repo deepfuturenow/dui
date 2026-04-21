@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const previewCardPopupStyles = css`
   .Popup {
@@ -8,7 +7,7 @@ export const previewCardPopupStyles = css`
     background: var(--surface-3);
     color: var(--text-1);
     font-family: var(--font-sans);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     box-shadow: var(--shadow-lg);
     border: var(--border-width-thin) solid var(--border);
     max-width: var(--max-width, var(--space-80));

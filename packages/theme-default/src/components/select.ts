@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const selectStyles = css`
   .Trigger {
@@ -11,7 +10,7 @@ export const selectStyles = css`
     background: transparent;
     color: var(--text-1);
     font-family: var(--font-sans);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
@@ -30,7 +29,7 @@ export const selectStyles = css`
   :host([size="sm"]) .Trigger {
     height: var(--component-height-sm);
     padding: var(--space-1_5) var(--space-1_5) var(--space-1_5) var(--space-2_5);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
   }
 
   .Trigger:hover:not([data-disabled]) {
@@ -86,7 +85,7 @@ export const selectStyles = css`
     gap: var(--space-2);
     padding: var(--space-1_5) var(--space-2);
     border-radius: var(--radius-sm);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     font-family: var(--font-sans);
     color: var(--text-1);
   }

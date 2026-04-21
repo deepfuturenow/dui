@@ -36,7 +36,6 @@ import { tabsListStyles } from "./components/tabs-list.ts";
 import { tabsPanelStyles } from "./components/tabs-panel.ts";
 import { textareaStyles } from "./components/textarea.ts";
 import { truncStyles } from "./components/trunc.ts";
-import { linkStyles } from "./components/link.ts";
 import { avatarStyles } from "./components/avatar.ts";
 import { portalStyles } from "./components/portal.ts";
 import { inputStyles } from "./components/input.ts";
@@ -123,7 +122,6 @@ export const defaultTheme: DuiTheme = {
     ["dui-tabs-panel", tabsPanelStyles],
     ["dui-textarea", textareaStyles],
     ["dui-trunc", truncStyles],
-    ["dui-link", linkStyles],
     ["dui-avatar", avatarStyles],
     ["dui-portal", portalStyles],
     ["dui-input", inputStyles],
@@ -206,7 +204,6 @@ export { tabsListStyles } from "./components/tabs-list.ts";
 export { tabsPanelStyles } from "./components/tabs-panel.ts";
 export { textareaStyles } from "./components/textarea.ts";
 export { truncStyles } from "./components/trunc.ts";
-export { linkStyles } from "./components/link.ts";
 export { avatarStyles } from "./components/avatar.ts";
 export { portalStyles } from "./components/portal.ts";
 export { inputStyles } from "./components/input.ts";

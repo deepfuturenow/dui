@@ -23,7 +23,7 @@ export class ApiTable extends LitElement {
     }
 
     .api-section-label {
-      font-size: var(--font-size-md);
+      font-size: var(--text-base);
       font-weight: 600;
       color: var(--foreground);
       margin: 0 0 var(--space-2);
@@ -31,13 +31,13 @@ export class ApiTable extends LitElement {
 
     table {
       width: 100%;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       border-collapse: collapse;
     }
 
     th {
       text-align: left;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       font-weight: 400;
       color: var(--text-2);
       padding: var(--space-2) 0;
@@ -59,7 +59,7 @@ export class ApiTable extends LitElement {
 
     code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
     }
 
     .chip {
@@ -70,7 +70,7 @@ export class ApiTable extends LitElement {
     }
 
     .theme-heading {
-      font-size: var(--font-size-md);
+      font-size: var(--text-base);
       font-weight: 700;
       color: var(--foreground);
       margin: var(--space-10) 0 var(--space-1);
@@ -79,7 +79,7 @@ export class ApiTable extends LitElement {
     }
 
     .theme-note {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-2);
       margin: 0 0 var(--space-4);
       line-height: var(--line-height-relaxed, 1.625);

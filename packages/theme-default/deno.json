@@ -48,7 +48,6 @@
     "./components/hstack": "./src/components/hstack.ts",
     "./components/vstack": "./src/components/vstack.ts",
     "./components/page-inset": "./src/components/page-inset.ts",
-    "./components/link": "./src/components/link.ts",
     "./components/avatar": "./src/components/avatar.ts",
     "./components/portal": "./src/components/portal.ts",
     "./components/input": "./src/components/input.ts",

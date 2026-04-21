@@ -21,6 +21,7 @@ const styles = css`
   }
 
   [part="textarea"] {
+    display: block;
     box-sizing: border-box;
     width: 100%;
     font-family: inherit;

@@ -20,11 +20,11 @@ export class BlockSettings extends LitElement {
     .settings {
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
+      gap: var(--space-5);
     }
 
     .settings > :not(:last-child) {
-      padding-bottom: var(--space-4);
+      padding-bottom: var(--space-5);
       border-bottom: var(--border-width-thin) solid var(--border);
     }
 

@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const tabsPanelStyles = css`
   :host {
@@ -23,7 +22,7 @@ export const tabsPanelStyles = css`
     transition-property: box-shadow;
     transition-duration: var(--duration-fast);
     font-family: var(--font-sans);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     font-weight: var(--font-weight-regular);
     color: var(--text-2);
   }

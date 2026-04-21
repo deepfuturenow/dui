@@ -52,7 +52,7 @@ export class TokenEditorElement extends LitElement {
       }
 
       .token-name {
-        font-size: var(--font-size-sm);
+        font-size: var(--text-sm);
         font-family: var(--font-mono);
         font-weight: var(--font-weight-medium);
         color: var(--foreground);
@@ -62,7 +62,7 @@ export class TokenEditorElement extends LitElement {
       }
 
       .token-value {
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
         font-family: var(--font-mono);
         color: var(--text-2);
         overflow: hidden;
@@ -91,7 +91,7 @@ export class TokenEditorElement extends LitElement {
       }
 
       .text-label {
-        font-size: var(--font-size-sm);
+        font-size: var(--text-sm);
         font-family: var(--font-mono);
         font-weight: var(--font-weight-medium);
         color: var(--foreground);
@@ -102,7 +102,7 @@ export class TokenEditorElement extends LitElement {
       .text-row dui-input {
         flex: 1;
         min-width: 0;
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
       }
     `,
   ];

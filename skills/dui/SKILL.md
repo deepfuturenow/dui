@@ -64,7 +64,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Disclosure | `dui-accordion`, `dui-collapsible` |
 | Layout | `dui-scroll-area`, `dui-separator` — for rows/columns/centering/page margins, use standard CSS flexbox and grid |
 | Text | `dui-trunc` (truncation with `max-chars`) |
-| Utility | `dui-icon`, `dui-portal`, `dui-link` |
+| Utility | `dui-icon`, `dui-portal` |
 
 ### Choosing between overlays
 
@@ -88,7 +88,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Custom progress bar div | `dui-progress` |
 | Raw `<svg>` with manual sizing | `dui-icon` with SVG in its slot |
 | `overflow: auto` div | `dui-scroll-area` |
-| Raw `<a>` tag | `dui-link` |
+| Navigation link (button that renders `<a>`) | `dui-button` with `href` |
 
 See `references/rules.md` for incorrect/correct code pairs for every rule.
 

@@ -33,6 +33,7 @@ const styles = css`
     margin-inline: 0;
     border: none;
     cursor: pointer;
+    user-select: none;
   }
 
   [part="thumb"] {

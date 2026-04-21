@@ -24,7 +24,6 @@ import "./pages/docs-page-spinner.ts";
 import "./pages/docs-page-tabs.ts";
 import "./pages/docs-page-textarea.ts";
 import "./pages/docs-page-trunc.ts";
-import "./pages/docs-page-link.ts";
 import "./pages/docs-page-avatar.ts";
 import "./pages/docs-page-portal.ts";
 import "./pages/docs-page-input.ts";
@@ -94,7 +93,6 @@ import { DuiSpinner } from "@dui/components/spinner";
 import { DuiTabs, DuiTabsList, DuiTab, DuiTabsPanel, DuiTabsIndicator } from "@dui/components/tabs";
 import { DuiTextarea } from "@dui/components/textarea";
 import { DuiTrunc } from "@dui/components/trunc";
-import { DuiLink } from "@dui/components/link";
 import { DuiAvatar } from "@dui/components/avatar";
 import { DuiPortal } from "@dui/components/portal";
 import { DuiInput } from "@dui/components/input";
@@ -173,7 +171,6 @@ applyTheme({
     DuiTabsIndicator,
     DuiTextarea,
     DuiTrunc,
-    DuiLink,
     DuiAvatar,
     DuiPortal,
     DuiInput,

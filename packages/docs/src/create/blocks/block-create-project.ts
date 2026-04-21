@@ -62,8 +62,8 @@ export class BlockCreateProject extends LitElement {
           </div>
         </div>
 
-        <dui-button slot="footer" appearance="ghost">Cancel</dui-button>
-        <dui-button slot="footer">Create</dui-button>
+        <dui-button slot="footer" appearance="soft">Cancel</dui-button>
+        <dui-button slot="footer" variant="primary">Create</dui-button>
       </dui-card>
     `;
   }

@@ -9,38 +9,57 @@ export class DocsPageButton extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-button">
-        <dui-docs-demo label="Variants (intent)">
-        <docs-row>
-          <dui-button>Neutral</dui-button>
-          <dui-button variant="primary">Primary</dui-button>
-          <dui-button variant="danger">Danger</dui-button>
-          <dui-button variant="success">Success</dui-button>
-          <dui-button variant="warning">Warning</dui-button>
-        </docs-row>
-      </dui-docs-demo>
-
-      <dui-docs-demo label="Appearances (treatment)">
-        <docs-row>
-          <dui-button variant="primary">Filled</dui-button>
-          <dui-button variant="primary" appearance="outline">Outline</dui-button>
-          <dui-button variant="primary" appearance="ghost">Ghost</dui-button>
-          <dui-button variant="primary" appearance="link">Link</dui-button>
-        </docs-row>
-      </dui-docs-demo>
-
-      <dui-docs-demo label="Variant × Appearance">
-        <docs-row>
-          <dui-button variant="danger">Danger Filled</dui-button>
-          <dui-button variant="danger" appearance="outline">Danger Outline</dui-button>
-          <dui-button variant="danger" appearance="ghost">Danger Ghost</dui-button>
-        </docs-row>
+        <dui-docs-demo label="Variant × Appearance">
+        <table style="border-collapse: collapse; font-family: var(--font-sans); font-size: var(--text-sm);">
+          <thead>
+            <tr>
+              <th style="padding: var(--space-2) var(--space-4); text-align: left; color: var(--text-3); font-size: var(--text-xs); font-weight: 500;"></th>
+              <th style="padding: var(--space-2) var(--space-4); text-align: center; color: var(--text-3); font-size: var(--text-xs); font-weight: 500;">Neutral</th>
+              <th style="padding: var(--space-2) var(--space-4); text-align: center; color: var(--text-3); font-size: var(--text-xs); font-weight: 500;">Primary</th>
+              <th style="padding: var(--space-2) var(--space-4); text-align: center; color: var(--text-3); font-size: var(--text-xs); font-weight: 500;">Danger</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: var(--space-2) var(--space-4); color: var(--text-2); font-size: var(--text-xs);">Filled</td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button>Neutral</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="primary">Primary</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="danger">Danger</dui-button></td>
+            </tr>
+            <tr>
+              <td style="padding: var(--space-2) var(--space-4); color: var(--text-2); font-size: var(--text-xs);">Soft</td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button appearance="soft">Neutral</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="primary" appearance="soft">Primary</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="danger" appearance="soft">Danger</dui-button></td>
+            </tr>
+            <tr>
+              <td style="padding: var(--space-2) var(--space-4); color: var(--text-2); font-size: var(--text-xs);">Outline</td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button appearance="outline">Neutral</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="primary" appearance="outline">Primary</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="danger" appearance="outline">Danger</dui-button></td>
+            </tr>
+            <tr>
+              <td style="padding: var(--space-2) var(--space-4); color: var(--text-2); font-size: var(--text-xs);">Ghost</td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button appearance="ghost">Neutral</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="primary" appearance="ghost">Primary</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="danger" appearance="ghost">Danger</dui-button></td>
+            </tr>
+            <tr>
+              <td style="padding: var(--space-2) var(--space-4); color: var(--text-2); font-size: var(--text-xs);">Link</td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button appearance="link">Neutral</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="primary" appearance="link">Primary</dui-button></td>
+              <td style="padding: var(--space-2) var(--space-4); text-align: center;"><dui-button variant="danger" appearance="link">Danger</dui-button></td>
+            </tr>
+          </tbody>
+        </table>
       </dui-docs-demo>
 
       <dui-docs-demo label="Sizes">
         <docs-row>
-          <dui-button size="sm">Small</dui-button>
-          <dui-button size="md">Medium</dui-button>
-          <dui-button size="lg">Large</dui-button>
+          <dui-button size="xs" appearance="outline">Extra Small</dui-button>
+          <dui-button size="sm" appearance="outline">Small</dui-button>
+          <dui-button size="md" appearance="outline">Medium</dui-button>
+          <dui-button size="lg" appearance="outline">Large</dui-button>
         </docs-row>
       </dui-docs-demo>
 
@@ -61,10 +80,28 @@ export class DocsPageButton extends LitElement {
         </docs-row>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Disabled / Link">
+      <dui-docs-demo label="As Link (href)">
+        <docs-row>
+          <dui-button variant="primary" href="#/components/button">Get started</dui-button>
+          <dui-button appearance="outline" href="#/components/button">Documentation</dui-button>
+          <dui-button appearance="ghost" href="#/components/button">Learn more</dui-button>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Inline Link">
+        <p style="margin: 0; font-family: var(--font-sans); font-size: var(--text-sm); color: var(--text-2); line-height: var(--line-height-relaxed);">
+          By signing up you agree to our
+          <dui-button appearance="link" href="#/components/button">Terms of Service</dui-button>
+          and
+          <dui-button appearance="link" href="#/components/button">Privacy Policy</dui-button>.
+        </p>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Disabled">
         <docs-row>
           <dui-button disabled>Disabled</dui-button>
-          <dui-button href="/example">Link button</dui-button>
+          <dui-button disabled appearance="outline">Disabled</dui-button>
+          <dui-button disabled appearance="ghost">Disabled</dui-button>
         </docs-row>
       </dui-docs-demo>
       </docs-page-layout>

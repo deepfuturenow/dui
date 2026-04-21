@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const badgeStyles = css`
   /* =================================================================
@@ -18,7 +17,8 @@ export const badgeStyles = css`
     --_intent-base: var(--foreground);
     --_intent-base-fg: var(--background);
     --_intent-subtle: oklch(from var(--foreground) l c h / 0.08);
-    --_intent-subtle-fg: var(--text-1);
+    --_intent-subtle-fg: var(--text-2);
+    --_intent-border: var(--border-strong);
   }
 
   :host([variant="primary"]) {
@@ -26,13 +26,15 @@ export const badgeStyles = css`
     --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
     --_intent-subtle: var(--accent-subtle);
     --_intent-subtle-fg: var(--accent-text);
+    --_intent-border: oklch(from var(--accent) l c h / 0.5);
   }
 
   :host([variant="danger"]) {
     --_intent-base: var(--destructive);
     --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
     --_intent-subtle: var(--destructive-subtle);
-    --_intent-subtle-fg: var(--destructive-text);
+    --_intent-subtle-fg: oklch(from var(--destructive-text) l c h / 0.8);
+    --_intent-border: oklch(from var(--destructive) l c h / 0.5);
   }
 
   /* ---------------------------------------------------------------
@@ -50,10 +52,10 @@ export const badgeStyles = css`
   :host([appearance="outline"]) {
     --badge-bg: transparent;
     --badge-fg: var(--_intent-subtle-fg);
-    --badge-border: var(--border);
+    --badge-border: var(--_intent-border);
   }
 
-  :host([appearance="ghost"]) {
+  :host([appearance="soft"]) {
     --badge-bg: var(--_intent-subtle);
     --badge-fg: var(--_intent-subtle-fg);
     --badge-border: transparent;
@@ -67,9 +69,12 @@ export const badgeStyles = css`
     --badge-icon-size: var(--space-3);
     --icon-size: var(--badge-icon-size);
     --icon-color: var(--badge-fg);
+    vertical-align: middle;
+    line-height: 0;
   }
 
   [part="root"] {
+    /* display: inline-block; */
     gap: var(--space-1);
     height: var(--space-5);
     padding: 0 var(--space-2);
@@ -77,8 +82,9 @@ export const badgeStyles = css`
     background: var(--badge-bg);
     color: var(--badge-fg);
     font-family: var(--font-sans);
-    ${type("xs", { letterSpacing: "var(--letter-spacing-normal)", lineHeight: "var(--line-height-snug)" })}
+    font-size: var(--text-xs); letter-spacing: var(--letter-spacing-normal); line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
+    text-box: trim-both cap alphabetic;
     white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);
   }

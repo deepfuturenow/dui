@@ -59,7 +59,6 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./textarea": "./src/textarea/index.ts",
       "./trunc": "./src/trunc/index.ts",
 
-      "./link": "./src/link/index.ts",
       "./avatar": "./src/avatar/index.ts",
       "./portal": "./src/portal/index.ts",
       "./field": "./src/field/index.ts",
@@ -159,7 +158,6 @@ const workspacePackages: Record<string, { dir: string; exports: Record<string, s
       "./components/textarea": "./src/components/textarea.ts",
       "./components/trunc": "./src/components/trunc.ts",
 
-      "./components/link": "./src/components/link.ts",
       "./components/avatar": "./src/components/avatar.ts",
       "./components/portal": "./src/components/portal.ts",
       "./components/input": "./src/components/input.ts",

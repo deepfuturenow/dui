@@ -29,7 +29,6 @@ import tabsPanelSrc from "../../components/src/tabs/tabs-panel.ts?raw";
 import tabsIndicatorSrc from "../../components/src/tabs/tabs-indicator.ts?raw";
 import textareaSrc from "../../components/src/textarea/textarea.ts?raw";
 import truncSrc from "../../components/src/trunc/trunc.ts?raw";
-import linkSrc from "../../components/src/link/link.ts?raw";
 import avatarSrc from "../../components/src/avatar/avatar.ts?raw";
 import portalSrc from "../../components/src/portal/portal.ts?raw";
 import inputSrc from "../../components/src/input/input.ts?raw";
@@ -104,7 +103,6 @@ export const componentSources = new Map<string, string>([
   ["dui-tabs-indicator", tabsIndicatorSrc],
   ["dui-textarea", textareaSrc],
   ["dui-trunc", truncSrc],
-  ["dui-link", linkSrc],
   ["dui-avatar", avatarSrc],
   ["dui-portal", portalSrc],
   ["dui-input", inputSrc],

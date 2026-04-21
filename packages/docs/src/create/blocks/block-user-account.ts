@@ -20,13 +20,14 @@ export class BlockUserAccount extends LitElement {
       flex-direction: column;
       align-items: center;
       text-align: center;
+      padding-top: var(--space-1);
     }
 
     .name {
       font-size: var(--text-lg);
       font-weight: var(--font-weight-semibold);
       line-height: var(--text-lg--line-height);
-      margin: var(--space-4) 0 0;
+      margin: var(--space-6) 0 0;
       text-box: trim-both cap alphabetic;
     }
 
@@ -39,7 +40,7 @@ export class BlockUserAccount extends LitElement {
     }
 
     .view-link {
-      margin-top: var(--space-4);
+      margin-top: var(--space-3);
     }
   `];
 

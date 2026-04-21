@@ -152,9 +152,6 @@ export { DuiIcon };
 import { DuiInput } from "./input/index.ts";
 export { DuiInput };
 
-// --- Link ---
-import { DuiLink } from "./link/index.ts";
-export { DuiLink };
 
 // --- Menu ---
 import { DuiMenu, DuiMenuItem } from "./menu/index.ts";
@@ -361,7 +358,6 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
 
   DuiIcon,
   DuiInput,
-  DuiLink,
   DuiMenu,
   DuiMenuItem,
   DuiMenubar,

@@ -13,7 +13,7 @@ export class DocsPageSectionPanel extends LitElement {
         <dui-docs-demo label="Basic">
           <div style="display:flex; flex-direction:column; gap: var(--space-3); max-width: 640px;">
             <dui-section-panel title="System Metrics">
-              <div style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <div style="color: var(--text-2); font-size: var(--text-sm);">
                 Panel body content — stat cards, charts, or any dashboard widget goes here.
               </div>
             </dui-section-panel>
@@ -23,7 +23,7 @@ export class DocsPageSectionPanel extends LitElement {
         <dui-docs-demo label="Badge + LIVE indicator">
           <div style="display:flex; flex-direction:column; gap: var(--space-3); max-width: 640px;">
             <dui-section-panel title="Live Feed" badge="27" live>
-              <div style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <div style="color: var(--text-2); font-size: var(--text-sm);">
                 Real-time event stream with 27 unread items.
               </div>
             </dui-section-panel>
@@ -39,7 +39,7 @@ export class DocsPageSectionPanel extends LitElement {
               <div slot="actions">
                 <dui-button size="sm" appearance="ghost">Export</dui-button>
               </div>
-              <div style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <div style="color: var(--text-2); font-size: var(--text-sm);">
                 Risk gauge and country scores would render here.
               </div>
             </dui-section-panel>
@@ -49,7 +49,7 @@ export class DocsPageSectionPanel extends LitElement {
         <dui-docs-demo label="Collapsible (default open)">
           <div style="display:flex; flex-direction:column; gap: var(--space-3); max-width: 640px;">
             <dui-section-panel title="Advanced Details" collapsible>
-              <div style="color: var(--text-2); font-size: var(--font-size-sm); display: flex; flex-direction: column; gap: var(--space-2);">
+              <div style="color: var(--text-2); font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-2);">
                 <p style="margin: 0;">Expandable panel body. Click the header to collapse.</p>
                 <p style="margin: 0;">This section starts open by default.</p>
               </div>
@@ -60,7 +60,7 @@ export class DocsPageSectionPanel extends LitElement {
         <dui-docs-demo label="Collapsible (starts closed)">
           <div style="display:flex; flex-direction:column; gap: var(--space-3); max-width: 640px;">
             <dui-section-panel title="Archived Signals" badge="3" collapsible .defaultOpen=${false}>
-              <div style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <div style="color: var(--text-2); font-size: var(--text-sm);">
                 This panel starts collapsed. Click to expand.
               </div>
             </dui-section-panel>
@@ -83,7 +83,7 @@ export class DocsPageSectionPanel extends LitElement {
                 <dui-button size="sm" appearance="ghost">Refresh</dui-button>
                 <dui-button size="sm" appearance="outline">View All</dui-button>
               </div>
-              <div style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <div style="color: var(--text-2); font-size: var(--text-sm);">
                 Score items for each country would render here.
               </div>
             </dui-section-panel>

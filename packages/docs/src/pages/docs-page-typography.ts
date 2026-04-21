@@ -2,30 +2,25 @@ import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 
 /**
- * Data from typography.ts typeScale — each step bundles font-size,
- * letter-spacing, and line-height so they are always set together.
+ * New type scale — each size is paired with a line-height variable.
+ * Line-heights land on a 4px grid for body sizes, collapse to 1 for display.
  */
 const TYPE_SCALE = [
-  { name: "2xs",  fontSize: "var(--font-size-2xs)",  letterSpacing: "var(--letter-spacing-wider)",   lineHeight: "var(--line-height-normal)", rawSize: "0.65rem" },
-  { name: "xs",   fontSize: "var(--font-size-xs)",   letterSpacing: "var(--letter-spacing-wide)",    lineHeight: "var(--line-height-normal)", rawSize: "0.75rem" },
-  { name: "sm",   fontSize: "var(--font-size-sm)",   letterSpacing: "var(--letter-spacing-wide)",    lineHeight: "var(--line-height-normal)", rawSize: "0.875rem" },
-  { name: "base", fontSize: "var(--font-size-base)", letterSpacing: "var(--letter-spacing-normal)",  lineHeight: "var(--line-height-normal)", rawSize: "0.9375rem" },
-  { name: "md",   fontSize: "var(--font-size-md)",   letterSpacing: "var(--letter-spacing-normal)",  lineHeight: "var(--line-height-normal)", rawSize: "1rem" },
-  { name: "lg",   fontSize: "var(--font-size-lg)",   letterSpacing: "var(--letter-spacing-tight)",   lineHeight: "var(--line-height-snug)",   rawSize: "1.125rem" },
-  { name: "xl",   fontSize: "var(--font-size-xl)",   letterSpacing: "var(--letter-spacing-tight)",   lineHeight: "var(--line-height-snug)",   rawSize: "1.25rem" },
-  { name: "2xl",  fontSize: "var(--font-size-2xl)",  letterSpacing: "var(--letter-spacing-tighter)", lineHeight: "var(--line-height-tight)",  rawSize: "1.5rem" },
-  { name: "3xl",  fontSize: "var(--font-size-3xl)",  letterSpacing: "var(--letter-spacing-tighter)", lineHeight: "var(--line-height-tight)",  rawSize: "1.875rem" },
-  { name: "4xl",  fontSize: "var(--font-size-4xl)",  letterSpacing: "var(--letter-spacing-tightest)", lineHeight: "var(--line-height-tight)", rawSize: "2.25rem" },
-  { name: "5xl",  fontSize: "var(--font-size-5xl)",  letterSpacing: "var(--letter-spacing-tightest)", lineHeight: "var(--line-height-none)",  rawSize: "3rem" },
-  { name: "6xl",  fontSize: "var(--font-size-6xl)",  letterSpacing: "var(--letter-spacing-tightest)", lineHeight: "var(--line-height-none)",  rawSize: "3.75rem" },
-  { name: "7xl",  fontSize: "var(--font-size-7xl)",  letterSpacing: "var(--letter-spacing-tightest)", lineHeight: "var(--line-height-none)",  rawSize: "4.5rem" },
+  { name: "2xs",  token: "--text-2xs",  rawSize: "0.625rem",  lineHeight: "calc(0.75 / 0.625)",  leading: "12px" },
+  { name: "xs",   token: "--text-xs",   rawSize: "0.75rem",   lineHeight: "calc(1 / 0.75)",      leading: "16px" },
+  { name: "sm",   token: "--text-sm",   rawSize: "0.875rem",  lineHeight: "calc(1.25 / 0.875)",  leading: "20px" },
+  { name: "base", token: "--text-base", rawSize: "1rem",      lineHeight: "calc(1.5 / 1)",       leading: "24px" },
+  { name: "lg",   token: "--text-lg",   rawSize: "1.125rem",  lineHeight: "calc(1.75 / 1.125)",  leading: "28px" },
+  { name: "xl",   token: "--text-xl",   rawSize: "1.25rem",   lineHeight: "calc(1.75 / 1.25)",   leading: "28px" },
+  { name: "2xl",  token: "--text-2xl",  rawSize: "1.5rem",    lineHeight: "calc(2 / 1.5)",       leading: "32px" },
+  { name: "3xl",  token: "--text-3xl",  rawSize: "1.875rem",  lineHeight: "calc(2.25 / 1.875)",  leading: "36px" },
+  { name: "4xl",  token: "--text-4xl",  rawSize: "2.25rem",   lineHeight: "calc(2.5 / 2.25)",    leading: "40px" },
+  { name: "5xl",  token: "--text-5xl",  rawSize: "3rem",      lineHeight: "1",                   leading: "48px" },
+  { name: "6xl",  token: "--text-6xl",  rawSize: "3.75rem",   lineHeight: "1",                   leading: "60px" },
+  { name: "7xl",  token: "--text-7xl",  rawSize: "4.5rem",    lineHeight: "1",                   leading: "72px" },
+  { name: "8xl",  token: "--text-8xl",  rawSize: "6rem",      lineHeight: "1",                   leading: "96px" },
+  { name: "9xl",  token: "--text-9xl",  rawSize: "8rem",      lineHeight: "1",                   leading: "128px" },
 ] as const;
-
-/** Extract just the token name, e.g. "var(--letter-spacing-wide)" → "wide" */
-function tokenLabel(varRef: string): string {
-  const m = varRef.match(/var\(--[\w-]+-(.+?)\)/);
-  return m ? m[1] : varRef;
-}
 
 @customElement("docs-page-typography")
 export class DocsPageTypography extends LitElement {
@@ -35,15 +30,15 @@ export class DocsPageTypography extends LitElement {
     }
 
     h1 {
-      font-size: var(--font-size-2xl);
+      font-size: var(--text-2xl);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tighter);
-      line-height: var(--line-height-tight);
+      line-height: var(--text-2xl--line-height);
       margin: 0 0 var(--space-2);
     }
 
     .subtitle {
-      font-size: var(--font-size-base);
+      font-size: var(--text-base);
       color: var(--text-2);
       margin: 0 0 var(--space-10);
       max-width: 40rem;
@@ -52,7 +47,7 @@ export class DocsPageTypography extends LitElement {
 
     .subtitle code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       background: var(--surface-2);
       padding: var(--space-0_5) var(--space-1);
       border-radius: var(--radius-sm);
@@ -61,7 +56,7 @@ export class DocsPageTypography extends LitElement {
     /* ── Section headings ── */
 
     .section-heading {
-      font-size: var(--font-size-lg);
+      font-size: var(--text-lg);
       font-weight: 600;
       letter-spacing: var(--letter-spacing-tight);
       color: var(--foreground);
@@ -73,7 +68,7 @@ export class DocsPageTypography extends LitElement {
     }
 
     .section-description {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-5);
       max-width: 40rem;
@@ -82,7 +77,7 @@ export class DocsPageTypography extends LitElement {
 
     .section-description code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       background: var(--surface-2);
       padding: var(--space-0_5) var(--space-1);
       border-radius: var(--radius-sm);
@@ -115,14 +110,14 @@ export class DocsPageTypography extends LitElement {
     }
 
     .scale-name {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: 600;
       color: var(--foreground);
     }
 
     .scale-size {
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       color: var(--text-3);
     }
 
@@ -134,18 +129,18 @@ export class DocsPageTypography extends LitElement {
       color: var(--foreground);
     }
 
-    /* ── Bundled config table ── */
+    /* ── Config table ── */
 
     .config-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
     }
 
     .config-table th {
       text-align: left;
       font-weight: 600;
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider);
       color: var(--text-2);
@@ -171,14 +166,14 @@ export class DocsPageTypography extends LitElement {
 
     .config-table .cell-token {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       white-space: nowrap;
     }
 
     .config-table .cell-value {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-3);
       white-space: nowrap;
     }
@@ -197,7 +192,7 @@ export class DocsPageTypography extends LitElement {
     .code-block pre {
       margin: 0;
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       line-height: 1.7;
       color: var(--foreground);
       white-space: pre;
@@ -212,18 +207,19 @@ export class DocsPageTypography extends LitElement {
     return html`
       <h1>Typography</h1>
       <p class="subtitle">
-        The type scale bundles <code>font-size</code>,
-        <code>letter-spacing</code>, and <code>line-height</code> into
-        coordinated steps. Smaller text gets wider tracking for legibility;
-        larger text gets tighter tracking for visual density.
+        The type scale pairs each <code>--text-*</code> size with a
+        <code>--text-*--line-height</code> variable. Body sizes land on a 4px
+        line-height grid; display sizes collapse to <code>line-height: 1</code>.
+        Prose elements use <code>text-box: trim-both cap alphabetic</code> for
+        baseline grid alignment.
       </p>
 
       <!-- Type scale visual samples -->
       <h2 class="section-heading">Type Scale</h2>
       <p class="section-description">
-        Each step applies all three properties together via the
-        <code>type()</code> helper, ensuring consistent typographic rhythm
-        across components.
+        Each step pairs a font size with a computed line-height that lands on
+        the 4px spacing grid. Use the paired variables together for consistent
+        typographic rhythm.
       </p>
       <div class="scale-list">
         ${TYPE_SCALE.map((t) => html`
@@ -235,39 +231,37 @@ export class DocsPageTypography extends LitElement {
             <span
               class="scale-sample"
               style="
-                font-size: ${t.fontSize};
-                letter-spacing: ${t.letterSpacing};
-                line-height: ${t.lineHeight};
+                font-size: var(${t.token});
+                line-height: var(${t.token}--line-height);
               "
             >The quick brown fox jumps over the lazy dog</span>
           </div>
         `)}
       </div>
 
-      <!-- Bundled configurations table -->
-      <h2 class="section-heading">Bundled Configurations</h2>
+      <!-- Size + line-height table -->
+      <h2 class="section-heading">Scale Reference</h2>
       <p class="section-description">
-        Each type step pairs a size with a specific tracking and leading value.
-        These are the exact combinations applied by <code>type("sm")</code>,
-        <code>type("2xl")</code>, etc.
+        Each size token and its paired line-height. The leading column shows the
+        computed line-height in pixels at the default root font size.
       </p>
       <div class="code-block" style="margin-bottom: var(--space-6);">
         <table class="config-table">
           <thead>
             <tr>
               <th>Step</th>
-              <th>Font Size</th>
-              <th>Letter Spacing</th>
-              <th>Line Height</th>
+              <th>Size Token</th>
+              <th>Value</th>
+              <th>Leading</th>
             </tr>
           </thead>
           <tbody>
             ${TYPE_SCALE.map((t) => html`
               <tr>
                 <td class="cell-name">${t.name}</td>
-                <td class="cell-token">${t.rawSize}</td>
-                <td class="cell-token">${tokenLabel(t.letterSpacing)}</td>
-                <td class="cell-token">${tokenLabel(t.lineHeight)}</td>
+                <td class="cell-token">${t.token}</td>
+                <td class="cell-value">${t.rawSize}</td>
+                <td class="cell-value">${t.leading}</td>
               </tr>
             `)}
           </tbody>
@@ -277,30 +271,29 @@ export class DocsPageTypography extends LitElement {
       <!-- Usage -->
       <h2 class="section-heading">Usage</h2>
       <p class="section-description">
-        Import the <code>type()</code> helper from
-        <code>@dui/theme-default/typography</code> and use it inside Lit
-        <code>css</code> tagged templates. It returns bundled CSS declarations.
+        Reference the <code>--text-*</code> and <code>--text-*--line-height</code>
+        tokens directly in CSS. Letter-spacing is applied separately at the
+        heading or component level — it is not bundled into the size tokens.
       </p>
       <div class="code-block">
-        <pre><span class="comment">// Import the helper</span>
-import { type } from "@dui/theme-default/typography";
+        <pre><span class="comment">/* Use the paired tokens directly */</span>
+.my-element {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+}
 
-<span class="comment">// Use inside a Lit css template</span>
+<span class="comment">/* Heading example with letter-spacing */</span>
+.title {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+  letter-spacing: var(--letter-spacing-tighter);
+}
+
+<span class="comment">/* Inside a Lit css template */</span>
 static styles = css\`
   :host {
-    \${type("sm")}
-  }
-\`;
-
-<span class="comment">// Expands to:</span>
-<span class="comment">//   font-size: var(--font-size-sm);</span>
-<span class="comment">//   letter-spacing: var(--letter-spacing-wide);</span>
-<span class="comment">//   line-height: var(--line-height-normal);</span>
-
-<span class="comment">// Override a single property</span>
-static styles = css\`
-  :host {
-    \${type("sm", { lineHeight: "var(--line-height-snug)" })}
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
   }
 \`;</pre>
       </div>
