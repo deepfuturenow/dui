@@ -241,6 +241,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-menu>`
 - Import: `@dui/components/menu`
 - Description: A popup menu triggered by a slotted element with keyboard navigation.
+- Properties: popup-min-width (string, "var(--space-28)")
 - Events: none
 - Slots: trigger (The element that opens the menu on click), default (dui-menu-item children)
 - CSS Parts: root (The menu popup panel)
