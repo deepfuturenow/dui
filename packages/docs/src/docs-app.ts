@@ -34,6 +34,10 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "Map",
     slugs: ["map"],
   },
+  {
+    label: "Chart",
+    slugs: ["chart"],
+  },
 ];
 
 @customElement("docs-app")
@@ -936,6 +940,7 @@ export class DocsApp extends LitElement {
         case "card": return html`<docs-page-card></docs-page-card>`;
         case "card-grid": return html`<docs-page-card-grid></docs-page-card-grid>`;
         case "map": return html`<docs-page-map></docs-page-map>`;
+        case "chart": return html`<docs-page-chart></docs-page-chart>`;
       }
     }
 
