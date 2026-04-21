@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 54 component families, 99+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 55 component families, 100+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 

@@ -1,0 +1,13 @@
+{
+  "name": "@dui/chart",
+  "version": "0.0.18",
+  "exports": {
+    ".": "./src/index.ts",
+    "./chart": "./src/chart/index.ts",
+    "./scales": "./src/scales.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2",
+    "@observablehq/plot": "npm:@observablehq/plot@^0.6"
+  }
+}
