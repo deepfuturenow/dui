@@ -13,15 +13,20 @@ export class BlockTypography extends LitElement {
       color: var(--text-1);
     }
 
-    .section-title {
-      font-size: var(--font-size-2xl);
+    h1, h2, h3, h4, h5, h6,
+    p, li, blockquote, dt, dd {
+      text-box: trim-both cap alphabetic;
+    }
+
+    h3 {
+      font-size: var(--text-2xl);
       font-weight: var(--font-weight-bold);
       margin: 0 0 var(--space-1);
       letter-spacing: var(--letter-spacing-tight);
     }
 
     .section-desc {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-8);
       max-width: 48ch;
@@ -39,7 +44,7 @@ export class BlockTypography extends LitElement {
     }
 
     .subsection-label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-semibold);
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider);
@@ -63,7 +68,7 @@ export class BlockTypography extends LitElement {
 
     .family-sample {
       padding: var(--space-6) var(--space-5);
-      font-size: var(--font-size-3xl);
+      font-size: var(--text-3xl);
       letter-spacing: var(--letter-spacing-tight);
       line-height: var(--line-height-none);
     }
@@ -75,20 +80,20 @@ export class BlockTypography extends LitElement {
     }
 
     .family-name {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-0_5);
     }
 
     .family-token {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
       margin: 0;
     }
 
     .family-value {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-3);
       margin: var(--space-0_5) 0 0;
       line-height: var(--line-height-snug);
@@ -114,9 +119,9 @@ export class BlockTypography extends LitElement {
     }
 
     .scale-token {
-      width: var(--space-32);
+      width: var(--space-24);
       flex-shrink: 0;
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
     }
@@ -124,9 +129,18 @@ export class BlockTypography extends LitElement {
     .scale-value {
       width: var(--space-16);
       flex-shrink: 0;
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-3);
+    }
+
+    .scale-px {
+      width: var(--space-10);
+      flex-shrink: 0;
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+      color: var(--text-3);
+      text-align: right;
     }
 
     .scale-sample {
@@ -152,18 +166,18 @@ export class BlockTypography extends LitElement {
     }
 
     .weight-sample {
-      font-size: var(--font-size-2xl);
+      font-size: var(--text-2xl);
       line-height: var(--line-height-tight);
     }
 
     .weight-name {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: var(--font-weight-medium);
       margin: 0;
     }
 
     .weight-meta {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
       margin: 0;
@@ -187,7 +201,7 @@ export class BlockTypography extends LitElement {
     .type-scale-body > .type-scale-item {
       flex: 1 1 calc(50% - var(--space-3));
       max-width: 32%;
-      min-width: 16rem;
+      min-width: var(--space-64);
     }
 
     .type-scale-item {
@@ -212,14 +226,14 @@ export class BlockTypography extends LitElement {
 
     .type-scale-footer {
       padding: var(--space-2_5) var(--space-5);
-      background: var(--sunken);
+      background: var(--sunken-2);
       /* border-top: var(--border-width-thin) solid var(--border); */
       display: flex;
       gap: var(--space-4);
     }
 
     .type-scale-desc {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-5);
       max-width: 52ch;
@@ -228,13 +242,13 @@ export class BlockTypography extends LitElement {
 
     .type-scale-name {
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       font-weight: var(--font-weight-semibold);
       margin: 0;
     }
 
     .type-scale-detail {
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       font-family: var(--font-mono);
       color: var(--text-3);
       margin: 0;
@@ -267,13 +281,13 @@ export class BlockTypography extends LitElement {
     }
 
     .compact-token {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
     }
 
     .compact-value {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-3);
     }
@@ -304,7 +318,7 @@ export class BlockTypography extends LitElement {
 
   override render() {
     return html`
-      <p class="section-title">Typography</p>
+      <h3>Typography</h3>
       <p class="section-desc">
         Three font stacks, a 14-step size scale, four weights,
         and fine-grained tracking and leading controls.
@@ -351,19 +365,20 @@ export class BlockTypography extends LitElement {
       <div class="subsection">
         <p class="subsection-label">Size Scale</p>
         <div class="scale-list">
-          ${this.#sizeRow("--font-size-7xl", "4.5rem")}
-          ${this.#sizeRow("--font-size-6xl", "3.75rem")}
-          ${this.#sizeRow("--font-size-5xl", "3rem")}
-          ${this.#sizeRow("--font-size-4xl", "2.25rem")}
-          ${this.#sizeRow("--font-size-3xl", "1.875rem")}
-          ${this.#sizeRow("--font-size-2xl", "1.5rem")}
-          ${this.#sizeRow("--font-size-xl", "1.25rem")}
-          ${this.#sizeRow("--font-size-lg", "1.125rem")}
-          ${this.#sizeRow("--font-size-md", "1rem")}
-          ${this.#sizeRow("--font-size-base", "0.9375rem")}
-          ${this.#sizeRow("--font-size-sm", "0.875rem")}
-          ${this.#sizeRow("--font-size-xs", "0.75rem")}
-          ${this.#sizeRow("--font-size-2xs", "0.65rem")}
+          ${this.#sizeRow("--text-9xl", "8rem", "128px")}
+          ${this.#sizeRow("--text-8xl", "6rem", "96px")}
+          ${this.#sizeRow("--text-7xl", "4.5rem", "72px")}
+          ${this.#sizeRow("--text-6xl", "3.75rem", "60px")}
+          ${this.#sizeRow("--text-5xl", "3rem", "48px")}
+          ${this.#sizeRow("--text-4xl", "2.25rem", "36px")}
+          ${this.#sizeRow("--text-3xl", "1.875rem", "30px")}
+          ${this.#sizeRow("--text-2xl", "1.5rem", "24px")}
+          ${this.#sizeRow("--text-xl", "1.25rem", "20px")}
+          ${this.#sizeRow("--text-lg", "1.125rem", "18px")}
+          ${this.#sizeRow("--text-base", "1rem", "16px")}
+          ${this.#sizeRow("--text-sm", "0.875rem", "14px")}
+          ${this.#sizeRow("--text-xs", "0.75rem", "12px")}
+          ${this.#sizeRow("--text-2xs", "0.625rem", "10px")}
         </div>
       </div>
 
@@ -387,21 +402,21 @@ export class BlockTypography extends LitElement {
           legibility; larger text gets tighter tracking for visual density.
         </p>
         <div class="type-scale-display">
-          ${this.#typeScaleItem("7xl", "var(--font-size-7xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "Montréal")}
-          ${this.#typeScaleItem("6xl", "var(--font-size-6xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "City of Festivals")}
-          ${this.#typeScaleItem("5xl", "var(--font-size-5xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "La Métropole")}
-          ${this.#typeScaleItem("4xl", "var(--font-size-4xl)", "var(--letter-spacing-tightest)", "var(--line-height-tight)", "The Island of Montreal")}
-          ${this.#typeScaleItem("3xl", "var(--font-size-3xl)", "var(--letter-spacing-tighter)", "var(--line-height-tight)", "Founded in 1642 as Ville-Marie")}
+          ${this.#typeScaleItem("7xl", "var(--text-7xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "Montréal")}
+          ${this.#typeScaleItem("6xl", "var(--text-6xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "City of Festivals")}
+          ${this.#typeScaleItem("5xl", "var(--text-5xl)", "var(--letter-spacing-tightest)", "var(--line-height-none)", "La Métropole")}
+          ${this.#typeScaleItem("4xl", "var(--text-4xl)", "var(--letter-spacing-tightest)", "var(--line-height-tight)", "The Island of Montreal")}
+          ${this.#typeScaleItem("3xl", "var(--text-3xl)", "var(--letter-spacing-tighter)", "var(--line-height-tight)", "Founded in 1642 as Ville-Marie")}
         </div>
         <div class="type-scale-body">
-          ${this.#typeScaleItem("2xl", "var(--font-size-2xl)", "var(--letter-spacing-tighter)", "var(--line-height-tight)", "The second-largest primarily French-speaking city in the world, after Paris")}
-          ${this.#typeScaleItem("xl", "var(--font-size-xl)", "var(--letter-spacing-tight)", "var(--line-height-snug)", "Montreal is the cultural capital of Quebec, recognized as a UNESCO City of Design since 2006.")}
-          ${this.#typeScaleItem("lg", "var(--font-size-lg)", "var(--letter-spacing-tight)", "var(--line-height-snug)", "The city is home to the headquarters of the International Civil Aviation Organization, and was named host of the 1967 World Exposition.")}
-          ${this.#typeScaleItem("md", "var(--font-size-md)", "var(--letter-spacing-normal)", "var(--line-height-normal)", "Montreal's Old Port area has been transformed into a recreational and historical centre. The cobblestone streets of Old Montreal date back to New France and are home to the Notre-Dame Basilica, built in 1829.")}
-          ${this.#typeScaleItem("base", "var(--font-size-base)", "var(--letter-spacing-normal)", "var(--line-height-normal)", "The city's extensive underground network, known as RÉSO, connects over 33 kilometres of tunnels linking shopping centres, hotels, museums, universities, and metro stations. During harsh winters, more than half a million pedestrians use this network daily.")}
-          ${this.#typeScaleItem("sm", "var(--font-size-sm)", "var(--letter-spacing-wide)", "var(--line-height-normal)", "Montreal's climate is classified as humid continental with warm summers and cold, snowy winters. The average January temperature is −10.3°C, while July averages 20.9°C. The city receives approximately 2,050 mm of precipitation annually, including an average of 210 cm of snowfall.")}
-          ${this.#typeScaleItem("xs", "var(--font-size-xs)", "var(--letter-spacing-wide)", "var(--line-height-normal)", "The Société de transport de Montréal operates the city's public transit network, which includes four metro lines spanning 71 kilometres and 68 stations. The bus network complements the metro with 220 daytime and 23 nighttime routes.")}
-          ${this.#typeScaleItem("2xs", "var(--font-size-2xs)", "var(--letter-spacing-wider)", "var(--line-height-normal)", "According to the 2021 census, the population of the Montreal metropolitan area reached 4,291,732 residents. The city proper is home to 1,762,949 people, making it the most populous municipality in Quebec and the second most populous in Canada.")}
+          ${this.#typeScaleItem("2xl", "var(--text-2xl)", "var(--letter-spacing-tighter)", "var(--line-height-tight)", "The second-largest primarily French-speaking city in the world, after Paris")}
+          ${this.#typeScaleItem("xl", "var(--text-xl)", "var(--letter-spacing-tight)", "var(--line-height-snug)", "Montreal is the cultural capital of Quebec, recognized as a UNESCO City of Design since 2006.")}
+          ${this.#typeScaleItem("lg", "var(--text-lg)", "var(--letter-spacing-tight)", "var(--line-height-snug)", "The city is home to the headquarters of the International Civil Aviation Organization, and was named host of the 1967 World Exposition.")}
+          ${this.#typeScaleItem("md", "var(--text-base)", "var(--letter-spacing-normal)", "var(--line-height-normal)", "Montreal's Old Port area has been transformed into a recreational and historical centre. The cobblestone streets of Old Montreal date back to New France and are home to the Notre-Dame Basilica, built in 1829.")}
+          ${this.#typeScaleItem("base", "var(--text-base)", "var(--letter-spacing-normal)", "var(--line-height-normal)", "The city's extensive underground network, known as RÉSO, connects over 33 kilometres of tunnels linking shopping centres, hotels, museums, universities, and metro stations. During harsh winters, more than half a million pedestrians use this network daily.")}
+          ${this.#typeScaleItem("sm", "var(--text-sm)", "var(--letter-spacing-wide)", "var(--line-height-normal)", "Montreal's climate is classified as humid continental with warm summers and cold, snowy winters. The average January temperature is −10.3°C, while July averages 20.9°C. The city receives approximately 2,050 mm of precipitation annually, including an average of 210 cm of snowfall.")}
+          ${this.#typeScaleItem("xs", "var(--text-xs)", "var(--letter-spacing-wide)", "var(--line-height-normal)", "The Société de transport de Montréal operates the city's public transit network, which includes four metro lines spanning 71 kilometres and 68 stations. The bus network complements the metro with 220 daytime and 23 nighttime routes.")}
+          ${this.#typeScaleItem("2xs", "var(--text-2xs)", "var(--letter-spacing-wider)", "var(--line-height-normal)", "According to the 2021 census, the population of the Montreal metropolitan area reached 4,291,732 residents. The city proper is home to 1,762,949 people, making it the most populous municipality in Quebec and the second most populous in Canada.")}
         </div>
       </div>
 
@@ -434,11 +449,12 @@ export class BlockTypography extends LitElement {
     `;
   }
 
-  #sizeRow(token: string, value: string) {
+  #sizeRow(token: string, value: string, px: string) {
     return html`
       <div class="scale-row">
         <span class="scale-token">${token}</span>
         <span class="scale-value">${value}</span>
+        <span class="scale-px">${px}</span>
         <span class="scale-sample" style="font-size: var(${token})">
           The quick brown fox jumps over the lazy dog
         </span>

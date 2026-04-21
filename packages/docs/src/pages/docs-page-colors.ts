@@ -24,7 +24,7 @@ export class DocsPageColors extends LitElement {
     }
 
     h1 {
-      font-size: var(--font-size-fluid-3xl, 2.5rem);
+      font-size: var(--text-3xl, 2.5rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tighter, -0.03em);
       margin: 0 0 var(--space-2);
@@ -32,7 +32,7 @@ export class DocsPageColors extends LitElement {
 
     .subtitle {
       font-family: var(--font-mono);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-2);
       margin: 0 0 var(--space-8, 2rem);
     }
@@ -59,13 +59,13 @@ export class DocsPageColors extends LitElement {
 
     .swatch-name {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       font-weight: 600;
     }
 
     .swatch-value {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       color: var(--text-2);
       margin-top: var(--space-0_5, 0.125rem);
     }

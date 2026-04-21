@@ -134,7 +134,7 @@ export class DocsPageMap extends LitElement {
               </dui-map-marker-label>
             </dui-map-marker>
           </dui-map>
-          <p style="margin-top: var(--space-2); font-size: var(--font-size-sm); opacity: 0.7;">
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm); opacity: 0.7;">
             Position: ${this._markerPos.lng.toFixed(4)}, ${this._markerPos.lat.toFixed(4)}
           </p>
         </dui-docs-demo>
@@ -170,7 +170,7 @@ export class DocsPageMap extends LitElement {
               ?disabled=${this._showPopup}
               @click=${() => { this._showPopup = true; }}
             >Show popup</dui-button>
-            <span style="font-size: var(--font-size-sm); opacity: 0.7;">
+            <span style="font-size: var(--text-sm); opacity: 0.7;">
               ${this._showPopup ? "Popup is open — click ✕ to close" : "Popup closed"}
             </span>
           </div>
@@ -279,7 +279,7 @@ export class DocsPageMap extends LitElement {
           >
             <dui-map-controls position="bottom-right" show-zoom show-compass></dui-map-controls>
           </dui-map>
-          <p style="margin-top: var(--space-2); font-size: var(--font-size-sm); opacity: 0.7;">
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm); opacity: 0.7;">
             This map is locked to Manhattan, zoom 10–16.
           </p>
         </dui-docs-demo>
@@ -301,7 +301,7 @@ export class DocsPageMap extends LitElement {
               </dui-map-marker>
             ` : ""}
           </dui-map>
-          <p style="margin-top: var(--space-2); font-size: var(--font-size-sm); opacity: 0.7;">
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm); opacity: 0.7;">
             Last click: ${this._clickLngLat ? `${this._clickLngLat.lng.toFixed(4)}, ${this._clickLngLat.lat.toFixed(4)}` : "Click anywhere on the map"}
           </p>
         </dui-docs-demo>

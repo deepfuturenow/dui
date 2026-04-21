@@ -1,11 +1,11 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const tabStyles = css`
   [part="tab"] {
     color: var(--text-2);
-    ${type("sm", { lineHeight: "var(--line-height-snug)" })}
+    font-size: var(--text-sm); line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
+    text-box: trim-both cap alphabetic;
     padding-inline: var(--space-2);
     height: var(--component-height-md);
     transition-property: color, box-shadow, background, filter, transform;

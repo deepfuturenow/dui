@@ -36,7 +36,6 @@ import { tabsListStyles } from "./components/tabs-list.ts";
 import { tabsPanelStyles } from "./components/tabs-panel.ts";
 import { textareaStyles } from "./components/textarea.ts";
 import { truncStyles } from "./components/trunc.ts";
-import { linkStyles } from "./components/link.ts";
 import { avatarStyles } from "./components/avatar.ts";
 import { portalStyles } from "./components/portal.ts";
 import { inputStyles } from "./components/input.ts";
@@ -79,6 +78,7 @@ import { numberFieldStyles } from "./components/number-field.ts";
 import { stepperStyles } from "./components/stepper.ts";
 import { menubarStyles } from "./components/menubar.ts";
 import { calendarStyles } from "./components/calendar.ts";
+import { cardStyles } from "./components/card.ts";
 import { cardGridStyles } from "./components/card-grid.ts";
 import { proseSheet } from "./prose.ts";
 import { tokenSheet } from "./tokens.ts";
@@ -124,7 +124,6 @@ export const defaultTheme: DuiTheme = {
     ["dui-tabs-panel", tabsPanelStyles],
     ["dui-textarea", textareaStyles],
     ["dui-trunc", truncStyles],
-    ["dui-link", linkStyles],
     ["dui-avatar", avatarStyles],
     ["dui-portal", portalStyles],
     ["dui-input", inputStyles],
@@ -167,6 +166,7 @@ export const defaultTheme: DuiTheme = {
     ["dui-stepper", stepperStyles],
     ["dui-menubar", menubarStyles],
     ["dui-calendar", calendarStyles],
+    ["dui-card", cardStyles],
     ["dui-card-grid", cardGridStyles],
   ]),
 };
@@ -208,7 +208,6 @@ export { tabsListStyles } from "./components/tabs-list.ts";
 export { tabsPanelStyles } from "./components/tabs-panel.ts";
 export { textareaStyles } from "./components/textarea.ts";
 export { truncStyles } from "./components/trunc.ts";
-export { linkStyles } from "./components/link.ts";
 export { avatarStyles } from "./components/avatar.ts";
 export { portalStyles } from "./components/portal.ts";
 export { inputStyles } from "./components/input.ts";
@@ -251,14 +250,11 @@ export { numberFieldStyles } from "./components/number-field.ts";
 export { stepperStyles } from "./components/stepper.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
+export { cardStyles } from "./components/card.ts";
 export { cardGridStyles } from "./components/card-grid.ts";
 
 // --- Prose ---
 export { proseSheet } from "./prose.ts";
-
-// --- Typography helpers ---
-export { type, typeScale } from "./typography.ts";
-export type { TypeSize } from "./typography.ts";
 
 // --- Theme variant/size types ---
 export type {

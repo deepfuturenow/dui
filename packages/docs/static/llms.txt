@@ -394,14 +394,6 @@ transform, border-color) so ::part() overrides animate smoothly.
 - CSS Variables: --avatar-size (Avatar dimensions (width and height))
 - CSS Parts: root (The avatar container), image (The avatar image element), fallback (The fallback content (initials/icon))
 
-### Link
-- Tag: `<dui-link>`
-- Import: `@dui/components/link`
-- Description: Layout-transparent SPA link. Dispatches spa-navigate on click; modifier-clicks fall through for new-tab behavior.
-- Properties: href (string, "")
-- Events: spa-navigate ({ href: string })
-- Slots: default (Link content)
-
 ### Portal
 - Tag: `<dui-portal>`
 - Import: `@dui/components/portal`
@@ -738,6 +730,15 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Events: value-change ({ value: string })
 - Slots: prev (Custom previous month button content), next (Custom next month button content)
 - CSS Parts: root (The calendar container), header (The month/year header row), heading (The month/year label), prev (Previous month button), next (Next month button), grid (The date grid), weekday (Weekday header cells), day (Individual day buttons)
+
+### Card
+- Tag: `<dui-card>`
+- Import: `@dui/components/card`
+- Description: A container for grouped content with header, body, and footer sections. Uses flex-column + gap for vertical rhythm.
+- Properties: size ("" | "sm", "")
+- Events: none
+- Slots: default (Main card content (body).), title (Card heading text.), description (Helper text below the title.), action (Top-right header action (button, badge, etc.).), footer (Footer content (buttons, links, etc.).)
+- CSS Parts: root (The outer card container.), header (The header section (title + description + action).), header-text (Vertical stack holding title and description slots.), action (Zero-height wrapper around the action slot (reserves width, not height).), content (Wrapper around the default slot.), footer (The footer section.)
 
 ### Card Grid
 - Tag: `<dui-card-grid>`

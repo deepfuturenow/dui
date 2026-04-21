@@ -6,18 +6,18 @@ export const sidebarMenuButtonStyles = css`
     --smb-padding-x: var(--sidebar-button-inset);
     --smb-gap: var(--space-2);
     --smb-icon-size: var(--space-4);
-    --smb-font-size: var(--font-size-sm);
+    --smb-font-size: var(--text-sm);
     --smb-radius: var(--radius-md);
   }
 
   :host([size="sm"]) {
     --smb-height: var(--component-height-sm);
-    --smb-font-size: var(--font-size-xs);
+    --smb-font-size: var(--text-xs);
   }
 
   :host([size="lg"]) {
     --smb-height: var(--component-height-lg);
-    --smb-font-size: var(--font-size-sm);
+    --smb-font-size: var(--text-sm);
     --smb-gap: var(--space-2_5);
   }
 
@@ -52,6 +52,7 @@ export const sidebarMenuButtonStyles = css`
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
     --icon-size: var(--smb-icon-size);
     --icon-color: var(--sidebar-muted-fg);
   }

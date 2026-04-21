@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 interface ModelBudget {
   model: string;
@@ -36,28 +36,20 @@ function formatCost(n: number): string {
 
 @customElement("block-token-usage")
 export class BlockTokenUsage extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, css`
     :host {
-      padding: var(--space-6);
+      display: block;
+      position: relative;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--space-1);
+    /* Header */
+    dui-card::part(header) {
+      padding-bottom: 0;
     }
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .subtitle {
-      font-size: var(--font-size-xs);
-      color: var(--text-2);
-      margin: 0 0 var(--space-5);
+    dui-card::part(footer) {
+      border-top: var(--border-width-thin) solid oklch(from var(--foreground) l c h / 0.07);
+      background-color: var(--sunken-1);
     }
 
     .model-card {
@@ -72,25 +64,27 @@ export class BlockTokenUsage extends LitElement {
     }
 
     .model-label {
-      font-size: var(--font-size-xs);
-      font-weight: 600;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-semibold);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: var(--letter-spacing-widest);
       color: var(--text-2);
-      margin: 0 0 var(--space-1);
+      margin: 0 0 var(--space-3);
+      text-box: trim-both cap alphabetic;
     }
 
     .token-count {
-      font-size: var(--font-size-3xl);
-      font-weight: 700;
+      font-size: var(--text-3xl);
+      font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-3);
-      line-height: 1.1;
+      line-height: var(--line-height-none);
+      text-box: trim-both cap alphabetic;
     }
 
     .progress-track {
       width: 100%;
-      height: 6px;
-      background: var(--surface-3);
+      height: var(--space-1_5);
+      background: oklch(from var(--foreground) l c h / 0.08);
       border-radius: var(--radius-full);
       overflow: hidden;
       margin-bottom: var(--space-2);
@@ -110,13 +104,13 @@ export class BlockTokenUsage extends LitElement {
     }
 
     .pct {
-      font-size: var(--font-size-xs);
-      color: var(--text-3);
+      font-size: var(--text-xs);
+      color: var(--text-2);
     }
 
     .cost {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
     }
 
     .add-budget {
@@ -127,31 +121,31 @@ export class BlockTokenUsage extends LitElement {
 
   override render() {
     return html`
-      <div class="header">
-        <p class="title">Token Usage</p>
-      </div>
-      <p class="subtitle">Active budgets for April 2026</p>
+      <dui-card>
+        <span slot="title">Token Usage</span>
+        <span slot="description">Active budgets for April 2026</span>
 
-      ${MODELS.map((m) => {
-        const pct = Math.round((m.tokensUsed / m.tokenBudget) * 100);
-        const cost = (m.tokensUsed / 1_000_000) * m.costPerMToken;
+        ${MODELS.map((m) => {
+          const pct = Math.round((m.tokensUsed / m.tokenBudget) * 100);
+          const cost = (m.tokensUsed / 1_000_000) * m.costPerMToken;
 
-        return html`
-          <div class="model-card">
-            <p class="model-label">${m.model}</p>
-            <p class="token-count">${formatTokens(m.tokensUsed)}</p>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: ${Math.min(pct, 100)}%"></div>
+          return html`
+            <div class="model-card">
+              <p class="model-label">${m.model}</p>
+              <p class="token-count">${formatTokens(m.tokensUsed)}</p>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: ${Math.min(pct, 100)}%"></div>
+              </div>
+              <div class="meta-row">
+                <span class="pct">${pct}% of ${formatTokens(m.tokenBudget)} budget</span>
+                <span class="cost">${formatCost(cost)}</span>
+              </div>
             </div>
-            <div class="meta-row">
-              <span class="pct">${pct}% of ${formatTokens(m.tokenBudget)} budget</span>
-              <span class="cost">${formatCost(cost)}</span>
-            </div>
-          </div>
-        `;
-      })}
+          `;
+        })}
 
-      <dui-button variant="primary" class="add-budget">Add Budget</dui-button>
+        <dui-button slot="footer" variant="primary" class="add-budget">Add Budget</dui-button>
+      </dui-card>
     `;
   }
 }

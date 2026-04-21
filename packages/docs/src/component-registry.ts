@@ -312,7 +312,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "soft"', description: "Visual treatment" },
     ],
     themeCssProperties: [
       { name: "--badge-bg", description: "Background color" },
@@ -344,7 +344,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost" | "link"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "soft" | "link"', description: "Visual treatment" },
       { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
@@ -868,23 +868,6 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "image", description: "The avatar image element" },
       { name: "fallback", description: "The fallback content (initials/icon)" },
     ],
-  },
-
-  {
-    tagName: "dui-link",
-    name: "Link",
-    description: "Layout-transparent SPA link. Dispatches spa-navigate on click; modifier-clicks fall through for new-tab behavior.",
-    importPath: "@dui/components/link",
-    properties: [
-      { name: "href", type: "string", default: '""', description: "The URL to navigate to" },
-    ],
-    events: [
-      { name: "spa-navigate", detail: "{ href: string }", description: "Fired on plain left-click" },
-    ],
-    slots: [
-      { name: "default", description: "Link content" },
-    ],
-    cssProperties: [],
   },
 
   {
@@ -1738,6 +1721,41 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "grid", description: "The date grid" },
       { name: "weekday", description: "Weekday header cells" },
       { name: "day", description: "Individual day buttons" },
+    ],
+  },
+  // --- Card ---
+  {
+    tagName: "dui-card",
+    name: "Card",
+    description: "A container for grouped content with header, body, and footer sections. Uses flex-column + gap for vertical rhythm.",
+    importPath: "@dui/components/card",
+    properties: [
+      { name: "size", type: '"" | "sm"', default: '""', description: "Card size — controls internal spacing." },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Main card content (body)." },
+      { name: "title", description: "Card heading text." },
+      { name: "description", description: "Helper text below the title." },
+      { name: "action", description: "Top-right header action (button, badge, etc.)." },
+      { name: "footer", description: "Footer content (buttons, links, etc.)." },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The outer card container." },
+      { name: "header", description: "The header section (title + description + action)." },
+      { name: "header-text", description: "Vertical stack holding title and description slots." },
+      { name: "action", description: "Zero-height wrapper around the action slot (reserves width, not height)." },
+      { name: "content", description: "Wrapper around the default slot." },
+      { name: "footer", description: "The footer section." },
+    ],
+    themeCssProperties: [
+      { name: "--card-gap", description: "Vertical gap between card sections." },
+      { name: "--card-px", description: "Horizontal padding for card sections." },
+      { name: "--card-py-top", description: "Top padding on the card root." },
+      { name: "--card-py-bottom", description: "Bottom padding on the card root." },
+      { name: "--card-action-offset-top", description: "Vertical margin on the action wrapper (negative pulls toward card top edge)." },
+      { name: "--card-action-offset-end", description: "Horizontal margin on the action wrapper (negative pulls toward card right edge)." },
     ],
   },
   // --- Layout components ---

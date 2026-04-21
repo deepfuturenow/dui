@@ -12,7 +12,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ## Actions
 
 ### dui-button
-**Properties:** `disabled` (boolean), `focusableWhenDisabled` (boolean), `type` (string), `href` (string | undefined), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost" | "link"), `size` ("sm" | "md" | "lg")
+**Properties:** `disabled` (boolean), `focusableWhenDisabled` (boolean), `type` (string), `href` (string | undefined), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost" | "soft" | "link"), `size` ("sm" | "md" | "lg")
 **Events:** `dui-navigate` ({ href: string })
 **Slots:** default (Button label content)
 **Parts:** `root`
@@ -24,12 +24,6 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
 **Parts:** `root`, `action`, `divider`, `trigger`
 **Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`
-
-### dui-link
-**Properties:** `href` (string)
-**Events:** `spa-navigate` ({ href: string })
-**Slots:** default (Link content)
-**Parts:** `root`
 
 ### dui-toggle
 **Properties:** `pressed` (boolean | undefined), `defaultPressed` (boolean), `disabled` (boolean), `value` (string | undefined), `size` ("sm" | "md" | "lg")
@@ -145,7 +139,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ## Data Display
 
 ### dui-badge
-**Properties:** `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost")
+**Properties:** `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "soft")
 **Slots:** default (Badge content)
 **Parts:** `root`
 **Tokens:** `--badge-bg`, `--badge-fg`, `--badge-border`, `--badge-icon-size`

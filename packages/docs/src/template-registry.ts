@@ -99,14 +99,14 @@ export const templateRegistry: TemplateMeta[] = [
       { name: "title", type: "string", default: '""', description: "Primary headline text" },
       { name: "source", type: "string", default: '""', description: "Source or publication name" },
       { name: "timestamp", type: "string", default: '""', description: 'Display timestamp (e.g. "2 min ago", "14:23 UTC")' },
-      { name: "href", type: "string", default: '""', description: "Optional URL — when set, the title renders as a dui-link" },
+      { name: "href", type: "string", default: '""', description: "Optional URL — when set, the title renders as an anchor" },
     ],
     slots: [
       { name: "actions", description: "Optional trailing action buttons or links" },
     ],
     events: [],
     cssProperties: [],
-    dependencies: ["dui-link"],
+    dependencies: [],
   },
   {
     tagName: "dui-page-header",

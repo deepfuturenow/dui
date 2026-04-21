@@ -19,7 +19,7 @@ export class DocsTemplateLayout extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-2xl, 1.5rem);
+      font-size: var(--text-2xl, 1.5rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tighter, -0.02em);
       line-height: var(--line-height-tight, 1.25);
@@ -28,7 +28,7 @@ export class DocsTemplateLayout extends LitElement {
     }
 
     .description {
-      font-size: var(--font-size-base, 0.9375rem);
+      font-size: var(--text-base, 0.9375rem);
       color: var(--text-2);
       line-height: var(--line-height-relaxed, 1.625);
       margin: 0 0 var(--space-8, 2rem);
@@ -36,7 +36,7 @@ export class DocsTemplateLayout extends LitElement {
 
     .badge {
       display: inline-block;
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       font-weight: var(--font-weight-medium, 500);
       padding: var(--space-0_5) var(--space-2);
       border-radius: var(--radius-full);
@@ -46,7 +46,7 @@ export class DocsTemplateLayout extends LitElement {
     }
 
     .section-heading {
-      font-size: var(--font-size-xl, 1.25rem);
+      font-size: var(--text-xl, 1.25rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tight, -0.01em);
       color: var(--foreground);
@@ -59,7 +59,7 @@ export class DocsTemplateLayout extends LitElement {
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       margin-bottom: var(--space-6);
     }
 
@@ -80,7 +80,7 @@ export class DocsTemplateLayout extends LitElement {
 
     code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       background: var(--surface-1);
       padding: var(--space-0_5) var(--space-1);
       border-radius: var(--radius-sm);
@@ -95,7 +95,7 @@ export class DocsTemplateLayout extends LitElement {
 
     .dep-tag {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       padding: var(--space-0_5) var(--space-2);
       border-radius: var(--radius-sm);
       border: var(--border-width-thin) solid var(--border);
@@ -160,7 +160,7 @@ export class DocsTemplateLayout extends LitElement {
 
       ${meta.dependencies.length > 0 ? html`
         <h3 class="section-heading">Component Dependencies</h3>
-        <p style="color: var(--text-2); font-size: var(--font-size-sm);">
+        <p style="color: var(--text-2); font-size: var(--text-sm);">
           These DUI components are rendered internally and auto-registered via <code>static dependencies</code>.
         </p>
         <div class="dep-list">

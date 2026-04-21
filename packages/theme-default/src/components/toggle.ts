@@ -11,7 +11,7 @@ export const toggleStyles = css`
     --toggle-padding-x: var(--space-2_5);
     --toggle-gap: var(--space-1_5);
     --toggle-radius: var(--radius-md);
-    --toggle-font-size: var(--font-size-sm);
+    --toggle-font-size: var(--text-sm);
     --toggle-icon-size: var(--space-4_5);
   }
 
@@ -20,7 +20,7 @@ export const toggleStyles = css`
     --toggle-padding-y: var(--space-1);
     --toggle-padding-x: var(--space-1_5);
     --toggle-gap: var(--space-1);
-    --toggle-font-size: var(--font-size-xs);
+    --toggle-font-size: var(--text-xs);
     --toggle-icon-size: var(--space-3_5);
   }
 
@@ -29,7 +29,7 @@ export const toggleStyles = css`
     --toggle-padding-y: var(--space-1_5);
     --toggle-padding-x: var(--space-2);
     --toggle-gap: var(--space-1);
-    --toggle-font-size: var(--font-size-xs);
+    --toggle-font-size: var(--text-xs);
     --toggle-icon-size: var(--space-4);
   }
 
@@ -38,7 +38,7 @@ export const toggleStyles = css`
     --toggle-padding-y: var(--space-2_5);
     --toggle-padding-x: var(--space-3);
     --toggle-gap: var(--space-1_5);
-    --toggle-font-size: var(--font-size-sm);
+    --toggle-font-size: var(--text-sm);
     --toggle-icon-size: var(--space-4_5);
   }
 
@@ -61,6 +61,7 @@ export const toggleStyles = css`
     font-size: var(--toggle-font-size);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
     white-space: nowrap;
     color: var(--text-2);
     background: oklch(from var(--foreground) l c h / calc(var(--_select) + var(--_interact)));

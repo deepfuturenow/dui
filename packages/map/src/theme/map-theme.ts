@@ -27,7 +27,7 @@ const mapThemeStyles = css`
   /* --- Attribution ------------------------------------------------------- */
   .maplibregl-ctrl-attrib {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     color: oklch(from var(--foreground) l c h / 0.5);
     background: oklch(from var(--background) l c h / 0.65);
     backdrop-filter: blur(4px);
@@ -67,7 +67,7 @@ const mapThemeStyles = css`
   /* --- Marker label ------------------------------------------------------ */
   .dui-marker-label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     font-weight: var(--font-weight-medium);
     color: var(--text-1);
     text-shadow:
@@ -89,7 +89,7 @@ const mapThemeStyles = css`
   /* --- Popup (click-to-open, popover-like) ------------------------------ */
   .maplibregl-popup.dui-popup .maplibregl-popup-content > div {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     line-height: var(--line-height-normal);
     color: var(--text-1);
     background: var(--surface-3);
@@ -137,7 +137,7 @@ const mapThemeStyles = css`
   /* --- Tooltip (hover, inverted) ---------------------------------------- */
   .maplibregl-popup.dui-tooltip .maplibregl-popup-content > div {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     line-height: var(--line-height-snug);
     color: var(--background);
     background: color-mix(

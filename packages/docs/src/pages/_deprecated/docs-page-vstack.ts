@@ -20,19 +20,19 @@ export class DocsPageVstack extends LitElement {
       <dui-docs-demo label="Gap sizes">
         <div class="row" style="align-items: start;">
           <dui-vstack gap="1" style="width: auto;">
-            <dui-badge appearance="ghost">gap=1</dui-badge>
-            <dui-badge appearance="ghost">A</dui-badge>
-            <dui-badge appearance="ghost">B</dui-badge>
+            <dui-badge appearance="soft">gap=1</dui-badge>
+            <dui-badge appearance="soft">A</dui-badge>
+            <dui-badge appearance="soft">B</dui-badge>
           </dui-vstack>
           <dui-vstack gap="4" style="width: auto;">
-            <dui-badge appearance="ghost">gap=4</dui-badge>
-            <dui-badge appearance="ghost">A</dui-badge>
-            <dui-badge appearance="ghost">B</dui-badge>
+            <dui-badge appearance="soft">gap=4</dui-badge>
+            <dui-badge appearance="soft">A</dui-badge>
+            <dui-badge appearance="soft">B</dui-badge>
           </dui-vstack>
           <dui-vstack gap="8" style="width: auto;">
-            <dui-badge appearance="ghost">gap=8</dui-badge>
-            <dui-badge appearance="ghost">A</dui-badge>
-            <dui-badge appearance="ghost">B</dui-badge>
+            <dui-badge appearance="soft">gap=8</dui-badge>
+            <dui-badge appearance="soft">A</dui-badge>
+            <dui-badge appearance="soft">B</dui-badge>
           </dui-vstack>
         </div>
       </dui-docs-demo>

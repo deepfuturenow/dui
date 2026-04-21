@@ -28,6 +28,7 @@ const styles = css`
     padding: 0;
     margin: 0;
     border: none;
+    user-select: none;
   }
 
   [part="root"][data-disabled] {

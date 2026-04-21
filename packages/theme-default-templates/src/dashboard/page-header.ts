@@ -40,7 +40,7 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-normal);
     line-height: var(--line-height-tight);
@@ -50,7 +50,7 @@ const styles = css`
 
   .subtitle {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-2);

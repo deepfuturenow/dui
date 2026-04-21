@@ -50,6 +50,7 @@ const parseBlock = (blockContent: string, category: string, theme: TokenTheme): 
 const CATEGORY_RULES: [RegExp, string][] = [
   [/^--space-/, "spacing"],
   [/^--font-/, "typography"],
+  [/^--text-/, "typography"],
   [/^--letter-spacing-/, "typography"],
   [/^--line-height-/, "typography"],
   [/^--radius-/, "borders"],

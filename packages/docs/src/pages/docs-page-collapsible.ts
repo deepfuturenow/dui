@@ -31,20 +31,6 @@ export class DocsPageCollapsible extends LitElement {
         </dui-collapsible>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Multiple collapsibles" demo-width="26rem">
-        <dui-collapsible>
-          <span slot="trigger">First section</span>
-          Each collapsible operates independently.
-        </dui-collapsible>
-        <dui-collapsible>
-          <span slot="trigger">Second section</span>
-          Open and close any combination.
-        </dui-collapsible>
-        <dui-collapsible>
-          <span slot="trigger">Third section</span>
-          Unlike accordion, there is no mutual exclusion.
-        </dui-collapsible>
-      </dui-docs-demo>
       </docs-page-layout>
     `;
   }

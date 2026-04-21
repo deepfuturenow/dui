@@ -27,7 +27,7 @@ export class OklchEditorElement extends LitElement {
       }
 
       .label {
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
         font-weight: var(--font-weight-medium);
         color: var(--text-2);
         text-transform: uppercase;
@@ -39,7 +39,7 @@ export class OklchEditorElement extends LitElement {
       }
 
       .value-display {
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
         font-family: var(--font-mono);
         color: var(--text-2);
         min-width: 44px;
@@ -64,7 +64,7 @@ export class OklchEditorElement extends LitElement {
       .swatch-row dui-input {
         flex: 1;
         min-width: 0;
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
       }
     `,
   ];

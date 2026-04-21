@@ -34,7 +34,7 @@ const styles = css`
     position: relative;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background: var(--sunken);
+    background: var(--sunken-2);
     aspect-ratio: 16 / 10;
   }
 
@@ -64,7 +64,7 @@ const styles = css`
 
   .overlay-label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-none);
@@ -77,7 +77,7 @@ const styles = css`
 
   .overlay-timestamp {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     color: oklch(1 0 0 / 0.7);
     white-space: nowrap;
     flex-shrink: 0;
@@ -88,7 +88,7 @@ const styles = css`
     text-align: center;
     color: var(--text-3);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
   }
 
   .actions[hidden] {

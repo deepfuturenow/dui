@@ -1,11 +1,10 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const inputStyles = css`
   [part="input"] {
     padding: var(--space-2);
     font-family: var(--font-sans);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     height: var(--component-height-md);
     color: var(--text-1);
     border: var(--border-width-thin) solid var(--border);
@@ -36,7 +35,7 @@ export const inputStyles = css`
   :host([size="sm"]) [part="input"] {
     height: var(--component-height-sm);
     padding: var(--space-1_5);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
   }
 
   :host([aria-invalid="true"]) [part="input"]:focus-visible {
@@ -47,7 +46,7 @@ export const inputStyles = css`
 
   /* Password bullets are tiny at small font sizes — bump them up */
   [part="input"][type="password"]:not(:placeholder-shown) {
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-bold);
   }
 

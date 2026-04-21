@@ -17,7 +17,7 @@ export class DocsPagePopover extends LitElement {
           <dui-popover-popup>
             <div style="padding: var(--space-3); min-width: 200px;">
               <p style="margin: 0 0 var(--space-2); font-weight: 600;">Popover Title</p>
-              <p style="margin: 0; color: var(--text-2); font-size: var(--font-size-sm);">
+              <p style="margin: 0; color: var(--text-2); font-size: var(--text-sm);">
                 This is some popover content. Click outside to close.
               </p>
             </div>

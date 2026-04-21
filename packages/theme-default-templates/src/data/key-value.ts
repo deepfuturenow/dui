@@ -23,7 +23,7 @@ const styles = css`
 
   .label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
@@ -32,7 +32,7 @@ const styles = css`
 
   .value {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -45,7 +45,7 @@ const styles = css`
 
   .description {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-3);

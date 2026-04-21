@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const textareaStyles = css`
   :host {
-    --font-size: var(--font-size-sm);
+    --font-size: var(--text-sm);
   }
 
   [part="textarea"] {

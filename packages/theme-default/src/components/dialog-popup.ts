@@ -1,7 +1,7 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const dialogPopupStyles = css`
+
   /* ── Backdrop ── */
 
   [part="backdrop"] {
@@ -18,14 +18,17 @@ export const dialogPopupStyles = css`
 
   [part="popup"] {
     margin-top: calc(-1 * var(--space-8));
-    padding: var(--space-6);
+    padding: var(--space-6) var(--space-5) var(--space-5);
     border-radius: var(--radius-lg);
-    border: var(--border-width-thin) solid var(--border);
+    outline: var(--border-width-thin) solid var(--border);
     background: var(--surface-2);
     color: var(--text-1);
     font-family: var(--font-sans);
     box-shadow: var(--shadow-lg);
     transition-duration: var(--duration-fast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
   }
 
   [part="popup"][data-starting-style],
@@ -37,21 +40,25 @@ export const dialogPopupStyles = css`
   /* ── Title ── */
 
   [part="title"] {
-    margin-top: calc(-1 * var(--space-1));
-    margin-bottom: var(--space-1);
     font-family: var(--font-sans);
-    ${type("lg", { letterSpacing: "var(--letter-spacing-tighter)", lineHeight: "var(--line-height-tight)" })}
-    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-1);
+    text-box: trim-both cap alphabetic;
+    text-wrap: pretty;
   }
 
   /* ── Description ── */
 
   [part="description"] {
-    margin: 0 0 var(--space-6);
+    margin: 0;
     font-family: var(--font-sans);
-    ${type("md")}
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--text-2);
+    text-box: trim-both cap alphabetic;
+
   }
 
   /* ── Reduced motion ── */

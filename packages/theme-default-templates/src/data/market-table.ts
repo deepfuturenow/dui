@@ -27,13 +27,13 @@ const styles = css`
     width: 100%;
     border-collapse: collapse;
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
   }
 
   thead th {
     padding: var(--space-2) var(--space-3);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     color: var(--text-3);
     text-align: left;
@@ -71,7 +71,7 @@ const styles = css`
 
   .name {
     color: var(--text-2);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     margin-left: var(--space-1);
   }
 
@@ -115,7 +115,7 @@ const styles = css`
     padding: var(--space-6) var(--space-4);
     text-align: center;
     color: var(--text-3);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
   }
 `;
 

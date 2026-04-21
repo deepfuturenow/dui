@@ -1,11 +1,10 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const calendarStyles = css`
   [part="root"] {
     padding: var(--space-3);
     font-family: var(--font-sans);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
   }
 
   [part="header"] {
@@ -13,7 +12,7 @@ export const calendarStyles = css`
   }
 
   [part="heading"] {
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     font-weight: var(--font-weight-medium);
     color: var(--text-1);
   }
@@ -24,7 +23,7 @@ export const calendarStyles = css`
     height: var(--space-7);
     border-radius: var(--radius-md);
     color: var(--text-2);
-    font-size: var(--font-size-lg);
+    font-size: var(--text-lg);
     transition-property: background, color;
     transition-duration: var(--duration-fast);
   }
@@ -40,7 +39,7 @@ export const calendarStyles = css`
   [part="weekday"] {
     width: var(--space-8);
     height: var(--space-8);
-    ${type("xs")}
+    font-size: var(--text-xs); line-height: var(--text-xs--line-height);
     font-weight: var(--font-weight-regular);
     color: var(--text-2);
     display: flex;
@@ -52,7 +51,7 @@ export const calendarStyles = css`
     width: var(--space-8);
     height: var(--space-8);
     border-radius: var(--radius-md);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     color: var(--text-1);
     transition-property: background, color;
     transition-duration: var(--duration-fast);

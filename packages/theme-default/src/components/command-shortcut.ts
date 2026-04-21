@@ -1,9 +1,8 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const commandShortcutStyles = css`
   .Shortcut {
-    ${type("xs")}
+    font-size: var(--text-xs); line-height: var(--text-xs--line-height);
     color: var(--text-2);
   }
 `;

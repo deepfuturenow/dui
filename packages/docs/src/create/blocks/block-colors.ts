@@ -13,15 +13,20 @@ export class BlockColors extends LitElement {
       color: var(--text-1);
     }
 
-    .section-title {
-      font-size: var(--font-size-2xl);
+    h1, h2, h3, h4, h5, h6,
+    p, li, blockquote, dt, dd {
+      text-box: trim-both cap alphabetic;
+    }
+
+    h3 {
+      font-size: var(--text-2xl);
       font-weight: var(--font-weight-bold);
       margin: 0 0 var(--space-1);
       letter-spacing: var(--letter-spacing-tight);
     }
 
     .section-desc {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       margin: 0 0 var(--space-6);
       max-width: 48ch;
@@ -55,13 +60,13 @@ export class BlockColors extends LitElement {
     }
 
     .primitive-name {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-0_5);
     }
 
     .primitive-token {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
       margin: 0;
@@ -92,7 +97,7 @@ export class BlockColors extends LitElement {
     }
 
     .derived-label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-semibold);
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider);
@@ -125,13 +130,13 @@ export class BlockColors extends LitElement {
     }
 
     .derived-name {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-medium);
       margin: 0;
     }
 
     .derived-token-name {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
       margin: 0;
@@ -148,7 +153,7 @@ export class BlockColors extends LitElement {
 
   override render() {
     return html`
-      <p class="section-title">Color Tokens</p>
+      <h3>Color Tokens</h3>
       <p class="section-desc">
         4 primitives define the entire palette. Every other color is derived at
         runtime via relative color syntax — no build step, no manual mapping.
@@ -193,7 +198,8 @@ export class BlockColors extends LitElement {
           <p class="derived-label">Derived from Background</p>
         </div>
         <div class="derived-grid">
-          ${this.#derivedToken("Sunken", "--sunken", "var(--sunken)")}
+          ${this.#derivedToken("Sunken 1", "--sunken-1", "var(--sunken-1)")}
+          ${this.#derivedToken("Sunken 2", "--sunken-2", "var(--sunken-2)")}
           ${this.#derivedToken("Surface 1", "--surface-1", "var(--surface-1)")}
           ${this.#derivedToken("Surface 2", "--surface-2", "var(--surface-2)")}
           ${this.#derivedToken("Surface 3", "--surface-3", "var(--surface-3)")}

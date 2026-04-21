@@ -14,10 +14,10 @@ export class DocsPageDialog extends LitElement {
           <dui-dialog-trigger>
             <dui-button appearance="outline">Open Dialog</dui-button>
           </dui-dialog-trigger>
-          <dui-dialog-popup>
+          <dui-dialog-popup width="30rem">
             <span slot="title">Edit Profile</span>
-            <span slot="description">Make changes to your profile here. Click save when you're done.</span>
-            <div style="display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4);">
+            <span slot="description">Make changes to your profile here. Click save when you're done. Labore incididunt enim Lorem enim est ad voluptate ea ut amet dolore. Quis minim exercitation id culpa nisi nulla officia do reprehenderit nisi officia sunt velit.</span>
+            <div style="display: flex; gap: var(--space-2); justify-content: flex-end;">
               <dui-dialog-close>
                 <dui-button appearance="outline">Cancel</dui-button>
               </dui-dialog-close>
@@ -37,7 +37,7 @@ export class DocsPageDialog extends LitElement {
           <dui-dialog-popup width="36rem">
             <span slot="title">Settings</span>
             <span slot="description">Configure your application settings below.</span>
-            <div style="display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2); justify-content: flex-end;">
               <dui-dialog-close>
                 <dui-button appearance="outline">Cancel</dui-button>
               </dui-dialog-close>
@@ -57,7 +57,7 @@ export class DocsPageDialog extends LitElement {
           <dui-dialog-popup>
             <span slot="title">Dismissible Dialog</span>
             <span slot="description">Click the dark backdrop behind this dialog to dismiss it.</span>
-            <div style="display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2); justify-content: flex-end;">
               <dui-dialog-close>
                 <dui-button appearance="outline">Close</dui-button>
               </dui-dialog-close>

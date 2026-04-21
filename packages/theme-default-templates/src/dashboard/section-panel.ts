@@ -62,7 +62,7 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -97,7 +97,7 @@ const styles = css`
 
   .live-label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-widest);
     text-transform: uppercase;
@@ -115,7 +115,7 @@ const styles = css`
     background: transparent;
     color: var(--text-3);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     cursor: help;
     flex-shrink: 0;
@@ -256,7 +256,7 @@ export class DuiSectionPanel extends LitElement {
         <span class="icon-slot" hidden><slot name="icon" @slotchange=${this.#onSlotChange}></slot></span>
         <span class="title">${this.title}</span>
         ${this.badge
-          ? html`<dui-badge appearance="ghost">${this.badge}</dui-badge>`
+          ? html`<dui-badge appearance="soft">${this.badge}</dui-badge>`
           : nothing}
         ${this.live
           ? html`<span class="live">

@@ -17,7 +17,7 @@ export class DocsPagePreviewCard extends LitElement {
           <dui-preview-card-popup>
             <div style="display: flex; flex-direction: column; gap: var(--space-2);">
               <strong>Preview Card</strong>
-              <span style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <span style="color: var(--text-2); font-size: var(--text-sm);">
                 This is a rich content preview that stays open when you hover over it.
                 Unlike a tooltip, the user can interact with the content.
               </span>
@@ -34,7 +34,7 @@ export class DocsPagePreviewCard extends LitElement {
           <dui-preview-card-popup>
             <div style="display: flex; flex-direction: column; gap: var(--space-2);">
               <strong>Bottom Preview</strong>
-              <span style="color: var(--text-2); font-size: var(--font-size-sm);">
+              <span style="color: var(--text-2); font-size: var(--text-sm);">
                 This preview card appears below the trigger.
               </span>
             </div>

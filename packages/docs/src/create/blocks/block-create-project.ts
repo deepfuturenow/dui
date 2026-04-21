@@ -1,47 +1,36 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 @customElement("block-create-project")
 export class BlockCreateProject extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, css`
     :host {
-      padding: var(--space-6);
+      display: block;
+      position: relative;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--space-5);
-    }
-
-    .header h3 {
-      font-size: var(--font-size-lg);
-      font-weight: 600;
-      margin: 0;
-      letter-spacing: var(--letter-spacing-tighter);
-    }
-
-    .fields {
+    .content {
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
-      margin-bottom: var(--space-6);
+      gap: var(--space-5);
     }
 
-    .footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: var(--space-2);
+    .label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: var(--space-3);
+      color: var(--text-1);
+      text-box: trim-both cap alphabetic;
     }
   `];
 
   override render() {
     return html`
-      <div class="header">
-        <h3>Create a new project</h3>
-        <dui-button appearance="ghost" size="icon-sm">
+      <dui-card>
+        <span slot="title">Create a new project</span>
+        <dui-button slot="action" appearance="ghost" size="icon-sm">
           <dui-icon
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,27 +46,25 @@ export class BlockCreateProject extends LitElement {
             </svg></dui-icon
           >
         </dui-button>
-      </div>
 
-      <div class="fields">
-        <dui-field>
-          <span slot="label">What are you exploring?</span>
-          <dui-input placeholder="Name your project"></dui-input>
-        </dui-field>
+        <div class="content">
+          <div class="field">
+            <label class="label">What are you exploring?</label>
+            <dui-input placeholder="Name your project"></dui-input>
+          </div>
+  
+          <div class="field">
+            <label class="label">What are some key project details?</label>
+            <dui-textarea
+              placeholder="Describe the topic, scope, and goals of this project"
+              rows="3"
+            ></dui-textarea>
+          </div>
+        </div>
 
-        <dui-field>
-          <span slot="label">What are some key project details?</span>
-          <dui-textarea
-            placeholder="Describe the topic, scope, and goals of this project"
-            rows="3"
-          ></dui-textarea>
-        </dui-field>
-      </div>
-
-      <div class="footer">
-        <dui-button appearance="ghost">Cancel</dui-button>
-        <dui-button>Create</dui-button>
-      </div>
+        <dui-button slot="footer" appearance="soft">Cancel</dui-button>
+        <dui-button slot="footer" variant="primary">Create</dui-button>
+      </dui-card>
     `;
   }
 }

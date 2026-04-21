@@ -16,9 +16,9 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
     label: "",
     slugs: [
       "accordion", "alert-dialog", "avatar", "badge", "breadcrumb",
-      "button", "calendar", "card-grid", "checkbox", "collapsible", "combobox",
-      "command", "data-table", "dialog", "dropzone", "field", "fieldset", "icon", "input",
-      "link", "menu", "menubar", "number-field", "popover",
+      "button", "calendar", "card", "card-grid", "checkbox", "collapsible", "combobox",
+      "command", "data-table", "dialog", "dropzone", "icon", "input",
+      "menu", "menubar", "number-field", "popover",
       "preview-card", "progress", "radio-group", "scroll-area",
       "select", "separator", "sidebar-provider", "slider", "spinner",
       "split-button", "stepper",
@@ -33,10 +33,6 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
   {
     label: "Map",
     slugs: ["map"],
-  },
-  {
-    label: "Chart",
-    slugs: ["chart"],
   },
 ];
 
@@ -73,7 +69,7 @@ export class DocsApp extends LitElement {
     }
 
     .top-bar-logo {
-      font-size: var(--font-size-base, 1rem);
+      font-size: var(--text-base, 1rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tight, -0.01em);
       color: var(--foreground);
@@ -84,7 +80,7 @@ export class DocsApp extends LitElement {
       color: var(--text-2);
       font-weight: 400;
       margin-left: var(--space-1);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
     }
 
     .top-bar-nav {
@@ -94,7 +90,7 @@ export class DocsApp extends LitElement {
     }
 
     .top-bar-link {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-2);
       text-decoration: none;
       padding: var(--space-1_5, 0.375rem) var(--space-2_5, 0.625rem);
@@ -129,7 +125,7 @@ export class DocsApp extends LitElement {
       border-radius: var(--radius-md, 0.5rem);
       background: var(--surface-1);
       color: var(--text-2);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       font-family: inherit;
       cursor: pointer;
       min-width: 200px;
@@ -144,7 +140,7 @@ export class DocsApp extends LitElement {
     .search-trigger kbd {
       margin-left: auto;
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       background: var(--background);
       border: var(--border-width-thin, 1px) solid var(--border);
       border-radius: var(--radius-sm, 0.25rem);
@@ -244,7 +240,7 @@ export class DocsApp extends LitElement {
         gap: 0;
       }
       .top-bar-link {
-        font-size: var(--font-size-xs, 0.75rem);
+        font-size: var(--text-xs, 0.75rem);
         padding: var(--space-1) var(--space-1_5);
       }
     }
@@ -267,7 +263,7 @@ export class DocsApp extends LitElement {
     .nav-link {
       display: block;
       padding: var(--space-1, 0.25rem) var(--space-5);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       line-height: var(--line-height-relaxed, 1.625);
       color: var(--text-2);
       text-decoration: none;
@@ -293,7 +289,7 @@ export class DocsApp extends LitElement {
     }
 
     .sidebar-footer .nav-link {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       color: var(--text-2);
       padding: var(--space-1) 0;
       border-left: none;
@@ -377,7 +373,7 @@ export class DocsApp extends LitElement {
       border: none;
       outline: none;
       background: transparent;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--foreground);
       font-family: inherit;
     }
@@ -405,7 +401,7 @@ export class DocsApp extends LitElement {
       align-items: center;
       gap: var(--space-2);
       padding: var(--space-2) var(--space-3, 0.75rem);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--foreground);
       text-decoration: none;
       border-radius: var(--radius-md, 0.5rem);
@@ -420,7 +416,7 @@ export class DocsApp extends LitElement {
 
     .search-item-tag {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       color: var(--text-2);
       margin-left: auto;
     }
@@ -429,7 +425,7 @@ export class DocsApp extends LitElement {
       padding: var(--space-6) var(--space-4);
       text-align: center;
       color: var(--text-2);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
     }
   `;
 
@@ -696,11 +692,6 @@ export class DocsApp extends LitElement {
               Components
             </a>
             <a class="top-bar-link"
-              href="#/forms"
-              aria-current=${this.#isTopNavActive("forms") ? "page" : "false"}>
-              Forms
-            </a>
-            <a class="top-bar-link"
               href="#/styling"
               aria-current=${this.#isTopNavActive("styling") ? "page" : "false"}>
               Styling
@@ -893,7 +884,6 @@ export class DocsApp extends LitElement {
       return html`<docs-page-section-panel></docs-page-section-panel>`;
     }
 
-    if (section === "forms") return html`<docs-page-forms></docs-page-forms>`;
     if (section === "styling") return html`<docs-page-styling></docs-page-styling>`;
     if (section === "theming") return html`<docs-page-theming></docs-page-theming>`;
     if (section === "colors") return html`<docs-page-colors></docs-page-colors>`;
@@ -924,7 +914,6 @@ export class DocsApp extends LitElement {
         case "tabs": return html`<docs-page-tabs></docs-page-tabs>`;
         case "textarea": return html`<docs-page-textarea></docs-page-textarea>`;
         case "trunc": return html`<docs-page-trunc></docs-page-trunc>`;
-        case "link": return html`<docs-page-link></docs-page-link>`;
         case "avatar": return html`<docs-page-avatar></docs-page-avatar>`;
         case "portal": return html`<docs-page-portal></docs-page-portal>`;
         case "input": return html`<docs-page-input></docs-page-input>`;
@@ -944,11 +933,9 @@ export class DocsApp extends LitElement {
         case "stepper": return html`<docs-page-stepper></docs-page-stepper>`;
         case "menubar": return html`<docs-page-menubar></docs-page-menubar>`;
         case "calendar": return html`<docs-page-calendar></docs-page-calendar>`;
+        case "card": return html`<docs-page-card></docs-page-card>`;
         case "card-grid": return html`<docs-page-card-grid></docs-page-card-grid>`;
-        case "field": return html`<docs-page-field></docs-page-field>`;
-        case "fieldset": return html`<docs-page-fieldset></docs-page-fieldset>`;
         case "map": return html`<docs-page-map></docs-page-map>`;
-        case "chart": return html`<docs-page-chart></docs-page-chart>`;
       }
     }
 
