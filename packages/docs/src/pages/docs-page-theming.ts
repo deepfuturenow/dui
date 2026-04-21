@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
+import { sectionStyles } from "./docs-section-styles.ts";
 
 /**
  * Visual test page for the DUI theming system.
@@ -7,44 +8,9 @@ import { customElement, state } from "lit/decorators.js";
  */
 @customElement("docs-page-theming")
 export class DocsPageTheming extends LitElement {
-  static override styles = css`
+  static override styles = [sectionStyles, css`
     :host {
       display: block;
-    }
-
-    h1 {
-      font-size: var(--font-size-2xl);
-      font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter);
-      line-height: var(--line-height-tight);
-      margin: 0 0 var(--space-2);
-    }
-
-    .subtitle {
-      font-size: var(--font-size-base);
-      color: var(--text-2);
-      margin: 0 0 var(--space-8);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed);
-    }
-
-    h2 {
-      font-size: var(--font-size-lg);
-      font-weight: 600;
-      letter-spacing: var(--letter-spacing-tight);
-      color: var(--text-1);
-      margin: var(--space-10) 0 var(--space-3);
-    }
-
-    h2:first-of-type {
-      margin-top: 0;
-    }
-
-    p.note {
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-4);
-      line-height: var(--line-height-relaxed);
     }
 
     /* ── Surface strips ── */
@@ -284,7 +250,7 @@ export class DocsPageTheming extends LitElement {
       border-radius: var(--radius-sm);
       border: var(--border-width-thin) solid var(--border);
     }
-  `;
+  `];
 
   // Presets: [name, bg, fg, accent, destructive]
   static #presets: [string, string, string, string, string][] = [
@@ -329,7 +295,7 @@ export class DocsPageTheming extends LitElement {
 
   override render() {
     return html`
-      <h1>Theming System</h1>
+      <h1 class="title">Theming System</h1>
       <p class="subtitle">
         4 primitives, 13 derived tokens. All surfaces, borders, text tiers,
         and semantic colors are derived at runtime via relative color syntax.
@@ -338,8 +304,8 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Theme Playground
            ═══════════════════════════════════════════════ -->
-      <h2>Theme Playground</h2>
-      <p class="note">
+      <h2 class="section-heading">Theme Playground</h2>
+      <p class="section-description">
         Pick a preset or adjust the 4 primitives. All derived tokens update
         instantly — surfaces, borders, text tiers, and component colors.
       </p>
@@ -359,8 +325,8 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Surface Depth Model
            ═══════════════════════════════════════════════ -->
-      <h2>Surface Depth</h2>
-      <p class="note">
+      <h2 class="section-heading">Surface Depth</h2>
+      <p class="section-description">
         Surfaces are lightness offsets from --background. Each card below
         shows text tiers and borders compositing against that surface.
       </p>
@@ -384,7 +350,7 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Color Tokens
            ═══════════════════════════════════════════════ -->
-      <h2>Primitives</h2>
+      <h2 class="section-heading">Primitives</h2>
       <div class="token-grid">
         <div class="token-swatch">
           <div class="swatch-color" style="background: var(--background)"></div>
@@ -404,7 +370,7 @@ export class DocsPageTheming extends LitElement {
         </div>
       </div>
 
-      <h2>Derived Surfaces</h2>
+      <h2 class="section-heading">Derived Surfaces</h2>
       <div class="token-grid">
         <div class="token-swatch">
           <div class="swatch-color" style="background: var(--sunken)"></div>
@@ -424,7 +390,7 @@ export class DocsPageTheming extends LitElement {
         </div>
       </div>
 
-      <h2>Derived Borders &amp; Text</h2>
+      <h2 class="section-heading">Derived Borders &amp; Text</h2>
       <div class="token-grid">
         <div class="token-swatch">
           <div class="swatch-color" style="background: var(--border)"></div>
@@ -451,7 +417,7 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Accent & Destructive
            ═══════════════════════════════════════════════ -->
-      <h2>Accent &amp; Destructive</h2>
+      <h2 class="section-heading">Accent &amp; Destructive</h2>
       <div class="chromatic-grid">
         <div class="chromatic-card accent-subtle">
           <strong>accent-subtle</strong><br>
@@ -474,15 +440,15 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Interaction States
            ═══════════════════════════════════════════════ -->
-      <h2>Interaction States</h2>
-      <p class="note">
+      <h2 class="section-heading">Interaction States</h2>
+      <p class="section-description">
         Uses the --_select / --_interact alpha overlay pattern. Hover over
         the boxes below. "Selected" boxes have --_select: 0.10.
       </p>
 
       ${["sunken", "bg", "surface-1", "surface-2", "surface-3"].map(
         (name) => html`
-          <p class="note" style="margin-top: var(--space-3); margin-bottom: var(--space-1);">
+          <p class="section-description" style="margin-top: var(--space-3); margin-bottom: var(--space-1);">
             On --${name === "bg" ? "background" : name}:
           </p>
           <div class="interaction-grid">
@@ -509,8 +475,8 @@ export class DocsPageTheming extends LitElement {
       <!-- ═══════════════════════════════════════════════
            Component Showcase
            ═══════════════════════════════════════════════ -->
-      <h2>Components on Surfaces</h2>
-      <p class="note">
+      <h2 class="section-heading">Components on Surfaces</h2>
+      <p class="section-description">
         Buttons, toggles, inputs, and badges rendered on each surface level
         to verify alpha compositing.
       </p>

@@ -1,43 +1,12 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
+import { sectionStyles } from "./docs-section-styles.ts";
 
 @customElement("docs-page-styling")
 export class DocsPageStyling extends LitElement {
-  static override styles = css`
+  static override styles = [sectionStyles, css`
     :host {
       display: block;
-    }
-
-    .title {
-      font-size: var(--font-size-2xl, 1.5rem);
-      font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter, -0.02em);
-      line-height: var(--line-height-tight, 1.25);
-      margin: 0 0 var(--space-2);
-    }
-
-    .description {
-      font-size: var(--font-size-base, 0.9375rem);
-      color: var(--text-2);
-      margin: 0 0 var(--space-8, 2rem);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed, 1.625);
-    }
-
-    .section-heading {
-      font-size: var(--font-size-lg, 1.125rem);
-      font-weight: 600;
-      letter-spacing: var(--letter-spacing-tight, -0.01em);
-      color: var(--foreground);
-      margin: var(--space-12) 0 var(--space-2);
-    }
-
-    .section-description {
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-5);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed, 1.625);
     }
 
     /* ── Demo card ── */
@@ -136,16 +105,6 @@ export class DocsPageStyling extends LitElement {
       );
       --button-fg: white;
       --button-border: transparent;
-      --button-hover-bg: linear-gradient(
-        135deg,
-        oklch(0.65 0.18 330),
-        oklch(0.5 0.28 280)
-      );
-      --button-active-bg: linear-gradient(
-        135deg,
-        oklch(0.6 0.2 330),
-        oklch(0.45 0.3 280)
-      );
     }
 
     /* ── Frosted glass demo ── */
@@ -165,8 +124,6 @@ export class DocsPageStyling extends LitElement {
       --button-bg: oklch(1 0 0 / 0.15);
       --button-fg: white;
       --button-border: oklch(1 0 0 / 0.25);
-      --button-hover-bg: oklch(1 0 0 / 0.25);
-      --button-active-bg: oklch(1 0 0 / 0.1);
     }
 
     .glass-btn::part(root) {
@@ -229,11 +186,6 @@ export class DocsPageStyling extends LitElement {
     .themed-zone {
       --button-bg: var(--destructive);
       --button-fg: var(--destructive-foreground);
-      --button-hover-bg: color-mix(
-        in oklch,
-        var(--destructive) 90%,
-        var(--foreground)
-      );
       padding: var(--space-4);
       border: 1px dashed var(--destructive);
       border-radius: var(--radius-md);
@@ -257,11 +209,6 @@ export class DocsPageStyling extends LitElement {
       );
       --button-fg: white;
       --button-border: transparent;
-      --button-hover-bg: linear-gradient(
-        135deg,
-        oklch(0.6 0.22 200),
-        oklch(0.5 0.28 250)
-      );
       --button-radius: var(--radius-full);
       --button-padding-x: var(--space-6);
     }
@@ -282,12 +229,12 @@ export class DocsPageStyling extends LitElement {
       transform: scale(0.97);
       box-shadow: 0 2px 10px oklch(0.55 0.25 230 / 0.3);
     }
-  `;
+  `];
 
   override render() {
     return html`
       <h1 class="title">Styling & Customization</h1>
-      <p class="description">
+      <p class="subtitle">
         DUI components are styled through two complementary layers: CSS custom
         properties for the variant system, and <code>::part()</code> for full
         CSS expressiveness. Together they let you apply any visual effect

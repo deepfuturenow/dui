@@ -1,56 +1,13 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { proseSheet } from "@dui/theme-default/prose";
+import { sectionStyles } from "./docs-section-styles.ts";
 
 @customElement("docs-page-prose")
 export class DocsPageProse extends LitElement {
-  static override styles = [proseSheet, css`
+  static override styles = [proseSheet, sectionStyles, css`
     :host {
       display: block;
-    }
-
-    .title {
-      font-size: var(--font-size-2xl, 1.5rem);
-      font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter, -0.02em);
-      line-height: var(--line-height-tight, 1.25);
-      margin: 0 0 var(--space-2);
-    }
-
-    .description {
-      font-size: var(--font-size-base, 0.9375rem);
-      color: var(--text-2);
-      margin: 0 0 var(--space-8, 2rem);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed, 1.625);
-    }
-
-    .description code {
-      font-family: var(--font-mono);
-      font-size: 0.875em;
-      background: var(--surface-1);
-      padding: 0.15em 0.35em;
-      border-radius: var(--radius-sm);
-    }
-
-    .section-heading {
-      font-size: var(--font-size-lg, 1.125rem);
-      font-weight: 600;
-      letter-spacing: var(--letter-spacing-tight, -0.01em);
-      color: var(--foreground);
-      margin: var(--space-12) 0 var(--space-2);
-    }
-
-    .section-heading:first-of-type {
-      margin-top: 0;
-    }
-
-    .section-description {
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-5);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed, 1.625);
     }
 
     /* ── Demo card ── */
@@ -124,7 +81,7 @@ export class DocsPageProse extends LitElement {
   override render() {
     return html`
       <h1 class="title">Prose</h1>
-      <p class="description">
+      <p class="subtitle">
         The <code>.dui-prose</code> class styles arbitrary HTML content — rendered markdown,
         CMS output, help text, or any block of rich text. It uses DUI design tokens so it
         adapts to light and dark themes automatically.

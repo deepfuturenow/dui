@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
+import { sectionStyles } from "./docs-section-styles.ts";
 
 /**
  * Data from typography.ts typeScale — each step bundles font-size,
@@ -29,63 +30,9 @@ function tokenLabel(varRef: string): string {
 
 @customElement("docs-page-typography")
 export class DocsPageTypography extends LitElement {
-  static override styles = css`
+  static override styles = [sectionStyles, css`
     :host {
       display: block;
-    }
-
-    h1 {
-      font-size: var(--font-size-2xl);
-      font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter);
-      line-height: var(--line-height-tight);
-      margin: 0 0 var(--space-2);
-    }
-
-    .subtitle {
-      font-size: var(--font-size-base);
-      color: var(--text-2);
-      margin: 0 0 var(--space-10);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed);
-    }
-
-    .subtitle code {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-sm);
-      background: var(--surface-2);
-      padding: var(--space-0_5) var(--space-1);
-      border-radius: var(--radius-sm);
-    }
-
-    /* ── Section headings ── */
-
-    .section-heading {
-      font-size: var(--font-size-lg);
-      font-weight: 600;
-      letter-spacing: var(--letter-spacing-tight);
-      color: var(--foreground);
-      margin: var(--space-12) 0 var(--space-2);
-    }
-
-    .section-heading:first-of-type {
-      margin-top: 0;
-    }
-
-    .section-description {
-      font-size: var(--font-size-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-5);
-      max-width: 40rem;
-      line-height: var(--line-height-relaxed);
-    }
-
-    .section-description code {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
-      background: var(--surface-2);
-      padding: var(--space-0_5) var(--space-1);
-      border-radius: var(--radius-sm);
     }
 
     /* ── Type scale cards ── */
@@ -206,11 +153,11 @@ export class DocsPageTypography extends LitElement {
     .code-block .comment {
       color: var(--text-3);
     }
-  `;
+  `];
 
   override render() {
     return html`
-      <h1>Typography</h1>
+      <h1 class="title">Typography</h1>
       <p class="subtitle">
         The type scale bundles <code>font-size</code>,
         <code>letter-spacing</code>, and <code>line-height</code> into

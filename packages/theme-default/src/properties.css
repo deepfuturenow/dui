@@ -29,9 +29,8 @@
  * Button
  * ----------------------------------------------------------- */
 @property --button-bg {
-  syntax: "<color>";
+  syntax: "*";
   inherits: true;
-  initial-value: oklch(0.15 0 0);
 }
 
 @property --button-fg {

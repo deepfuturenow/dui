@@ -11,5 +11,7 @@ export const themedBase = css`
     font-size: inherit;
     letter-spacing: inherit;
     font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 `;

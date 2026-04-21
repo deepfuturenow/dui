@@ -1,27 +1,13 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { componentRegistry } from "../component-registry.ts";
+import { sectionStyles } from "./docs-section-styles.ts";
 
 @customElement("docs-page-components-index")
 export class DocsPageComponentsIndex extends LitElement {
-  static override styles = css`
+  static override styles = [sectionStyles, css`
     :host {
       display: block;
-    }
-
-    h1 {
-      font-size: var(--font-size-2xl, 1.5rem);
-      font-weight: 700;
-      letter-spacing: var(--letter-spacing-tighter, -0.02em);
-      line-height: var(--line-height-tight, 1.25);
-      margin: 0 0 var(--space-2);
-    }
-
-    .subtitle {
-      font-size: var(--font-size-base, 0.9375rem);
-      color: var(--text-2);
-      margin: 0 0 var(--space-8, 2rem);
-      line-height: var(--line-height-relaxed, 1.625);
     }
 
     .grid {
@@ -66,7 +52,7 @@ export class DocsPageComponentsIndex extends LitElement {
       margin: 0;
       line-height: var(--line-height-relaxed, 1.625);
     }
-  `;
+  `];
 
   get #uniqueComponents() {
     return componentRegistry.filter((c) => c.tagName !== "dui-accordion-item");
@@ -74,7 +60,7 @@ export class DocsPageComponentsIndex extends LitElement {
 
   override render() {
     return html`
-      <h1>Components</h1>
+      <h1 class="title">Components</h1>
       <p class="subtitle">Unstyled web components + composable themes. Built with Lit.</p>
 
       <div class="grid">

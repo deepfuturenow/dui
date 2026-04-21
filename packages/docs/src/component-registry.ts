@@ -345,7 +345,7 @@ export const componentRegistry: ComponentMeta[] = [
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
       { name: "appearance", values: '"filled" | "outline" | "ghost" | "link"', description: "Visual treatment" },
-      { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
       { name: "--button-bg", description: "Background (supports gradients, images, and color)" },

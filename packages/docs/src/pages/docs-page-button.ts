@@ -14,8 +14,6 @@ export class DocsPageButton extends LitElement {
           <dui-button>Neutral</dui-button>
           <dui-button variant="primary">Primary</dui-button>
           <dui-button variant="danger">Danger</dui-button>
-          <dui-button variant="success">Success</dui-button>
-          <dui-button variant="warning">Warning</dui-button>
         </docs-row>
       </dui-docs-demo>
 
@@ -38,6 +36,7 @@ export class DocsPageButton extends LitElement {
 
       <dui-docs-demo label="Sizes">
         <docs-row>
+          <dui-button size="xs">Extra Small</dui-button>
           <dui-button size="sm">Small</dui-button>
           <dui-button size="md">Medium</dui-button>
           <dui-button size="lg">Large</dui-button>
