@@ -52,6 +52,7 @@ import "./pages/docs-page-typography.ts";
 import "./pages/docs-page-prose.ts";
 import "./create/docs-page-create.ts";
 import "./pages/docs-page-map.ts";
+import "./pages/docs-page-chart.ts";
 import "./pages/docs-page-feed-item.ts";
 import "./pages/docs-page-section-panel.ts";
 import "./pages/docs-page-page-header.ts";
@@ -72,6 +73,7 @@ import "./pages/docs-page-media-grid.ts";
 import { applyTheme } from "@dui/core/apply-theme";
 import { defaultTheme } from "@dui/theme-default";
 import { mapFamily, mapStyles } from "@dui/map";
+import { chartFamily, chartStyles } from "@dui/chart";
 import { DuiAccordion, DuiAccordionItem } from "@dui/components/accordion";
 import { DuiBadge } from "@dui/components/badge";
 import { DuiButton } from "@dui/components/button";
@@ -123,10 +125,11 @@ import { DuiAvatarRow, DuiMediaGrid } from "@dui/theme-default-templates/media";
 applyTheme({
   theme: {
     ...defaultTheme,
-    styles: new Map([...defaultTheme.styles, ...mapStyles]),
+    styles: new Map([...defaultTheme.styles, ...mapStyles, ...chartStyles]),
   },
   components: [
     ...mapFamily,
+    ...chartFamily,
     DuiAccordion,
     DuiAccordionItem,
     DuiBadge,

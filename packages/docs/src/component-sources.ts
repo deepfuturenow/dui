@@ -1,4 +1,5 @@
 import accordionSrc from "../../components/src/accordion/accordion.ts?raw";
+import chartSrc from "../../chart/src/chart/chart.ts?raw";
 import accordionItemSrc from "../../components/src/accordion/accordion-item.ts?raw";
 import buttonSrc from "../../components/src/button/button.ts?raw";
 import switchSrc from "../../components/src/switch/switch.ts?raw";
@@ -144,4 +145,5 @@ export const componentSources = new Map<string, string>([
   ["dui-menubar", menubarSrc],
   ["dui-calendar", calendarSrc],
   ["dui-card-grid", cardGridSrc],
+  ["dui-chart", chartSrc],
 ]);
