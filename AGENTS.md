@@ -49,6 +49,14 @@ Before taking a screenshot with `chrome_devtools_take_screenshot`, always resize
 chrome_devtools_resize_page → { width: 1280, height: 1000 }
 ```
 
+Always save screenshots to file to avoid Anthropic's multi-image size limits (inline base64 images over 2000px in either dimension cause unrecoverable 400 errors in long conversations):
+
+```
+chrome_devtools_take_screenshot → { filePath: "./screenshots/screenshot.png" }
+```
+
+Then use `read` to view the image if needed.
+
 ## Do NOT
 
 - Do not use `@customElement` decorator — registration is done by `applyTheme`
