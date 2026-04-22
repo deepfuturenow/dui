@@ -583,7 +583,7 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [
       { name: "--scroll-area-max-height", description: "Max-height constraint" },
       { name: "--scroll-area-thumb-color", description: "Scrollbar thumb color" },
-      { name: "--scroll-fade-color", description: "Fade overlay color" },
+      { name: "--scroll-fade-size", description: "Distance over which the top fade goes from transparent to opaque" },
     ],
     cssParts: [
       { name: "viewport", description: "The scrollable viewport" },
@@ -1050,6 +1050,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "value", type: "string", default: '""', description: "Currently selected value" },
       { name: "placeholder", type: "string", default: '"Select..."', description: "Placeholder text when no value is selected" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the select" },
+      { name: "align-item-to-trigger", type: "boolean", default: "true", description: "Position popup so the selected item overlays the trigger (macOS-style)" },
       { name: "name", type: "string", default: '""', description: "Form field name" },
     ],
     events: [
@@ -1447,6 +1448,7 @@ export const componentRegistry: ComponentMeta[] = [
     description: "A button with an attached dropdown menu trigger. The action zone (left) performs a primary action. The menu trigger (right) opens a dropdown of dui-menu-item children for secondary actions.",
     importPath: "@dui/components/split-button",
     properties: [
+      { name: "popup-min-width", type: "string", default: "\"var(--space-28)\"", description: "Sets min-width on the popup panel (e.g. \"200px\")" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable both zones" },
     ],
     events: [
@@ -1466,13 +1468,14 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "soft"', description: "Visual treatment" },
       { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
       { name: "--sb-bg", description: "Background color" },
       { name: "--sb-fg", description: "Text and icon color" },
       { name: "--sb-border", description: "Border color" },
+      { name: "--sb-trigger-bg", description: "Trigger zone background (defaults to --sb-bg)" },
       { name: "--sb-divider", description: "Divider color" },
       { name: "--sb-height", description: "Component height" },
       { name: "--sb-action-padding-y", description: "Action vertical padding" },
@@ -1481,7 +1484,8 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--sb-gap", description: "Gap between icon and label in action zone" },
       { name: "--sb-radius", description: "Border radius" },
       { name: "--sb-font-size", description: "Font size" },
-      { name: "--sb-icon-size", description: "Icon size" },
+      { name: "--sb-icon-size", description: "Action zone icon size" },
+      { name: "--sb-trigger-icon-size", description: "Trigger zone icon size (chevron)" },
     ],
   },
   {
@@ -1494,7 +1498,9 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     events: [],
     slots: [],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--separator-margin", description: "Margin applied on both sides of the separator (block-axis for horizontal, inline-axis for vertical). Defaults to 0." },
+    ],
     cssParts: [
       { name: "root", description: "The separator element" },
     ],

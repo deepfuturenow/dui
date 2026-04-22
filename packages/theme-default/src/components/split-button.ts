@@ -19,19 +19,25 @@ export const splitButtonStyles = css`
   :host([variant="neutral"]) {
     --_intent-base: var(--foreground);
     --_intent-base-fg: var(--background);
+    --_intent-subtle: oklch(from var(--foreground) l c h / 0.08);
     --_intent-subtle-fg: var(--text-1);
+    --_intent-border: var(--border);
   }
 
   :host([variant="primary"]) {
     --_intent-base: var(--accent);
     --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+    --_intent-subtle: var(--accent-subtle);
     --_intent-subtle-fg: var(--accent-text);
+    --_intent-border: oklch(from var(--accent) l c h / 0.5);
   }
 
   :host([variant="danger"]) {
     --_intent-base: var(--destructive);
     --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
+    --_intent-subtle: var(--destructive-subtle);
     --_intent-subtle-fg: var(--destructive-text);
+    --_intent-border: oklch(from var(--destructive) l c h / 0.5);
   }
 
   /* ---------------------------------------------------------------
@@ -61,6 +67,13 @@ export const splitButtonStyles = css`
     --sb-divider: var(--border);
   }
 
+  :host([appearance="soft"]) {
+    --sb-bg: var(--_intent-subtle);
+    --sb-fg: var(--_intent-subtle-fg);
+    --sb-border: transparent;
+    --sb-divider: oklch(from var(--_intent-base) l c h / 0.15);
+  }
+
   /* ---------------------------------------------------------------
    * Sizes
    * --------------------------------------------------------------- */
@@ -74,6 +87,7 @@ export const splitButtonStyles = css`
     --sb-radius: var(--radius-md);
     --sb-font-size: var(--text-sm);
     --sb-icon-size: var(--space-4_5);
+    --sb-trigger-icon-size: var(--space-4);
   }
 
   :host([size="xs"]) {
@@ -84,6 +98,7 @@ export const splitButtonStyles = css`
     --sb-gap: var(--space-1);
     --sb-font-size: var(--text-xs);
     --sb-icon-size: var(--space-3_5);
+    --sb-trigger-icon-size: var(--space-3);
   }
 
   :host([size="sm"]) {
@@ -94,6 +109,7 @@ export const splitButtonStyles = css`
     --sb-gap: var(--space-1);
     --sb-font-size: var(--text-xs);
     --sb-icon-size: var(--space-4);
+    --sb-trigger-icon-size: var(--space-3_5);
   }
 
   :host([size="lg"]) {
@@ -104,6 +120,7 @@ export const splitButtonStyles = css`
     --sb-gap: var(--space-1_5);
     --sb-font-size: var(--text-sm);
     --sb-icon-size: var(--space-4_5);
+    --sb-trigger-icon-size: var(--space-4);
   }
 
   /* ---------------------------------------------------------------
@@ -158,10 +175,11 @@ export const splitButtonStyles = css`
    * --------------------------------------------------------------- */
 
   [part="trigger"] {
-    --icon-size: var(--sb-icon-size);
+    --icon-size: var(--sb-trigger-icon-size);
     --icon-color: var(--sb-fg);
     padding: 0 var(--sb-trigger-padding-x);
     height: 100%;
+    background: var(--sb-trigger-bg, var(--sb-bg));
     color: inherit;
     transition-property: background, filter;
     transition-duration: var(--duration-faster);
@@ -173,29 +191,29 @@ export const splitButtonStyles = css`
    * --------------------------------------------------------------- */
 
   /* Filled hover */
-  :host(:not([appearance="outline"]):not([appearance="ghost"]))
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
     [part="action"]:hover:not(:disabled) {
     filter: brightness(0.88);
   }
 
-  :host(:not([appearance="outline"]):not([appearance="ghost"]))
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
     [part="trigger"]:hover:not(:disabled) {
     filter: brightness(0.88);
   }
 
   /* Filled active */
-  :host(:not([appearance="outline"]):not([appearance="ghost"]))
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
     [part="action"]:active:not(:disabled) {
     filter: brightness(0.80);
   }
 
-  :host(:not([appearance="outline"]):not([appearance="ghost"]))
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
     [part="trigger"]:active:not(:disabled) {
     filter: brightness(0.80);
   }
 
   /* Filled trigger open state */
-  :host(:not([appearance="outline"]):not([appearance="ghost"]))
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
     [part="trigger"][data-open]:not(:disabled) {
     filter: brightness(0.80);
   }
@@ -203,29 +221,52 @@ export const splitButtonStyles = css`
   /* Ghost / outline hover */
   :host([appearance="ghost"]) [part="action"]:hover:not(:disabled),
   :host([appearance="outline"]) [part="action"]:hover:not(:disabled) {
-    background: oklch(from var(--foreground) l c h / 0.05);
+    background: oklch(from var(--_intent-base) l c h / 0.05);
   }
 
   :host([appearance="ghost"]) [part="trigger"]:hover:not(:disabled),
   :host([appearance="outline"]) [part="trigger"]:hover:not(:disabled) {
-    background: oklch(from var(--foreground) l c h / 0.05);
+    background: oklch(from var(--_intent-base) l c h / 0.05);
   }
 
   /* Ghost / outline active */
   :host([appearance="ghost"]) [part="action"]:active:not(:disabled),
   :host([appearance="outline"]) [part="action"]:active:not(:disabled) {
-    background: oklch(from var(--foreground) l c h / 0.10);
+    background: oklch(from var(--_intent-base) l c h / 0.10);
   }
 
   :host([appearance="ghost"]) [part="trigger"]:active:not(:disabled),
   :host([appearance="outline"]) [part="trigger"]:active:not(:disabled) {
-    background: oklch(from var(--foreground) l c h / 0.10);
+    background: oklch(from var(--_intent-base) l c h / 0.10);
   }
 
   /* Ghost / outline trigger open state */
   :host([appearance="ghost"]) [part="trigger"][data-open]:not(:disabled),
   :host([appearance="outline"]) [part="trigger"][data-open]:not(:disabled) {
-    background: oklch(from var(--foreground) l c h / 0.10);
+    background: oklch(from var(--_intent-base) l c h / 0.10);
+  }
+
+  /* Soft hover */
+  :host([appearance="soft"]) [part="action"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.12);
+  }
+
+  :host([appearance="soft"]) [part="trigger"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.12);
+  }
+
+  /* Soft active */
+  :host([appearance="soft"]) [part="action"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
+  }
+
+  :host([appearance="soft"]) [part="trigger"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
+  }
+
+  /* Soft trigger open state */
+  :host([appearance="soft"]) [part="trigger"][data-open]:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
   }
 
   /* Focus visible */

@@ -291,7 +291,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
 - Events: scrolled-to-bottom, scrolled-from-bottom
 - Slots: default (Scrollable content)
-- CSS Variables: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+- CSS Variables: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-size (Distance over which the top fade goes from transparent to opaque)
 - CSS Parts: viewport (The scrollable viewport), scrollbar-vertical (Vertical scrollbar track), scrollbar-horizontal (Horizontal scrollbar track), thumb-vertical (Vertical scrollbar thumb), thumb-horizontal (Horizontal scrollbar thumb)
 
 ### Slider
@@ -465,7 +465,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-select>`
 - Import: `@dui/components/select`
 - Description: A dropdown select for choosing from a list of predefined options.
-- Properties: options (SelectOption[], []), value (string, ""), placeholder (string, "Select..."), disabled (boolean, false), name (string, "")
+- Properties: options (SelectOption[], []), value (string, ""), placeholder (string, "Select..."), disabled (boolean, false), align-item-to-trigger (boolean, true), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption })
 - CSS Parts: trigger (The select trigger button), value (The selected value display)
 
@@ -655,7 +655,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Tag: `<dui-split-button>`
 - Import: `@dui/components/split-button`
 - Description: A button with an attached dropdown menu trigger. The action zone (left) performs a primary action. The menu trigger (right) opens a dropdown of dui-menu-item children for secondary actions.
-- Properties: disabled (boolean, false)
+- Properties: popup-min-width (string, "var(--space-28)"), disabled (boolean, false)
 - Events: dui-action ({})
 - Slots: default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
 - CSS Parts: root (The outer container wrapping both zones), action (The left action button), divider (The vertical separator between zones), trigger (The right dropdown trigger button)
@@ -666,6 +666,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: A visual divider between content sections. Supports horizontal and vertical orientation.
 - Properties: orientation ("horizontal" | "vertical", "horizontal")
 - Events: none
+- CSS Variables: --separator-margin (Margin applied on both sides of the separator (block-axis for horizontal, inline-axis for vertical). Defaults to 0.)
 - CSS Parts: root (The separator element)
 
 ### Progress

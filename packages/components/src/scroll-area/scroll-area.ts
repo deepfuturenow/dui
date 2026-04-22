@@ -40,14 +40,9 @@ const styles = css`
     }
   }
 
-  .ScrollFade {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    pointer-events: none;
-    z-index: 1;
+  :host([fade]) .Viewport[data-scrolled] {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black var(--scroll-fade-size, 1.5rem));
+    mask-image: linear-gradient(to bottom, transparent, black var(--scroll-fade-size, 1.5rem));
   }
 
   .Scrollbar {
@@ -121,7 +116,7 @@ type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
  *
  * @cssprop [--scroll-area-max-height] - Max-height constraint.
  * @cssprop [--scroll-area-thumb-color] - Scrollbar thumb color.
- * @cssprop [--scroll-fade-color] - Fade overlay color.
+ * @cssprop [--scroll-fade-size] - Distance over which the top fade goes from transparent to opaque (default: 1.5rem).
  */
 export class DuiScrollArea extends LitElement {
   static tagName = "dui-scroll-area" as const;
@@ -492,13 +487,7 @@ export class DuiScrollArea extends LitElement {
         ?data-has-overflow-y="${this.#hasOverflowY}"
         ?data-scrolling="${this.#scrolling}"
       >
-        ${this.fade
-          ? html`<div
-              class="ScrollFade"
-              ?data-scrolled="${!this.#isAtTop}"
-            ></div>`
-          : nothing}
-        <div class="Viewport" part="viewport" @scroll="${this.#onScroll}">
+        <div class="Viewport" part="viewport" ?data-scrolled="${!this.#isAtTop}" @scroll="${this.#onScroll}">
           <slot></slot>
         </div>
         ${this.#renderVerticalScrollbar()} ${this.#renderHorizontalScrollbar()}

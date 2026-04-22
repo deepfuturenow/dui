@@ -27,10 +27,6 @@ export class BlockTraffic extends LitElement {
       --card-action-offset-end: 0;
     }
 
-    dui-chart {
-      margin-bottom: var(--space-3);
-    }
-
     /* Footer */
 
     .stats {

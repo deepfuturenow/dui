@@ -112,6 +112,10 @@ export class DuiSplitButton extends LitElement {
   @property({ reflect: true })
   accessor size: string = "";
 
+  /** Sets `min-width` on the popup panel (e.g. `"200px"`). Defaults to `"var(--space-28)"`. */
+  @property({ attribute: "popup-min-width" })
+  accessor popupMinWidth: string = "var(--space-28)";
+
   /** Whether the entire split button is disabled. */
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;
@@ -137,6 +141,7 @@ export class DuiSplitButton extends LitElement {
     renderPopup: (portal) => html`
       <div
         class="Popup"
+        style="${this.popupMinWidth ? `min-width:${this.popupMinWidth}` : ""}"
         ?data-starting-style="${portal.isStarting}"
         ?data-ending-style="${portal.isEnding}"
       >

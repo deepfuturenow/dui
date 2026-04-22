@@ -11,6 +11,7 @@ const styles = css`
   :host([orientation="vertical"]) {
     display: inline-block;
     align-self: stretch;
+    height: 100%;
   }
 
   [part="root"] {

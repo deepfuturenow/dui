@@ -12,7 +12,7 @@ export const selectStyles = css`
     font-family: var(--font-sans);
     font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     transition-property: border-color, box-shadow, background, filter, transform;
-    transition-duration: var(--duration-fast);
+    transition-duration: var(--duration-fastest);
   }
 
   .Trigger:focus {
@@ -75,6 +75,19 @@ export const selectStyles = css`
   .Popup[data-starting-style],
   .Popup[data-ending-style] {
     transform: translateY(calc(var(--space-1) * -1));
+  }
+
+  /* When inner-aligned (macOS-style), appear/disappear instantly.
+     transition: none  — prevents the 200ms onTransitionEnd fallback delay.
+     transform: none   — prevents translateY flash and getBoundingClientRect distortion.
+     Structural opacity:0 on starting/ending-style hides the popup immediately on close. */
+  .Popup[data-align-inner] {
+    transition: none;
+  }
+
+  .Popup[data-align-inner][data-starting-style],
+  .Popup[data-align-inner][data-ending-style] {
+    transform: none;
   }
 
   .Listbox {

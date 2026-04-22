@@ -138,6 +138,10 @@ export class DuiSelect extends LitElement {
   @property({ type: Boolean, reflect: true })
   accessor disabled = false;
 
+  /** Position the popup so the selected item overlays the trigger (macOS-style). */
+  @property({ type: Boolean, attribute: "align-item-to-trigger", reflect: true })
+  accessor alignItemToTrigger = true;
+
   /** Name for form submission. */
   @property({ type: String })
   accessor name = "";
@@ -154,6 +158,16 @@ export class DuiSelect extends LitElement {
     matchWidth: false,
     minMatchWidth: true,
     styles: portalPopupStyles,
+    alignToInner: (): HTMLElement | null => {
+      if (!this.alignItemToTrigger) return null;
+      const root = this.#popup.renderRoot as ShadowRoot | HTMLDivElement | null;
+      const selectedItem = root?.querySelector<HTMLElement>("[data-selected]");
+      return selectedItem?.querySelector<HTMLElement>(".ItemText") ?? selectedItem ?? null;
+    },
+    alignToInnerReference: (): HTMLElement | null => {
+      if (!this.alignItemToTrigger) return null;
+      return this.shadowRoot?.querySelector<HTMLElement>(".Value") ?? null;
+    },
     onOpen: () => {
       this.#highlightedIndex = this.#selectedIndex;
     },
@@ -164,6 +178,7 @@ export class DuiSelect extends LitElement {
       return html`
         <div
           class="Popup"
+          ?data-align-inner="${this.alignItemToTrigger && this.value !== ""}"
           ?data-starting-style="${portal.isStarting}"
           ?data-ending-style="${portal.isEnding}"
         >

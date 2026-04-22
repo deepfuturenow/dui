@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const tooltipPopupStyles = css`
   .Popup {
-    padding: var(--space-0_5) var(--space-1_5);
+    padding: var(--space-2) var(--space-2);
     border-radius: var(--radius-sm);
     background: color-mix(
       in oklch,
