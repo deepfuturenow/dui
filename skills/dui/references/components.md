@@ -19,11 +19,11 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Tokens:** `--button-bg`, `--button-fg`, `--button-border`, `--button-height`, `--button-width`, `--button-padding-y`, `--button-padding-x`, `--button-gap`, `--button-radius`, `--button-font-size`, `--button-icon-size`
 
 ### dui-split-button
-**Properties:** `disabled` (boolean), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost"), `size` ("xs" | "sm" | "md" | "lg")
+**Properties:** `popup-min-width` (string), `disabled` (boolean), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost" | "soft"), `size` ("xs" | "sm" | "md" | "lg")
 **Events:** `dui-action` ({})
 **Slots:** default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
 **Parts:** `root`, `action`, `divider`, `trigger`
-**Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`
+**Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-trigger-bg`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`, `--sb-trigger-icon-size`
 
 ### dui-toggle
 **Properties:** `pressed` (boolean | undefined), `defaultPressed` (boolean), `disabled` (boolean), `value` (string | undefined), `size` ("sm" | "md" | "lg")
@@ -70,7 +70,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Parts:** `textarea`
 
 ### dui-select
-**Properties:** `options` (SelectOption[]), `value` (string), `placeholder` (string), `disabled` (boolean), `name` (string)
+**Properties:** `options` (SelectOption[]), `value` (string), `placeholder` (string), `disabled` (boolean), `align-item-to-trigger` (boolean), `name` (string)
 **Events:** `value-change` ({ value: string; option: SelectOption })
 **Slots:** —
 **Parts:** `trigger`, `value`
@@ -179,6 +179,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Properties:** `orientation` ("horizontal" | "vertical")
 **Slots:** —
 **Parts:** `root`
+**Tokens:** `--separator-margin`
 
 ### dui-trunc
 **Properties:** `maxWidth` (string), `maxLines` (number | undefined)
@@ -225,7 +226,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Sub-elements:** `dui-tooltip-popup` — `showArrow` (boolean); Slots: default (Tooltip content); Parts: `root`
 
 ### dui-menu
-**Properties:** —
+**Properties:** `popup-min-width` (string)
 **Slots:** trigger (The element that opens the menu on click), default (dui-menu-item children)
 **Parts:** `root`
 **Sub-elements:** `dui-menu-item` — `disabled` (boolean), `variant` ("default" | "danger"); Slots: default (Item content); Parts: `root`

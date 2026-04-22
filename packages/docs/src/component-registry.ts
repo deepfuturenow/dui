@@ -583,7 +583,7 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [
       { name: "--scroll-area-max-height", description: "Max-height constraint" },
       { name: "--scroll-area-thumb-color", description: "Scrollbar thumb color" },
-      { name: "--scroll-fade-color", description: "Fade overlay color" },
+      { name: "--scroll-fade-size", description: "Distance over which the top fade goes from transparent to opaque" },
     ],
     cssParts: [
       { name: "viewport", description: "The scrollable viewport" },
@@ -1496,7 +1496,9 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     events: [],
     slots: [],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--separator-margin", description: "Margin applied on both sides of the separator (block-axis for horizontal, inline-axis for vertical). Defaults to 0." },
+    ],
     cssParts: [
       { name: "root", description: "The separator element" },
     ],

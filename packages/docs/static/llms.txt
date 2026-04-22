@@ -291,7 +291,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: orientation (string, "vertical"), fade (boolean, false), maxHeight (string | undefined)
 - Events: scrolled-to-bottom, scrolled-from-bottom
 - Slots: default (Scrollable content)
-- CSS Variables: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-color (Fade overlay color)
+- CSS Variables: --scroll-area-max-height (Max-height constraint), --scroll-area-thumb-color (Scrollbar thumb color), --scroll-fade-size (Distance over which the top fade goes from transparent to opaque)
 - CSS Parts: viewport (The scrollable viewport), scrollbar-vertical (Vertical scrollbar track), scrollbar-horizontal (Horizontal scrollbar track), thumb-vertical (Vertical scrollbar thumb), thumb-horizontal (Horizontal scrollbar thumb)
 
 ### Slider
@@ -665,6 +665,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: A visual divider between content sections. Supports horizontal and vertical orientation.
 - Properties: orientation ("horizontal" | "vertical", "horizontal")
 - Events: none
+- CSS Variables: --separator-margin (Margin applied on both sides of the separator (block-axis for horizontal, inline-axis for vertical). Defaults to 0.)
 - CSS Parts: root (The separator element)
 
 ### Progress
