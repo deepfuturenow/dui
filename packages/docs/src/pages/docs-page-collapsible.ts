@@ -9,7 +9,7 @@ export class DocsPageCollapsible extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-collapsible">
-        <dui-docs-demo label="Default (closed)" demo-width="26rem">
+        <dui-docs-demo label="Default (closed)" demo-width="25rem">
         <dui-collapsible>
           <span slot="trigger">Click to expand</span>
           This content is revealed when the collapsible is opened. It animates
