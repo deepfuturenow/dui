@@ -135,8 +135,11 @@ export const alignInner = (options: AlignInnerOptions): Middleware => ({
 
     y = clampedY;
 
-    // X stays at the reference's left edge (start-aligned)
-    const x = rects.reference.x;
+    // Align X so inner text left edge matches reference text left edge
+    const innerLeftOffset = innerRect.left - floatingRect.left;
+    const x = refInnerEl
+      ? refInnerEl.getBoundingClientRect().left - innerLeftOffset
+      : rects.reference.x;
 
     return { x, y, reset: false };
   },
