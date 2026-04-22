@@ -77,10 +77,15 @@ export const selectStyles = css`
     transform: translateY(calc(var(--space-1) * -1));
   }
 
-  /* When inner-aligned (macOS-style), skip transform — it distorts
-     getBoundingClientRect during the opening frame and shifts alignment. */
+  /* When inner-aligned (macOS-style), appear instantly — no transform
+     (distorts getBoundingClientRect) and no opacity fade. */
+  .Popup[data-align-inner] {
+    transition: none;
+  }
+
   .Popup[data-align-inner][data-starting-style],
   .Popup[data-align-inner][data-ending-style] {
+    opacity: 1;
     transform: none;
   }
 
