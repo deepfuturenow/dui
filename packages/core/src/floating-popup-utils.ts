@@ -73,6 +73,13 @@ const fixedPlatform = {
 export type AlignInnerOptions = {
   /** Returns the inner element to align with the reference. null = use normal positioning. */
   getElement: () => HTMLElement | null;
+  /**
+   * Returns a sub-element inside the reference to align against.
+   * When set, the middleware aligns the vertical center of `getElement()`
+   * with this element's vertical center instead of the full reference rect.
+   * Use this to align text-to-text (e.g. `.ItemText` ↔ `.Value`).
+   */
+  getReferenceInner?: () => HTMLElement | null;
   /** Minimum px from viewport edge. Default: 8. */
   padding?: number;
 };
@@ -102,9 +109,13 @@ export const alignInner = (options: AlignInnerOptions): Middleware => ({
     const innerOffsetY = (innerRect.top - floatingRect.top)
       + innerRect.height / 2;
 
-    // Desired Y: place floating so inner element center aligns with
-    // reference center
-    const refCenterY = rects.reference.y + rects.reference.height / 2;
+    // Determine the target Y center to align against. If a reference inner
+    // element is provided, use its center (text-to-text alignment).
+    // Otherwise fall back to the full reference rect center.
+    const refInnerEl = options.getReferenceInner?.();
+    const refCenterY = refInnerEl
+      ? refInnerEl.getBoundingClientRect().top + refInnerEl.getBoundingClientRect().height / 2
+      : rects.reference.y + rects.reference.height / 2;
     let y = refCenterY - innerOffsetY;
 
     // Clamp to viewport

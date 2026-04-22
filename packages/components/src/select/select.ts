@@ -161,7 +161,12 @@ export class DuiSelect extends LitElement {
     alignToInner: (): HTMLElement | null => {
       if (!this.alignItemToTrigger) return null;
       const root = this.#popup.renderRoot as ShadowRoot | HTMLDivElement | null;
-      return root?.querySelector<HTMLElement>("[data-selected]") ?? null;
+      const selectedItem = root?.querySelector<HTMLElement>("[data-selected]");
+      return selectedItem?.querySelector<HTMLElement>(".ItemText") ?? selectedItem ?? null;
+    },
+    alignToInnerReference: (): HTMLElement | null => {
+      if (!this.alignItemToTrigger) return null;
+      return this.shadowRoot?.querySelector<HTMLElement>(".Value") ?? null;
     },
     onOpen: () => {
       this.#highlightedIndex = this.#selectedIndex;

@@ -74,6 +74,12 @@ export type FloatingPortalControllerOptions = {
    * positioning when the callback returns null.
    */
   alignToInner?: () => HTMLElement | null;
+  /**
+   * Returns a sub-element inside the anchor to align against (e.g. the
+   * text span). When set, inner alignment targets this element's vertical
+   * center instead of the full anchor rect.
+   */
+  alignToInnerReference?: () => HTMLElement | null;
 };
 
 export class FloatingPortalController implements ReactiveController {
@@ -96,6 +102,7 @@ export class FloatingPortalController implements ReactiveController {
   #contentSelector?: string;
   #getOverlayRoot: () => HTMLElement;
   #alignToInner?: () => HTMLElement | null;
+  #alignToInnerReference?: () => HTMLElement | null;
   #movedNodes: Node[] = [];
 
   #positioner: HTMLDivElement | null = null;
@@ -153,6 +160,7 @@ export class FloatingPortalController implements ReactiveController {
     this.#contentSelector = options.contentSelector;
     this.#getOverlayRoot = options.getOverlayRoot ?? (() => document.body);
     this.#alignToInner = options.alignToInner;
+    this.#alignToInnerReference = options.alignToInnerReference;
     host.addController(this);
   }
 
@@ -309,7 +317,10 @@ export class FloatingPortalController implements ReactiveController {
       minMatchWidth: this.#minMatchWidth,
       onPosition: this.#onPosition,
       alignToInner: this.#alignToInner
-        ? { getElement: this.#alignToInner }
+        ? {
+            getElement: this.#alignToInner,
+            getReferenceInner: this.#alignToInnerReference,
+          }
         : undefined,
     });
   }
