@@ -46,15 +46,15 @@ export class DocsPageCombobox extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-combobox">
-        <dui-docs-demo label="Single select">
+        <dui-docs-demo label="Single select" demo-width="var(--space-60)">
         <dui-combobox id="combo-single" placeholder="Select a framework..."></dui-combobox>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Multi select">
+      <dui-docs-demo label="Multi select" demo-width="var(--space-60)">
         <dui-combobox id="combo-multi" multiple placeholder="Select languages..."></dui-combobox>
       </dui-docs-demo>
 
-      <dui-docs-demo label="Disabled">
+      <dui-docs-demo label="Disabled" demo-width="var(--space-60)">
         <dui-combobox id="combo-disabled" disabled placeholder="Disabled..."></dui-combobox>
       </dui-docs-demo>
       </docs-page-layout>
