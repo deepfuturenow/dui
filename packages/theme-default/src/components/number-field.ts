@@ -222,6 +222,7 @@ export const numberFieldStyles = css`
   [part="input"] {
     text-align: var(--number-field-value-align);
     padding: 0 var(--space-2);
+    font-weight: var(--font-weight-medium);
   }
 
   :host([disabled]) {

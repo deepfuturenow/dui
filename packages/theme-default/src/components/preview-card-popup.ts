@@ -7,11 +7,12 @@ export const previewCardPopupStyles = css`
     background: var(--surface-3);
     color: var(--text-1);
     font-family: var(--font-sans);
-    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     box-shadow: var(--shadow-lg);
     border: var(--border-width-thin) solid var(--border);
     max-width: var(--max-width, var(--space-80));
-    transition-duration: var(--duration-fast);
+    transition-duration: var(--duration-faster);
     transition-timing-function: var(--ease-out-3);
   }
 
