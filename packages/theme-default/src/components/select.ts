@@ -12,7 +12,7 @@ export const selectStyles = css`
     font-family: var(--font-sans);
     font-size: var(--text-sm); line-height: var(--text-sm--line-height);
     transition-property: border-color, box-shadow, background, filter, transform;
-    transition-duration: var(--duration-fast);
+    transition-duration: var(--duration-fastest);
   }
 
   .Trigger:focus {

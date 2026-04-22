@@ -101,39 +101,6 @@ export class DocsPageSelect extends LitElement {
         </dui-docs-demo>
 
         <dui-docs-demo
-          label="Align item to trigger (default)"
-          description="The popup positions itself so the selected item overlays the trigger, macOS-style."
-          demo-width="var(--space-64)"
-        >
-          <docs-row>
-            <div>
-              <div
-                style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);"
-              >
-                Middle item
-              </div>
-              <dui-select id="select-align-long" value="honeydew"></dui-select>
-            </div>
-            <div>
-              <div
-                style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);"
-              >
-                First item
-              </div>
-              <dui-select id="select-align-first" value="apple"></dui-select>
-            </div>
-            <div>
-              <div
-                style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);"
-              >
-                Last item
-              </div>
-              <dui-select id="select-align-last" value="quince"></dui-select>
-            </div>
-          </docs-row>
-        </dui-docs-demo>
-
-        <dui-docs-demo
           label="Standard dropdown (no alignment)"
           description='Set align-item-to-trigger="false" for traditional dropdown positioning.'
           demo-width="var(--space-64)"
