@@ -1445,6 +1445,7 @@ export const componentRegistry: ComponentMeta[] = [
     description: "A button with an attached dropdown menu trigger. The action zone (left) performs a primary action. The menu trigger (right) opens a dropdown of dui-menu-item children for secondary actions.",
     importPath: "@dui/components/split-button",
     properties: [
+      { name: "popup-min-width", type: "string", default: "\"var(--space-28)\"", description: "Sets min-width on the popup panel (e.g. \"200px\")" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable both zones" },
     ],
     events: [
@@ -1464,13 +1465,14 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "soft"', description: "Visual treatment" },
       { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
       { name: "--sb-bg", description: "Background color" },
       { name: "--sb-fg", description: "Text and icon color" },
       { name: "--sb-border", description: "Border color" },
+      { name: "--sb-trigger-bg", description: "Trigger zone background (defaults to --sb-bg)" },
       { name: "--sb-divider", description: "Divider color" },
       { name: "--sb-height", description: "Component height" },
       { name: "--sb-action-padding-y", description: "Action vertical padding" },
@@ -1479,7 +1481,8 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--sb-gap", description: "Gap between icon and label in action zone" },
       { name: "--sb-radius", description: "Border radius" },
       { name: "--sb-font-size", description: "Font size" },
-      { name: "--sb-icon-size", description: "Icon size" },
+      { name: "--sb-icon-size", description: "Action zone icon size" },
+      { name: "--sb-trigger-icon-size", description: "Trigger zone icon size (chevron)" },
     ],
   },
   {
