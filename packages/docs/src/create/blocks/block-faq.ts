@@ -1,39 +1,46 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
+import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
 @customElement("block-faq")
 export class BlockFaq extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, blockBase, css`
     :host {
-      padding: var(--space-6);
+      padding: var(--space-6) var(--space-5) var(--space-5);
     }
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0 0 var(--space-1);
+    .header {
+      position: relative;
+      margin-bottom: var(--space-5);
+    }
+
+    .header h3 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
+      margin: 0;
     }
 
     .subtitle {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
-      margin: 0 0 var(--space-4);
+      margin: var(--space-3) 0 0;
     }
 
     .answer {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
-      line-height: 1.5;
+      line-height: var(--line-height-normal);
     }
   `];
 
   override render() {
     return html`
-      <p class="title">Montréal FAQ</p>
-      <p class="subtitle">Common questions about the city</p>
+      <div class="header">
+        <h3>Montréal FAQ</h3>
+        <p class="subtitle">Common questions about the city</p>
+      </div>
 
-      <dui-accordion default-value='["q1"]'>
+      <dui-accordion default-value='["q3"]'>
         <dui-accordion-item value="q1">
           <span slot="trigger">What languages are spoken?</span>
           <span class="answer">French is the official language and spoken by the majority of residents. English is widely understood, and you'll hear dozens of other languages — Montréal is one of the most multilingual cities in North America.</span>

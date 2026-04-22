@@ -1,12 +1,10 @@
 /** Ported from original DUI: deep-future-app/app/client/components/dui/radio */
 
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ContextConsumer } from "@lit/context";
-import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { radioGroupContext } from "./radio-group-context.ts";
-import { type FieldContext, fieldContext } from "@dui/components/field";
 
 /** Structural styles only — layout CSS. */
 const styles = css`
@@ -30,6 +28,7 @@ const styles = css`
     padding: 0;
     margin: 0;
     border: none;
+    user-select: none;
   }
 
   [part="root"][data-disabled] {
@@ -52,14 +51,6 @@ const styles = css`
     display: none;
   }
 
-  .hidden-input {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    margin: 0;
-    width: 0;
-    height: 0;
-  }
 `;
 
 /**
@@ -75,8 +66,16 @@ const styles = css`
  */
 export class DuiRadio extends LitElement {
   static tagName = "dui-radio" as const;
+  static formAssociated = true;
 
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** The value attribute for this radio option. */
   @property()
@@ -95,10 +94,6 @@ export class DuiRadio extends LitElement {
     subscribe: true,
   });
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   get #isChecked(): boolean {
     return this.#groupCtx.value?.value === this.value;
   }
@@ -106,8 +101,7 @@ export class DuiRadio extends LitElement {
   get #isDisabled(): boolean {
     return (
       this.disabled ||
-      (this.#groupCtx.value?.disabled ?? false) ||
-      (this._fieldCtx?.disabled ?? false)
+      (this.#groupCtx.value?.disabled ?? false)
     );
   }
 
@@ -119,13 +113,21 @@ export class DuiRadio extends LitElement {
     return this.#groupCtx.value?.required ?? false;
   }
 
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
-  }
-
   override connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener("click", this.#handleHostClick);
+  }
+
+  override willUpdate(): void {
+    this.#syncFormValue();
+  }
+
+  #syncFormValue(): void {
+    if (this.#isChecked) {
+      this.#internals.setFormValue(this.value);
+    } else {
+      this.#internals.setFormValue(null);
+    }
   }
 
   override disconnectedCallback(): void {
@@ -144,8 +146,6 @@ export class DuiRadio extends LitElement {
     const ctx = this.#groupCtx.value;
     if (ctx) {
       ctx.select(this.value);
-      this._fieldCtx?.markDirty();
-      this._fieldCtx?.markTouched();
     }
   };
 
@@ -161,26 +161,21 @@ export class DuiRadio extends LitElement {
     const isDisabled = this.#isDisabled;
     const isReadOnly = this.#isReadOnly;
     const isRequired = this.#isRequired;
-    const isInvalid = this.#isInvalid;
-    const controlId = this._fieldCtx?.controlId ?? "";
 
     return html`
       <span
         part="root"
         role="radio"
-        id="${controlId || nothing}"
         aria-checked="${String(isChecked)}"
         aria-disabled="${isDisabled ? "true" : nothing}"
         aria-readonly="${isReadOnly ? "true" : nothing}"
         aria-required="${isRequired ? "true" : nothing}"
-        aria-invalid="${isInvalid ? "true" : nothing}"
         tabindex="${isDisabled ? nothing : "0"}"
         ?data-checked="${isChecked}"
         ?data-unchecked="${!isChecked}"
         ?data-disabled="${isDisabled}"
         ?data-readonly="${isReadOnly}"
         ?data-required="${isRequired}"
-        ?data-invalid="${isInvalid}"
         @click="${this.#handleClick}"
         @keydown="${this.#handleKeyDown}"
       >
@@ -191,17 +186,6 @@ export class DuiRadio extends LitElement {
         >
           ${isChecked ? html`<span part="dot"></span>` : nothing}
         </span>
-        <input
-          type="radio"
-          name="${this.#groupCtx.value?.name ?? nothing}"
-          value="${this.value}"
-          .checked="${isChecked}"
-          ?disabled="${isDisabled}"
-          ?required="${isRequired}"
-          class="hidden-input"
-          aria-hidden="true"
-          tabindex="-1"
-        />
       </span>
       <slot></slot>
     `;

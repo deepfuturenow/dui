@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const tooltipPopupStyles = css`
   .Popup {
@@ -13,7 +12,8 @@ export const tooltipPopupStyles = css`
     backdrop-filter: var(--filter-blur-sm);
     color: var(--background);
     font-family: var(--font-sans);
-    ${type("xs", { lineHeight: "var(--line-height-snug)" })}
+    font-size: var(--text-xs); line-height: var(--text-xs--line-height);
+    text-box: trim-both cap alphabetic;
     box-shadow: var(--shadow-sm);
     max-width: var(--space-80);
     transition-duration: var(--duration-fastest);

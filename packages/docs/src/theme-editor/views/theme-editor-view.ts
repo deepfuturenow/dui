@@ -141,13 +141,13 @@ export class ThemeEditorViewElement extends LitElement {
       }
 
       .sidebar-title {
-        font-size: var(--font-size-md);
+        font-size: var(--text-base);
         font-weight: var(--font-weight-bold);
         margin: 0;
       }
 
       dui-select {
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
       }
 
       .sidebar-scroll {
@@ -186,7 +186,7 @@ export class ThemeEditorViewElement extends LitElement {
         --button-height: auto;
         --button-padding-y: var(--space-1);
         --button-padding-x: var(--space-2_5);
-        --button-font-size: var(--font-size-xs);
+        --button-font-size: var(--text-xs);
       }
 
       /* ---- Collapsible category sections ---- */
@@ -196,7 +196,7 @@ export class ThemeEditorViewElement extends LitElement {
 
       /* ---- Sub-group label ---- */
       .color-subgroup-label {
-        font-size: var(--font-size-xs);
+        font-size: var(--text-xs);
         font-weight: var(--font-weight-semibold);
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -244,7 +244,7 @@ export class ThemeEditorViewElement extends LitElement {
         color: var(--background);
         padding: var(--space-2) var(--space-4);
         border-radius: var(--radius-md);
-        font-size: var(--font-size-sm);
+        font-size: var(--text-sm);
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.2s ease;

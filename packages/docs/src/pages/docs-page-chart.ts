@@ -118,19 +118,19 @@ export class DocsPageChart extends LitElement {
       padding: var(--space-3) var(--space-4);
     }
     .sparkline-card .label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-3);
       margin-bottom: var(--space-1);
     }
     .sparkline-card .value {
-      font-size: var(--font-size-xl);
+      font-size: var(--text-xl);
       font-weight: var(--font-weight-semibold);
       color: var(--text-1);
       margin-bottom: var(--space-2);
     }
     .event-log {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       background: var(--surface-1);
       border: var(--border-width-thin) solid var(--border);
@@ -147,20 +147,20 @@ export class DocsPageChart extends LitElement {
       border-top: var(--border-width-medium, 2px) solid var(--border);
     }
     .chart-guide-section h2 {
-      font-size: var(--font-size-xl, 1.25rem);
+      font-size: var(--text-xl, 1.25rem);
       font-weight: 700;
       letter-spacing: var(--letter-spacing-tight, -0.01em);
       color: var(--foreground);
       margin: 0 0 var(--space-2);
     }
     .chart-guide-section h3 {
-      font-size: var(--font-size-base, 0.9375rem);
+      font-size: var(--text-base, 0.9375rem);
       font-weight: 600;
       color: var(--foreground);
       margin: var(--space-8) 0 var(--space-2);
     }
     .chart-guide-section p {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--text-2);
       line-height: var(--line-height-relaxed, 1.625);
       margin: 0 0 var(--space-4);
@@ -177,14 +177,14 @@ export class DocsPageChart extends LitElement {
     .chart-token-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       margin-bottom: var(--space-4);
     }
     .chart-token-table th {
       text-align: left;
       font-weight: 600;
       color: var(--text-2);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding: var(--space-2) var(--space-3) var(--space-2) 0;
@@ -197,7 +197,7 @@ export class DocsPageChart extends LitElement {
     }
     .chart-token-table code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       background: var(--surface-1);
       padding: 1px 5px;
       border-radius: var(--radius-sm);
@@ -205,14 +205,14 @@ export class DocsPageChart extends LitElement {
     .chart-aria-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       margin-bottom: var(--space-4);
     }
     .chart-aria-table th {
       text-align: left;
       font-weight: 600;
       color: var(--text-2);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding: var(--space-2) var(--space-3) var(--space-2) 0;
@@ -225,7 +225,7 @@ export class DocsPageChart extends LitElement {
     }
     .chart-aria-table code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       background: var(--surface-1);
       padding: 1px 5px;
       border-radius: var(--radius-sm);
@@ -746,7 +746,7 @@ export class DocsPageChart extends LitElement {
               </tr>
               <tr>
                 <td><code>--chart-font-size</code></td>
-                <td><code>var(--font-size-xs)</code></td>
+                <td><code>var(--text-xs)</code></td>
                 <td>Tick label size</td>
               </tr>
             </tbody>

@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-All 55 component families, 100+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
+All 57 component families, 102+ elements. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 When the inspector is available, prefer `__dui_inspect().catalog` for the ground-truth property schemas — this file is a static snapshot.
 
@@ -12,7 +12,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ## Actions
 
 ### dui-button
-**Properties:** `disabled` (boolean), `focusableWhenDisabled` (boolean), `type` (string), `href` (string | undefined), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost" | "link"), `size` ("sm" | "md" | "lg")
+**Properties:** `disabled` (boolean), `focusableWhenDisabled` (boolean), `type` (string), `href` (string | undefined), `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost" | "soft" | "link"), `size` ("sm" | "md" | "lg")
 **Events:** `dui-navigate` ({ href: string })
 **Slots:** default (Button label content)
 **Parts:** `root`
@@ -24,12 +24,6 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
 **Parts:** `root`, `action`, `divider`, `trigger`
 **Tokens:** `--sb-bg`, `--sb-fg`, `--sb-border`, `--sb-divider`, `--sb-height`, `--sb-action-padding-y`, `--sb-action-padding-x`, `--sb-trigger-padding-x`, `--sb-gap`, `--sb-radius`, `--sb-font-size`, `--sb-icon-size`
-
-### dui-link
-**Properties:** `href` (string)
-**Events:** `spa-navigate` ({ href: string })
-**Slots:** default (Link content)
-**Parts:** `root`
 
 ### dui-toggle
 **Properties:** `pressed` (boolean | undefined), `defaultPressed` (boolean), `disabled` (boolean), `value` (string | undefined), `size` ("sm" | "md" | "lg")
@@ -52,6 +46,16 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ---
 
 ## Forms
+
+### dui-field
+**Properties:** `disabled` (boolean), `invalid` (boolean), `orientation` ("vertical" | "horizontal")
+**Slots:** label (Label text (e.g. <span slot="label">Email</span>)), default (The form control), description (Help text (e.g. <span slot="description">…</span>)), error (Error message (e.g. <span slot="error">Required</span>))
+**Parts:** `root`, `label`, `description`, `error`
+
+### dui-fieldset
+**Properties:** `disabled` (boolean)
+**Slots:** legend (Legend text (e.g. <span slot="legend">Personal Info</span>)), default (Field children)
+**Parts:** `root`, `legend`
 
 ### dui-input
 **Properties:** `type` (string), `value` (string), `placeholder` (string), `disabled` (boolean), `required` (boolean), `readonly` (boolean), `minLength` (number | undefined), `maxLength` (number | undefined), `pattern` (string | undefined), `name` (string), `autocomplete` (string | undefined), `autofocus` (boolean)
@@ -135,7 +139,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 ## Data Display
 
 ### dui-badge
-**Properties:** `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "ghost")
+**Properties:** `variant` ("neutral" | "primary" | "danger"), `appearance` ("filled" | "outline" | "soft")
 **Slots:** default (Badge content)
 **Parts:** `root`
 **Tokens:** `--badge-bg`, `--badge-fg`, `--badge-border`, `--badge-icon-size`
@@ -221,7 +225,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Sub-elements:** `dui-tooltip-popup` — `showArrow` (boolean); Slots: default (Tooltip content); Parts: `root`
 
 ### dui-menu
-**Properties:** —
+**Properties:** `popup-min-width` (string)
 **Slots:** trigger (The element that opens the menu on click), default (dui-menu-item children)
 **Parts:** `root`
 **Sub-elements:** `dui-menu-item` — `disabled` (boolean), `variant` ("default" | "danger"); Slots: default (Item content); Parts: `root`
@@ -237,7 +241,7 @@ When the inspector is available, prefer `__dui_inspect().catalog` for the ground
 **Slots:** default (dui-preview-card-trigger and dui-preview-card-popup)
 **Parts:** `root`
 **Sub-elements:** `dui-preview-card-trigger`; Slots: default (Content that triggers the preview card (e.g. a link)); Parts: `root`
-**Sub-elements:** `dui-preview-card-popup` — `showArrow` (boolean); Slots: default (Preview card content); Parts: `root`
+**Sub-elements:** `dui-preview-card-popup` — `showArrow` (boolean); Slots: default (Preview card content); Parts: `root`; Tokens: `--preview-card-popup-padding`
 
 ### dui-command
 **Properties:** `loop` (boolean), `shouldFilter` (boolean), `value` (string | undefined), `filter` (FilterFn | undefined)
@@ -427,7 +431,7 @@ These are set on `:root` by the theme and affect all components:
 `--radius-none`, `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`, `--radius-2xl`, `--radius-full`
 
 **Typography:**
-`--font-sans`, `--font-serif`, `--font-mono`, `--font-size-xs` through `--font-size-7xl`, `--font-weight-regular`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--line-height-none`, `--line-height-tight`, `--line-height-snug`, `--line-height-normal`, `--line-height-relaxed`
+`--font-sans`, `--font-serif`, `--font-mono`, `--text-xs` through `--text-7xl`, `--font-weight-regular`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--line-height-none`, `--line-height-tight`, `--line-height-snug`, `--line-height-normal`, `--line-height-relaxed`
 
 **Shadows:**
 `--shadow-xs`, `--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-xl`, `--shadow-2xl`, `--shadow-none`

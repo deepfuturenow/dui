@@ -13,6 +13,41 @@ export class DocsPageTheming extends LitElement {
       display: block;
     }
 
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tighter);
+      line-height: var(--line-height-tight);
+      margin: 0 0 var(--space-2);
+    }
+
+    .subtitle {
+      font-size: var(--text-base);
+      color: var(--text-2);
+      margin: 0 0 var(--space-8);
+      max-width: 40rem;
+      line-height: var(--line-height-relaxed);
+    }
+
+    h2 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: var(--letter-spacing-tight);
+      color: var(--text-1);
+      margin: var(--space-10) 0 var(--space-3);
+    }
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
+
+    p.note {
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      margin: 0 0 var(--space-4);
+      line-height: var(--line-height-relaxed);
+    }
+
     /* ── Surface strips ── */
     .surfaces {
       display: flex;
@@ -29,14 +64,15 @@ export class DocsPageTheming extends LitElement {
       border: var(--border-width-thin) solid var(--border);
     }
 
-    .surface-card.sunken    { background: var(--sunken); }
+    .surface-card.sunken-1  { background: var(--sunken-1); }
+    .surface-card.sunken-2  { background: var(--sunken-2); }
     .surface-card.bg        { background: var(--background); }
     .surface-card.surface-1 { background: var(--surface-1); }
     .surface-card.surface-2 { background: var(--surface-2); }
     .surface-card.surface-3 { background: var(--surface-3); }
 
     .surface-label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-medium);
       color: var(--text-3);
       margin-bottom: var(--space-3);
@@ -46,7 +82,7 @@ export class DocsPageTheming extends LitElement {
     /* ── Text tiers ── */
     .text-sample {
       margin-bottom: var(--space-1);
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
     }
 
     .text-sample.t1 { color: var(--text-1); }
@@ -89,7 +125,7 @@ export class DocsPageTheming extends LitElement {
 
     .swatch-label {
       padding: var(--space-2);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-2);
       background: var(--surface-1);
@@ -113,7 +149,7 @@ export class DocsPageTheming extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-1);
       cursor: pointer;
@@ -145,7 +181,7 @@ export class DocsPageTheming extends LitElement {
     .chromatic-card {
       padding: var(--space-4);
       border-radius: var(--radius-md);
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
     }
 
     .chromatic-card.accent-subtle {
@@ -190,7 +226,7 @@ export class DocsPageTheming extends LitElement {
       border: var(--border-width-thin) solid var(--border);
       background: var(--background);
       color: var(--text-1);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-sans);
       cursor: pointer;
       transition: background var(--duration-fast);
@@ -219,7 +255,7 @@ export class DocsPageTheming extends LitElement {
     }
 
     .slider-group label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-medium);
       color: var(--text-2);
       font-family: var(--font-mono);
@@ -237,7 +273,7 @@ export class DocsPageTheming extends LitElement {
     }
 
     .slider-row .value {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-family: var(--font-mono);
       color: var(--text-3);
       min-width: 3rem;
@@ -331,7 +367,7 @@ export class DocsPageTheming extends LitElement {
         shows text tiers and borders compositing against that surface.
       </p>
       <div class="surfaces">
-        ${["sunken", "bg", "surface-1", "surface-2", "surface-3"].map(
+        ${["sunken-2", "sunken-1", "bg", "surface-1", "surface-2", "surface-3"].map(
           (name) => html`
             <div class="surface-card ${name}">
               <div class="surface-label">--${name === "bg" ? "background" : name}</div>
@@ -373,8 +409,12 @@ export class DocsPageTheming extends LitElement {
       <h2 class="section-heading">Derived Surfaces</h2>
       <div class="token-grid">
         <div class="token-swatch">
-          <div class="swatch-color" style="background: var(--sunken)"></div>
-          <div class="swatch-label">--sunken</div>
+          <div class="swatch-color" style="background: var(--sunken-2)"></div>
+          <div class="swatch-label">--sunken-2</div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background: var(--sunken-1)"></div>
+          <div class="swatch-label">--sunken-1</div>
         </div>
         <div class="token-swatch">
           <div class="swatch-color" style="background: var(--surface-1)"></div>
@@ -446,7 +486,7 @@ export class DocsPageTheming extends LitElement {
         the boxes below. "Selected" boxes have --_select: 0.10.
       </p>
 
-      ${["sunken", "bg", "surface-1", "surface-2", "surface-3"].map(
+      ${["sunken-2", "sunken-1", "bg", "surface-1", "surface-2", "surface-3"].map(
         (name) => html`
           <p class="section-description" style="margin-top: var(--space-3); margin-bottom: var(--space-1);">
             On --${name === "bg" ? "background" : name}:
@@ -481,7 +521,7 @@ export class DocsPageTheming extends LitElement {
         to verify alpha compositing.
       </p>
 
-      ${["sunken", "bg", "surface-1", "surface-2", "surface-3"].map(
+      ${["sunken-2", "sunken-1", "bg", "surface-1", "surface-2", "surface-3"].map(
         (name) => html`
           <div class="surface-card ${name}" style="margin-bottom: var(--space-3);">
             <div class="surface-label">--${name === "bg" ? "background" : name}</div>
@@ -495,8 +535,8 @@ export class DocsPageTheming extends LitElement {
             <div class="component-row">
               <dui-toggle>Toggle</dui-toggle>
               <dui-badge>Neutral</dui-badge>
-              <dui-badge variant="primary" appearance="ghost">Accent</dui-badge>
-              <dui-badge variant="danger" appearance="ghost">Danger</dui-badge>
+              <dui-badge variant="primary" appearance="soft">Accent</dui-badge>
+              <dui-badge variant="danger" appearance="soft">Danger</dui-badge>
             </div>
             <div class="component-row">
               <dui-input placeholder="Input field" style="width: 200px;"></dui-input>

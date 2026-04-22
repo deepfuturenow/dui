@@ -10,6 +10,21 @@ export class DocsPageComponentsIndex extends LitElement {
       display: block;
     }
 
+    h1 {
+      font-size: var(--text-2xl, 1.5rem);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tighter, -0.02em);
+      line-height: var(--line-height-tight, 1.25);
+      margin: 0 0 var(--space-2);
+    }
+
+    .subtitle {
+      font-size: var(--text-base, 0.9375rem);
+      color: var(--text-2);
+      margin: 0 0 var(--space-8, 2rem);
+      line-height: var(--line-height-relaxed, 1.625);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -35,19 +50,19 @@ export class DocsPageComponentsIndex extends LitElement {
 
     .card-name {
       font-weight: 600;
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       margin: 0 0 var(--space-0_5);
     }
 
     .card-tag {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       color: var(--text-2);
       margin: 0 0 var(--space-2);
     }
 
     .card-desc {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-2);
       margin: 0;
       line-height: var(--line-height-relaxed, 1.625);

@@ -1,14 +1,16 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const menuItemStyles = css`
   .Item {
     --icon-size: var(--space-4);
     --icon-color: var(--text-2);
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
+    padding: 0 var(--space-2);
+    height: var(--component-height-sm);
     border-radius: var(--radius-sm);
-    ${type("sm")}
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    text-box: trim-both cap alphabetic;
     font-family: var(--font-sans);
     color: var(--text-1);
   }

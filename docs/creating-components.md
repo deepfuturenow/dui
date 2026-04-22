@@ -269,6 +269,19 @@ For components that always need hidden slot content (portal-based popups), use a
 }
 ```
 
+### Forwarding CSS custom properties through portals
+
+Portal elements are appended to `<body>`, outside the original DOM tree, so they don't inherit CSS custom properties from ancestor elements. When a theme exposes a CSS custom property on a portaled popup (e.g. `padding: var(--preview-card-popup-padding, var(--space-4))`), you must list it in `forwardProperties` so the controller copies the computed value from the host to the positioner at open time:
+
+```typescript
+#portal = new FloatingPortalController(this, {
+  // ... other options ...
+  forwardProperties: ["--preview-card-popup-padding"],
+});
+```
+
+If you forget this step the fallback value still applies — the property just won't be overridable by consumers.
+
 ### Pattern: always-rendered wrapper
 
 When a component needs to hide even when returning `nothing` (e.g., tabs panels without `keepMounted`), always render a wrapper div so there's always an internal element to hide:

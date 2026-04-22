@@ -11,7 +11,7 @@ export class DocsPageScrollArea extends LitElement {
       <docs-page-layout tag="dui-scroll-area">
         <dui-docs-demo label="Vertical scroll">
         <dui-scroll-area max-height="150px" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-2);">
-          <div style="font-size: var(--font-size-sm); line-height: var(--line-height-relaxed);">
+          <div style="font-size: var(--text-sm); line-height: var(--line-height-relaxed);">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
@@ -24,7 +24,7 @@ export class DocsPageScrollArea extends LitElement {
 
       <dui-docs-demo label="With fade">
         <dui-scroll-area max-height="150px" fade style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-2);">
-          <div style="font-size: var(--font-size-sm); line-height: var(--line-height-relaxed);">
+          <div style="font-size: var(--text-sm); line-height: var(--line-height-relaxed);">
             <p>Scroll down to see the fade effect at the top.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>

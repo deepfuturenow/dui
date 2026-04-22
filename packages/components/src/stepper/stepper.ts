@@ -1,10 +1,8 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
-import { consume } from "@lit/context";
 import { live } from "lit/directives/live.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
-import { type FieldContext, fieldContext } from "@dui/components/field";
 
 export const valueChangeEvent = customEvent<{ value: number }>(
   "value-change",
@@ -133,23 +131,13 @@ export class DuiStepper extends LitElement {
   @state()
   accessor #inputText = "";
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   // ── Computed getters ───────────────────────────────────────────────
 
   get #currentValue(): number | undefined {
     return this.value ?? this.#internalValue;
   }
 
-  get #isDisabled(): boolean {
-    return this.disabled || (this._fieldCtx?.disabled ?? false);
-  }
 
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
-  }
 
   get #canDecrement(): boolean {
     const v = this.#currentValue;
@@ -197,20 +185,17 @@ export class DuiStepper extends LitElement {
       this.#internalValue = clamped;
     }
 
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.setFilled(true);
-
     this.dispatchEvent(valueChangeEvent({ value: clamped }));
   }
 
   #increment = (amount: number): void => {
-    if (this.#isDisabled || this.readOnly) return;
+    if (this.disabled || this.readOnly) return;
     const current = this.#currentValue ?? this.min ?? 0;
     this.#setValue(current + amount);
   };
 
   #decrement = (amount: number): void => {
-    if (this.#isDisabled || this.readOnly) return;
+    if (this.disabled || this.readOnly) return;
     const current = this.#currentValue ?? this.max ?? 0;
     this.#setValue(current - amount);
   };
@@ -236,12 +221,6 @@ export class DuiStepper extends LitElement {
 
   #onBlur = (): void => {
     this.#commitInput();
-    this._fieldCtx?.setFocused(false);
-    this._fieldCtx?.markTouched();
-  };
-
-  #onFocus = (): void => {
-    this._fieldCtx?.setFocused(true);
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
@@ -293,41 +272,33 @@ export class DuiStepper extends LitElement {
   // ── Render ─────────────────────────────────────────────────────────
 
   override render(): TemplateResult {
-    const isDisabled = this.#isDisabled;
-    const isInvalid = this.#isInvalid;
-    const controlId = this._fieldCtx?.controlId ?? "";
     const currentValue = this.#currentValue;
 
     return html`
       <div
         part="root"
-        ?data-disabled="${isDisabled}"
-        ?data-invalid="${isInvalid}"
+        ?data-disabled="${this.disabled}"
       >
         <button
           part="decrement"
           type="button"
           tabindex="-1"
           aria-label="Decrease"
-          ?disabled="${isDisabled || this.readOnly || !this.#canDecrement}"
+          ?disabled="${this.disabled || this.readOnly || !this.#canDecrement}"
           @click="${this.#onDecrementClick}"
         >
           <slot name="decrement">&minus;</slot>
         </button>
         <input
           part="input"
-          id="${controlId || nothing}"
           type="text"
           inputmode="decimal"
           .value="${live(this.#inputText)}"
-          ?disabled="${isDisabled}"
+          ?disabled="${this.disabled}"
           ?readonly="${this.readOnly}"
           ?required="${this.required}"
-          aria-invalid="${isInvalid ? "true" : nothing}"
-          ?data-disabled="${isDisabled}"
           @input="${this.#onInput}"
           @keydown="${this.#onKeyDown}"
-          @focus="${this.#onFocus}"
           @blur="${this.#onBlur}"
         />
         <button
@@ -335,7 +306,7 @@ export class DuiStepper extends LitElement {
           type="button"
           tabindex="-1"
           aria-label="Increase"
-          ?disabled="${isDisabled || this.readOnly || !this.#canIncrement}"
+          ?disabled="${this.disabled || this.readOnly || !this.#canIncrement}"
           @click="${this.#onIncrementClick}"
         >
           <slot name="increment">+</slot>

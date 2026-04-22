@@ -63,6 +63,13 @@ export type FloatingPortalControllerOptions = {
    */
   renderPopup?: (portal: FloatingPortalController) => TemplateResult;
   /**
+   * CSS custom property names to forward from the host's computed style
+   * to the portal positioner. Portal elements live under `<body>` and
+   * don't inherit properties from the original DOM tree, so any theme
+   * tokens that consumers can override must be listed here.
+   */
+  forwardProperties?: string[];
+  /**
    * Returns the overlay root element where the positioner is appended.
    * Defaults to `document.body`.
    */
@@ -87,6 +94,7 @@ export class FloatingPortalController implements ReactiveController {
   #renderPopup?: (portal: FloatingPortalController) => TemplateResult;
   #contentContainer?: string;
   #contentSelector?: string;
+  #forwardProperties: string[];
   #getOverlayRoot: () => HTMLElement;
   #movedNodes: Node[] = [];
 
@@ -143,6 +151,7 @@ export class FloatingPortalController implements ReactiveController {
     this.#renderPopup = options.renderPopup;
     this.#contentContainer = options.contentContainer;
     this.#contentSelector = options.contentSelector;
+    this.#forwardProperties = options.forwardProperties ?? [];
     this.#getOverlayRoot = options.getOverlayRoot ?? (() => document.body);
     host.addController(this);
   }
@@ -245,6 +254,7 @@ export class FloatingPortalController implements ReactiveController {
   #createPositioner(): void {
     if (this.#positioner) {
       this.#positioner.style.display = "";
+      this.#applyForwardedProperties(this.#positioner);
       return;
     }
 
@@ -271,8 +281,22 @@ export class FloatingPortalController implements ReactiveController {
       adoptStyles(shadow, allStyles);
     }
 
+    this.#applyForwardedProperties(positioner);
+
     overlayRoot.appendChild(positioner);
     this.#positioner = positioner;
+  }
+
+  /** Read forwarded CSS custom properties from the host and set them on the positioner. */
+  #applyForwardedProperties(positioner: HTMLElement): void {
+    if (this.#forwardProperties.length === 0) return;
+    const computed = getComputedStyle(this.#host);
+    for (const prop of this.#forwardProperties) {
+      const value = computed.getPropertyValue(prop).trim();
+      if (value) {
+        positioner.style.setProperty(prop, value);
+      }
+    }
   }
 
   #hidePositioner(): void {

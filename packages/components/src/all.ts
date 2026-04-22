@@ -64,6 +64,10 @@ export { DuiButton };
 import { DuiCalendar } from "./calendar/index.ts";
 export { DuiCalendar };
 
+// --- Card ---
+import { DuiCard } from "./card/index.ts";
+export { DuiCard };
+
 
 
 // --- Checkbox ---
@@ -127,6 +131,14 @@ export type { DialogOpenChangeDetail, DialogContext } from "./dialog/index.ts";
 // --- Dropzone ---
 import { DuiDropzone } from "./dropzone/index.ts";
 export { DuiDropzone };
+
+// --- Field ---
+import { DuiField } from "./field/index.ts";
+export { DuiField };
+
+// --- Fieldset ---
+import { DuiFieldset } from "./fieldset/index.ts";
+export { DuiFieldset };
 export type {
   DropzoneErrorCode,
   DropzoneRejectionCode,
@@ -148,9 +160,6 @@ export { DuiIcon };
 import { DuiInput } from "./input/index.ts";
 export { DuiInput };
 
-// --- Link ---
-import { DuiLink } from "./link/index.ts";
-export { DuiLink };
 
 // --- Menu ---
 import { DuiMenu, DuiMenuItem } from "./menu/index.ts";
@@ -335,6 +344,7 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiButton,
   DuiCalendar,
 
+  DuiCard,
   DuiCheckbox,
   DuiCheckboxGroup,
   DuiCollapsible,
@@ -353,10 +363,11 @@ export const allComponents: Array<typeof LitElement & { tagName: string }> = [
   DuiDialogPopup,
   DuiDialogClose,
   DuiDropzone,
+  DuiField,
+  DuiFieldset,
 
   DuiIcon,
   DuiInput,
-  DuiLink,
   DuiMenu,
   DuiMenuItem,
   DuiMenubar,

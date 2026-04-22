@@ -41,7 +41,7 @@ const styles = css`
     border-radius: var(--radius-full);
     background: var(--accent-subtle);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     color: var(--accent-text);
     line-height: var(--line-height-none);
@@ -64,7 +64,7 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -82,7 +82,7 @@ const styles = css`
 
   .description {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-relaxed);
     color: var(--text-2);
@@ -151,7 +151,7 @@ export class DuiNumberedInsight extends LitElement {
             <span class="title" part="title">${this.title}</span>
             <div class="badges">
               ${this.category
-                ? html`<dui-badge appearance="ghost">${this.category}</dui-badge>`
+                ? html`<dui-badge appearance="soft">${this.category}</dui-badge>`
                 : nothing}
               ${sev
                 ? html`<dui-badge variant=${sev.variant} appearance=${sev.appearance}>${this.severity}</dui-badge>`

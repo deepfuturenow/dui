@@ -35,13 +35,13 @@ export class BlockAnalytics extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-base);
+      font-size: var(--text-base);
       font-weight: var(--font-weight-semibold);
       margin: 0 0 var(--space-0_5);
     }
 
     .subtitle {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0;
     }

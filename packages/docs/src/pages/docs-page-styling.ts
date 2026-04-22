@@ -9,6 +9,38 @@ export class DocsPageStyling extends LitElement {
       display: block;
     }
 
+    .title {
+      font-size: var(--text-2xl, 1.5rem);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tighter, -0.02em);
+      line-height: var(--line-height-tight, 1.25);
+      margin: 0 0 var(--space-2);
+    }
+
+    .description {
+      font-size: var(--text-base, 0.9375rem);
+      color: var(--text-2);
+      margin: 0 0 var(--space-8, 2rem);
+      max-width: 40rem;
+      line-height: var(--line-height-relaxed, 1.625);
+    }
+
+    .section-heading {
+      font-size: var(--text-lg, 1.125rem);
+      font-weight: 600;
+      letter-spacing: var(--letter-spacing-tight, -0.01em);
+      color: var(--foreground);
+      margin: var(--space-12) 0 var(--space-2);
+    }
+
+    .section-description {
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      margin: 0 0 var(--space-5);
+      max-width: 40rem;
+      line-height: var(--line-height-relaxed, 1.625);
+    }
+
     /* ── Demo card ── */
     .demo-card {
       background: var(--surface-2);
@@ -38,7 +70,7 @@ export class DocsPageStyling extends LitElement {
     .demo-code pre {
       margin: 0;
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       line-height: 1.7;
       color: var(--foreground);
       white-space: pre;
@@ -46,7 +78,7 @@ export class DocsPageStyling extends LitElement {
 
     .demo-label {
       font-weight: 600;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       color: var(--foreground);
       margin-bottom: var(--space-3);
     }
@@ -73,13 +105,13 @@ export class DocsPageStyling extends LitElement {
     }
 
     .layer-card h3 {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: 600;
       margin: 0 0 var(--space-1);
     }
 
     .layer-card p {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0 0 var(--space-3);
       line-height: var(--line-height-relaxed, 1.65);
@@ -87,7 +119,7 @@ export class DocsPageStyling extends LitElement {
 
     .layer-card code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       display: block;
       white-space: pre;
       color: var(--foreground);
@@ -195,7 +227,7 @@ export class DocsPageStyling extends LitElement {
     }
 
     .themed-zone-label {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       font-family: var(--font-mono);
     }

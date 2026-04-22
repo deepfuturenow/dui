@@ -3,7 +3,7 @@ import { customElement } from "lit/decorators.js";
 
 const iconLibraryStyles = `
   h3 {
-    font-size: var(--font-size-base, 1rem);
+    font-size: var(--text-base, 1rem);
     font-weight: 600;
     margin: var(--space-6, 1.5rem) 0 var(--space-2);
   }
@@ -13,7 +13,7 @@ const iconLibraryStyles = `
   }
 
   .library-info p {
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--text-sm, 0.875rem);
     color: var(--text-2);
     margin: 0 0 var(--space-3, 0.75rem);
   }
@@ -28,7 +28,7 @@ const iconLibraryStyles = `
 
   pre > code {
     font-family: var(--font-mono);
-    font-size: var(--font-size-xs, 0.75rem);
+    font-size: var(--text-xs, 0.75rem);
     line-height: 1.6;
     color: var(--foreground);
     background: none;
@@ -72,7 +72,7 @@ export class DocsPageIcon extends LitElement {
       </dui-docs-demo>
 
       <dui-docs-demo label="Inline with text">
-        <p style="display: flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-sm);">
+        <p style="display: flex; align-items: center; gap: var(--space-1); font-size: var(--text-sm);">
           <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>
           Icons inherit the surrounding font size via <code>1em</code> default.
         </p>

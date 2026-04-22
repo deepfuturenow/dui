@@ -61,7 +61,7 @@ const styles = css`
 
   .author {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -74,7 +74,7 @@ const styles = css`
 
   .handle {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
     color: var(--text-3);
@@ -83,12 +83,12 @@ const styles = css`
 
   .separator {
     color: var(--text-3);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
   }
 
   .timestamp {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
     color: var(--text-3);
@@ -99,7 +99,7 @@ const styles = css`
   /* ── Body ── */
   .body {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-1);
@@ -179,7 +179,7 @@ export class DuiSocialPost extends LitElement {
                 : nothing}
             </div>
             ${this.source
-              ? html`<dui-badge variant="neutral" appearance="ghost">${this.source}</dui-badge>`
+              ? html`<dui-badge variant="neutral" appearance="soft">${this.source}</dui-badge>`
               : nothing}
           </header>
 

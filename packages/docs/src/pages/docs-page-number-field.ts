@@ -85,7 +85,8 @@ export class DocsPageNumberField extends LitElement {
         <!-- ── With Field Label ─────────────────────────────── -->
 
         <dui-docs-demo label="With dui-field label">
-          <dui-field label="Opacity">
+          <dui-field>
+            <span slot="label">Opacity</span>
             <dui-number-field default-value="100" min="0" max="100" unit="%"></dui-number-field>
           </dui-field>
         </dui-docs-demo>

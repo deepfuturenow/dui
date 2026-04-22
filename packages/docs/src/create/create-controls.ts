@@ -21,7 +21,7 @@ export class CreateControls extends LitElement {
 
     .control-group > label {
       display: block;
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider, 0.05em);
@@ -53,7 +53,7 @@ export class CreateControls extends LitElement {
     }
 
     .color-label {
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       color: var(--text-1);
     }
 
@@ -84,7 +84,7 @@ export class CreateControls extends LitElement {
       border-radius: var(--radius-sm, 0.25rem);
       background: var(--background);
       color: var(--foreground);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       font-family: var(--font-mono);
       text-align: center;
       box-sizing: border-box;
@@ -111,7 +111,7 @@ export class CreateControls extends LitElement {
     }
 
     .font-row label {
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       font-weight: 500;
       text-transform: none;
       letter-spacing: normal;
@@ -126,7 +126,7 @@ export class CreateControls extends LitElement {
       border-radius: var(--radius-md, 0.5rem);
       background: var(--background);
       color: var(--foreground);
-      font-size: var(--font-size-sm, 0.875rem);
+      font-size: var(--text-sm, 0.875rem);
       cursor: pointer;
     }
 
@@ -143,7 +143,7 @@ export class CreateControls extends LitElement {
       border-radius: var(--radius-sm, 0.25rem);
       background: transparent;
       color: var(--text-2);
-      font-size: var(--font-size-xs, 0.75rem);
+      font-size: var(--text-xs, 0.75rem);
       cursor: pointer;
       text-align: center;
       transition: background-color 0.15s, color 0.15s, border-color 0.15s;

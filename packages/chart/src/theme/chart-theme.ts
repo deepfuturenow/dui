@@ -24,7 +24,7 @@ const chartThemeStyles = css`
     --chart-grid-color: var(--border);
     --chart-axis-color: var(--text-2);
     --chart-font-family: var(--font-sans);
-    --chart-font-size: var(--font-size-xs);
+    --chart-font-size: var(--text-xs);
     --chart-line-height: var(--line-height-relaxed);
 
     /* Tooltip tokens */

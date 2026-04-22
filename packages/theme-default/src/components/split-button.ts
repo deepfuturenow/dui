@@ -72,7 +72,7 @@ export const splitButtonStyles = css`
     --sb-trigger-padding-x: var(--space-1_5);
     --sb-gap: var(--space-1_5);
     --sb-radius: var(--radius-md);
-    --sb-font-size: var(--font-size-sm);
+    --sb-font-size: var(--text-sm);
     --sb-icon-size: var(--space-4_5);
   }
 
@@ -82,7 +82,7 @@ export const splitButtonStyles = css`
     --sb-action-padding-x: var(--space-1_5);
     --sb-trigger-padding-x: var(--space-1);
     --sb-gap: var(--space-1);
-    --sb-font-size: var(--font-size-xs);
+    --sb-font-size: var(--text-xs);
     --sb-icon-size: var(--space-3_5);
   }
 
@@ -92,7 +92,7 @@ export const splitButtonStyles = css`
     --sb-action-padding-x: var(--space-2);
     --sb-trigger-padding-x: var(--space-1_5);
     --sb-gap: var(--space-1);
-    --sb-font-size: var(--font-size-xs);
+    --sb-font-size: var(--text-xs);
     --sb-icon-size: var(--space-4);
   }
 
@@ -102,7 +102,7 @@ export const splitButtonStyles = css`
     --sb-action-padding-x: var(--space-3);
     --sb-trigger-padding-x: var(--space-2);
     --sb-gap: var(--space-1_5);
-    --sb-font-size: var(--font-size-sm);
+    --sb-font-size: var(--text-sm);
     --sb-icon-size: var(--space-4_5);
   }
 
@@ -121,6 +121,7 @@ export const splitButtonStyles = css`
     font-size: var(--sb-font-size);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
     white-space: nowrap;
     overflow: hidden;
   }

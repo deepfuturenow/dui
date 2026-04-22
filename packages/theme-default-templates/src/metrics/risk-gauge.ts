@@ -64,7 +64,7 @@ const styles = css`
 
   .center-number {
     /* font-family: var(--font-mono); */
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-none);
     color: var(--foreground);
@@ -72,7 +72,7 @@ const styles = css`
 
   .severity-label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-widest);
     text-transform: uppercase;
@@ -82,7 +82,7 @@ const styles = css`
   /* ── Label + trend row ── */
   .label {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -95,7 +95,7 @@ const styles = css`
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);

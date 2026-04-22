@@ -1,39 +1,29 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 
 @customElement("block-events")
 export class BlockEvents extends LitElement {
-  static override styles = [blockBase, css`
-
-    .section {
-      padding: var(--space-4) var(--space-6);
-    }
-
-    .section + .section {
-      border-top: var(--border-width-thin) solid var(--border);
+  static override styles = [gridOverlay, css`
+    :host {
+      display: block;
+      position: relative;
     }
 
     /* ── Header ── */
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0;
+    dui-card::part(header) {
+      padding-bottom: var(--space-5);
+      border-bottom: var(--border-width-thin) solid var(--border);
+      background-color: var(--surface-3);
     }
 
     /* ── Category dot ── */
 
     .dot {
       display: inline-block;
-      width: 6px;
-      height: 6px;
+      width: var(--space-1_5);
+      height: var(--space-1_5);
       border-radius: var(--radius-full);
       margin-right: var(--space-1);
       vertical-align: middle;
@@ -62,7 +52,7 @@ export class BlockEvents extends LitElement {
       content: "";
       position: absolute;
       left: 3px;
-      top: 8px;
+      top: var(--space-2);
       bottom: 0;
       width: 1px;
       background: var(--border);
@@ -77,9 +67,9 @@ export class BlockEvents extends LitElement {
       content: "";
       position: absolute;
       left: 0;
-      top: 6px;
-      width: 7px;
-      height: 7px;
+      top: var(--space-1_5);
+      width: var(--space-1_5);
+      height: var(--space-1_5);
       border-radius: var(--radius-full);
       background: var(--accent);
     }
@@ -88,20 +78,21 @@ export class BlockEvents extends LitElement {
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      margin-bottom: var(--space-1);
+      margin-bottom: var(--space-2);
     }
 
     .event-time {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin-left: auto;
     }
 
     .event-title {
-      font-size: var(--font-size-sm);
-      font-weight: 500;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
       margin: 0 0 var(--space-2);
-      line-height: 1.4;
+      line-height: var(--text-xl--line-height);
+      text-box: trim-both cap alphabetic;
     }
 
     .event-tags {
@@ -110,29 +101,24 @@ export class BlockEvents extends LitElement {
       gap: var(--space-1);
     }
 
-    dui-toggle-group {
-      margin-bottom: var(--space-4);
+    /* ── Footer filters ── */
+
+    dui-card::part(footer) {
+      background: var(--sunken-1);
+      justify-content: center;
+      padding: var(--space-3);
     }
+
   `];
 
   override render() {
     return html`
-      <div class="section">
-        <div class="header">
-          <p class="title">Events Timeline</p>
-          <dui-button appearance="ghost" size="icon-sm">
-            <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></dui-icon>
-          </dui-button>
-        </div>
-      </div>
+      <dui-card>
+        <span slot="title">Events Timeline</span>
+        <dui-button slot="action" appearance="ghost" size="icon-sm">
+          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></dui-icon>
+        </dui-button>
 
-      <div class="section">
-        <dui-toggle-group type="single" .defaultValue=${["today"]}>
-          <dui-toggle size="sm" value="today">Today</dui-toggle>
-          <dui-toggle size="sm" value="1d">1d ago</dui-toggle>
-          <dui-toggle size="sm" value="2d">2d ago</dui-toggle>
-          <dui-toggle size="sm" value="3d">3d ago</dui-toggle>
-        </dui-toggle-group>
         <div class="event">
           <div class="event-header">
             <dui-badge variant="info">LAUNCH</dui-badge>
@@ -170,7 +156,14 @@ export class BlockEvents extends LitElement {
             <dui-badge appearance="outline">Incident</dui-badge>
           </div>
         </div>
-      </div>
+
+        <dui-toggle-group slot="footer" type="single" .defaultValue=${["today"]}>
+          <dui-toggle size="sm" value="today">Today</dui-toggle>
+          <dui-toggle size="sm" value="1d">1d ago</dui-toggle>
+          <dui-toggle size="sm" value="2d">2d ago</dui-toggle>
+          <dui-toggle size="sm" value="3d">3d ago</dui-toggle>
+        </dui-toggle-group>
+      </dui-card>
     `;
   }
 }

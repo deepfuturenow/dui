@@ -73,13 +73,13 @@ export class BlockMap extends LitElement {
     }
 
     .title {
-      font-size: var(--font-size-base);
+      font-size: var(--text-base);
       font-weight: var(--font-weight-semibold);
       margin: 0;
     }
 
     .count {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       background: var(--surface-2);
       padding: var(--space-0_5) var(--space-2);
@@ -96,19 +96,19 @@ export class BlockMap extends LitElement {
       display: flex;
       gap: var(--space-3);
       padding: var(--space-3);
-      background: var(--surface-2);
+      background: var(--sunken-1);
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: background 0.15s;
     }
 
     .location:hover {
-      background: var(--surface-3);
       outline: var(--border-width-thin) solid var(--border-strong);
       outline-offset: -1px;
     }
 
     .location.active {
+      background: var(--surface-2);
       outline: var(--border-width-thin) solid var(--accent);
       outline-offset: -1px;
     }
@@ -127,13 +127,13 @@ export class BlockMap extends LitElement {
     }
 
     .loc-name {
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       font-weight: var(--font-weight-medium);
-      margin: 0 0 var(--space-0_5);
+      margin: 0 0 var(--space-2);
     }
 
     .loc-address {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-2);
       margin: 0;
     }
@@ -142,7 +142,7 @@ export class BlockMap extends LitElement {
       display: flex;
       align-items: center;
       gap: var(--space-1);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       color: var(--text-3);
       margin-top: var(--space-1);
     }

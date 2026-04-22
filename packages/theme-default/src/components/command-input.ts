@@ -1,5 +1,4 @@
 import { css } from "lit";
-import { type } from "../typography.ts";
 
 export const commandInputStyles = css`
   .InputWrapper {
@@ -17,7 +16,7 @@ export const commandInputStyles = css`
   .Input {
     height: var(--component-height-md);
     border-radius: var(--radius-md);
-    ${type("sm")}
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
   }
 
   .Input::placeholder {

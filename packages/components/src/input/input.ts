@@ -1,12 +1,10 @@
 /** Ported from original DUI: deep-future-app/app/client/components/dui/input */
 
 import { css, html, LitElement, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
-import { consume } from "@lit/context";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
 import { base } from "@dui/core/base";
-import { type FieldContext, fieldContext } from "@dui/components/field";
 import { customEvent } from "@dui/core/event";
 
 export const inputChangeEvent = customEvent<{ value: string }>("input-change", {
@@ -41,6 +39,7 @@ const styles = css`
  */
 export class DuiInput extends LitElement {
   static tagName = "dui-input" as const;
+  static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -48,6 +47,13 @@ export class DuiInput extends LitElement {
   };
 
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** Input type (text, email, password, etc.) */
   @property({ type: String })
@@ -97,69 +103,54 @@ export class DuiInput extends LitElement {
   @property({ type: Boolean })
   override accessor autofocus = false;
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
-  get #controlId(): string {
-    return this._fieldCtx?.controlId ?? "";
-  }
-
-  get #descriptionId(): string | undefined {
-    return this._fieldCtx?.descriptionId;
-  }
-
-  get #errorId(): string | undefined {
-    return this._fieldCtx?.errorId;
-  }
-
-  get #isDisabled(): boolean {
-    return this.disabled || (this._fieldCtx?.disabled ?? false);
-  }
-
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
-  }
-
   override firstUpdated(): void {
+    this.#syncValidity();
     if (this.autofocus) {
       this.focus();
     }
+  }
+
+  override updated(): void {
+    this.#syncValidity();
   }
 
   #onInput = (event: InputEvent): void => {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
 
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.setFilled(this.value.length > 0);
+    this.#syncFormValue();
+    this.#syncValidity();
 
     this.dispatchEvent(inputChangeEvent({ value: this.value }));
   };
 
-  #onFocus = (): void => {
-    this._fieldCtx?.setFocused(true);
-  };
+  override willUpdate(): void {
+    this.#syncFormValue();
+  }
 
-  #onBlur = (): void => {
-    this._fieldCtx?.setFocused(false);
-    this._fieldCtx?.markTouched();
-  };
+  #syncFormValue(): void {
+    this.#internals.setFormValue(this.value);
+  }
+
+  #syncValidity(): void {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      this.#internals.setValidity(
+        input.validity,
+        input.validationMessage,
+        input,
+      );
+    }
+  }
 
   override render(): TemplateResult {
-    const describedBy =
-      [this.#descriptionId, this.#isInvalid ? this.#errorId : undefined]
-        .filter(Boolean)
-        .join(" ") || undefined;
-
     return html`
       <input
         part="input"
-        id="${this.#controlId}"
         type="${this.type}"
         .value="${live(this.value)}"
         placeholder="${this.placeholder}"
-        ?disabled="${this.#isDisabled}"
+        ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readonly}"
         minlength="${ifDefined(this.minLength)}"
@@ -167,18 +158,7 @@ export class DuiInput extends LitElement {
         pattern="${ifDefined(this.pattern)}"
         name="${this.name}"
         autocomplete="${ifDefined(this.autocomplete)}"
-        aria-describedby="${ifDefined(describedBy)}"
-        aria-invalid="${this.#isInvalid}"
-        ?data-disabled="${this.#isDisabled}"
-        ?data-invalid="${this.#isInvalid}"
-        ?data-valid="${!this.#isInvalid}"
-        ?data-dirty="${this._fieldCtx?.dirty}"
-        ?data-touched="${this._fieldCtx?.touched}"
-        ?data-filled="${this._fieldCtx?.filled}"
-        ?data-focused="${this._fieldCtx?.focused}"
         @input="${this.#onInput}"
-        @focus="${this.#onFocus}"
-        @blur="${this.#onBlur}"
       />
     `;
   }

@@ -1,10 +1,8 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
-import { consume } from "@lit/context";
 import { live } from "lit/directives/live.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
-import { type FieldContext, fieldContext } from "@dui/components/field";
 
 export const valueChangeEvent = customEvent<{ value: number }>(
   "value-change",
@@ -83,14 +81,6 @@ const styles = css`
     pointer-events: none;
   }
 
-  .HiddenInput {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    margin: 0;
-    width: 0;
-    height: 0;
-  }
 `;
 
 /** Drag threshold in px before scrub starts. */
@@ -112,6 +102,7 @@ const DRAG_THRESHOLD = 3;
  */
 export class DuiNumberField extends LitElement {
   static tagName = "dui-number-field" as const;
+  static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -119,6 +110,13 @@ export class DuiNumberField extends LitElement {
   };
 
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   // ── Core properties ────────────────────────────────────────────────
 
@@ -203,10 +201,6 @@ export class DuiNumberField extends LitElement {
   @state()
   accessor #editing = false;
 
-  @consume({ context: fieldContext, subscribe: true })
-  @state()
-  accessor _fieldCtx!: FieldContext;
-
   // ── Drag state (not reactive) ──────────────────────────────────────
 
   #dragStartX = 0;
@@ -221,13 +215,7 @@ export class DuiNumberField extends LitElement {
     return this.value ?? this.#internalValue;
   }
 
-  get #isDisabled(): boolean {
-    return this.disabled || (this._fieldCtx?.disabled ?? false);
-  }
 
-  get #isInvalid(): boolean {
-    return this._fieldCtx?.invalid ?? false;
-  }
 
   get #inferredPrecision(): number {
     const stepStr = String(this.step);
@@ -307,6 +295,9 @@ export class DuiNumberField extends LitElement {
     if (!this.#editing) {
       this.#syncInputText();
     }
+    this.#internals.setFormValue(
+      this.#currentValue !== undefined ? String(this.#currentValue) : null,
+    );
   }
 
   // ── Value helpers ──────────────────────────────────────────────────
@@ -328,20 +319,17 @@ export class DuiNumberField extends LitElement {
       this.#internalValue = clamped;
     }
 
-    this._fieldCtx?.markDirty();
-    this._fieldCtx?.setFilled(true);
-
     this.dispatchEvent(valueChangeEvent({ value: clamped }));
   }
 
   #increment = (amount: number): void => {
-    if (this.#isDisabled || this.readOnly) return;
+    if (this.disabled || this.readOnly) return;
     const current = this.#currentValue ?? this.min ?? 0;
     this.#setValue(current + amount);
   };
 
   #decrement = (amount: number): void => {
-    if (this.#isDisabled || this.readOnly) return;
+    if (this.disabled || this.readOnly) return;
     const current = this.#currentValue ?? this.max ?? 0;
     this.#setValue(current - amount);
   };
@@ -374,7 +362,7 @@ export class DuiNumberField extends LitElement {
   // ── Drag-to-scrub ─────────────────────────────────────────────────
 
   #startDrag(e: PointerEvent, allowsClick: boolean): void {
-    if (this.#isDisabled || this.readOnly) return;
+    if (this.disabled || this.readOnly) return;
 
     this.#dragPointerId = e.pointerId;
     this.#dragStartX = e.clientX;
@@ -499,13 +487,10 @@ export class DuiNumberField extends LitElement {
     if (this.#editing) {
       this.#commitInput();
     }
-    this._fieldCtx?.setFocused(false);
-    this._fieldCtx?.markTouched();
   };
 
   #onFocus = (): void => {
     this.#editing = true;
-    this._fieldCtx?.setFocused(true);
     const input = this.shadowRoot?.querySelector<HTMLInputElement>(
       '[part="input"]',
     );
@@ -568,9 +553,6 @@ export class DuiNumberField extends LitElement {
   // ── Render ─────────────────────────────────────────────────────────
 
   override render(): TemplateResult {
-    const isDisabled = this.#isDisabled;
-    const isInvalid = this.#isInvalid;
-    const controlId = this._fieldCtx?.controlId ?? "";
     const currentValue = this.#currentValue;
 
     // Compute which zones are scrubbable for cursor styling
@@ -589,9 +571,8 @@ export class DuiNumberField extends LitElement {
         part="root"
         ?data-scrub="${rootScrub}"
         ?data-dragging="${this.#dragging}"
-        ?data-disabled="${isDisabled}"
+        ?data-disabled="${this.disabled}"
         ?data-readonly="${this.readOnly}"
-        ?data-invalid="${isInvalid}"
         @pointerdown="${this.#onRootPointerDown}"
       >
         <span part="icon">
@@ -600,20 +581,17 @@ export class DuiNumberField extends LitElement {
 
         <input
           part="input"
-          id="${controlId || nothing}"
           type="text"
           inputmode="decimal"
           ?data-scrub="${inputScrub}"
           .value="${live(this.#inputText)}"
-          ?disabled="${isDisabled}"
+          ?disabled="${this.disabled}"
           ?readonly="${this.readOnly}"
           ?required="${this.required}"
           aria-label="${this.label || nothing}"
           aria-valuenow="${currentValue ?? nothing}"
           aria-valuemin="${this.min ?? nothing}"
           aria-valuemax="${this.max ?? nothing}"
-          aria-invalid="${isInvalid ? "true" : nothing}"
-          ?data-disabled="${isDisabled}"
           @pointerdown="${this.#onInputPointerDown}"
           @input="${this.#onInput}"
           @keydown="${this.#onKeyDown}"
@@ -623,13 +601,6 @@ export class DuiNumberField extends LitElement {
 
         <span part="unit">${this.unit}</span>
 
-        ${this.name
-          ? html`<input
-              type="hidden"
-              name="${this.name}"
-              .value="${String(currentValue ?? "")}"
-            />`
-          : nothing}
       </div>
     `;
   }

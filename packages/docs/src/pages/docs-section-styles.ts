@@ -22,7 +22,7 @@ export const sectionStyles = css`
 
   /* ── Page title ── */
   .title {
-    font-size: var(--font-size-2xl, 1.5rem);
+    font-size: var(--text-2xl, 1.5rem);
     font-weight: 700;
     letter-spacing: var(--letter-spacing-tighter, -0.02em);
     line-height: var(--line-height-tight, 1.25);
@@ -33,7 +33,7 @@ export const sectionStyles = css`
 
   /* ── Subtitle / intro ── */
   .subtitle {
-    font-size: var(--font-size-base, 0.9375rem);
+    font-size: var(--text-base, 0.9375rem);
     color: var(--text-2);
     line-height: var(--line-height-relaxed, 1.625);
     margin: 0 0 var(--space-8, 2rem);
@@ -43,8 +43,7 @@ export const sectionStyles = css`
 
   .subtitle code {
     font-family: var(--font-mono);
-    font-size: 0.9em;
-    /* background: oklch(from var(--foreground) l c h / 0.1); */
+    font-size: 0.825em;
     background: var(--accent-subtle);
     color: var(--accent-text);
     padding: var(--space-0_5) var(--space-1);
@@ -53,7 +52,7 @@ export const sectionStyles = css`
 
   /* ── Section heading ── */
   .section-heading {
-    font-size: var(--font-size-lg, 1.125rem);
+    font-size: var(--text-lg, 1.125rem);
     font-weight: 600;
     letter-spacing: var(--letter-spacing-tight, -0.01em);
     color: var(--foreground);
@@ -67,7 +66,7 @@ export const sectionStyles = css`
 
   /* ── Section description ── */
   .section-description {
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     color: var(--text-2);
     line-height: var(--line-height-relaxed, 1.625);
     margin: 0 0 var(--space-5);
@@ -77,7 +76,7 @@ export const sectionStyles = css`
 
   .section-description code {
     font-family: var(--font-mono);
-    font-size: var(--font-size-xs, 0.75rem);
+    font-size: var(--text-xs, 0.75rem);
     background: oklch(from var(--foreground) l c h / 0.1);
     padding: var(--space-0_5) var(--space-1);
     border-radius: var(--radius-sm);

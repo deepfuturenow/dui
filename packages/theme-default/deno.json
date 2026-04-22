@@ -1,6 +1,6 @@
 {
   "name": "@dui/theme-default",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "exports": {
     ".": "./src/index.ts",
     "./components/accordion": "./src/components/accordion.ts",
@@ -48,7 +48,6 @@
     "./components/hstack": "./src/components/hstack.ts",
     "./components/vstack": "./src/components/vstack.ts",
     "./components/page-inset": "./src/components/page-inset.ts",
-    "./components/link": "./src/components/link.ts",
     "./components/avatar": "./src/components/avatar.ts",
     "./components/portal": "./src/components/portal.ts",
     "./components/input": "./src/components/input.ts",
@@ -88,6 +87,7 @@
     "./components/menubar": "./src/components/menubar.ts",
     "./components/calendar": "./src/components/calendar.ts",
     "./components/split-button": "./src/components/split-button.ts",
+    "./components/card": "./src/components/card.ts",
     "./components/card-grid": "./src/components/card-grid.ts"
   },
   "imports": {

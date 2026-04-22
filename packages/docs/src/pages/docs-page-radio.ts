@@ -9,10 +9,7 @@ export class DocsPageRadio extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-radio-group" .additionalTags=${["dui-radio"]}>
-        <h1>${groupMeta.name}</h1>
-      <p class="description">${groupMeta.description}</p>
-
-      <dui-docs-demo label="Default">
+        <dui-docs-demo label="Default">
         <dui-radio-group default-value="apple">
           <dui-radio value="apple">Apple</dui-radio>
           <dui-radio value="banana">Banana</dui-radio>

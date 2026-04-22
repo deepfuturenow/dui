@@ -333,7 +333,7 @@ export class BlockColors extends LitElement {
       align-items: center;
       gap: var(--space-1_5);
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       font-weight: var(--font-weight-semibold);
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider);
@@ -349,7 +349,7 @@ export class BlockColors extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       font-weight: var(--font-weight-bold);
       color: var(--background);
     }
@@ -380,7 +380,7 @@ export class BlockColors extends LitElement {
 
     .group-label {
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       font-weight: var(--font-weight-semibold);
       text-transform: uppercase;
       letter-spacing: var(--letter-spacing-wider);
@@ -430,7 +430,7 @@ export class BlockColors extends LitElement {
 
     .token-name {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       font-weight: var(--font-weight-medium);
       margin: 0;
       line-height: 1.3;
@@ -438,7 +438,7 @@ export class BlockColors extends LitElement {
 
     .token-formula {
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       color: var(--text-3);
       margin: 0;
       line-height: 1.4;

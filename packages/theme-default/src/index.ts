@@ -36,13 +36,14 @@ import { tabsListStyles } from "./components/tabs-list.ts";
 import { tabsPanelStyles } from "./components/tabs-panel.ts";
 import { textareaStyles } from "./components/textarea.ts";
 import { truncStyles } from "./components/trunc.ts";
-import { linkStyles } from "./components/link.ts";
 import { avatarStyles } from "./components/avatar.ts";
 import { portalStyles } from "./components/portal.ts";
 import { inputStyles } from "./components/input.ts";
 import { radioStyles } from "./components/radio.ts";
 import { radioGroupStyles } from "./components/radio-group.ts";
 import { dropzoneStyles } from "./components/dropzone.ts";
+import { fieldStyles } from "./components/field.ts";
+import { fieldsetStyles } from "./components/fieldset.ts";
 import { selectStyles } from "./components/select.ts";
 import { previewCardStyles } from "./components/preview-card.ts";
 import { previewCardPopupStyles } from "./components/preview-card-popup.ts";
@@ -77,6 +78,7 @@ import { numberFieldStyles } from "./components/number-field.ts";
 import { stepperStyles } from "./components/stepper.ts";
 import { menubarStyles } from "./components/menubar.ts";
 import { calendarStyles } from "./components/calendar.ts";
+import { cardStyles } from "./components/card.ts";
 import { cardGridStyles } from "./components/card-grid.ts";
 import { proseSheet } from "./prose.ts";
 import { tokenSheet } from "./tokens.ts";
@@ -122,13 +124,14 @@ export const defaultTheme: DuiTheme = {
     ["dui-tabs-panel", tabsPanelStyles],
     ["dui-textarea", textareaStyles],
     ["dui-trunc", truncStyles],
-    ["dui-link", linkStyles],
     ["dui-avatar", avatarStyles],
     ["dui-portal", portalStyles],
     ["dui-input", inputStyles],
     ["dui-radio", radioStyles],
     ["dui-radio-group", radioGroupStyles],
     ["dui-dropzone", dropzoneStyles],
+    ["dui-field", fieldStyles],
+    ["dui-fieldset", fieldsetStyles],
     ["dui-select", selectStyles],
     ["dui-preview-card", previewCardStyles],
     ["dui-preview-card-popup", previewCardPopupStyles],
@@ -163,6 +166,7 @@ export const defaultTheme: DuiTheme = {
     ["dui-stepper", stepperStyles],
     ["dui-menubar", menubarStyles],
     ["dui-calendar", calendarStyles],
+    ["dui-card", cardStyles],
     ["dui-card-grid", cardGridStyles],
   ]),
 };
@@ -204,13 +208,14 @@ export { tabsListStyles } from "./components/tabs-list.ts";
 export { tabsPanelStyles } from "./components/tabs-panel.ts";
 export { textareaStyles } from "./components/textarea.ts";
 export { truncStyles } from "./components/trunc.ts";
-export { linkStyles } from "./components/link.ts";
 export { avatarStyles } from "./components/avatar.ts";
 export { portalStyles } from "./components/portal.ts";
 export { inputStyles } from "./components/input.ts";
 export { radioStyles } from "./components/radio.ts";
 export { radioGroupStyles } from "./components/radio-group.ts";
 export { dropzoneStyles } from "./components/dropzone.ts";
+export { fieldStyles } from "./components/field.ts";
+export { fieldsetStyles } from "./components/fieldset.ts";
 export { selectStyles } from "./components/select.ts";
 export { previewCardStyles } from "./components/preview-card.ts";
 export { previewCardPopupStyles } from "./components/preview-card-popup.ts";
@@ -245,14 +250,11 @@ export { numberFieldStyles } from "./components/number-field.ts";
 export { stepperStyles } from "./components/stepper.ts";
 export { menubarStyles } from "./components/menubar.ts";
 export { calendarStyles } from "./components/calendar.ts";
+export { cardStyles } from "./components/card.ts";
 export { cardGridStyles } from "./components/card-grid.ts";
 
 // --- Prose ---
 export { proseSheet } from "./prose.ts";
-
-// --- Typography helpers ---
-export { type, typeScale } from "./typography.ts";
-export type { TypeSize } from "./typography.ts";
 
 // --- Theme variant/size types ---
 export type {

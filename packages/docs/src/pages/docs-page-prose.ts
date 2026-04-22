@@ -10,6 +10,50 @@ export class DocsPageProse extends LitElement {
       display: block;
     }
 
+    .title {
+      font-size: var(--text-2xl, 1.5rem);
+      font-weight: 700;
+      letter-spacing: var(--letter-spacing-tighter, -0.02em);
+      line-height: var(--line-height-tight, 1.25);
+      margin: 0 0 var(--space-2);
+    }
+
+    .description {
+      font-size: var(--text-base, 0.9375rem);
+      color: var(--text-2);
+      margin: 0 0 var(--space-8, 2rem);
+      max-width: 40rem;
+      line-height: var(--line-height-relaxed, 1.625);
+    }
+
+    .description code {
+      font-family: var(--font-mono);
+      font-size: 0.875em;
+      background: var(--surface-1);
+      padding: 0.15em 0.35em;
+      border-radius: var(--radius-sm);
+    }
+
+    .section-heading {
+      font-size: var(--text-lg, 1.125rem);
+      font-weight: 600;
+      letter-spacing: var(--letter-spacing-tight, -0.01em);
+      color: var(--foreground);
+      margin: var(--space-12) 0 var(--space-2);
+    }
+
+    .section-heading:first-of-type {
+      margin-top: 0;
+    }
+
+    .section-description {
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      margin: 0 0 var(--space-5);
+      max-width: 40rem;
+      line-height: var(--line-height-relaxed, 1.625);
+    }
+
     /* ── Demo card ── */
     .demo-card {
       background: var(--surface-2);
@@ -33,7 +77,7 @@ export class DocsPageProse extends LitElement {
     .demo-code pre {
       margin: 0;
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       line-height: 1.7;
       color: var(--foreground);
       white-space: pre;
@@ -43,7 +87,7 @@ export class DocsPageProse extends LitElement {
     .token-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       margin-bottom: var(--space-6);
     }
 
@@ -61,7 +105,7 @@ export class DocsPageProse extends LitElement {
 
     .token-table code {
       font-family: var(--font-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       background: var(--surface-1);
       padding: 0.1em 0.35em;
       border-radius: var(--radius-sm);
@@ -246,8 +290,8 @@ console.log(tax); // 1</code></pre>
       <!-- ── Headings ── -->
       <h2 class="section-heading">Headings</h2>
       <p class="section-description">
-        Headings h1–h6 scale down from <code>--font-size-4xl</code> to
-        <code>--font-size-lg</code>, with tighter letter-spacing on larger sizes.
+        Headings h1–h6 scale down from <code>--text-4xl</code> to
+        <code>--text-lg</code>, with tighter letter-spacing on larger sizes.
       </p>
       <div class="demo-card">
         <div class="demo-area">

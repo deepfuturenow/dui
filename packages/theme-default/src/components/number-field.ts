@@ -7,7 +7,7 @@ export const numberFieldStyles = css`
     --number-field-border: var(--border);
     --number-field-height: var(--component-height-sm);
     --number-field-radius: var(--radius-md);
-    --number-field-font-size: var(--font-size-xs);
+    --number-field-font-size: var(--text-xs);
     --number-field-value-align: center;
 
     /* Label tokens */
@@ -69,7 +69,7 @@ export const numberFieldStyles = css`
     height: var(--number-field-height);
     background: var(--number-field-label-bg);
     color: var(--number-field-label-fg);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     font-weight: var(--font-weight-medium, 500);
   }
 
@@ -95,7 +95,7 @@ export const numberFieldStyles = css`
   }
 
   :host([label-position="above"]) [part="label"] {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--text-2);
   }
 
@@ -110,7 +110,7 @@ export const numberFieldStyles = css`
   }
 
   :host([label-position="below"]) [part="label"] {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--text-2);
   }
 
@@ -125,7 +125,7 @@ export const numberFieldStyles = css`
   }
 
   :host([label-position="outside-left"]) [part="label"] {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--text-2);
   }
 
@@ -192,7 +192,7 @@ export const numberFieldStyles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
-  [part="root"][data-invalid] {
+  :host([aria-invalid="true"]) [part="root"] {
     border-color: var(--destructive);
   }
 
@@ -214,7 +214,7 @@ export const numberFieldStyles = css`
 
   [part="unit"] {
     display: var(--_unit-display, none);
-    font-size: var(--font-size-2xs);
+    font-size: var(--text-2xs);
     color: var(--text-2);
     padding-right: var(--space-2);
   }

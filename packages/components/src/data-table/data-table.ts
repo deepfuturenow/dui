@@ -416,7 +416,7 @@ export class DuiDataTable<
             @click=${() => this.#goToPage(1)}
             aria-label="First page"
           >
-            <dui-icon style="--icon-size: var(--font-size-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></dui-icon>
+            <dui-icon style="--icon-size: var(--text-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></dui-icon>
           </button>
           <button
             class="PageButton"
@@ -424,7 +424,7 @@ export class DuiDataTable<
             @click=${() => this.#goToPage(this.#page - 1)}
             aria-label="Previous page"
           >
-            <dui-icon style="--icon-size: var(--font-size-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></dui-icon>
+            <dui-icon style="--icon-size: var(--text-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></dui-icon>
           </button>
           <button
             class="PageButton"
@@ -432,7 +432,7 @@ export class DuiDataTable<
             @click=${() => this.#goToPage(this.#page + 1)}
             aria-label="Next page"
           >
-            <dui-icon style="--icon-size: var(--font-size-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></dui-icon>
+            <dui-icon style="--icon-size: var(--text-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></dui-icon>
           </button>
           <button
             class="PageButton"
@@ -440,7 +440,7 @@ export class DuiDataTable<
             @click=${() => this.#goToPage(this.#totalPages)}
             aria-label="Last page"
           >
-            <dui-icon style="--icon-size: var(--font-size-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg></dui-icon>
+            <dui-icon style="--icon-size: var(--text-sm)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg></dui-icon>
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "@dui/components",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "exports": {
     "./button": "./src/button/index.ts",
     "./switch": "./src/switch/index.ts",
@@ -23,10 +23,10 @@
     "./tabs": "./src/tabs/index.ts",
     "./textarea": "./src/textarea/index.ts",
     "./trunc": "./src/trunc/index.ts",
-    "./link": "./src/link/index.ts",
     "./avatar": "./src/avatar/index.ts",
     "./portal": "./src/portal/index.ts",
     "./field": "./src/field/index.ts",
+    "./fieldset": "./src/fieldset/index.ts",
     "./input": "./src/input/index.ts",
     "./radio": "./src/radio/index.ts",
     "./dropzone": "./src/dropzone/index.ts",
@@ -43,6 +43,7 @@
     "./menubar": "./src/menubar/index.ts",
     "./calendar": "./src/calendar/index.ts",
     "./split-button": "./src/split-button/index.ts",
+    "./card": "./src/card/index.ts",
     "./card-grid": "./src/card-grid/index.ts",
     "./all": "./src/all.ts"
   },

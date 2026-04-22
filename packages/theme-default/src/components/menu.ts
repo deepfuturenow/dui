@@ -18,4 +18,8 @@ export const menuStyles = css`
   .Menu {
     padding: var(--space-1);
   }
+
+  .Menu dui-separator {
+    margin: var(--space-1) var(--space-2);
+  }
 `;

@@ -9,7 +9,7 @@ export const switchStyles = css`
     --track-inner: calc(var(--switch-width) - var(--switch-thumb-offset) * 2);
     --switch-checked-offset: calc(var(--track-inner) - var(--switch-thumb-size));
     gap: var(--space-2);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
   }
 
   [part="root"] {
@@ -19,7 +19,7 @@ export const switchStyles = css`
       (var(--line-height-normal) * 1em - var(--switch-height)) / 2
     );
     border-radius: calc(var(--switch-height) / 2);
-    outline: var(--border-width-thin) solid var(--border-strong);
+    outline: var(--border-width-thin) solid oklch(from var(--foreground) l c h / 0.15);
     background: oklch(from var(--foreground) l c h / 0.12);
     transition-property: background, outline-color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
@@ -46,12 +46,12 @@ export const switchStyles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
-  [part="root"][data-invalid] {
+  :host([aria-invalid="true"]) [part="root"] {
     background: color-mix(in oklch, var(--destructive) 15%, transparent);
     outline-color: color-mix(in oklch, var(--destructive) 70%, transparent);
   }
 
-  [part="root"][data-invalid][data-checked] {
+  :host([aria-invalid="true"]) [part="root"][data-checked] {
     background: var(--destructive);
   }
 
@@ -59,8 +59,9 @@ export const switchStyles = css`
     width: var(--switch-thumb-size);
     height: var(--switch-thumb-size);
     border-radius: 50%;
-    outline: var(--border-width-thin) solid transparent;
-    background: var(--background);
+    outline: var(--border-width-thin) solid oklch(from var(--foreground) l c h / 0.02);
+    box-shadow: 0 1px 3px oklch(from var(--foreground) l c h / 0.2);
+    background: white;
     transition-property: transform, outline-color;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);

@@ -43,7 +43,7 @@ export const sliderStyles = css`
   [part="indicator"] {
     background: var(--accent);
     border-radius: calc(var(--slider-track-height) / 2);
-    transition: width 50ms ease-out;
+    transition: width var(--duration-fast) ease-out;
   }
 
   [part="root"][data-dragging] [part="indicator"] {
@@ -53,11 +53,11 @@ export const sliderStyles = css`
   [part="thumb"] {
     width: var(--slider-thumb-size);
     height: var(--slider-thumb-size);
-    background: var(--background);
+    background: white;
     border: var(--border-width-medium) solid var(--accent);
     border-radius: 50%;
     transition-property: left, box-shadow;
-    transition-duration: 50ms, var(--duration-fast);
+    transition-duration: var(--duration-fast), var(--duration-fast);
     transition-timing-function: ease-out, ease;
   }
 
@@ -113,7 +113,7 @@ export const sliderStyles = css`
 
   :host([variant="field"][label]:not([label=""])) [part="label"] {
     display: flex;
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--muted-foreground);
     margin-bottom: var(--space-1);
   }

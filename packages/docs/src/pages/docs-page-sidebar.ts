@@ -55,7 +55,7 @@ export class DocsPageSidebar extends LitElement {
                 </dui-sidebar-group>
               </dui-sidebar-content>
               <dui-sidebar-footer>
-                <div style="padding: var(--space-2); font-size: var(--font-size-xs); color: var(--text-2);">v1.0.0</div>
+                <div style="padding: var(--space-2); font-size: var(--text-xs); color: var(--text-2);">v1.0.0</div>
               </dui-sidebar-footer>
             </dui-sidebar>
             <dui-sidebar-inset>

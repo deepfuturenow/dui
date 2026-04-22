@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export const textareaStyles = css`
   :host {
-    --font-size: var(--font-size-sm);
+    --font-size: var(--text-sm);
   }
 
   [part="textarea"] {
@@ -61,7 +61,7 @@ export const textareaStyles = css`
     opacity: 0.4;
   }
 
-  [part="textarea"][data-invalid] {
+  :host([aria-invalid="true"]) [part="textarea"] {
     border-color: var(--destructive);
   }
 

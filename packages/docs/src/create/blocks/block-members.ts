@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { blockBase } from "./block-base.ts";
 import { customElement, state } from "lit/decorators.js";
+import { gridOverlay } from "./block-base.ts";
 import type { ColumnDef } from "@dui/components/data-table";
 
 interface Member {
@@ -37,33 +37,26 @@ const DATA: Member[] = [
 
 @customElement("block-members")
 export class BlockMembers extends LitElement {
-  static override styles = [blockBase, css`
+  static override styles = [gridOverlay, css`
     :host {
-      padding: var(--space-6);
+      display: block;
+      position: relative;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-4);
+    /* Card */
+    dui-card::part(root) {
+      padding-bottom: var(--space-5);
     }
 
-    .title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .title span {
-      font-weight: 400;
+    .title-count {
+      font-weight: var(--font-weight-regular);
       color: var(--text-2);
     }
 
     .search-row {
       display: flex;
       gap: var(--space-2);
-      margin-bottom: var(--space-3);
+      margin-bottom: var(--space-2);
     }
 
     .search-row dui-input {
@@ -108,19 +101,19 @@ export class BlockMembers extends LitElement {
 
   override render() {
     return html`
-      <div class="header">
-        <p class="title">Members <span>(${DATA.length})</span></p>
-        <dui-button size="sm">Invite</dui-button>
-      </div>
+      <dui-card>
+        <span slot="title">Members <span class="title-count">(${DATA.length})</span></span>
+        <dui-button slot="action" size="sm">Invite</dui-button>
 
-      <div class="search-row">
-        <dui-input
-          placeholder="Filter members..."
-          @input="${this.#onInput}"
-        ></dui-input>
-      </div>
+        <div class="search-row">
+          <dui-input
+            placeholder="Filter members..."
+            @input="${this.#onInput}"
+          ></dui-input>
+        </div>
 
-      <dui-data-table></dui-data-table>
+        <dui-data-table></dui-data-table>
+      </dui-card>
     `;
   }
 }

@@ -10,19 +10,13 @@ export class DocsPageSwitch extends LitElement {
     return html`
       <docs-page-layout tag="dui-switch">
         <dui-docs-demo label="States">
-        <docs-row>
-          <dui-switch>Default</dui-switch>
-        </docs-row>
-        <docs-row>
-          <dui-switch default-checked>Default checked</dui-switch>
-        </docs-row>
-        <docs-row>
-          <dui-switch disabled>Disabled</dui-switch>
-        </docs-row>
-        <docs-row>
-          <dui-switch read-only default-checked>Read only</dui-switch>
-        </docs-row>
-      </dui-docs-demo>
+          <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+            <dui-switch>Default</dui-switch>
+            <dui-switch default-checked>Default checked</dui-switch>
+            <dui-switch disabled>Disabled</dui-switch>
+            <dui-switch read-only default-checked>Read only</dui-switch>
+          </div>
+        </dui-docs-demo>
       </docs-page-layout>
     `;
   }

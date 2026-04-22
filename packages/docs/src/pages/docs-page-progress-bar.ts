@@ -86,7 +86,7 @@ export class DocsPageProgressBar extends LitElement {
           </div>
         </dui-docs-demo>
 
-        <dui-docs-demo label="With actions slot">
+        <dui-docs-demo label="With actions slot" demo-width="var(--space-32)">
           <div style="max-width: 560px;">
             <dui-progress-bar
               label="Disk Usage"

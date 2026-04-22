@@ -20,11 +20,12 @@ const OUTPUT = join(ROOT, "skills/dui/references/components.md");
 const CATEGORIES: { name: string; tags: string[] }[] = [
   {
     name: "Actions",
-    tags: ["dui-button", "dui-split-button", "dui-link", "dui-toggle", "dui-toggle-group", "dui-toolbar"],
+    tags: ["dui-button", "dui-split-button", "dui-toggle", "dui-toggle-group", "dui-toolbar"],
   },
   {
     name: "Forms",
     tags: [
+      "dui-field", "dui-fieldset",
       "dui-input", "dui-textarea", "dui-select", "dui-combobox",
       "dui-checkbox", "dui-checkbox-group", "dui-radio",
       "dui-switch", "dui-slider", "dui-number-field", "dui-stepper", "dui-dropzone",
@@ -243,7 +244,7 @@ lines.push("**Radii:**");
 lines.push("`--radius-none`, `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`, `--radius-2xl`, `--radius-full`");
 lines.push("");
 lines.push("**Typography:**");
-lines.push("`--font-sans`, `--font-serif`, `--font-mono`, `--font-size-xs` through `--font-size-7xl`, `--font-weight-regular`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--line-height-none`, `--line-height-tight`, `--line-height-snug`, `--line-height-normal`, `--line-height-relaxed`");
+lines.push("`--font-sans`, `--font-serif`, `--font-mono`, `--text-xs` through `--text-7xl`, `--font-weight-regular`, `--font-weight-medium`, `--font-weight-semibold`, `--font-weight-bold`, `--line-height-none`, `--line-height-tight`, `--line-height-snug`, `--line-height-normal`, `--line-height-relaxed`");
 lines.push("");
 lines.push("**Shadows:**");
 lines.push("`--shadow-xs`, `--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-xl`, `--shadow-2xl`, `--shadow-none`");

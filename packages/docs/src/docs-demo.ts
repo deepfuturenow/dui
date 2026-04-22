@@ -41,7 +41,7 @@ export class DuiDocsDemo extends LitElement {
 
     .demo-label {
       font-weight: 600;
-      font-size: var(--font-size-sm);
+      font-size: var(--text-sm);
       border: none;
       color: var(--foreground);
     }
@@ -63,7 +63,7 @@ export class DuiDocsDemo extends LitElement {
     }
 
     dui-tab::part(tab) {
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
       height: 2rem;
     }
 
@@ -74,26 +74,27 @@ export class DuiDocsDemo extends LitElement {
     }
 
     dui-tabs-panel {
+      --tabs-panel-border-width: 0;
+      --tabs-panel-padding: 0 0 0 var(--space-3);
     }
 
     .code {
-      padding: var(--space-3) var(--space-4);
-      max-height: calc(var(--font-size-2xs) * 1.7 * 10 + var(--space-3) * 2);
+      max-height: calc(var(--text-2xs) * 1.7 * 10 + var(--space-3) * 2);
       overflow-y: auto;
-      font-size: var(--font-size-xs);
+      font-size: var(--text-xs);
     }
 
     .code-only {
       padding: var(--space-3) var(--space-4);
-      max-height: calc(var(--font-size-2xs) * 1.7 * 10 + var(--space-3) * 2);
+      max-height: calc(var(--text-2xs) * 1.7 * 10 + var(--space-3) * 2);
       overflow-y: auto;
       background: var(--surface-1);
     }
 
     pre {
-      margin: 0;
+      margin: var(--space-3) 0;
       font-family: var(--font-mono);
-      font-size: var(--font-size-2xs);
+      font-size: var(--text-2xs);
       line-height: 1.7;
       white-space: pre-wrap;
       word-break: break-all;

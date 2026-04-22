@@ -71,7 +71,7 @@ const styles = css`
   .title {
     position: relative;
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
@@ -91,13 +91,13 @@ const styles = css`
     /* Position: pull left into the gutter, vertically center with the title line */
     left: calc(-1 * var(--_gutter));
     /* Align to the first line of text: offset by half line-height minus half dot */
-    top: calc(var(--font-size-sm) * 0.35);
+    top: calc(var(--text-sm) * 0.35);
   }
 
 
   .timestamp {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
     color: var(--text-3);
@@ -107,7 +107,7 @@ const styles = css`
 
   .description {
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-2);
@@ -185,7 +185,7 @@ export class DuiActivityItem extends LitElement {
           <div class="header">
             <span class="title" part="title">${this.title}</span>
             ${this.statusLabel
-              ? html`<dui-badge appearance="ghost" size="sm" variant=${badgeVariant}>${this.statusLabel}</dui-badge>`
+              ? html`<dui-badge appearance="soft" size="sm" variant=${badgeVariant}>${this.statusLabel}</dui-badge>`
               : nothing}
             ${this.timestamp
               ? html`<time class="timestamp" part="timestamp">${this.timestamp}</time>`

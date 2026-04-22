@@ -42,7 +42,6 @@ import type { DuiDialogClose } from "./dialog/dialog-close.ts";
 import type { DuiDropzone } from "./dropzone/dropzone.ts";
 import type { DuiIcon } from "./icon/icon.ts";
 import type { DuiInput } from "./input/input.ts";
-import type { DuiLink } from "./link/link.ts";
 import type { DuiMenu } from "./menu/menu.ts";
 import type { DuiMenuItem } from "./menu/menu-item.ts";
 import type { DuiMenubar } from "./menubar/menubar.ts";
@@ -129,7 +128,6 @@ declare global {
     "dui-dropzone": DuiDropzone;
     "dui-icon": DuiIcon;
     "dui-input": DuiInput;
-    "dui-link": DuiLink;
     "dui-menu": DuiMenu;
     "dui-menu-item": DuiMenuItem;
     "dui-menubar": DuiMenubar;

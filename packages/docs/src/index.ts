@@ -24,7 +24,6 @@ import "./pages/docs-page-spinner.ts";
 import "./pages/docs-page-tabs.ts";
 import "./pages/docs-page-textarea.ts";
 import "./pages/docs-page-trunc.ts";
-import "./pages/docs-page-link.ts";
 import "./pages/docs-page-avatar.ts";
 import "./pages/docs-page-portal.ts";
 import "./pages/docs-page-input.ts";
@@ -44,7 +43,11 @@ import "./pages/docs-page-number-field.ts";
 import "./pages/docs-page-stepper.ts";
 import "./pages/docs-page-menubar.ts";
 import "./pages/docs-page-calendar.ts";
+import "./pages/docs-page-card.ts";
 import "./pages/docs-page-card-grid.ts";
+import "./pages/docs-page-field.ts";
+import "./pages/docs-page-fieldset.ts";
+import "./pages/docs-page-forms.ts";
 import "./pages/docs-page-styling.ts";
 import "./pages/docs-page-theming.ts";
 import "./pages/docs-page-typography.ts";
@@ -94,12 +97,13 @@ import { DuiSpinner } from "@dui/components/spinner";
 import { DuiTabs, DuiTabsList, DuiTab, DuiTabsPanel, DuiTabsIndicator } from "@dui/components/tabs";
 import { DuiTextarea } from "@dui/components/textarea";
 import { DuiTrunc } from "@dui/components/trunc";
-import { DuiLink } from "@dui/components/link";
 import { DuiAvatar } from "@dui/components/avatar";
 import { DuiPortal } from "@dui/components/portal";
 import { DuiInput } from "@dui/components/input";
 import { DuiRadio, DuiRadioGroup } from "@dui/components/radio";
 import { DuiDropzone } from "@dui/components/dropzone";
+import { DuiField } from "@dui/components/field";
+import { DuiFieldset } from "@dui/components/fieldset";
 import { DuiSelect } from "@dui/components/select";
 import { DuiPreviewCard, DuiPreviewCardTrigger, DuiPreviewCardPopup } from "@dui/components/preview-card";
 import { DuiDataTable } from "@dui/components/data-table";
@@ -113,6 +117,7 @@ import { DuiNumberField } from "@dui/components/number-field";
 import { DuiStepper } from "@dui/components/stepper";
 import { DuiMenubar } from "@dui/components/menubar";
 import { DuiCalendar } from "@dui/components/calendar";
+import { DuiCard } from "@dui/components/card";
 import { DuiCardGrid } from "@dui/components/card-grid";
 import { DuiFeedItem, DuiActivityItem, DuiSocialPost, DuiHeadlineItem } from "@dui/theme-default-templates/feed";
 import { DuiSectionPanel, DuiPageHeader } from "@dui/theme-default-templates/dashboard";
@@ -173,13 +178,14 @@ applyTheme({
     DuiTabsIndicator,
     DuiTextarea,
     DuiTrunc,
-    DuiLink,
     DuiAvatar,
     DuiPortal,
     DuiInput,
     DuiRadio,
     DuiRadioGroup,
     DuiDropzone,
+    DuiField,
+    DuiFieldset,
     DuiSelect,
     DuiPreviewCard,
     DuiPreviewCardTrigger,
@@ -215,6 +221,7 @@ applyTheme({
     DuiStepper,
     DuiMenubar,
     DuiCalendar,
+    DuiCard,
     DuiCardGrid,
     DuiFeedItem,
     DuiActivityItem,

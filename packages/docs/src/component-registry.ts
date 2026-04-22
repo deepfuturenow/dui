@@ -312,7 +312,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost"', description: "Visual treatment" },
+      { name: "appearance", values: '"filled" | "outline" | "soft"', description: "Visual treatment" },
     ],
     themeCssProperties: [
       { name: "--badge-bg", description: "Background color" },
@@ -344,8 +344,8 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
-      { name: "appearance", values: '"filled" | "outline" | "ghost" | "link"', description: "Visual treatment" },
-      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
+      { name: "appearance", values: '"filled" | "outline" | "ghost" | "soft" | "link"', description: "Visual treatment" },
+      { name: "size", values: '"sm" | "md" | "lg"', description: "Component size" },
     ],
     themeCssProperties: [
       { name: "--button-bg", description: "Background (supports gradients, images, and color)" },
@@ -471,7 +471,9 @@ export const componentRegistry: ComponentMeta[] = [
     name: "Menu",
     description: "A popup menu triggered by a slotted element with keyboard navigation.",
     importPath: "@dui/components/menu",
-    properties: [],
+    properties: [
+      { name: "popup-min-width", type: "string", default: "\"var(--space-28)\"", description: "Sets min-width on the popup panel (e.g. \"200px\")" },
+    ],
     events: [],
     slots: [
       { name: "trigger", description: "The element that opens the menu on click" },
@@ -869,23 +871,6 @@ export const componentRegistry: ComponentMeta[] = [
   },
 
   {
-    tagName: "dui-link",
-    name: "Link",
-    description: "Layout-transparent SPA link. Dispatches spa-navigate on click; modifier-clicks fall through for new-tab behavior.",
-    importPath: "@dui/components/link",
-    properties: [
-      { name: "href", type: "string", default: '""', description: "The URL to navigate to" },
-    ],
-    events: [
-      { name: "spa-navigate", detail: "{ href: string }", description: "Fired on plain left-click" },
-    ],
-    slots: [
-      { name: "default", description: "Link content" },
-    ],
-    cssProperties: [],
-  },
-
-  {
     tagName: "dui-portal",
     name: "Portal",
     description: "Teleports light DOM children to a target container elsewhere in the document.",
@@ -1124,7 +1109,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Preview card content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--preview-card-popup-padding", default: "var(--space-4)", description: "Padding inside the popup" },
+    ],
   },
   {
     tagName: "dui-data-table",
@@ -1738,6 +1725,41 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "day", description: "Individual day buttons" },
     ],
   },
+  // --- Card ---
+  {
+    tagName: "dui-card",
+    name: "Card",
+    description: "A container for grouped content with header, body, and footer sections. Uses flex-column + gap for vertical rhythm.",
+    importPath: "@dui/components/card",
+    properties: [
+      { name: "size", type: '"" | "sm"', default: '""', description: "Card size — controls internal spacing." },
+    ],
+    events: [],
+    slots: [
+      { name: "default", description: "Main card content (body)." },
+      { name: "title", description: "Card heading text." },
+      { name: "description", description: "Helper text below the title." },
+      { name: "action", description: "Top-right header action (button, badge, etc.)." },
+      { name: "footer", description: "Footer content (buttons, links, etc.)." },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The outer card container." },
+      { name: "header", description: "The header section (title + description + action)." },
+      { name: "header-text", description: "Vertical stack holding title and description slots." },
+      { name: "action", description: "Zero-height wrapper around the action slot (reserves width, not height)." },
+      { name: "content", description: "Wrapper around the default slot." },
+      { name: "footer", description: "The footer section." },
+    ],
+    themeCssProperties: [
+      { name: "--card-gap", description: "Vertical gap between card sections." },
+      { name: "--card-px", description: "Horizontal padding for card sections." },
+      { name: "--card-py-top", description: "Top padding on the card root." },
+      { name: "--card-py-bottom", description: "Bottom padding on the card root." },
+      { name: "--card-action-offset-top", description: "Vertical margin on the action wrapper (negative pulls toward card top edge)." },
+      { name: "--card-action-offset-end", description: "Horizontal margin on the action wrapper (negative pulls toward card right edge)." },
+    ],
+  },
   // --- Layout components ---
   {
     tagName: "dui-card-grid",
@@ -2046,7 +2068,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--chart-grid-color", default: "var(--border)", description: "Grid line color" },
       { name: "--chart-axis-color", default: "var(--text-2)", description: "Axis text/line color" },
       { name: "--chart-font-family", default: "var(--font-sans)", description: "Chart text font" },
-      { name: "--chart-font-size", default: "var(--font-size-xs)", description: "Axis/tick label size" },
+      { name: "--chart-font-size", default: "var(--text-xs)", description: "Axis/tick label size" },
       { name: "--chart-tooltip-bg", default: "var(--surface-1)", description: "Tooltip background" },
       { name: "--chart-tooltip-color", default: "var(--text-1)", description: "Tooltip text color" },
       { name: "--chart-tooltip-border", default: "var(--border)", description: "Tooltip border color" },
@@ -2058,6 +2080,50 @@ export const componentRegistry: ComponentMeta[] = [
     cssParts: [
       { name: "root", description: "The chart container div" },
       { name: "tooltip", description: "The HTML tooltip overlay" },
+    ],
+  },
+  {
+    tagName: "dui-field",
+    name: "Field",
+    description: "Slot-based form field wrapper. Provides label, description, and error slots with automatic ARIA wiring and field state tracking.",
+    importPath: "@dui/components/field",
+    properties: [
+      { name: "disabled", type: "boolean", default: "false", description: "Disables the child control" },
+      { name: "invalid", type: "boolean", default: "false", description: "Marks the field as invalid" },
+      { name: "orientation", type: '"vertical" | "horizontal"', default: '"vertical"', description: "Layout direction" },
+    ],
+    events: [],
+    slots: [
+      { name: "label", description: "Label text (e.g. <span slot=\"label\">Email</span>)" },
+      { name: "default", description: "The form control" },
+      { name: "description", description: "Help text (e.g. <span slot=\"description\">…</span>)" },
+      { name: "error", description: "Error message (e.g. <span slot=\"error\">Required</span>)" },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The field container element" },
+      { name: "label", description: "The label wrapper" },
+      { name: "description", description: "The description wrapper" },
+      { name: "error", description: "The error wrapper (hidden unless invalid)" },
+    ],
+  },
+  {
+    tagName: "dui-fieldset",
+    name: "Fieldset",
+    description: "Semantic grouping for related form fields using a native fieldset element.",
+    importPath: "@dui/components/fieldset",
+    properties: [
+      { name: "disabled", type: "boolean", default: "false", description: "Disables all child form controls" },
+    ],
+    events: [],
+    slots: [
+      { name: "legend", description: "Legend text (e.g. <span slot=\"legend\">Personal Info</span>)" },
+      { name: "default", description: "Field children" },
+    ],
+    cssProperties: [],
+    cssParts: [
+      { name: "root", description: "The native fieldset element" },
+      { name: "legend", description: "The native legend element" },
     ],
   },
 ];

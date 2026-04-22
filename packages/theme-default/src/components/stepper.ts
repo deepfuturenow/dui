@@ -19,7 +19,7 @@ export const stepperStyles = css`
     opacity: 0.4;
   }
 
-  [part="root"][data-invalid] {
+  :host([aria-invalid="true"]) [part="root"] {
     border-color: var(--destructive);
   }
 
@@ -27,14 +27,14 @@ export const stepperStyles = css`
     height: var(--component-height-md);
     width: var(--space-16);
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     color: var(--text-1);
   }
 
   :host([size="sm"]) [part="input"] {
     height: var(--component-height-sm);
     width: var(--space-14);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
   }
 
   [part="decrement"],
@@ -43,7 +43,7 @@ export const stepperStyles = css`
     height: var(--component-height-md);
     color: var(--text-2);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-lg);
+    font-size: var(--text-lg);
     transition-property: background, color;
     transition-duration: var(--duration-fast);
   }

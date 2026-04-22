@@ -164,7 +164,15 @@ const portalPopupStyles = [
  */
 export class DuiCombobox extends LitElement {
   static tagName = "dui-combobox" as const;
+  static formAssociated = true;
   static override styles = [base, hostStyles, componentStyles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** The available options. */
   @property({ attribute: false })
@@ -193,6 +201,24 @@ export class DuiCombobox extends LitElement {
   /** Name for form submission. */
   @property({ type: String })
   accessor name = "";
+
+  override willUpdate(): void {
+    this.#syncFormValue();
+  }
+
+  #syncFormValue(): void {
+    if (this.multiple) {
+      const formData = new FormData();
+      for (const v of this.values) {
+        formData.append(this.name || "values", v);
+      }
+      this.#internals.setFormValue(formData);
+    } else {
+      this.#internals.setFormValue(this.value || null);
+    }
+  }
+
+
 
   @state()
   accessor #highlightedIndex = -1;
@@ -388,6 +414,7 @@ export class DuiCombobox extends LitElement {
       this.value = option.value;
       this.#inputValue = option.label;
       this.dispatchEvent(valueChangeEvent({ value: option.value, option }));
+
       this.#popup.close();
     }
   }
@@ -505,15 +532,6 @@ export class DuiCombobox extends LitElement {
           ${inputHtml}
           <dui-icon class="Arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></dui-icon>
         </div>
-        ${this.name
-          ? repeat(
-              Array.from(this.values),
-              (v) => v,
-              (v) => html`
-                <input type="hidden" name="${this.name}" .value="${v}" />
-              `,
-            )
-          : nothing}
       `;
     }
 
@@ -522,11 +540,6 @@ export class DuiCombobox extends LitElement {
         ${inputHtml}
         <dui-icon class="Arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></dui-icon>
       </div>
-      ${this.name
-        ? html`
-            <input type="hidden" name="${this.name}" .value="${this.value}" />
-          `
-        : nothing}
     `;
   }
 }

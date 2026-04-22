@@ -117,7 +117,15 @@ const styles = css`
  */
 export class DuiSlider extends LitElement {
   static tagName = "dui-slider" as const;
+  static formAssociated = true;
   static override styles = [base, styles];
+
+  #internals!: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   /** Current value. */
   @property({ type: Number })
@@ -154,6 +162,10 @@ export class DuiSlider extends LitElement {
   /** Decimal places for value readout. Auto-inferred from `step` if not set. */
   @property({ type: Number })
   accessor precision: number | undefined = undefined;
+
+  override willUpdate(): void {
+    this.#internals.setFormValue(String(this.value));
+  }
 
   @state()
   accessor #dragging = false;
@@ -195,7 +207,6 @@ export class DuiSlider extends LitElement {
     if (this.disabled) return;
 
     event.preventDefault();
-    this.#dragging = true;
 
     const newValue = this.#getValueFromPosition(event.clientX);
     if (newValue !== this.value) {
@@ -208,7 +219,7 @@ export class DuiSlider extends LitElement {
   };
 
   #onPointerMove = (event: PointerEvent): void => {
-    if (!this.#dragging) return;
+    if (!this.#dragging) this.#dragging = true;
 
     const newValue = this.#getValueFromPosition(event.clientX);
     if (newValue !== this.value) {
@@ -218,13 +229,13 @@ export class DuiSlider extends LitElement {
   };
 
   #onPointerUp = (): void => {
-    if (!this.#dragging) return;
-
+    const wasDragging = this.#dragging;
     this.#dragging = false;
-    this.dispatchEvent(valueCommittedEvent({ value: this.value }));
 
     document.removeEventListener("pointermove", this.#onPointerMove);
     document.removeEventListener("pointerup", this.#onPointerUp);
+
+    this.dispatchEvent(valueCommittedEvent({ value: this.value }));
   };
 
   #onKeyDown = (event: KeyboardEvent): void => {

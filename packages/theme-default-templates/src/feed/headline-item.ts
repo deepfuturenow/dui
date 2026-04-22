@@ -2,7 +2,6 @@ import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 import { type DuiComponentClass } from "@dui/core/apply-theme";
-import { DuiLink } from "@dui/components/link";
 
 const styles = css`
   :host {
@@ -24,11 +23,12 @@ const styles = css`
 
   .title {
     font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-snug);
     color: var(--foreground);
+    text-decoration: none;
   }
 
   .meta {
@@ -36,7 +36,7 @@ const styles = css`
     align-items: center;
     gap: var(--space-1_5);
     font-family: var(--font-sans);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     letter-spacing: var(--letter-spacing-wide);
     line-height: var(--line-height-normal);
     color: var(--text-3);
@@ -72,7 +72,7 @@ const styles = css`
 export class DuiHeadlineItem extends LitElement {
   static tagName = "dui-headline-item" as const;
   static override styles = [base, styles];
-  static dependencies: DuiComponentClass[] = [DuiLink];
+  static dependencies: DuiComponentClass[] = [];
 
   /** Primary headline text. */
   @property() override accessor title = "";
@@ -94,7 +94,7 @@ export class DuiHeadlineItem extends LitElement {
 
   override render(): TemplateResult {
     const titleContent = this.href
-      ? html`<dui-link href=${this.href} class="title" part="title">${this.title}</dui-link>`
+      ? html`<a href=${this.href} class="title" part="title">${this.title}</a>`
       : html`<span class="title" part="title">${this.title}</span>`;
 
     return html`
