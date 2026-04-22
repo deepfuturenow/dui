@@ -28,6 +28,7 @@ export const stepperStyles = css`
     width: var(--space-16);
     font-family: var(--font-sans);
     font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
     color: var(--text-1);
   }
 
