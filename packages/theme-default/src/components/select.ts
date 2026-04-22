@@ -77,15 +77,16 @@ export const selectStyles = css`
     transform: translateY(calc(var(--space-1) * -1));
   }
 
-  /* When inner-aligned (macOS-style), appear instantly — no transform
-     (distorts getBoundingClientRect) and no opacity fade. */
+  /* When inner-aligned (macOS-style), appear/disappear instantly.
+     transition: none  — prevents the 200ms onTransitionEnd fallback delay.
+     transform: none   — prevents translateY flash and getBoundingClientRect distortion.
+     Structural opacity:0 on starting/ending-style hides the popup immediately on close. */
   .Popup[data-align-inner] {
     transition: none;
   }
 
   .Popup[data-align-inner][data-starting-style],
   .Popup[data-align-inner][data-ending-style] {
-    opacity: 1;
     transform: none;
   }
 
