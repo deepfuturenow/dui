@@ -77,10 +77,11 @@ export const selectStyles = css`
     transform: translateY(calc(var(--space-1) * -1));
   }
 
-  /* When inner-aligned (macOS-style), use a subtle scale instead of slide */
+  /* When inner-aligned (macOS-style), skip transform — it distorts
+     getBoundingClientRect during the opening frame and shifts alignment. */
   .Popup[data-align-inner][data-starting-style],
   .Popup[data-align-inner][data-ending-style] {
-    transform: scale(0.97);
+    transform: none;
   }
 
   .Listbox {
