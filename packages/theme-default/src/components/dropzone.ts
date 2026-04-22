@@ -10,13 +10,14 @@ export const dropzoneStyles = css`
     border-radius: var(--radius-md);
     background: var(--background);
     color: var(--text-1);
+    font-size: var(--text-sm);
     padding: var(--space-4);
     transition-property: border-color, background, color, box-shadow, filter, transform;
     transition-duration: var(--duration-fast);
   }
 
   [part="root"]:hover {
-    border-color: var(--accent);
+    border-color: var(--border-strong);
     background: var(--surface-1);
   }
 
