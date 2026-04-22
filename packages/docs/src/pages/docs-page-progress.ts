@@ -16,7 +16,7 @@ export class DocsPageProgress extends LitElement {
 
     return html`
       <docs-page-layout tag="dui-progress">
-        <dui-docs-demo label="Values">
+        <dui-docs-demo label="Values" demo-width="var(--space-60)">
           <div style="display: flex; flex-direction: column; gap: var(--space-4); width: 100%;">
             <div>
               <div style="font-size: var(--text-xs); color: var(--text-2); margin-bottom: var(--space-1);">0%</div>
@@ -37,15 +37,15 @@ export class DocsPageProgress extends LitElement {
           </div>
         </dui-docs-demo>
 
-        <dui-docs-demo label="Indeterminate">
+        <dui-docs-demo label="Indeterminate" demo-width="var(--space-60)">
           <dui-progress style="width: 100%;"></dui-progress>
         </dui-docs-demo>
 
-        <dui-docs-demo label="Interactive">
+        <dui-docs-demo label="Interactive" demo-width="var(--space-60)">
           <div style="display: flex; flex-direction: column; gap: var(--space-3); width: 100%;">
             <dui-progress value="${this.#demoValue}"></dui-progress>
             <div style="display: flex; align-items: center; gap: var(--space-3);">
-              <dui-button size="sm" @click="${this.#increment}">
+              <dui-button size="sm" appearance="soft" @click="${this.#increment}">
                 Increment (+10)
               </dui-button>
               <span style="font-size: var(--text-sm); color: var(--text-2);">

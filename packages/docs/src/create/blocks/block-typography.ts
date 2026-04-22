@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
+import { sectionStyles } from "../../pages/docs-section-styles.ts";
 
 /**
  * Typography token visualization for the Create page.
@@ -7,7 +8,7 @@ import { customElement } from "lit/decorators.js";
  */
 @customElement("block-typography")
 export class BlockTypography extends LitElement {
-  static override styles = css`
+  static override styles = [sectionStyles, css`
     :host {
       display: block;
       color: var(--text-1);
@@ -16,21 +17,6 @@ export class BlockTypography extends LitElement {
     h1, h2, h3, h4, h5, h6,
     p, li, blockquote, dt, dd {
       text-box: trim-both cap alphabetic;
-    }
-
-    h3 {
-      font-size: var(--text-2xl);
-      font-weight: var(--font-weight-bold);
-      margin: 0 0 var(--space-1);
-      letter-spacing: var(--letter-spacing-tight);
-    }
-
-    .section-desc {
-      font-size: var(--text-sm);
-      color: var(--text-2);
-      margin: 0 0 var(--space-8);
-      max-width: 48ch;
-      line-height: var(--line-height-relaxed);
     }
 
     /* ── Subsections ── */
@@ -314,14 +300,13 @@ export class BlockTypography extends LitElement {
         grid-template-columns: 1fr;
       }
     }
-  `;
+  `];
 
   override render() {
     return html`
-      <h3>Typography</h3>
-      <p class="section-desc">
-        Three font stacks, a 14-step size scale, four weights,
-        and fine-grained tracking and leading controls.
+      <h1 class="title">Typography</h1>
+      <p class="subtitle">
+        Three font stacks, a 14-step size scale, four weights, and fine-grained tracking and leading controls.
       </p>
 
       <!-- Font families -->

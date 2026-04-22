@@ -491,6 +491,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: showArrow (boolean, true)
 - Events: none
 - Slots: default (Preview card content)
+- CSS Variables: --preview-card-popup-padding (Padding inside the popup)
 
 ### Data Table
 - Tag: `<dui-data-table>`
