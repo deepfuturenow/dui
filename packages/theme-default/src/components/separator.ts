@@ -1,6 +1,10 @@
 import { css } from "lit";
 
 export const separatorStyles = css`
+  :host {
+    --separator-margin: 0;
+  }
+
   [part="root"] {
     border: none;
   }
@@ -8,11 +12,15 @@ export const separatorStyles = css`
   :host([orientation="horizontal"]) [part="root"] {
     height: 0;
     border-top: var(--border-width-thin) solid var(--border);
+    margin-top: var(--separator-margin);
+    margin-bottom: var(--separator-margin);
   }
 
   :host([orientation="vertical"]) [part="root"] {
     width: 0;
     height: 100%;
     border-left: var(--border-width-thin) solid var(--border);
+    margin-left: var(--separator-margin);
+    margin-right: var(--separator-margin);
   }
 `;
