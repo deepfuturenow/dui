@@ -66,6 +66,71 @@ const fixedPlatform = {
   getOffsetParent: (): typeof window => window,
 };
 
+// ---------------------------------------------------------------------------
+// alignInner — macOS-style "selected item overlays trigger" positioning
+// ---------------------------------------------------------------------------
+
+export type AlignInnerOptions = {
+  /** Returns the inner element to align with the reference. null = use normal positioning. */
+  getElement: () => HTMLElement | null;
+  /** Minimum px from viewport edge. Default: 8. */
+  padding?: number;
+};
+
+/**
+ * Custom Floating UI middleware that positions the floating element so a
+ * specific inner element (e.g. the selected option) vertically aligns with
+ * the reference element (e.g. the trigger). This is the macOS-style select
+ * pattern. Equivalent to `@floating-ui/react`'s `inner()` middleware.
+ *
+ * When `getElement()` returns null, the middleware is a no-op and normal
+ * positioning (offset/flip/shift) takes over.
+ */
+export const alignInner = (options: AlignInnerOptions): Middleware => ({
+  name: "alignInner",
+  fn(state) {
+    const innerEl = options.getElement();
+    if (!innerEl) return {};
+
+    const padding = options.padding ?? 8;
+    const { rects } = state;
+    const floatingEl = state.elements.floating;
+    const floatingRect = floatingEl.getBoundingClientRect();
+    const innerRect = innerEl.getBoundingClientRect();
+
+    // How far the inner element's vertical center is from the floating top
+    const innerOffsetY = (innerRect.top - floatingRect.top)
+      + innerRect.height / 2;
+
+    // Desired Y: place floating so inner element center aligns with
+    // reference center
+    const refCenterY = rects.reference.y + rects.reference.height / 2;
+    let y = refCenterY - innerOffsetY;
+
+    // Clamp to viewport
+    const viewportH = globalThis.innerHeight;
+    const floatingH = floatingRect.height;
+    const minY = padding;
+    const maxY = viewportH - floatingH - padding;
+    const clampedY = Math.max(minY, Math.min(y, maxY));
+
+    // If we clamped, scroll the popup so the selected item stays visible
+    const scrollContainer = floatingEl.shadowRoot
+      ?.querySelector<HTMLElement>(".Popup") ?? floatingEl.querySelector<HTMLElement>(".Popup");
+    if (scrollContainer && clampedY !== y) {
+      const scrollDelta = y - clampedY; // negative = we pushed down, positive = pushed up
+      scrollContainer.scrollTop = Math.max(0, scrollContainer.scrollTop - scrollDelta);
+    }
+
+    y = clampedY;
+
+    // X stays at the reference's left edge (start-aligned)
+    const x = rects.reference.x;
+
+    return { x, y, reset: false };
+  },
+});
+
 export type ComputeFixedPositionOptions = {
   placement?: Placement;
   offsetPx?: number;
@@ -73,6 +138,8 @@ export type ComputeFixedPositionOptions = {
   /** Set `min-width` to the anchor width instead of fixing `width`. */
   minMatchWidth?: boolean;
   padding?: number;
+  /** When set, uses inner-alignment positioning instead of offset/flip/shift. */
+  alignToInner?: AlignInnerOptions;
 };
 
 /**
@@ -92,11 +159,11 @@ export const computeFixedPosition = (
     padding = 8,
   } = options;
 
-  const middleware: Middleware[] = [
-    offset(offsetPx),
-    flip(),
-    shift({ padding }),
-  ];
+  const useInnerAlign = options.alignToInner?.getElement() != null;
+
+  const middleware: Middleware[] = useInnerAlign
+    ? [alignInner(options.alignToInner!)]
+    : [offset(offsetPx), flip(), shift({ padding })];
 
   if (matchWidth) {
     middleware.push(

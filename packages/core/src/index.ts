@@ -18,6 +18,7 @@ export {
   startFixedAutoUpdate,
 } from "./floating-popup-utils.ts";
 export type {
+  AlignInnerOptions,
   FloatingPopupSide,
   ComputeFixedPositionOptions,
 } from "./floating-popup-utils.ts";

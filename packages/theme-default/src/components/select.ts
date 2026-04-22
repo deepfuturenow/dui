@@ -77,6 +77,12 @@ export const selectStyles = css`
     transform: translateY(calc(var(--space-1) * -1));
   }
 
+  /* When inner-aligned (macOS-style), use a subtle scale instead of slide */
+  .Popup[data-align-inner][data-starting-style],
+  .Popup[data-align-inner][data-ending-style] {
+    transform: scale(0.97);
+  }
+
   .Listbox {
     padding: var(--space-1);
   }

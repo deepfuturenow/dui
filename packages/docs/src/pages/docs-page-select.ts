@@ -18,6 +18,23 @@ export class DocsPageSelect extends LitElement {
         { label: "Dragonfruit", value: "dragonfruit" },
         { label: "Elderberry", value: "elderberry" },
       ];
+      const longFruitOptions = [
+        { label: "Apple", value: "apple" },
+        { label: "Banana", value: "banana" },
+        { label: "Cherry", value: "cherry" },
+        { label: "Dragonfruit", value: "dragonfruit" },
+        { label: "Elderberry", value: "elderberry" },
+        { label: "Fig", value: "fig" },
+        { label: "Grape", value: "grape" },
+        { label: "Honeydew", value: "honeydew" },
+        { label: "Kiwi", value: "kiwi" },
+        { label: "Lemon", value: "lemon" },
+        { label: "Mango", value: "mango" },
+        { label: "Nectarine", value: "nectarine" },
+        { label: "Orange", value: "orange" },
+        { label: "Papaya", value: "papaya" },
+        { label: "Quince", value: "quince" },
+      ];
       const modelOptions = [
         { label: "Llama 4 Maverick", value: "llama4" },
         { label: "Mistral Large", value: "mistral" },
@@ -35,6 +52,10 @@ export class DocsPageSelect extends LitElement {
           el.options = disabledOptions;
         } else if (el.id === "select-long-labels") {
           el.options = modelOptions;
+        } else if (el.id === "select-align-long" || el.id === "select-align-first" || el.id === "select-align-last") {
+          el.options = longFruitOptions;
+        } else if (el.id === "select-no-align") {
+          el.options = fruitOptions;
         } else {
           el.options = fruitOptions;
         }
@@ -64,6 +85,27 @@ export class DocsPageSelect extends LitElement {
 
       <dui-docs-demo label="Long labels (popup wider than trigger)">
         <dui-select id="select-long-labels" value="llama4" style="width: 120px"></dui-select>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Align item to trigger (default)" description="The popup positions itself so the selected item overlays the trigger, macOS-style.">
+        <docs-row>
+          <div>
+            <div style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);">Middle item</div>
+            <dui-select id="select-align-long" value="honeydew"></dui-select>
+          </div>
+          <div>
+            <div style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);">First item</div>
+            <dui-select id="select-align-first" value="apple"></dui-select>
+          </div>
+          <div>
+            <div style="font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-3); margin-bottom: var(--space-1);">Last item</div>
+            <dui-select id="select-align-last" value="quince"></dui-select>
+          </div>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Standard dropdown (no alignment)" description='Set align-item-to-trigger="false" for traditional dropdown positioning.'>
+        <dui-select id="select-no-align" value="cherry" align-item-to-trigger="false"></dui-select>
       </dui-docs-demo>
       </docs-page-layout>
     `;

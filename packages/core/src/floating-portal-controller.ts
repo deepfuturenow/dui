@@ -16,6 +16,7 @@ import type { Placement } from "@floating-ui/dom";
 import { getActiveTheme } from "./apply-theme.ts";
 import { notifyPopupClosing, notifyPopupOpening } from "./popup-coordinator.ts";
 import {
+  type AlignInnerOptions,
   onTransitionEnd,
   startFixedAutoUpdate,
   waitForAnimationFrame,
@@ -67,6 +68,12 @@ export type FloatingPortalControllerOptions = {
    * Defaults to `document.body`.
    */
   getOverlayRoot?: () => HTMLElement;
+  /**
+   * When set, positions the popup so the returned inner element aligns
+   * with the anchor (macOS-style select). Falls back to normal
+   * positioning when the callback returns null.
+   */
+  alignToInner?: () => HTMLElement | null;
 };
 
 export class FloatingPortalController implements ReactiveController {
@@ -88,6 +95,7 @@ export class FloatingPortalController implements ReactiveController {
   #contentContainer?: string;
   #contentSelector?: string;
   #getOverlayRoot: () => HTMLElement;
+  #alignToInner?: () => HTMLElement | null;
   #movedNodes: Node[] = [];
 
   #positioner: HTMLDivElement | null = null;
@@ -144,6 +152,7 @@ export class FloatingPortalController implements ReactiveController {
     this.#contentContainer = options.contentContainer;
     this.#contentSelector = options.contentSelector;
     this.#getOverlayRoot = options.getOverlayRoot ?? (() => document.body);
+    this.#alignToInner = options.alignToInner;
     host.addController(this);
   }
 
@@ -299,6 +308,9 @@ export class FloatingPortalController implements ReactiveController {
       matchWidth: this.#matchWidth,
       minMatchWidth: this.#minMatchWidth,
       onPosition: this.#onPosition,
+      alignToInner: this.#alignToInner
+        ? { getElement: this.#alignToInner }
+        : undefined,
     });
   }
 

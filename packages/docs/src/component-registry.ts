@@ -1050,6 +1050,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "value", type: "string", default: '""', description: "Currently selected value" },
       { name: "placeholder", type: "string", default: '"Select..."', description: "Placeholder text when no value is selected" },
       { name: "disabled", type: "boolean", default: "false", description: "Disable the select" },
+      { name: "align-item-to-trigger", type: "boolean", default: "true", description: "Position popup so the selected item overlays the trigger (macOS-style)" },
       { name: "name", type: "string", default: '""', description: "Form field name" },
     ],
     events: [
