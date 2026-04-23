@@ -64,6 +64,20 @@ export const base = css`
     height: auto;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  blockquote,
+  dt,
+  dd {
+    text-box: trim-both cap alphabetic;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
