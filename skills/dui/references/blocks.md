@@ -2,12 +2,12 @@
 
 Real-world UI blocks that demonstrate how to compose DUI components with CSS layout and design tokens. Each block is a self-contained Lit component in the docs site source.
 
-**When building a UI that resembles one of these patterns, read the source file for the exact composition and CSS techniques.** The source files are at `packages/docs/src/create/blocks/`.
+**When building a UI that resembles one of these patterns, fetch the source file for the exact composition and CSS techniques.** Source links point to raw files on GitHub — fetch them with your HTTP/curl tool when you need the full code.
 
 ---
 
 ## block-settings
-**Source:** `packages/docs/src/create/blocks/block-settings.ts` (122 lines)
+**Source:** [`block-settings.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-settings.ts) (122 lines)
 **Components:** `dui-card`, `dui-switch`, `dui-checkbox`, `dui-slider`
 **Pattern:** Settings panel with toggle rows inside a card
 
@@ -20,7 +20,7 @@ Key techniques:
 ---
 
 ## block-chat
-**Source:** `packages/docs/src/create/blocks/block-chat.ts` (157 lines)
+**Source:** [`block-chat.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-chat.ts) (157 lines)
 **Components:** `dui-select`, `dui-textarea`, `dui-button`, `dui-icon`, `dui-tooltip`, `dui-separator`
 **Pattern:** Chat input with model selector, toolbar, and source chips
 
@@ -34,7 +34,7 @@ Key techniques:
 ---
 
 ## block-events
-**Source:** `packages/docs/src/create/blocks/block-events.ts` (169 lines)
+**Source:** [`block-events.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-events.ts) (169 lines)
 **Components:** `dui-card`, `dui-badge`, `dui-toggle-group`, `dui-toggle`, `dui-button`, `dui-icon`
 **Pattern:** Card with event timeline, badges, and toggle-group filter in footer
 
@@ -48,7 +48,7 @@ Key techniques:
 ---
 
 ## block-payment
-**Source:** `packages/docs/src/create/blocks/block-payment.ts` (197 lines)
+**Source:** [`block-payment.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-payment.ts) (197 lines)
 **Components:** `dui-card`, `dui-collapsible`, `dui-icon`
 **Pattern:** Payment/order card with collapsible cart and order total footer
 
@@ -61,7 +61,7 @@ Key techniques:
 ---
 
 ## block-members
-**Source:** `packages/docs/src/create/blocks/block-members.ts` (119 lines)
+**Source:** [`block-members.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-members.ts) (119 lines)
 **Components:** `dui-card`, `dui-data-table`, `dui-badge`, `dui-input`, `dui-button`
 **Pattern:** Card with search filter, data table, and badge cell renderer
 
@@ -74,7 +74,7 @@ Key techniques:
 ---
 
 ## block-analytics
-**Source:** `packages/docs/src/create/blocks/block-analytics.ts` (144 lines)
+**Source:** [`block-analytics.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-analytics.ts) (144 lines)
 **Components:** `dui-chart`
 **Pattern:** Chart card with data loaded from CSV
 
@@ -86,7 +86,7 @@ Key techniques:
 ---
 
 ## block-traffic
-**Source:** `packages/docs/src/create/blocks/block-traffic.ts` (124 lines)
+**Source:** [`block-traffic.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-traffic.ts) (124 lines)
 **Components:** `dui-card`, `dui-chart`, `dui-toggle-group`, `dui-toggle`
 **Pattern:** Bar chart card with toggle-group period selector and stat footer
 
@@ -99,7 +99,7 @@ Key techniques:
 ---
 
 ## block-token-usage
-**Source:** `packages/docs/src/create/blocks/block-token-usage.ts` (151 lines)
+**Source:** [`block-token-usage.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-token-usage.ts) (151 lines)
 **Components:** `dui-card`, `dui-button`
 **Pattern:** Usage dashboard with model budget cards, progress bars, and full-width footer button
 
@@ -113,7 +113,7 @@ Key techniques:
 ---
 
 ## block-create-project
-**Source:** `packages/docs/src/create/blocks/block-create-project.ts` (61 lines)
+**Source:** [`block-create-project.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-create-project.ts) (61 lines)
 **Components:** `dui-card`, `dui-field`, `dui-input`, `dui-textarea`, `dui-button`, `dui-icon`
 **Pattern:** Simple form card with labeled fields and footer actions
 
@@ -126,7 +126,7 @@ Key techniques:
 ---
 
 ## block-user-account
-**Source:** `packages/docs/src/create/blocks/block-user-account.ts` (75 lines)
+**Source:** [`block-user-account.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-user-account.ts) (75 lines)
 **Components:** `dui-avatar`, `dui-menu`, `dui-menu-item`, `dui-button`, `dui-icon`
 **Pattern:** Profile card with avatar, menu dropdown, and link button
 
@@ -140,7 +140,7 @@ Key techniques:
 ---
 
 ## block-invite-team
-**Source:** `packages/docs/src/create/blocks/block-invite-team.ts` (103 lines)
+**Source:** [`block-invite-team.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-invite-team.ts) (103 lines)
 **Components:** `dui-card`, `dui-input`, `dui-select`, `dui-button`, `dui-separator`, `dui-icon`
 **Pattern:** Invite form with repeating rows, separator, and share link section
 
@@ -154,7 +154,7 @@ Key techniques:
 ---
 
 ## block-faq
-**Source:** `packages/docs/src/create/blocks/block-faq.ts` (63 lines)
+**Source:** [`block-faq.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-faq.ts) (63 lines)
 **Components:** `dui-accordion`, `dui-accordion-item`
 **Pattern:** FAQ section with accordion
 
@@ -166,7 +166,7 @@ Key techniques:
 ---
 
 ## block-calendar
-**Source:** `packages/docs/src/create/blocks/block-calendar.ts` (105 lines)
+**Source:** [`block-calendar.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-calendar.ts) (105 lines)
 **Components:** `dui-card`, `dui-calendar`, `dui-button`
 **Pattern:** Date/time picker with calendar and time slot buttons
 
@@ -179,7 +179,7 @@ Key techniques:
 ---
 
 ## block-watchlist
-**Source:** `packages/docs/src/create/blocks/block-watchlist.ts` (223 lines)
+**Source:** [`block-watchlist.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-watchlist.ts) (223 lines)
 **Components:** (none — pure vanilla Lit + SVG)
 **Pattern:** Stock ticker chips with inline sparkline charts
 
@@ -192,7 +192,7 @@ Key techniques:
 ---
 
 ## block-map
-**Source:** `packages/docs/src/create/blocks/block-map.ts` (220 lines)
+**Source:** [`block-map.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-map.ts) (220 lines)
 **Components:** `dui-map`, `dui-map-controls`, `dui-map-marker`, `dui-map-marker-content`, `dui-map-marker-tooltip`
 **Pattern:** Map with location list and click-to-fly interaction
 
