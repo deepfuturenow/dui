@@ -4,6 +4,119 @@ Concrete examples of wrong vs right patterns. Each rule links back to a principl
 
 ---
 
+## Typography & spacing
+
+### Text elements need explicit spacing — there are no default margins
+
+DUI applies `text-box: trim-both cap alphabetic` and resets margins on all prose elements. Text elements have zero implicit spacing.
+
+❌ **Wrong:**
+```html
+<!-- Relying on default h1 margin and line-height for spacing -->
+<h1>Dashboard</h1>
+<p>Overview of recent order activity and key metrics.</p>
+
+<div class="cards">
+  ...
+</div>
+```
+
+✅ **Right:**
+```html
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <p>Overview of recent order activity and key metrics.</p>
+</div>
+
+<div class="cards">
+  ...
+</div>
+```
+```css
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.page-header p {
+  color: var(--text-2);
+  font-size: var(--text-sm);
+}
+```
+
+### Card content needs explicit vertical rhythm
+
+❌ **Wrong:**
+```html
+<!-- No spacing between label, value, and change text -->
+<div class="stat-card">
+  <span class="label">Total Revenue</span>
+  <span class="value">$12,485.25</span>
+  <span class="change">+12.5% from last month</span>
+</div>
+```
+```css
+.stat-card {
+  padding: var(--space-4);
+}
+```
+
+✅ **Right:**
+```html
+<div class="stat-card">
+  <span class="label">Total Revenue</span>
+  <span class="value">$12,485.25</span>
+  <span class="change">+12.5% from last month</span>
+</div>
+```
+```css
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+```
+
+### Use dui-prose for long-form content, flex/gap for app UI
+
+❌ **Wrong:**
+```html
+<!-- Using dui-prose for a dashboard page header -->
+<div class="dui-prose">
+  <h1>Settings</h1>
+  <p>Manage your account preferences.</p>
+</div>
+```
+
+❌ **Also wrong:**
+```html
+<!-- Manually adding margin to every text element in a markdown body -->
+<div class="article">
+  <h1 style="margin-bottom: 16px">Release Notes</h1>
+  <p style="margin-bottom: 12px">Version 2.0 brings...</p>
+</div>
+```
+
+✅ **Right:**
+```html
+<!-- App UI: explicit flex/gap -->
+<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+  <h1>Settings</h1>
+  <p>Manage your account preferences.</p>
+</div>
+
+<!-- Long-form content: dui-prose -->
+<div class="dui-prose">
+  <h1>Release Notes</h1>
+  <p>Version 2.0 brings...</p>
+</div>
+```
+
+---
+
 ## Styling
 
 ### Use CSS custom properties, not direct CSS on host or shadow DOM

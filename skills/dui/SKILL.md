@@ -80,6 +80,86 @@ npm install @deepfuture/dui-templates
 import "@deepfuture/dui-templates/feed";  // registers dui-feed-item etc.
 ```
 
+## Typography & spacing
+
+DUI applies `text-box: trim-both cap alphabetic` to all prose elements (`h1`–`h6`, `p`, `li`, `blockquote`, `dt`, `dd`). This trims the invisible leading/trailing space from text boxes so glyphs sit on exact pixel boundaries. Combined with the global margin reset, **text elements have zero implicit spacing** — no default margins, no line-height padding above or below.
+
+This means you must explicitly create all vertical rhythm between text elements. Without it, headings and paragraphs will visually collide.
+
+### The rule
+
+**Every group of text elements needs explicit spacing via `gap` (on a flex/grid parent) or `margin-bottom` using `--space-*` tokens.** Never rely on default browser margins or line-height to separate text.
+
+### Recommended approach
+
+Wrap related text in a flex column with `gap`:
+
+```css
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);           /* breathing room between title and subtitle */
+  margin-bottom: var(--space-6); /* space before the next section */
+}
+```
+
+```html
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <p>Overview of recent order activity and key metrics.</p>
+</div>
+```
+
+Inside cards and panels, the same pattern applies:
+
+```css
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stat-label {
+  font-size: var(--text-xs);
+  color: var(--text-2);
+}
+
+.stat-value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.stat-change {
+  font-size: var(--text-sm);
+  color: var(--accent);
+}
+```
+
+### Spacing guidelines
+
+| Relationship | Spacing |
+|---|---|
+| Title → subtitle / description | `var(--space-1)` to `var(--space-2)` |
+| Heading → body content below | `var(--space-3)` to `var(--space-4)` |
+| Between sections / groups | `var(--space-5)` to `var(--space-6)` |
+| Label → value (inside cards) | `var(--space-1)` to `var(--space-3)` |
+| Between items in a list / stack | `var(--space-2)` to `var(--space-4)` |
+
+### dui-prose for long-form content
+
+For rendered markdown or CMS content where you want automatic spacing, apply `class="dui-prose"` to the container. This restores heading margins, paragraph spacing, list indentation, and other typographic defaults — all using design tokens.
+
+```html
+<div class="dui-prose">
+  <h1>Release Notes</h1>
+  <p>Version 2.0 brings major improvements...</p>
+</div>
+```
+
+`dui-prose` is for long-form content only. For app UI (dashboards, forms, settings), use explicit flex/gap spacing as shown above.
+
+See `references/rules.md` for incorrect/correct code pairs.
+
 ## Critical rules
 
 ### Styling
