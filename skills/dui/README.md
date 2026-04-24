@@ -18,18 +18,18 @@ The `npx skills add` CLI installs skills directly from GitHub into the right dir
 
 ```bash
 # Auto-detects your installed agents and prompts you
-npx skills add deepfuturenow/dui --skill dui --path @skills
+npx skills add deepfuturenow/dui --skill dui --path skills
 
 # Target a specific agent
-npx skills add deepfuturenow/dui --skill dui --path @skills -a claude-code
-npx skills add deepfuturenow/dui --skill dui --path @skills -a codex
-npx skills add deepfuturenow/dui --skill dui --path @skills -a gemini-cli
+npx skills add deepfuturenow/dui --skill dui --path skills -a claude-code
+npx skills add deepfuturenow/dui --skill dui --path skills -a codex
+npx skills add deepfuturenow/dui --skill dui --path skills -a gemini-cli
 
 # Install globally (all projects)
-npx skills add deepfuturenow/dui --skill dui --path @skills -g
+npx skills add deepfuturenow/dui --skill dui --path skills -g
 
 # Install to all agents, no prompts
-npx skills add deepfuturenow/dui --skill dui --path @skills --all -y
+npx skills add deepfuturenow/dui --skill dui --path skills --all -y
 ```
 
 This is the best approach for projects that consume DUI via npm packages (e.g. `@deepfuture/dui-components`). You get the skill without needing the full DUI source tree.
@@ -42,10 +42,10 @@ If you're working in or alongside the DUI monorepo, symlink or copy the skill di
 
 ```bash
 # Symlink (stays in sync with DUI source)
-mkdir -p .claude/skills && ln -s /path/to/dui/@skills/dui .claude/skills/dui
+mkdir -p .claude/skills && ln -s /path/to/dui/skills/dui .claude/skills/dui
 
 # Copy (snapshot)
-mkdir -p .claude/skills && cp -r /path/to/dui/@skills/dui .claude/skills/dui
+mkdir -p .claude/skills && cp -r /path/to/dui/skills/dui .claude/skills/dui
 ```
 
 Substitute `.claude/skills` with your agent's directory (see reference table below). For global install, use `~/.claude/skills/dui` etc.
@@ -72,7 +72,7 @@ If the skill is loaded, the agent will reference specific DUI components (`dui-i
 ## Structure
 
 ```
-@skills/dui/
+skills/dui/
 ├── SKILL.md                    # Main skill — principles, rules, patterns
 ├── README.md                   # This file
 ├── evals/
