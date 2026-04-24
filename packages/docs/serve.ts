@@ -9,7 +9,7 @@ const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
 const INSPECTOR_ENTRY = resolve(import.meta.dirname!, "src/inspector.ts");
 const PREVIEW_TEMPLATE_ENTRY = resolve(import.meta.dirname!, "src/preview-template.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
-const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../../../dui-primitives");
+const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
   Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/primitives/deno.json")),
 ).version;
