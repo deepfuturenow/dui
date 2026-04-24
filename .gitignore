@@ -23,6 +23,7 @@ Thumbs.db
 .busytown/
 .worktrees/
 plans/
+screenshots/
 
 # Environment
 .env
