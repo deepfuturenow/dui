@@ -64,29 +64,6 @@ export class ApiTable extends LitElement {
       margin: 0;
     }
 
-    .primitive-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-1);
-      font-size: var(--text-2xs);
-      font-weight: 500;
-      letter-spacing: var(--letter-spacing-wider);
-      text-transform: uppercase;
-      color: var(--text-3);
-      background: var(--surface-1);
-      border: var(--border-width-thin) solid var(--border);
-      border-radius: var(--radius-full);
-      padding: var(--space-0_5) var(--space-2);
-      text-decoration: none;
-      transition: color var(--duration-fast) var(--ease-out-3),
-                  border-color var(--duration-fast) var(--ease-out-3);
-    }
-
-    .primitive-badge:hover {
-      color: var(--accent-text);
-      border-color: var(--accent);
-    }
-
     .section-note {
       font-size: var(--text-xs);
       color: var(--text-3);
@@ -150,22 +127,6 @@ export class ApiTable extends LitElement {
 
   get #meta(): ComponentMeta | undefined {
     return componentRegistry.find((c) => c.tagName === this.tag);
-  }
-
-  /** Build the primitives docs URL for this component */
-  #primitivesUrl(tag: string): string {
-    // dui-foo-bar → foo-bar
-    const slug = tag.replace(/^dui-/, "");
-    return `https://deepfuturenow.github.io/dui-primitives/#/components/${slug}`;
-  }
-
-  #renderPrimitiveBadge(tag: string) {
-    return html`<a
-      class="primitive-badge"
-      href="${this.#primitivesUrl(tag)}"
-      target="_blank"
-      title="Defined on the primitive"
-    >Primitive ↗</a>`;
   }
 
   override render() {
@@ -267,7 +228,6 @@ export class ApiTable extends LitElement {
         <div class="api-section">
         <div class="api-section-header">
           <div class="api-section-label">Events</div>
-          ${this.#renderPrimitiveBadge(meta.tagName)}
         </div>
         <p class="section-note">Emitted by the underlying primitive.</p>
         <table>
@@ -276,6 +236,7 @@ export class ApiTable extends LitElement {
               <th>Name</th>
               <th>Detail</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -285,6 +246,7 @@ export class ApiTable extends LitElement {
                 <td><code class="chip">${e.name}</code></td>
                 <td>${e.detail ? html`<code>${e.detail}</code>` : "—"}</td>
                 <td>${e.description}</td>
+                <td><span class="source-label">primitive</span></td>
               </tr>
             `,
             )}
@@ -299,13 +261,13 @@ export class ApiTable extends LitElement {
         <div class="api-section">
         <div class="api-section-header">
           <div class="api-section-label">Slots</div>
-          ${this.#renderPrimitiveBadge(meta.tagName)}
         </div>
         <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -314,6 +276,7 @@ export class ApiTable extends LitElement {
               <tr>
                 <td><code class="chip">${s.name}</code></td>
                 <td>${s.description}</td>
+                <td><span class="source-label">primitive</span></td>
               </tr>
             `,
             )}
@@ -328,13 +291,13 @@ export class ApiTable extends LitElement {
         <div class="api-section">
         <div class="api-section-header">
           <div class="api-section-label">CSS Parts</div>
-          ${this.#renderPrimitiveBadge(meta.tagName)}
         </div>
         <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -343,6 +306,7 @@ export class ApiTable extends LitElement {
               <tr>
                 <td><code class="chip">${p.name}</code></td>
                 <td>${p.description}</td>
+                <td><span class="source-label">primitive</span></td>
               </tr>
             `,
             )}
