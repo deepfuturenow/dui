@@ -11,7 +11,7 @@ const PREVIEW_TEMPLATE_ENTRY = resolve(import.meta.dirname!, "src/preview-templa
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../../../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
-  Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/core/deno.json")),
+  Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/primitives/deno.json")),
 ).version;
 
 /**
@@ -20,10 +20,6 @@ const CORE_VERSION: string = JSON.parse(
  * from node_modules, thanks to Deno's `nodeModulesDir: "auto"`.
  */
 const workspacePackages: Record<string, { dir: string; exports: Record<string, string> }> = {
-  "@dui/core": {
-    dir: join(PRIMITIVES_ROOT, "packages/core"),
-    exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/core/deno.json"))).exports,
-  },
   "@dui/primitives": {
     dir: join(PRIMITIVES_ROOT, "packages/primitives"),
     exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/primitives/deno.json"))).exports,
@@ -73,9 +69,16 @@ const duiWorkspacePlugin: esbuild.Plugin = {
   setup(build) {
     // Resolve @dui/* imports
     build.onResolve({ filter: /^@dui\// }, (args) => {
+      // @dui/core is now part of @dui/primitives — rewrite the prefix
+      // e.g. @dui/core/base → @dui/primitives/core/base
+      let importPath = args.path;
+      if (importPath === "@dui/core" || importPath.startsWith("@dui/core/")) {
+        importPath = importPath.replace("@dui/core", "@dui/primitives/core");
+      }
+
       // @dui/inspector → npm package @deepfuture/dui-inspector
-      if (args.path === "@dui/inspector" || args.path.startsWith("@dui/inspector/")) {
-        const subpath = args.path === "@dui/inspector" ? "." : "." + args.path.slice("@dui/inspector".length);
+      if (importPath === "@dui/inspector" || importPath.startsWith("@dui/inspector/")) {
+        const subpath = importPath === "@dui/inspector" ? "." : "." + importPath.slice("@dui/inspector".length);
         const mapped = inspectorExports[subpath];
         if (mapped) {
           return { path: resolve(inspectorNpmDir, mapped) };
@@ -83,8 +86,8 @@ const duiWorkspacePlugin: esbuild.Plugin = {
       }
 
       for (const [pkgName, pkg] of Object.entries(workspacePackages)) {
-        if (!args.path.startsWith(pkgName)) continue;
-        const subpath = "." + args.path.slice(pkgName.length);
+        if (!importPath.startsWith(pkgName)) continue;
+        const subpath = "." + importPath.slice(pkgName.length);
         const mapped = pkg.exports[subpath || "."];
         if (mapped) {
           return { path: resolve(pkg.dir, mapped) };

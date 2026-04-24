@@ -52,7 +52,7 @@ packages/
 └── docs/            # Dev server and documentation site
 ```
 
-Components extend unstyled primitives from the separate `dui-primitives` repo (`@dui/core` + `@dui/primitives`).
+Components extend unstyled primitives from the separate `dui-primitives` repo (`@dui/primitives`, which also includes core utilities).
 
 ## Code Conventions
 
@@ -64,7 +64,7 @@ Components extend unstyled primitives from the separate `dui-primitives` repo (`
 - Each component declares `static tagName = "dui-foo" as const`.
 - Properties use `@property()` with `accessor`. Internal state uses `@state() accessor #name`.
 - Private methods use native `#private` syntax.
-- Events use the `customEvent()` factory from `@dui/core/event` (defined on the primitive, re-exported from the component index).
+- Events use the `customEvent()` factory from `@dui/core/event` (part of `@dui/primitives`; defined on the primitive, re-exported from the component index).
 
 ### Styling
 

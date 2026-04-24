@@ -173,7 +173,7 @@ Templates self-register on import, just like components.
 
 | Package | Purpose |
 |---------|---------|
-| [`@deepfuture/dui-core`](https://www.npmjs.com/package/@deepfuture/dui-core) | Base reset, event factory, floating UI utilities |
+| `@deepfuture/dui-primitives/core` | Base reset, event factory, floating UI utilities (part of dui-primitives) |
 | [`@deepfuture/dui-primitives`](https://www.npmjs.com/package/@deepfuture/dui-primitives) | Unstyled accessible component classes |
 
 ## Dev Tools
@@ -203,7 +203,7 @@ A runtime inspector and mutation API for DUI components ([separate package](http
 
 DUI itself is an example of extending [dui-primitives](https://github.com/deepfuturenow/dui-primitives). You can build your own styled component library the same way:
 
-1. Install `@deepfuture/dui-core` + `@deepfuture/dui-primitives`
+1. Install `@deepfuture/dui-primitives`
 2. Extend primitives with your own aesthetic CSS
 3. Call `customElements.define()` to self-register
 

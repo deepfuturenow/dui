@@ -47,7 +47,7 @@ Here's the pattern, using `dui-feed-item` as an example:
 // packages/templates/src/feed/feed-item.ts
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
-import { base } from "@dui/core/base";
+import { base } from "@dui/core/base"; // resolves to @dui/primitives/core/base
 // Side-effect imports — registers DUI components used in this template
 import "@dui/components/badge";
 
@@ -120,7 +120,7 @@ customElements.define(DuiFeedItem.tagName, DuiFeedItem);
 | **`static tagName`** | Required for the tag name |
 | **`customElements.define()`** | At module level — self-registers on import |
 | **Component dependencies** | Side-effect imports (`import "@dui/components/badge"`) — triggers registration |
-| **`base` import** | Always include `base` from `@dui/core/base` for structural resets |
+| **`base` import** | Always include `base` from `@dui/core/base` (part of `@dui/primitives`) for structural resets |
 | **Design tokens only** | Never hardcode `px`, `rem`, or color values |
 | **Semantic HTML** | Use `<article>`, `<header>`, `<time>`, `<nav>` etc. |
 | **CSS parts** | Expose meaningful parts (`part="article"`, `part="header"`) |

@@ -7,9 +7,8 @@ Two-layer inheritance: unstyled primitives (in a separate repo) provide structur
 ## Architecture — Three repos
 
 ```
-dui-primitives/              # @dui/core + @dui/primitives — behavioral foundation
-├── packages/core/           # Base reset, event factory, floating UI, popup coordinator
-└── packages/primitives/     # Unstyled structural base classes (DuiFooPrimitive)
+dui-primitives/              # @dui/primitives — behavioral foundation (includes core)
+└── packages/primitives/     # Unstyled base classes + core utilities (base, event, floating UI)
 
 dui/                         # @dui/components + @dui/templates — styled layer
 ├── packages/components/     # Extends primitives, adds aesthetic CSS, self-registers
@@ -43,7 +42,7 @@ dui-inspector/               # @dui/inspector — runtime component inspector (s
 - Properties use `@property()` with `accessor`. Internal state uses `@state() accessor #name`.
 - Behavior-critical styles (`display: none`, `opacity: 0` for state) must live on internal shadow DOM elements, never on `:host`. The host is a public surface that consumers legitimately style.
 - Private methods use native `#private` syntax.
-- Events use the `customEvent()` factory from `@dui/core/event`.
+- Events use the `customEvent()` factory from `@dui/core/event` (part of `@dui/primitives`).
 - Design tokens are CSS custom properties — never hardcode `px` or `rem` values.
 
 ## Screenshots

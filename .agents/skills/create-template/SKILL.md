@@ -80,7 +80,7 @@ Create `packages/templates/src/{category}/{name}.ts`:
 ```typescript
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
-import { base } from "@dui/core/base";
+import { base } from "@dui/core/base"; // resolves to @dui/primitives/core/base
 // Side-effect imports — registers DUI components used in this template
 import "@dui/components/badge";
 
@@ -153,7 +153,7 @@ customElements.define(Dui{Name}.tagName, Dui{Name});
 - `static tagName = "dui-{name}" as const` — required for the tag name
 - `customElements.define()` at module level — self-registers on import
 - **Side-effect imports** for DUI component dependencies (e.g., `import "@dui/components/badge"`) — this triggers their registration. No `static dependencies` array.
-- `[base, styles]` — always include `base` from `@dui/core/base`
+- `[base, styles]` — always include `base` from `@dui/core/base` (part of `@dui/primitives`)
 - Props use `@property() accessor` (not `@state()`)
 - `title` prop needs `override` keyword: `@property() override accessor title = ""` (because `HTMLElement` already has a `title` property)
 - Use `nothing` from Lit for conditional rendering (not empty strings)

@@ -28,7 +28,6 @@ const PACKAGES = [
     distDir: "dui-components",
     description: "DUI styled web components — extends dui-primitives with design tokens and variant CSS",
     dependencies: {
-      "@deepfuture/dui-core": "0.1.0",
       "@deepfuture/dui-primitives": "0.1.0",
       "lit": "^3.3.2",
       "@lit/context": "^1.1.3",
@@ -40,7 +39,7 @@ const PACKAGES = [
     distDir: "dui-templates",
     description: "DUI templates — pre-composed UI patterns built from DUI components",
     dependencies: {
-      "@deepfuture/dui-core": "0.1.0",
+      "@deepfuture/dui-primitives": "0.1.0",
       "@deepfuture/dui-components": "0.1.0",
       "lit": "^3.3.2",
     },
@@ -58,7 +57,7 @@ async function getVersion(): Promise<string> {
 /** Read the primitives version for cross-repo dependency pinning */
 async function getPrimitivesVersion(): Promise<string> {
   const json = JSON.parse(
-    await Deno.readTextFile(join(PRIMITIVES_ROOT, "packages/core/deno.json")),
+    await Deno.readTextFile(join(PRIMITIVES_ROOT, "packages/primitives/deno.json")),
   );
   return json.version ?? "0.1.0";
 }
@@ -66,7 +65,7 @@ async function getPrimitivesVersion(): Promise<string> {
 /** Rewrite @dui/* imports to @deepfuture/dui-* in file content */
 function rewriteImports(content: string): string {
   const rewrites: [string, string][] = [
-    ["@dui/core", "@deepfuture/dui-core"],
+    ["@dui/core", "@deepfuture/dui-primitives/core"],
     ["@dui/primitives", "@deepfuture/dui-primitives"],
     ["@dui/components", "@deepfuture/dui-components"],
     ["@dui/inspector", "@deepfuture/dui-inspector"],
@@ -162,8 +161,8 @@ async function compilePackage(
       noEmitOnError: false,
       // Resolve @dui/* workspace imports for type-checking
       paths: {
-        "@dui/core": [join(PRIMITIVES_ROOT, "packages/core/src/index.ts")],
-        "@dui/core/*": [join(PRIMITIVES_ROOT, "packages/core/src/*.ts")],
+        "@dui/core": [join(PRIMITIVES_ROOT, "packages/primitives/src/core/index.ts")],
+        "@dui/core/*": [join(PRIMITIVES_ROOT, "packages/primitives/src/core/*.ts")],
         "@dui/primitives/*": [join(PRIMITIVES_ROOT, "packages/primitives/src/*/index.ts")],
         "@dui/components": [join(ROOT, "packages/components/src/all.ts")],
         "@dui/components/*": [join(ROOT, "packages/components/src/*/index.ts")],
@@ -336,9 +335,7 @@ function generatePackageJson(
   // Fix lockstep version references
   // Core and primitives are pinned to the primitives repo version
   const primVer = primitivesVersion;
-  if ("@deepfuture/dui-core" in deps) {
-    deps["@deepfuture/dui-core"] = primVer;
-  }
+  // Core is now part of @deepfuture/dui-primitives (no separate dui-core package)
   if ("@deepfuture/dui-primitives" in deps) {
     deps["@deepfuture/dui-primitives"] = primVer;
   }

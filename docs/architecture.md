@@ -17,9 +17,9 @@
 │  Primitives (separate repo: dui-primitives) │
 │  @dui/primitives — unstyled structural      │
 │     base classes (accessibility, ARIA,      │
-│     keyboard, layout)                       │
-│  @dui/core — base reset, event factory,     │
-│     floating UI, popup coordinator          │
+│     keyboard, layout) + core utilities      │
+│     (base reset, event factory, floating    │
+│     UI, popup coordinator)                  │
 └─────────────────────────────────────────────┘
 ```
 
@@ -102,22 +102,24 @@ customElements.define(DuiFeedItem.tagName, DuiFeedItem);
 
 ## Package responsibilities
 
-### `@dui/core` (from dui-primitives)
+### `@dui/primitives` (from dui-primitives)
 
-Purely behavioral foundation. No design opinions.
+Unstyled structural base classes plus core utilities. Everything lives in a single package.
+
+**Core utilities** (subpath exports under `./core/*`):
 
 | Export | Purpose |
 |--------|---------|
-| `@dui/core/base` | Structural reset styles (box-sizing, margin/padding resets, reduced-motion) |
-| `@dui/core/event` | `customEvent()` factory for typed custom events |
-| `@dui/core/popup-coordinator` | Ensures only one popup is open at a time |
-| `@dui/core/floating-popup-utils` | Floating UI positioning helpers |
-| `@dui/core/floating-portal-controller` | Reactive controller for portal + floating UI lifecycle |
-| `@dui/core/dom` | DOM utilities |
+| `@dui/primitives/core/base` | Structural reset styles (box-sizing, margin/padding resets, reduced-motion) |
+| `@dui/primitives/core/event` | `customEvent()` factory for typed custom events |
+| `@dui/primitives/core/popup-coordinator` | Ensures only one popup is open at a time |
+| `@dui/primitives/core/floating-popup-utils` | Floating UI positioning helpers |
+| `@dui/primitives/core/floating-portal-controller` | Reactive controller for portal + floating UI lifecycle |
+| `@dui/primitives/core/dom` | DOM utilities |
 
-### `@dui/primitives` (from dui-primitives)
+> **Note:** In the dui workspace, the `@dui/core/*` import alias still works (mapped in `deno.json`). On npm, core is published as subpath exports of `@deepfuture/dui-primitives` (e.g. `@deepfuture/dui-primitives/core/base`).
 
-Unstyled structural base classes. Each primitive is a subpath export:
+**Primitive base classes** — each primitive is a subpath export:
 
 ```typescript
 import { DuiButtonPrimitive } from "@dui/primitives/button";
@@ -171,13 +173,13 @@ Runtime component inspector — style layers, token resolution, live editing. Co
 
 ## Import paths
 
-In the dui workspace, `@dui/core` and `@dui/primitives` are resolved via import mappings in the root `deno.json` that point to the dui-primitives repo on disk. Published packages use npm dependency resolution (`@deepfuture/dui-core`, `@deepfuture/dui-primitives`).
+In the dui workspace, `@dui/core/*` and `@dui/primitives/*` are resolved via import mappings in the root `deno.json` that point to the dui-primitives repo on disk. `@dui/core/*` is a convenience alias that maps to the `core/` subdirectory of the primitives package. Published packages use npm dependency resolution — everything is under `@deepfuture/dui-primitives`.
 
 ```json
 // Root deno.json — dev-time import mappings
 {
   "imports": {
-    "@dui/core/base": "../dui-primitives/packages/core/src/base.ts",
+    "@dui/core/base": "../dui-primitives/packages/primitives/src/core/base.ts",
     "@dui/primitives/button": "../dui-primitives/packages/primitives/src/button/index.ts"
   }
 }

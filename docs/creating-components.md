@@ -307,10 +307,10 @@ All internal methods use native `#private`:
 
 ## Events
 
-Use the `customEvent()` factory from `@dui/core/event`:
+Use the `customEvent()` factory from `@dui/core/event` (part of `@dui/primitives`):
 
 ```typescript
-import { customEvent } from "@dui/core/event";
+import { customEvent } from "@dui/core/event"; // resolves to @dui/primitives/core/event
 
 export const navigateEvent = customEvent<{ href: string }>(
   "dui-navigate",

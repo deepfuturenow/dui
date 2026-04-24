@@ -27,10 +27,6 @@ import "@dui/components";
 /** Resolve @dui/* workspace imports */
 function duiResolverPlugin(): esbuild.Plugin {
   const workspacePackages: Record<string, { dir: string; exports: Record<string, string> }> = {
-    "@dui/core": {
-      dir: join(PRIMITIVES_ROOT, "packages/core"),
-      exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/core/deno.json"))).exports,
-    },
     "@dui/primitives": {
       dir: join(PRIMITIVES_ROOT, "packages/primitives"),
       exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/primitives/deno.json"))).exports,
@@ -46,11 +42,19 @@ function duiResolverPlugin(): esbuild.Plugin {
     setup(build) {
       // Resolve @dui/* imports
       build.onResolve({ filter: /^@dui\// }, (args) => {
+        let importPath = args.path;
+
+        // @dui/core is now part of @dui/primitives — rewrite the prefix
+        // e.g. @dui/core/base → @dui/primitives/core/base
+        if (importPath === "@dui/core" || importPath.startsWith("@dui/core/")) {
+          importPath = importPath.replace("@dui/core", "@dui/primitives/core");
+        }
+
         for (const [pkgName, pkg] of Object.entries(workspacePackages)) {
-          if (args.path === pkgName || args.path.startsWith(pkgName + "/")) {
-            const subpath = args.path === pkgName
+          if (importPath === pkgName || importPath.startsWith(pkgName + "/")) {
+            const subpath = importPath === pkgName
               ? "."
-              : "./" + args.path.slice(pkgName.length + 1);
+              : "./" + importPath.slice(pkgName.length + 1);
 
             const mapped = pkg.exports[subpath];
             if (mapped) {
