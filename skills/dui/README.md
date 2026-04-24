@@ -80,6 +80,7 @@ skills/dui/
 └── references/
     ├── components.md           # Full catalog: 57 families, properties, theme attributes, slots, parts, tokens
     ├── rules.md                # Incorrect/correct code pairs for every critical rule
+    ├── blocks.md               # Real-world composition examples with source pointers
     └── inspector.md            # Complete inspector API reference
 ```
 

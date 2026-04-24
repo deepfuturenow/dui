@@ -314,4 +314,5 @@ When the inspector is not available, fall back to the static component reference
 
 - [references/components.md](references/components.md) — Full catalog of all 57 component families with properties, theme attributes, slots, parts, and CSS custom properties
 - [references/rules.md](references/rules.md) — Incorrect/correct code pairs for every critical rule
+- [references/blocks.md](references/blocks.md) — Real-world composition examples: settings forms, chat inputs, dashboards, maps, data tables, and more. Each entry summarizes the pattern and key CSS/layout techniques, with a pointer to the full source. **Read a block's source file when building something similar.**
 - [references/inspector.md](references/inspector.md) — Complete inspector API reference
