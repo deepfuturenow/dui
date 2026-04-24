@@ -7,13 +7,11 @@ description: Publish a new DUI release to npm. Bumps version across all packages
 
 Lockstep publish of all DUI packages to npm:
 
-- `@deepfuture/dui-core`
 - `@deepfuture/dui-components`
-- `@deepfuture/dui-theme-default`
-- `@deepfuture/dui-theme-default-templates`
+- `@deepfuture/dui-templates`
 - `@deepfuture/dui-cdn`
 
-All packages share the same version number. The source of truth for the current version is `packages/core/deno.json`.
+All packages share the same version number. The source of truth for the current version is `packages/components/deno.json`.
 
 ## Prerequisites
 
@@ -35,14 +33,14 @@ If there are uncommitted changes, stop and ask the user whether to commit or sta
 ### 2. Read the current version
 
 ```bash
-grep '"version"' packages/core/deno.json
+grep '"version"' packages/components/deno.json
 ```
 
 Tell the user the current version and ask what the new version should be. Offer three options:
 
-- **patch** (e.g. 0.0.10 → 0.0.11) — bug fixes, safe changes
-- **minor** (e.g. 0.0.10 → 0.1.0) — new features, non-breaking
-- **major** (e.g. 0.0.10 → 1.0.0) — breaking changes
+- **patch** (e.g. 0.0.21 → 0.0.22) — bug fixes, safe changes
+- **minor** (e.g. 0.0.21 → 0.1.0) — new features, non-breaking
+- **major** (e.g. 0.0.21 → 1.0.0) — breaking changes
 
 Wait for the user to confirm before proceeding.
 
@@ -52,7 +50,7 @@ Wait for the user to confirm before proceeding.
 deno task version <patch|minor|major|X.Y.Z>
 ```
 
-This updates `version` in all four `packages/*/deno.json` files.
+This updates `version` in `packages/components/deno.json`, `packages/templates/deno.json`, and `packages/docs/deno.json`.
 
 ### 4. Build
 
@@ -60,12 +58,7 @@ This updates `version` in all four `packages/*/deno.json` files.
 deno task build
 ```
 
-Compiles all packages via tsc to `dist/`. Verify the output shows ✅ for all packages:
-
-- `dist/dui-core/`
-- `dist/dui-components/`
-- `dist/dui-theme-default/`
-- `dist/dui-theme-default-templates/`
+Verify the output shows `dist/dui-components/` and `dist/dui-templates/`.
 
 If the build fails, stop and fix the issue before continuing.
 
@@ -75,10 +68,10 @@ If the build fails, stop and fix the issue before continuing.
 deno task publish
 ```
 
-Without `--publish`, this does a dry run. It builds, creates the CDN bundle, verifies all four `package.json` files, and runs `npm publish --dry-run` for each package.
+Without `--publish`, this does a dry run. It builds, creates the CDN bundle, verifies all package.json files, and runs `npm publish --dry-run` for each package.
 
 Check that:
-- All four packages show the correct new version
+- All three packages show the correct new version
 - No errors (ignore the `repository.url` normalization warning)
 
 ### 6. Publish for real
@@ -88,11 +81,9 @@ deno task publish:live
 ```
 
 This runs `npm publish --access public` for each package in dependency order:
-1. `dui-core` (no DUI deps)
-2. `dui-components` (depends on core)
-3. `dui-theme-default` (depends on core)
-4. `dui-theme-default-templates` (depends on core + components)
-5. `dui-cdn` (bundles everything)
+1. `dui-components` (depends on core + primitives from npm)
+2. `dui-templates` (depends on core + components)
+3. `dui-cdn` (bundles everything)
 
 ### 7. Commit and tag
 
@@ -108,5 +99,5 @@ Replace `X.Y.Z` with the actual version number.
 
 Tell the user:
 - The version that was published
-- All four package names with the new version
+- All three package names with the new version
 - Remind them to `git push && git push --tags` if they want to push to the remote

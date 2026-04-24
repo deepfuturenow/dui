@@ -3,6 +3,7 @@ import { property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
+import { mapControlsThemeStyles } from "../theme/map-theme.ts";
 import { type MapContext, mapContext } from "../map/map-context.ts";
 
 /** Fired when the user's geolocation is found. */
@@ -84,7 +85,7 @@ const styles = css`
  */
 export class DuiMapControls extends LitElement {
   static tagName = "dui-map-controls" as const;
-  static override styles = [base, styles];
+  static override styles = [base, styles, mapControlsThemeStyles];
 
   /** Position on the map. */
   @property({ reflect: true })
@@ -280,3 +281,5 @@ export class DuiMapControls extends LitElement {
     `;
   }
 }
+
+customElements.define(DuiMapControls.tagName, DuiMapControls);

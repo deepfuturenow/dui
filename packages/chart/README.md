@@ -18,12 +18,8 @@ Pass an Observable Plot spec via the `spec` property. The component renders Plot
 ## Installation
 
 ```ts
-import { chartFamily, chartStyles } from "@dui/chart";
-
-applyTheme({
-  components: [...otherComponents, ...chartFamily],
-  styles: new Map([...defaultTheme.styles, ...chartStyles]),
-});
+// Side-effect import — registers <dui-chart>
+import "@dui/chart";
 ```
 
 ## Properties

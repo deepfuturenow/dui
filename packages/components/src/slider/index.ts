@@ -1,4 +1,4 @@
-import { DuiSlider, valueChangeEvent, valueCommittedEvent } from "./slider.ts";
-export { DuiSlider, valueChangeEvent, valueCommittedEvent };
+import "./slider.ts";
 
-export const sliderFamily = [DuiSlider];
+export { DuiSlider } from "./slider.ts";
+export { valueChangeEvent, valueCommittedEvent } from "@dui/primitives/slider";

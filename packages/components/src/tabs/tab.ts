@@ -1,88 +1,44 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/tabs */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { consume } from "@lit/context";
-import { base } from "@dui/core/base";
-import { type TabsContext, tabsContext } from "./tabs-context.ts";
+import { css } from "lit";
+import { DuiTabPrimitive } from "@dui/primitives/tabs";
+import "../_install.ts";
 
 const styles = css`
-  :host {
-    display: block;
+  [part="tab"] {
+    color: var(--text-2);
+    font-size: var(--text-sm); line-height: var(--line-height-snug);
+    font-weight: var(--font-weight-medium);
+    text-box: trim-both cap alphabetic;
+    padding-inline: var(--space-2);
+    height: var(--component-height-md);
+    transition-property: color, box-shadow, background, filter, transform;
+    transition-duration: var(--duration-fast);
   }
 
-  [part="tab"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    margin: 0;
-    outline: 0;
-    background: none;
-    appearance: none;
-    font-family: inherit;
-    user-select: none;
-    white-space: nowrap;
-    word-break: keep-all;
-    cursor: pointer;
+  [part="tab"][data-active] {
+    color: var(--text-1);
+  }
+
+  @media (hover: hover) {
+    [part="tab"]:hover:not([data-disabled]) {
+      color: var(--text-1);
+    }
+  }
+
+  [part="tab"]:focus-visible {
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+    border-radius: var(--radius-sm);
+    z-index: 1;
   }
 
   [part="tab"][data-disabled] {
-    cursor: not-allowed;
+    opacity: 0.4;
   }
 `;
 
-/**
- * Individual tab trigger button.
- */
-export class DuiTab extends LitElement {
-  static tagName = "dui-tab" as const;
-  static override styles = [base, styles];
-
-  /** Tab value used to match with the corresponding panel. */
-  @property()
-  accessor value = "";
-
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  @consume({ context: tabsContext, subscribe: true })
-  accessor _ctx!: TabsContext;
-
-  get #isActive(): boolean {
-    return this._ctx?.value === this.value;
-  }
-
-  #handleClick = (): void => {
-    if (this.disabled) return;
-    this._ctx?.select(this.value);
-  };
-
-  #handleKeyDown = (event: KeyboardEvent): void => {
-    if (this.disabled) return;
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      this._ctx?.select(this.value);
-    }
-  };
-
-  override render(): TemplateResult {
-    const isActive = this.#isActive;
-
-    return html`
-      <button
-        part="tab"
-        role="tab"
-        aria-selected=${isActive}
-        ?data-active=${isActive}
-        ?data-disabled=${this.disabled}
-        ?disabled=${this.disabled}
-        tabindex=${isActive ? 0 : -1}
-        @click=${this.#handleClick}
-        @keydown=${this.#handleKeyDown}
-      >
-        <slot></slot>
-      </button>
-    `;
-  }
+export class DuiTab extends DuiTabPrimitive {
+  static override styles = [...DuiTabPrimitive.styles, styles];
 }
+
+customElements.define(DuiTab.tagName, DuiTab);

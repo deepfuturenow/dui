@@ -1,8 +1,4 @@
-import {
-  DuiNumberField,
-  valueChangeEvent,
-  valueCommittedEvent,
-} from "./number-field.ts";
-export { DuiNumberField, valueChangeEvent, valueCommittedEvent };
+import "./number-field.ts";
 
-export const numberFieldFamily = [DuiNumberField];
+export { DuiNumberField } from "./number-field.ts";
+export { valueChangeEvent, valueCommittedEvent } from "@dui/primitives/number-field";

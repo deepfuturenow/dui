@@ -1,55 +1,28 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { ContextConsumer } from "@lit/context";
-import { base } from "@dui/core/base";
-import { sidebarContext } from "./sidebar-context.ts";
+import { css } from "lit";
+import { DuiSidebarGroupLabelPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    margin-left: var(--sidebar-group-label-inset);
+    height: var(--component-height-sm);
+    color: var(--sidebar-muted-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs); line-height: var(--text-xs--line-height);
+    text-box: trim-both cap alphabetic;
+    font-weight: var(--font-weight-medium);
   }
 
   :host([data-icon-collapsed]) {
-    opacity: 0;
+    margin-top: calc(-1 * var(--component-height-sm));
+    transition-property: margin-top, opacity;
+    transition-duration: var(--duration-normal);
+    transition-timing-function: var(--ease-out-3);
   }
 `;
 
-/**
- * `<dui-sidebar-group-label>` — Heading for a sidebar group.
- *
- * Automatically hides (with opacity transition) when the sidebar is
- * in icon-collapsed mode.
- *
- * @slot - Label text.
- */
-export class DuiSidebarGroupLabel extends LitElement {
-  static tagName = "dui-sidebar-group-label" as const;
-  static override styles = [base, styles];
-
-  #ctx = new ContextConsumer(this, {
-    context: sidebarContext,
-    subscribe: true,
-  });
-
-  get #isIconCollapsed(): boolean {
-    const ctx = this.#ctx.value;
-    return ctx?.collapsible === "icon" && ctx?.state === "collapsed";
-  }
-
-  override updated(): void {
-    if (this.#isIconCollapsed) {
-      this.setAttribute("data-icon-collapsed", "");
-    } else {
-      this.removeAttribute("data-icon-collapsed");
-    }
-  }
-
-  override render(): TemplateResult {
-    return html`<slot></slot>`;
-  }
+export class DuiSidebarGroupLabel extends DuiSidebarGroupLabelPrimitive {
+  static override styles = [...DuiSidebarGroupLabelPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarGroupLabel.tagName, DuiSidebarGroupLabel);

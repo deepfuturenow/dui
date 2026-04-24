@@ -1,4 +1,3 @@
-import { DuiTrunc } from "./trunc.ts";
-export { DuiTrunc };
+import "./trunc.ts";
 
-export const truncFamily = [DuiTrunc];
+export { DuiTrunc } from "./trunc.ts";

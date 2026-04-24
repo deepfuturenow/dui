@@ -18,54 +18,27 @@ import { ensureDir, exists } from "jsr:@std/fs@^1";
 
 const ROOT = resolve(import.meta.dirname!, "..");
 const DIST = join(ROOT, "dist");
+const PRIMITIVES_ROOT = resolve(ROOT, "../../../dui-primitives");
 
 /** Package definitions mapping source to npm package names */
 const PACKAGES = [
   {
-    name: "@deepfuture/dui-core",
-    srcDir: "packages/core",
-    distDir: "dui-core",
-    description: "DUI core — applyTheme(), setup(), event factory, base styles",
-    dependencies: {
-      "lit": "^3.3.2",
-      "@floating-ui/dom": "^1.7.4",
-    },
-  },
-  {
     name: "@deepfuture/dui-components",
     srcDir: "packages/components",
     distDir: "dui-components",
-    description: "DUI unstyled web components — structural CSS only, themed via applyTheme()",
+    description: "DUI styled web components — extends dui-primitives with design tokens and variant CSS",
     dependencies: {
       "@deepfuture/dui-core": "0.1.0",
+      "@deepfuture/dui-primitives": "0.1.0",
       "lit": "^3.3.2",
       "@lit/context": "^1.1.3",
     },
   },
   {
-    name: "@deepfuture/dui-theme-default",
-    srcDir: "packages/theme-default",
-    distDir: "dui-theme-default",
-    description: "DUI default theme — design tokens and aesthetic component styles",
-    dependencies: {
-      "@deepfuture/dui-core": "0.1.0",
-      "lit": "^3.3.2",
-    },
-  },
-  {
-    name: "@deepfuture/dui-inspector",
-    srcDir: "packages/inspector",
-    distDir: "dui-inspector",
-    description: "DUI Inspector — introspection, mutation, and source mapping for DUI components",
-    dependencies: {
-      "lit": "^3.3.2",
-    },
-  },
-  {
-    name: "@deepfuture/dui-theme-default-templates",
-    srcDir: "packages/theme-default-templates",
-    distDir: "dui-theme-default-templates",
-    description: "DUI templates for the default theme — pre-composed UI patterns built from DUI components",
+    name: "@deepfuture/dui-templates",
+    srcDir: "packages/templates",
+    distDir: "dui-templates",
+    description: "DUI templates — pre-composed UI patterns built from DUI components",
     dependencies: {
       "@deepfuture/dui-core": "0.1.0",
       "@deepfuture/dui-components": "0.1.0",
@@ -74,22 +47,30 @@ const PACKAGES = [
   },
 ] as const;
 
-/** Read version from packages/core/deno.json */
+/** Read version from packages/components/deno.json (this repo's source of truth) */
 async function getVersion(): Promise<string> {
-  const coreJson = JSON.parse(
-    await Deno.readTextFile(join(ROOT, "packages/core/deno.json")),
+  const json = JSON.parse(
+    await Deno.readTextFile(join(ROOT, "packages/components/deno.json")),
   );
-  return coreJson.version ?? "0.1.0";
+  return json.version ?? "0.1.0";
+}
+
+/** Read the primitives version for cross-repo dependency pinning */
+async function getPrimitivesVersion(): Promise<string> {
+  const json = JSON.parse(
+    await Deno.readTextFile(join(PRIMITIVES_ROOT, "packages/core/deno.json")),
+  );
+  return json.version ?? "0.1.0";
 }
 
 /** Rewrite @dui/* imports to @deepfuture/dui-* in file content */
 function rewriteImports(content: string): string {
   const rewrites: [string, string][] = [
     ["@dui/core", "@deepfuture/dui-core"],
+    ["@dui/primitives", "@deepfuture/dui-primitives"],
     ["@dui/components", "@deepfuture/dui-components"],
-    ["@dui/theme-default", "@deepfuture/dui-theme-default"],
     ["@dui/inspector", "@deepfuture/dui-inspector"],
-    ["@dui/theme-default-templates", "@deepfuture/dui-theme-default-templates"],
+    ["@dui/templates", "@deepfuture/dui-templates"],
   ];
   let result = content;
   for (const [from, to] of rewrites) {
@@ -181,15 +162,13 @@ async function compilePackage(
       noEmitOnError: false,
       // Resolve @dui/* workspace imports for type-checking
       paths: {
-        "@dui/core": [join(ROOT, "packages/core/src/index.ts")],
-        "@dui/core/*": [join(ROOT, "packages/core/src/*.ts")],
+        "@dui/core": [join(PRIMITIVES_ROOT, "packages/core/src/index.ts")],
+        "@dui/core/*": [join(PRIMITIVES_ROOT, "packages/core/src/*.ts")],
+        "@dui/primitives/*": [join(PRIMITIVES_ROOT, "packages/primitives/src/*/index.ts")],
+        "@dui/components": [join(ROOT, "packages/components/src/all.ts")],
         "@dui/components/*": [join(ROOT, "packages/components/src/*/index.ts")],
-        "@dui/theme-default": [join(ROOT, "packages/theme-default/src/index.ts")],
-        "@dui/theme-default/*": [join(ROOT, "packages/theme-default/src/*.ts")],
-        "@dui/inspector": [join(ROOT, "packages/inspector/src/index.ts")],
-        "@dui/inspector/*": [join(ROOT, "packages/inspector/src/*.ts")],
-        "@dui/theme-default-templates": [join(ROOT, "packages/theme-default-templates/src/all.ts")],
-        "@dui/theme-default-templates/*": [join(ROOT, "packages/theme-default-templates/src/*.ts")],
+        "@dui/templates": [join(ROOT, "packages/templates/src/all.ts")],
+        "@dui/templates/*": [join(ROOT, "packages/templates/src/*.ts")],
       },
     },
     include: [srcRoot + "/**/*.ts"],
@@ -233,10 +212,10 @@ async function compilePackage(
   // Clean up tsconfig
   await Deno.remove(tsconfigPath);
 
-  // Handle CSS text imports for theme-default:
+  // Handle CSS text imports (tokens, prose):
   // Find all `import x from "./foo.css" with { type: "text" }` in .js output,
   // read the corresponding CSS source, and inline it as a const string.
-  if (pkg.srcDir === "packages/theme-default") {
+  if (pkg.srcDir === "packages/components") {
     const cssImportRe = /import\s+(\w+)\s+from\s+["'](\.\/.+?\.css)["']\s*(?:with\s*\{[^}]*\})?\s*;/g;
 
     for await (const filePath of walkDir(outDir)) {
@@ -245,12 +224,14 @@ async function compilePackage(
       let modified = false;
 
       js = js.replace(cssImportRe, (_match, varName, cssRelPath) => {
+        // Resolve CSS path relative to the JS file's location in the source tree
+        const jsRelDir = relative(outDir, dirname(filePath));
         const cssFileName = cssRelPath.replace("./", "");
-        const cssSourcePath = join(ROOT, pkg.srcDir, "src", cssFileName);
+        const cssSourcePath = join(ROOT, pkg.srcDir, "src", jsRelDir, cssFileName);
         try {
           const cssContent = Deno.readTextFileSync(cssSourcePath);
           // Also copy the raw CSS file for consumers who want it
-          const cssOutPath = join(outDir, cssFileName);
+          const cssOutPath = join(outDir, jsRelDir, cssFileName);
           try { Deno.writeTextFileSync(cssOutPath, cssContent); } catch { /* already exists */ }
           modified = true;
           return `const ${varName} = ${JSON.stringify(cssContent)};`;
@@ -274,14 +255,15 @@ async function compilePackage(
   await rewriteImportsInDir(outDir);
 
   // Generate package.json
-  const packageJson = generatePackageJson(pkg, version);
+  const primVer = await getPrimitivesVersion();
+  const packageJson = generatePackageJson(pkg, version, primVer);
   await Deno.writeTextFile(
     join(outDir, "package.json"),
     JSON.stringify(packageJson, null, 2) + "\n",
   );
 
-  // Copy global.d.ts for components (HTMLElementTagNameMap)
-  if (pkg.srcDir === "packages/components") {
+  // Copy global.d.ts for primitives (HTMLElementTagNameMap)
+  if (pkg.srcDir === "packages/primitives") {
     const globalDts = join(ROOT, pkg.srcDir, "src/global.d.ts");
     if (await exists(globalDts)) {
       let content = await Deno.readTextFile(globalDts);
@@ -347,12 +329,22 @@ async function fixExtensionsInDir(dir: string): Promise<void> {
 function generatePackageJson(
   pkg: typeof PACKAGES[number],
   version: string,
+  primitivesVersion: string,
 ): Record<string, unknown> {
   const deps = { ...pkg.dependencies } as Record<string, string>;
 
   // Fix lockstep version references
+  // Core and primitives are pinned to the primitives repo version
+  const primVer = primitivesVersion;
   if ("@deepfuture/dui-core" in deps) {
-    deps["@deepfuture/dui-core"] = version;
+    deps["@deepfuture/dui-core"] = primVer;
+  }
+  if ("@deepfuture/dui-primitives" in deps) {
+    deps["@deepfuture/dui-primitives"] = primVer;
+  }
+  // Components are pinned to this repo's version
+  if ("@deepfuture/dui-components" in deps) {
+    deps["@deepfuture/dui-components"] = version;
   }
 
   const packageJson: Record<string, unknown> = {
@@ -371,8 +363,7 @@ function generatePackageJson(
     dependencies: deps,
     // Do NOT set sideEffects:false — DUI components register via
     // customElements.define (a global side effect). Marking them
-    // side-effect-free lets bundlers tree-shake re-exported classes
-    // out of barrel files like all.js, breaking applyTheme().
+    // side-effect-free lets bundlers tree-shake the registration away.
     keywords: [
       "web-components",
       "lit",
@@ -423,11 +414,9 @@ async function main() {
   await verifyBuildOutput();
 
   console.log("\n✨ Build complete! Output in dist/");
-  console.log("   dist/dui-core/");
   console.log("   dist/dui-components/");
-  console.log("   dist/dui-theme-default/");
-  console.log("   dist/dui-inspector/");
-  console.log("   dist/dui-theme-default-templates/");
+
+  console.log("   dist/dui-templates/");
 }
 
 /** Remove .js and .d.ts files that tsc leaked into source directories */
@@ -480,25 +469,13 @@ async function verifyBuildOutput(): Promise<void> {
     } catch { /* package not built */ }
   }
 
-  // 3. all.js barrel uses import (local bindings), not export-from (no local binding)
+  // 3. Verify all.js exists in styled components
   const allJs = join(DIST, "dui-components", "all.js");
   try {
-    const content = await Deno.readTextFile(allJs);
-    // Check for "export { Dui..." with "from" on value exports (not type exports)
-    const badReexports = content.match(/^export\s*\{[^}]*Dui[^}]*\}\s*from/gm);
-    if (badReexports && badReexports.length > 0) {
-      errors.push(`all.js uses 'export { ... } from' re-exports (${badReexports.length} found) — these don't create local bindings for allComponents array. Use 'import + export' instead.`);
-    }
-    // Verify allComponents array isn't empty
-    if (!content.includes("allComponents")) {
-      errors.push(`all.js is missing the allComponents array`);
-    }
+    await Deno.stat(allJs);
   } catch {
     errors.push(`all.js not found at ${allJs}`);
   }
-
-  // 4. Check #1 (__decorate) is the real guard against experimentalDecorators.
-  //    This is redundant but documents the intent.
 
   if (errors.length > 0) {
     console.error("\n❌ Build verification FAILED:");
@@ -510,7 +487,7 @@ async function verifyBuildOutput(): Promise<void> {
 
   console.log("   ✅ No experimental __decorate helpers");
   console.log("   ✅ No sideEffects:false in package.json");
-  console.log("   ✅ all.js uses import bindings (not re-export-from)");
+  console.log("   ✅ all.js exists in dui-components");
 }
 
 main();

@@ -1,4 +1,3 @@
-import { DuiToolbar } from "./toolbar.ts";
-export { DuiToolbar };
+import "./toolbar.ts";
 
-export const toolbarFamily = [DuiToolbar];
+export { DuiToolbar } from "./toolbar.ts";

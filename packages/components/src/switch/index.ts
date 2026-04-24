@@ -1,4 +1,4 @@
-import { DuiSwitch, checkedChangeEvent } from "./switch.ts";
-export { DuiSwitch, checkedChangeEvent };
+import "./switch.ts";
 
-export const switchFamily = [DuiSwitch];
+export { DuiSwitch } from "./switch.ts";
+export { checkedChangeEvent } from "@dui/primitives/switch";

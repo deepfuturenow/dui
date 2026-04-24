@@ -1,7 +1,8 @@
-import { DuiRadio } from "./radio.ts";
-export { DuiRadio };
-import { DuiRadioGroup, valueChangeEvent } from "./radio-group.ts";
-export { DuiRadioGroup, valueChangeEvent };
-export type { RadioGroupContext } from "./radio-group-context.ts";
+import "./radio.ts";
+import "./radio-group.ts";
 
-export const radioFamily = [DuiRadio, DuiRadioGroup];
+export { DuiRadio } from "./radio.ts";
+export { DuiRadioGroup } from "./radio-group.ts";
+
+export type { RadioGroupContext } from "@dui/primitives/radio";
+export { valueChangeEvent } from "@dui/primitives/radio";

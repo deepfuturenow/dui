@@ -1,37 +1,25 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/breadcrumb */
+import { css } from "lit";
+import { DuiBreadcrumbLinkPrimitive } from "@dui/primitives/breadcrumb";
+import "../_install.ts";
 
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
-
-/** Structural styles only — layout CSS. */
 const styles = css`
-  :host {
-    display: inline-flex;
+  [part="root"] {
+    color: var(--text-2);
   }
 
-  [part="root"] {
-    display: inline-flex;
-    align-items: center;
+  [part="root"] ::slotted(a) {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--duration-fast);
+  }
+
+  [part="root"] ::slotted(a:hover) {
+    color: var(--text-1);
   }
 `;
 
-/**
- * `<dui-breadcrumb-link>` — Styled wrapper for a clickable breadcrumb link.
- * Consumer slots in their own `<a>` element.
- *
- * @slot - An `<a>` element for navigation.
- * @csspart root - The wrapper `<span>` element.
- */
-export class DuiBreadcrumbLink extends LitElement {
-  static tagName = "dui-breadcrumb-link" as const;
-
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`
-      <span part="root">
-        <slot></slot>
-      </span>
-    `;
-  }
+export class DuiBreadcrumbLink extends DuiBreadcrumbLinkPrimitive {
+  static override styles = [...DuiBreadcrumbLinkPrimitive.styles, styles];
 }
+
+customElements.define(DuiBreadcrumbLink.tagName, DuiBreadcrumbLink);

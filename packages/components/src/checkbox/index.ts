@@ -1,7 +1,8 @@
-import { DuiCheckbox, checkedChangeEvent } from "./checkbox.ts";
-export { DuiCheckbox, checkedChangeEvent };
-import { DuiCheckboxGroup, valueChangeEvent } from "./checkbox-group.ts";
-export { DuiCheckboxGroup, valueChangeEvent };
-export type { CheckboxGroupContext } from "./checkbox-group-context.ts";
+import "./checkbox.ts";
+import "./checkbox-group.ts";
 
-export const checkboxFamily = [DuiCheckbox, DuiCheckboxGroup];
+export { DuiCheckbox } from "./checkbox.ts";
+export { DuiCheckboxGroup } from "./checkbox-group.ts";
+
+export type { CheckboxGroupContext } from "@dui/primitives/checkbox";
+export { checkedChangeEvent, valueChangeEvent } from "@dui/primitives/checkbox";

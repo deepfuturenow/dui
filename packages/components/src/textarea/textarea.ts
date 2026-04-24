@@ -1,168 +1,86 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/textarea */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { live } from "lit/directives/live.js";
-import { styleMap } from "lit/directives/style-map.js";
-import { base } from "@dui/core/base";
-import { customEvent } from "@dui/core/event";
-
-export type TextareaResize = "none" | "vertical" | "horizontal" | "both" | "auto";
-
-
-export const textareaChangeEvent = customEvent<{ value: string }>(
-  "textarea-change",
-  { bubbles: true, composed: true },
-);
+import { css } from "lit";
+import { DuiTextareaPrimitive } from "@dui/primitives/textarea";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: block;
+    --font-size: var(--text-sm);
   }
 
   [part="textarea"] {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    font-family: inherit;
-    outline: none;
-    resize: vertical;
-  }
-
-  [part="textarea"][data-resize="none"] {
-    resize: none;
-  }
-
-  [part="textarea"][data-resize="vertical"] {
-    resize: vertical;
-  }
-
-  [part="textarea"][data-resize="horizontal"] {
-    resize: horizontal;
-  }
-
-  [part="textarea"][data-resize="both"] {
-    resize: both;
+    padding: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--font-size);
+    line-height: var(--line-height-snug);
+    color: var(--text-1);
+    border: var(--border-width-thin) solid var(--border);
+    background: transparent;
+    border-radius: var(--radius-md);
+    transition-property: border-color, box-shadow, background, filter, transform;
+    transition-duration: var(--duration-fast);
   }
 
   [part="textarea"][data-resize="auto"] {
-    resize: none;
-    field-sizing: content;
+    min-height: var(--component-height-md);
+  }
+
+  /* Scrollbar */
+  [part="textarea"] {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--text-2) 50%, transparent) transparent;
+  }
+
+  [part="textarea"]::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  [part="textarea"]::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  [part="textarea"]::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--text-2) 50%, transparent);
+    border-radius: var(--radius-sm);
+    border: 0.125rem solid transparent;
+    background-clip: padding-box;
+  }
+
+  [part="textarea"]::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--text-2) 70%, transparent);
+  }
+
+  [part="textarea"]::placeholder {
+    color: var(--text-3);
+  }
+
+  [part="textarea"]:focus-visible {
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
   [part="textarea"]:disabled {
-    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  :host([aria-invalid="true"]) [part="textarea"] {
+    border-color: var(--destructive);
+  }
+
+  /* Ghost variant */
+  :host([variant="ghost"]) [part="textarea"] {
+    border-color: transparent;
+    background: transparent;
+    padding: 0;
+  }
+
+  :host([variant="ghost"]) [part="textarea"]:focus-visible {
+    box-shadow: none;
   }
 `;
 
-/**
- * A multi-line text input with resize modes including auto-grow.
- */
-export class DuiTextarea extends LitElement {
-  static tagName = "dui-textarea" as const;
-  static formAssociated = true;
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
-  static override styles = [base, styles];
-
-  #internals!: ElementInternals;
-
-  constructor() {
-    super();
-    this.#internals = this.attachInternals();
-  }
-
-  /** Current textarea value. */
-  @property()
-  accessor value = "";
-
-  /** Placeholder text. */
-  @property()
-  accessor placeholder = "";
-
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  @property({ type: Boolean })
-  accessor required = false;
-
-  @property({ type: Boolean })
-  accessor readonly = false;
-
-  /** Number of visible text rows. */
-  @property({ type: Number })
-  accessor rows: number | undefined = undefined;
-
-  @property({ type: Number, attribute: "minlength" })
-  accessor minLength: number | undefined = undefined;
-
-  @property({ type: Number, attribute: "maxlength" })
-  accessor maxLength: number | undefined = undefined;
-
-  @property()
-  accessor name = "";
-
-  /** Resize behavior: "none" | "vertical" | "horizontal" | "both" | "auto". */
-  @property()
-  accessor resize: TextareaResize = "vertical";
-
-  /** Maximum height (CSS value). Textarea scrolls when content exceeds this. */
-  @property({ attribute: "max-height" })
-  accessor maxHeight: string | undefined = undefined;
-
-  override willUpdate(): void {
-    this.#internals.setFormValue(this.value);
-  }
-
-  #syncValidity(): void {
-    const textarea = this.shadowRoot?.querySelector("textarea");
-    if (textarea) {
-      this.#internals.setValidity(
-        textarea.validity,
-        textarea.validationMessage,
-        textarea,
-      );
-    }
-  }
-
-  override updated(): void {
-    this.#syncValidity();
-  }
-
-  #onInput = (event: InputEvent): void => {
-    const target = event.target as HTMLTextAreaElement;
-    this.value = target.value;
-
-    this.#internals.setFormValue(this.value);
-
-    this.dispatchEvent(textareaChangeEvent({ value: this.value }));
-  };
-
-  override render(): TemplateResult {
-    const textAreaStyles = styleMap({
-      overflowY: this.maxHeight === undefined ? "auto" : "initial",
-      maxHeight: this.maxHeight ?? "initial",
-    });
-
-    return html`
-      <textarea
-        part="textarea"
-        style=${textAreaStyles}
-        .value=${live(this.value)}
-        placeholder=${this.placeholder}
-        rows=${this.rows ?? ""}
-        ?disabled=${this.disabled}
-        ?required=${this.required}
-        ?readonly=${this.readonly}
-        minlength=${this.minLength ?? ""}
-        maxlength=${this.maxLength ?? ""}
-        name=${this.name}
-        data-resize=${this.resize}
-        @input=${this.#onInput}
-      ></textarea>
-    `;
-  }
+export class DuiTextarea extends DuiTextareaPrimitive {
+  static override styles = [...DuiTextareaPrimitive.styles, styles];
 }
+
+customElements.define(DuiTextarea.tagName, DuiTextarea);

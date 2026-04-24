@@ -1,12 +1,13 @@
-import { DuiPopover, openChangeEvent } from "./popover.ts";
-export { DuiPopover, openChangeEvent };
-export type { PopoverOpenChangeDetail } from "./popover.ts";
-import { DuiPopoverTrigger } from "./popover-trigger.ts";
-export { DuiPopoverTrigger };
-import { DuiPopoverPopup } from "./popover-popup.ts";
-export { DuiPopoverPopup };
-import { DuiPopoverClose } from "./popover-close.ts";
-export { DuiPopoverClose };
-export type { PopoverContext, PopoverSide } from "./popover-context.ts";
+import "./popover.ts";
+import "./popover-close.ts";
+import "./popover-popup.ts";
+import "./popover-trigger.ts";
 
-export const popoverFamily = [DuiPopover, DuiPopoverTrigger, DuiPopoverPopup, DuiPopoverClose];
+export { DuiPopover } from "./popover.ts";
+export { DuiPopoverClose } from "./popover-close.ts";
+export { DuiPopoverPopup } from "./popover-popup.ts";
+export { DuiPopoverTrigger } from "./popover-trigger.ts";
+
+export type { PopoverOpenChangeDetail } from "@dui/primitives/popover";
+export type { PopoverContext, PopoverSide } from "@dui/primitives/popover";
+export { openChangeEvent } from "@dui/primitives/popover";

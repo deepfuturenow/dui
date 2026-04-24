@@ -1,11 +1,11 @@
 # DUI
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![npm](https://img.shields.io/npm/v/@deepfuture/dui-core.svg)](https://www.npmjs.com/package/@deepfuture/dui-core)
+[![npm](https://img.shields.io/npm/v/@deepfuture/dui-components.svg)](https://www.npmjs.com/package/@deepfuture/dui-components)
 
-Unstyled [Lit](https://lit.dev) web component library with composable themes.
+Styled [Lit](https://lit.dev) web component library built on [dui-primitives](https://github.com/deepfuturenow/dui-primitives).
 
-Components provide structure and behavior with zero visual opinions. Themes provide all aesthetics — colors, spacing, typography, borders. Swap the theme to completely change the look without touching component code.
+DUI extends unstyled, accessible primitive components with a complete design system — design tokens, variant systems, and aesthetic CSS. Import a component and it's ready to use. No setup, no configuration.
 
 **[Live Docs & Demos →](https://deepfuturenow.github.io/dui/)**
 
@@ -14,15 +14,7 @@ Components provide structure and behavior with zero visual opinions. Themes prov
 **npm / pnpm / yarn:**
 
 ```bash
-npm install @deepfuture/dui-core @deepfuture/dui-components @deepfuture/dui-theme-default
-```
-
-**Deno:**
-
-```typescript
-import { applyTheme } from "npm:@deepfuture/dui-core/apply-theme";
-import { defaultTheme } from "npm:@deepfuture/dui-theme-default";
-import { allComponents } from "npm:@deepfuture/dui-components/all";
+npm install @deepfuture/dui-components
 ```
 
 **CDN (zero setup):**
@@ -33,17 +25,11 @@ import { allComponents } from "npm:@deepfuture/dui-components/all";
 
 ## Quick Start
 
-```typescript
-import { applyTheme } from "@deepfuture/dui-core/apply-theme";
-import { defaultTheme } from "@deepfuture/dui-theme-default";
-import { DuiButton } from "@deepfuture/dui-components/button";
-import { DuiDialog, DuiDialogTrigger, DuiDialogPopup, DuiDialogClose } from "@deepfuture/dui-components/dialog";
+Import the components you need — they self-register on import:
 
-// Register components with a theme — this is the only setup needed
-applyTheme({
-  theme: defaultTheme,
-  components: [DuiButton, DuiDialog, DuiDialogTrigger, DuiDialogPopup, DuiDialogClose],
-});
+```typescript
+import "@deepfuture/dui-components/button";
+import "@deepfuture/dui-components/dialog";
 ```
 
 ```html
@@ -55,7 +41,7 @@ applyTheme({
     <h2>Hello</h2>
     <p>This is a dialog.</p>
     <dui-dialog-close>
-      <dui-button variant="outline">Close</dui-button>
+      <dui-button appearance="outline">Close</dui-button>
     </dui-dialog-close>
   </dui-dialog-popup>
 </dui-dialog>
@@ -64,22 +50,25 @@ applyTheme({
 Or register everything at once:
 
 ```typescript
-import { applyTheme } from "@deepfuture/dui-core/apply-theme";
-import { defaultTheme } from "@deepfuture/dui-theme-default";
-import { allComponents } from "@deepfuture/dui-components/all";
-
-applyTheme({ theme: defaultTheme, components: allComponents });
+import "@deepfuture/dui-components";
 ```
 
 ## How It Works
 
-`applyTheme()` takes unstyled component classes and a theme, creates themed subclasses with composed styles, and registers them as custom elements.
+DUI uses a two-layer inheritance model:
+
+1. **Primitives** (`@dui/primitives`) — unstyled base classes with accessibility, keyboard behavior, and ARIA built in
+2. **Components** (`@dui/components`) — extend primitives with design tokens, variant systems, and aesthetic CSS
+
+Each component self-registers via `customElements.define()` when imported. Design tokens are automatically injected into `document.adoptedStyleSheets` on first import.
 
 ```
-Component structural CSS → Theme base styles → Theme component styles
+DuiButtonPrimitive (structure, ARIA, keyboard)
+       ↓ extends
+DuiButton (tokens, variants, aesthetic CSS, customElements.define())
 ```
 
-No build step, no decorators, no code generation — just a function call. Components are standard web components that work in any framework or plain HTML.
+No build step, no setup function, no configuration — just import and use.
 
 ## Components
 
@@ -87,18 +76,18 @@ No build step, no decorators, no code generation — just a function call. Compo
 
 | Category | Components |
 |----------|-----------|
-| **Actions** | Button, Link, Toggle, Toggle Group, Toolbar |
-| **Forms** | Input, Textarea, Select, Combobox, Checkbox, Checkbox Group, Radio, Radio Group, Switch, Slider, Number Field, Dropzone |
+| **Actions** | Button, Toggle, Toggle Group, Toolbar, Split Button |
+| **Forms** | Input, Textarea, Select, Combobox, Checkbox, Radio, Switch, Slider, Number Field, Dropzone, Field, Fieldset |
 | **Data Display** | Badge, Avatar, Calendar, Data Table, Progress, Spinner, Separator, Trunc |
 | **Overlays** | Dialog, Alert Dialog, Popover, Tooltip, Menu, Menubar, Preview Card, Command |
 | **Disclosure** | Accordion, Collapsible, Tabs |
-| **Navigation** | Breadcrumb, Sidebar (with 12 sub-components) |
-| **Layout** | HStack, VStack, Center, Page Inset, Scroll Area, Portal |
+| **Navigation** | Breadcrumb, Sidebar (with 12 sub-components), Stepper |
+| **Layout** | Card, Card Grid, Scroll Area, Portal |
 | **Utility** | Icon |
 
 ## Styling
 
-DUI uses a two-layer styling approach:
+DUI uses a two-layer approach to styling:
 
 ### CSS Variables — for the variant system
 
@@ -138,29 +127,24 @@ No need for the library to anticipate every CSS property — `::part()` gives yo
 
 ## Dark Mode
 
-DUI uses CSS custom properties for theming. Toggle dark mode by adding `class="dark"` to a parent element:
+Toggle dark mode by setting `data-theme="dark"` on the `<html>` element:
 
 ```html
-<body class="dark">
+<html data-theme="dark">
   <!-- All DUI components render in dark mode -->
-</body>
+</html>
 ```
 
 ## Templates
 
-Pre-composed UI patterns built from DUI components — ready-to-use cards, feed items, and other building blocks. Templates are theme-scoped: they use the default theme's variant vocabulary and tokens, so they adapt automatically to dark mode and custom token overrides.
+Pre-composed UI patterns built from DUI components — ready-to-use cards, feed items, and other building blocks. Templates adapt automatically to dark mode and token overrides.
 
 ```bash
-npm install @deepfuture/dui-theme-default-templates
+npm install @deepfuture/dui-templates
 ```
 
 ```typescript
-import { DuiFeedItem } from "@deepfuture/dui-theme-default-templates/feed";
-
-applyTheme({
-  theme: defaultTheme,
-  components: [DuiFeedItem],  // dependencies (DuiBadge, etc.) auto-register
-});
+import "@deepfuture/dui-templates/feed";
 ```
 
 ```html
@@ -174,17 +158,23 @@ applyTheme({
 ></dui-feed-item>
 ```
 
-Templates declare their component dependencies via `static dependencies` — `applyTheme` auto-registers them, so you don't need to import `DuiBadge` separately.
+Templates self-register on import, just like components.
 
 ## Packages
 
 | Package | Purpose |
 |---------|---------|
-| [`@deepfuture/dui-core`](https://www.npmjs.com/package/@deepfuture/dui-core) | `applyTheme()`, event factory, base styles |
-| [`@deepfuture/dui-components`](https://www.npmjs.com/package/@deepfuture/dui-components) | Unstyled component classes |
-| [`@deepfuture/dui-theme-default`](https://www.npmjs.com/package/@deepfuture/dui-theme-default) | Design tokens + aesthetic styles |
-| [`@deepfuture/dui-theme-default-templates`](https://www.npmjs.com/package/@deepfuture/dui-theme-default-templates) | Pre-composed UI patterns for the default theme |
+| [`@deepfuture/dui-components`](https://www.npmjs.com/package/@deepfuture/dui-components) | Styled components (extends dui-primitives) |
+| [`@deepfuture/dui-templates`](https://www.npmjs.com/package/@deepfuture/dui-templates) | Pre-composed UI patterns |
 | [`@deepfuture/dui-cdn`](https://www.npmjs.com/package/@deepfuture/dui-cdn) | Pre-bundled CDN build (all deps inlined) |
+| [`@deepfuture/dui-inspector`](https://www.npmjs.com/package/@deepfuture/dui-inspector) | Runtime inspector & mutation API |
+
+**Foundation (separate repo):**
+
+| Package | Purpose |
+|---------|---------|
+| [`@deepfuture/dui-core`](https://www.npmjs.com/package/@deepfuture/dui-core) | Base reset, event factory, floating UI utilities |
+| [`@deepfuture/dui-primitives`](https://www.npmjs.com/package/@deepfuture/dui-primitives) | Unstyled accessible component classes |
 
 ## Dev Tools
 
@@ -194,29 +184,30 @@ A visual editor for design tokens. Edit colors with OKLCH sliders, tweak spacing
 
 ### Inspector
 
-A runtime inspector and mutation API for DUI components. Two interfaces:
+A runtime inspector and mutation API for DUI components ([separate package](https://github.com/deepfuturenow/dui-inspector)). Two interfaces:
 
 - **Visual UI** (Ctrl+Shift+I) — hover-highlight components, inspect properties/tokens/styles, edit theme CSS and design tokens live
 - **Console API** — `window.__dui_inspect()`, `window.__dui_mutate.*`, `window.__dui_export()` for programmatic access by agents or scripts
 
-Both share a changelog, so agent and human edits are visible to each other. Changes can be exported as structured source file diffs.
-
-See **[Inspector docs](docs/inspector.md)** for the full API reference and usage guide.
-
 ## Documentation
 
 - **[Live Docs](https://deepfuturenow.github.io/dui/)** — interactive demos for every component
-- [Architecture](docs/architecture.md) — mental model, package responsibilities, design decisions
-- [Creating Components](docs/creating-components.md) — guide for adding new components
-- [Creating Templates](docs/creating-templates.md) — guide for building theme-scoped templates
-- [Theming](docs/theming.md) — theme system, design tokens, writing component styles
+- [Architecture](docs/architecture.md) — two-layer inheritance model, package responsibilities
+- [Creating Components](docs/creating-components.md) — extending primitives into styled components
+- [Creating Templates](docs/creating-templates.md) — building pre-composed UI patterns
+- [Theming](docs/theming.md) — color system, design tokens, variant CSS
+- [Styling](docs/styling.md) — customizing components with variables and `::part()`
 - [Consuming](docs/consuming.md) — integrating DUI into an app
-- [Inspector](docs/inspector.md) — runtime inspection, mutation API, and visual editor
-- [Accessibility](docs/accessibility.md) — accessibility patterns and guidelines
 
-## Contributing
+## Building Your Own Component Set
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup, code conventions, and PR guidelines.
+DUI itself is an example of extending [dui-primitives](https://github.com/deepfuturenow/dui-primitives). You can build your own styled component library the same way:
+
+1. Install `@deepfuture/dui-core` + `@deepfuture/dui-primitives`
+2. Extend primitives with your own aesthetic CSS
+3. Call `customElements.define()` to self-register
+
+See [Creating Components](docs/creating-components.md) for the full pattern.
 
 ## License
 

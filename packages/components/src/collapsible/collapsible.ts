@@ -1,217 +1,102 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/collapsible */
+import { css, unsafeCSS } from "lit";
 
-import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
-import { base } from "@dui/core/base";
-import { customEvent } from "@dui/core/event";
-
-export const openChangeEvent = customEvent<{ open: boolean }>(
-  "open-change",
-  { bubbles: true, composed: true },
-);
+// Chevron-down SVG encoded for use as a CSS mask
+const chevronMask = unsafeCSS(`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`);
 
 const styles = css`
-  :host {
-    display: block;
-  }
+  /* ── Trigger ── */
 
   [part="trigger"] {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-    border: none;
-    background: none;
-    text-align: left;
-    outline: none;
-    box-sizing: border-box;
+    gap: var(--space-4);
+    padding-block: var(--space-2);
+    padding-inline: 0;
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    text-box: trim-both cap alphabetic;
+    height: var(--component-height-md);
+    border-radius: var(--radius-sm);
+    transition-property: background, box-shadow, filter, transform;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
+  }
+
+  @media (hover: hover) {
+    [part="trigger"]:hover {
+      background: oklch(from var(--foreground) l c h / 0.05);
+    }
+  }
+
+  [part="trigger"]:focus-visible {
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+    z-index: 1;
   }
 
   [part="trigger"][data-disabled] {
-    cursor: default;
+    opacity: 0.4;
   }
 
-  slot[name="trigger"] {
-    flex: 1;
-    min-width: 0;
+  /* ── Indicator (theme-owned) ── */
+
+  [part="trigger"]::after {
+    content: "";
+    display: var(--collapsible-indicator-display, block);
+    width: var(--space-4);
+    height: var(--space-4);
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: ${chevronMask} center / contain no-repeat;
+    mask: ${chevronMask} center / contain no-repeat;
+    transition-property: transform;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
   }
+
+  [part="trigger"][data-open]::after {
+    transform: rotate(180deg);
+  }
+
+  /* ── Panel ── */
 
   [part="panel"] {
-    overflow: hidden;
-    contain: content;
-    transition-property: height;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
+  }
+
+  [part="panel"][data-starting-style],
+  [part="panel"][data-ending-style] {
+    height: 0;
+  }
+
+  [part="content"] {
+    padding: var(--space-1_5) 0 var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-2);
+    text-box: trim-both cap alphabetic;
+  }
+
+  /* ── Reduced motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    [part="trigger"],
+    [part="trigger"]::after,
+    [part="panel"] {
+      transition-duration: 0s;
+    }
   }
 `;
 
-export class DuiCollapsible extends LitElement {
-  static tagName = "dui-collapsible" as const;
-  static override styles = [base, styles];
 
-  /** Controlled open state. When set, the component is fully controlled. */
-  @property({ type: Boolean, reflect: true })
-  accessor open = false;
+import { DuiCollapsiblePrimitive } from "@dui/primitives/collapsible";
+import "../_install.ts";
 
-  /** Uncontrolled initial open state. Only used on first render. */
-  @property({ type: Boolean, attribute: "default-open" })
-  accessor defaultOpen = false;
-
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  /** Keep panel content mounted when closed. */
-  @property({ type: Boolean, attribute: "keep-mounted" })
-  accessor keepMounted = false;
-
-  @state()
-  accessor #starting = false;
-
-  @state()
-  accessor #ending = false;
-
-  @state()
-  accessor #panelHeight = "0";
-
-  @state()
-  accessor #visible = false;
-
-  @state()
-  accessor #internalOpen = false;
-
-  #prevOpen: boolean | undefined = undefined;
-  #animGen = 0;
-  #controlled = false;
-
-  get #isOpen(): boolean {
-    return this.#controlled ? this.open : this.#internalOpen;
-  }
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-    // Check if `open` attribute was explicitly set (controlled mode)
-    this.#controlled = this.hasAttribute("open");
-    if (!this.#controlled && this.defaultOpen) {
-      this.#internalOpen = true;
-    }
-  }
-
-  override willUpdate(changed: Map<string, unknown>): void {
-    // If `open` property is set after initial render, switch to controlled mode
-    if (changed.has("open") && this.#prevOpen !== undefined) {
-      this.#controlled = true;
-    }
-
-    const isOpen = this.#isOpen;
-
-    if (this.#prevOpen === undefined) {
-      this.#visible = isOpen;
-      this.#panelHeight = isOpen ? "auto" : "0";
-    } else if (this.#prevOpen !== isOpen) {
-      if (isOpen) {
-        this.#startOpenAnimation();
-      } else {
-        this.#startCloseAnimation();
-      }
-    }
-
-    this.#prevOpen = isOpen;
-  }
-
-  #startOpenAnimation(): void {
-    const gen = ++this.#animGen;
-    this.#ending = false;
-    this.#visible = true;
-    this.#starting = true;
-    this.#panelHeight = "0";
-
-    requestAnimationFrame(() => {
-      if (this.#animGen !== gen) return;
-      const panel = this.shadowRoot?.querySelector(
-        "[part='panel']",
-      ) as HTMLElement | null;
-      if (panel) {
-        this.#panelHeight = `${panel.scrollHeight}px`;
-      }
-      this.#starting = false;
-    });
-  }
-
-  #startCloseAnimation(): void {
-    const gen = ++this.#animGen;
-    this.#starting = false;
-    const panel = this.shadowRoot?.querySelector(
-      "[part='panel']",
-    ) as HTMLElement | null;
-    if (panel) {
-      this.#panelHeight = `${panel.scrollHeight}px`;
-    }
-
-    requestAnimationFrame(() => {
-      if (this.#animGen !== gen) return;
-      this.#ending = true;
-      this.#panelHeight = "0";
-    });
-  }
-
-  #onTransitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName !== "height") return;
-
-    if (this.#ending) {
-      this.#ending = false;
-      if (!this.keepMounted) {
-        this.#visible = false;
-      }
-    } else if (this.#isOpen) {
-      this.#panelHeight = "auto";
-    }
-  };
-
-  #onClick = (): void => {
-    if (this.disabled) return;
-
-    const nextOpen = !this.#isOpen;
-
-    if (!this.#controlled) {
-      this.#internalOpen = nextOpen;
-    }
-
-    this.dispatchEvent(openChangeEvent({ open: nextOpen }));
-  };
-
-  override render(): TemplateResult {
-    const isOpen = this.#isOpen;
-    const shouldRender = this.#visible || this.keepMounted;
-
-    return html`
-      <button
-        part="trigger"
-        aria-expanded=${isOpen}
-        ?data-open=${isOpen}
-        ?data-disabled=${this.disabled}
-        ?disabled=${this.disabled}
-        @click=${this.#onClick}
-      >
-        <slot name="trigger"></slot>
-      </button>
-      ${shouldRender
-        ? html`
-            <div
-              part="panel"
-              role="region"
-              style="height: ${this.#panelHeight}"
-              ?data-open=${isOpen && !this.#starting}
-              ?data-starting-style=${this.#starting}
-              ?data-ending-style=${this.#ending}
-              ?hidden=${!this.#visible && !this.#ending}
-              @transitionend=${this.#onTransitionEnd}
-            >
-              <div part="content">
-                <slot></slot>
-              </div>
-            </div>
-          `
-        : nothing}
-    `;
-  }
+export class DuiCollapsible extends DuiCollapsiblePrimitive {
+  static override styles = [...DuiCollapsiblePrimitive.styles, styles];
 }
+
+customElements.define(DuiCollapsible.tagName, DuiCollapsible);

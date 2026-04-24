@@ -92,3 +92,5 @@ export class DuiMapMarkerContent extends LitElement {
     return html`<slot style="display:none" @slotchange=${this.#renderIntoPortal}></slot>`;
   }
 }
+
+customElements.define(DuiMapMarkerContent.tagName, DuiMapMarkerContent);

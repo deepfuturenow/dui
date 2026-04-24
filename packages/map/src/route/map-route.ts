@@ -173,3 +173,5 @@ export class DuiMapRoute extends LitElement {
     return html``;
   }
 }
+
+customElements.define(DuiMapRoute.tagName, DuiMapRoute);

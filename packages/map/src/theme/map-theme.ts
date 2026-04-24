@@ -219,7 +219,9 @@ const mapRegionThemeStyles = css``;
 const mapClusterLayerThemeStyles = css``;
 const mapHeatmapThemeStyles = css``;
 
-/** Tag name → themed CSS map. Merge into your DuiTheme's `styles` Map. */
+export { mapThemeStyles, mapControlsThemeStyles };
+
+/** @deprecated Tag name → themed CSS map. Use direct imports instead. */
 export const mapStyles: Map<string, CSSResult> = new Map([
   ["dui-map", mapThemeStyles],
   ["dui-map-controls", mapControlsThemeStyles],

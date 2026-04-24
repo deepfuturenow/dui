@@ -1,25 +1,11 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
+import { css } from "lit";
+import { DuiSidebarFooterPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+const styles = css``;
 
-const styles = css`
-  :host {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-/**
- * `<dui-sidebar-footer>` — Bottom section of the sidebar.
- *
- * @slot - Default slot for footer content (user info, settings, etc.).
- */
-export class DuiSidebarFooter extends LitElement {
-  static tagName = "dui-sidebar-footer" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`<slot></slot>`;
-  }
+export class DuiSidebarFooter extends DuiSidebarFooterPrimitive {
+  static override styles = [...DuiSidebarFooterPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarFooter.tagName, DuiSidebarFooter);

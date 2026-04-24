@@ -46,7 +46,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Section Panel",
     description:
       "A bordered container with a header bar — the fundamental building block for dashboard panels. Supports an optional icon, badge count, LIVE indicator, help tooltip, trailing actions, and collapsible mode.",
-    importPath: "@dui/theme-default-templates/dashboard",
+    importPath: "@dui/templates/dashboard",
     category: "Dashboard",
     properties: [
       { name: "title", type: "string", default: '""', description: "Panel title displayed in the header" },
@@ -70,7 +70,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Feed Item",
     description:
       "An event card for feeds and monitoring dashboards. Renders a title, subtitle, timestamp, optional category and severity badges, and an optional description body.",
-    importPath: "@dui/theme-default-templates/feed",
+    importPath: "@dui/templates/feed",
     category: "Feed & Events",
     properties: [
       { name: "title", type: "string", default: '""', description: "Primary label for the event" },
@@ -93,7 +93,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Headline Item",
     description:
       "A minimal headline row: title, source, and timestamp. Designed for dense headline lists and news tickers where space is at a premium.",
-    importPath: "@dui/theme-default-templates/feed",
+    importPath: "@dui/templates/feed",
     category: "Feed & Events",
     properties: [
       { name: "title", type: "string", default: '""', description: "Primary headline text" },
@@ -113,7 +113,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Page Header",
     description:
       "Full-width top bar for dashboard pages. Renders an optional breadcrumb trail, a title, an optional subtitle, and trailing action buttons with a bottom separator.",
-    importPath: "@dui/theme-default-templates/dashboard",
+    importPath: "@dui/templates/dashboard",
     category: "Dashboard",
     properties: [
       { name: "title", type: "string", default: '""', description: "Page title displayed prominently" },
@@ -132,7 +132,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Stat Card",
     description:
       "A single metric card displaying a label, prominent value, optional trend indicator, and description text. Ideal for KPI rows at the top of dashboards.",
-    importPath: "@dui/theme-default-templates/metrics",
+    importPath: "@dui/templates/metrics",
     category: "Metrics & Gauges",
     properties: [
       { name: "label", type: "string", default: '""', description: "Metric label (e.g. \"Total Events\")" },
@@ -153,7 +153,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Score Item",
     description:
       "An entity with a prominent score and optional sub-metric breakdown. Use for ranked lists, country risk scores, or leaderboards.",
-    importPath: "@dui/theme-default-templates/metrics",
+    importPath: "@dui/templates/metrics",
     category: "Metrics & Gauges",
     properties: [
       { name: "entity", type: "string", default: '""', description: "Entity name (e.g. country, department, agent)" },
@@ -175,7 +175,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Risk Gauge",
     description:
       "A semicircular arc gauge with a central value, severity label, and optional trend indicator. The arc fills proportionally to value (0–100).",
-    importPath: "@dui/theme-default-templates/metrics",
+    importPath: "@dui/templates/metrics",
     category: "Metrics & Gauges",
     properties: [
       { name: "label", type: "string", default: '""', description: "Metric label displayed below the gauge" },
@@ -196,7 +196,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Progress Bar",
     description:
       "A labeled capacity/completion indicator wrapping dui-progress. Displays a metric label, value text, progress bar, and optional description.",
-    importPath: "@dui/theme-default-templates/metrics",
+    importPath: "@dui/templates/metrics",
     category: "Metrics & Gauges",
     properties: [
       { name: "label", type: "string", default: '""', description: "Metric label (e.g. \"CPU Usage\")" },
@@ -217,7 +217,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Activity Item",
     description:
       "A timestamped event in a vertical timeline. Stack multiple items to form a timeline. Color-coded dots indicate status, with optional status badges and descriptions.",
-    importPath: "@dui/theme-default-templates/feed",
+    importPath: "@dui/templates/feed",
     category: "Feed & Events",
     properties: [
       { name: "title", type: "string", default: '""', description: "Event title" },
@@ -239,7 +239,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Social Post",
     description:
       "A social signal card for monitoring dashboards. Displays an author, handle, timestamp, body text, optional source badge, and avatar.",
-    importPath: "@dui/theme-default-templates/feed",
+    importPath: "@dui/templates/feed",
     category: "Feed & Events",
     properties: [
       { name: "author", type: "string", default: '""', description: "Display name of the post author" },
@@ -261,7 +261,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Key Value",
     description:
       "A label\u2013value pair for metadata display. Supports stacked (label above value) and inline (side by side) layouts. Compose multiple pairs in grids or lists for detail panels.",
-    importPath: "@dui/theme-default-templates/data",
+    importPath: "@dui/templates/data",
     category: "Data Display",
     properties: [
       { name: "label", type: "string", default: '""', description: "The label text (e.g. \"Status\", \"Region\")" },
@@ -281,7 +281,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Briefing Block",
     description:
       "An AI-generated summary block with header, metadata, and body. Use for intelligence briefings, AI summaries, analysis blocks, or any authored content with clear attribution and source metadata.",
-    importPath: "@dui/theme-default-templates/content",
+    importPath: "@dui/templates/content",
     category: "Content Blocks",
     properties: [
       { name: "title", type: "string", default: '""', description: "Primary title for the briefing" },
@@ -304,7 +304,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Empty State",
     description:
       "A centered placeholder for no-data panels. Shows an optional icon, heading, description, and action slot for a primary CTA.",
-    importPath: "@dui/theme-default-templates/content",
+    importPath: "@dui/templates/content",
     category: "Content Blocks",
     properties: [
       { name: "heading", type: "string", default: '""', description: 'Primary heading text (e.g. "No events yet")' },
@@ -323,7 +323,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Numbered Insight",
     description:
       "An ordinal-numbered insight with title, badges, and description. Use for ranked findings, prioritized recommendations, or numbered takeaways in analysis panels.",
-    importPath: "@dui/theme-default-templates/content",
+    importPath: "@dui/templates/content",
     category: "Content Blocks",
     properties: [
       { name: "ordinal", type: "number", default: "1", description: "Ordinal number (e.g. 1, 2, 3)" },
@@ -344,7 +344,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Avatar Row",
     description:
       "A horizontal scrollable row of circular avatars with labels. Ideal for displaying teams, participants, agents, or any list of people/entities in a compact horizontal strip.",
-    importPath: "@dui/theme-default-templates/media",
+    importPath: "@dui/templates/media",
     category: "Media",
     properties: [
       { name: "data", type: "AvatarItem[]", default: "[]", description: "Array of avatar items ({ src?, name, label? })" },
@@ -364,7 +364,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Media Grid",
     description:
       "A responsive grid of image/video thumbnails with label and timestamp overlays. Ideal for camera feeds, location galleries, media libraries, or any visual monitoring grid.",
-    importPath: "@dui/theme-default-templates/media",
+    importPath: "@dui/templates/media",
     category: "Media",
     properties: [
       { name: "data", type: "MediaItem[]", default: "[]", description: "Array of media items ({ src, alt?, label?, timestamp? })" },
@@ -384,7 +384,7 @@ export const templateRegistry: TemplateMeta[] = [
     name: "Market Table",
     description:
       "A compact financial ticker table. Renders rows of symbols with prices, absolute change, and percentage change. Positive changes are colored with accent; negative with destructive.",
-    importPath: "@dui/theme-default-templates/data",
+    importPath: "@dui/templates/data",
     category: "Data Display",
     properties: [
       { name: "data", type: "MarketRow[]", default: "[]", description: "Array of market data rows ({ symbol, name?, price, change, changePercent })" },

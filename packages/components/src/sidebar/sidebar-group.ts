@@ -1,33 +1,15 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiSidebarGroupPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
+    padding: var(--sidebar-group-padding-y) 0;
   }
 `;
 
-/**
- * `<dui-sidebar-group>` — Section container within the sidebar.
- *
- * Groups related menu items with an optional label.
- *
- * @slot label - Optional group label (use `<dui-sidebar-group-label>`).
- * @slot - Default slot for group content (menus, items, etc.).
- */
-export class DuiSidebarGroup extends LitElement {
-  static tagName = "dui-sidebar-group" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`
-      <slot name="label"></slot>
-      <slot></slot>
-    `;
-  }
+export class DuiSidebarGroup extends DuiSidebarGroupPrimitive {
+  static override styles = [...DuiSidebarGroupPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarGroup.tagName, DuiSidebarGroup);

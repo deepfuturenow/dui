@@ -6,8 +6,8 @@
 ## Getting Started
 
 Install: (Deno workspace package)
-Import: import { DuiButton } from "@dui/components/button";
-Register: applyTheme({ theme: defaultTheme, components: [DuiButton] });
+Import: import "@dui/components/button"; // self-registers
+Or: import { DuiButton } from "@dui/components/button"; // also self-registers
 
 ## Styling Model
 

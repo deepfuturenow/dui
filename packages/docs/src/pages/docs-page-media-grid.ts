@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import type { MediaItem } from "@dui/theme-default-templates/media";
+import type { MediaItem } from "@dui/templates/media";
 import "./docs-template-layout.ts";
 
 const cameraFeeds: MediaItem[] = [

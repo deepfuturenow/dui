@@ -1,4 +1,3 @@
-import { DuiSeparator } from "./separator.ts";
-export { DuiSeparator };
+import "./separator.ts";
 
-export const separatorFamily = [DuiSeparator];
+export { DuiSeparator } from "./separator.ts";

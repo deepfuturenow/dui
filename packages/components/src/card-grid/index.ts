@@ -1,4 +1,3 @@
-import { DuiCardGrid } from "./card-grid.ts";
-export { DuiCardGrid };
+import "./card-grid.ts";
 
-export const cardGridFamily = [DuiCardGrid];
+export { DuiCardGrid } from "./card-grid.ts";

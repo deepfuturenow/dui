@@ -118,3 +118,5 @@ export class DuiMapMarkerTooltip extends LitElement {
     return html`<slot style="display:none" @slotchange=${this.#renderIntoPortal}></slot>`;
   }
 }
+
+customElements.define(DuiMapMarkerTooltip.tagName, DuiMapMarkerTooltip);

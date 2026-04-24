@@ -1,6 +1,6 @@
 # Theming
 
-How the theme system works. For the architectural overview, see [architecture.md](./architecture.md). For how consumers customize components, see [styling.md](./styling.md).
+How the design token system and variant CSS work. For how consumers customize individual components, see [styling.md](./styling.md).
 
 ---
 
@@ -11,11 +11,11 @@ DUI's color system is built on two principles:
 1. **Operations on a base** — colors are not fixed values but relationships. Hover is "foreground at 5% opacity over whatever surface I'm on." Text color is "foreground at 90% opacity." Surfaces are "background, but brighter."
 2. **Fewer named tokens, more compositional operations** — instead of dozens of semantic tokens, we define 4 primitives and derive everything else via relative color syntax (`oklch(from ...)`).
 
-The entire theme is defined by **4 primitive OKLCH colors**. All surfaces, borders, text tiers, and semantic colors are derived at runtime in CSS. No build step. Dark mode is achieved by redefining the same 4 primitives.
+The entire design is defined by **4 primitive OKLCH colors**. All surfaces, borders, text tiers, and semantic colors are derived at runtime in CSS. No build step. Dark mode is achieved by redefining the same 4 primitives.
 
-### Layer 1: Primitives (user-defined)
+### Layer 1: Primitives
 
-These are the only values a theme author picks:
+These are the only color values chosen:
 
 ```css
 :root {
@@ -33,12 +33,9 @@ These are the only values a theme author picks:
 }
 ```
 
-### Layer 2: Derived tokens (computed from primitives)
+### Layer 2: Derived tokens
 
-Defined once — same rules for light and dark. They use:
-
-- **Relative color syntax** (`oklch(from ...)`) for surfaces, borders, text tiers, and tinted surfaces
-- **`color-mix(in oklch, ...)`** only for `--accent-text` and `--destructive-text`
+Defined once — same rules for light and dark:
 
 ```css
 :root {
@@ -89,7 +86,7 @@ Defined once — same rules for light and dark. They use:
 | `--destructive-subtle` | Derived | `oklch(from destructive l c h / 0.10)` |
 | `--destructive-text` | Derived | `color-mix(destructive 80%, fg)` |
 
-**Total: 4 primitives + 13 derived = 17 tokens.** An LLM creating a new theme only needs to choose 4 colors.
+**Total: 4 primitives + 13 derived = 17 color tokens.** Customizing the palette means changing 4 values.
 
 ---
 
@@ -99,7 +96,7 @@ Defined once — same rules for light and dark. They use:
 
 ### Text
 
-Use `--text-1/2/3` for standard tiers. For custom intensities, use:
+Use `--text-1/2/3` for standard tiers. For custom intensities:
 
 ```css
 color: oklch(from var(--foreground) l c h / N);  /* N is 0–1 */
@@ -111,7 +108,7 @@ color: oklch(from var(--foreground) l c h / N);  /* N is 0–1 */
 
 ### Interaction states
 
-Use the `--_select` / `--_interact` two-property pattern. `background` is declared once per component; states only change the numeric properties:
+Components use numeric properties for hover/active overlays:
 
 ```css
 :host {
@@ -134,18 +131,7 @@ Standard alpha values:
 | Active | 0.10 |
 | Selected | 0.10 |
 | Selected + hover | 0.15 |
-| Selected + active | 0.20 |
-| Disabled | 40% component opacity (`opacity: 0.4` on `:host`) |
-
-### Edge cases
-
-If an opaque derived color is needed (e.g., text over a gradient, or a color used as `currentColor` border), use:
-
-```css
-color-mix(in oklch, var(--foreground) N%, var(--surface-N))
-```
-
-locally within the component.
+| Disabled | `opacity: 0.2` on `[part="root"]` |
 
 ---
 
@@ -165,7 +151,7 @@ darker              brighter ──────►
 - **Surface-2** (`l + 0.05`): content cards, panels, dialogs
 - **Surface-3** (`l + 0.09`): elevated panels, popovers, menus
 
-In dark mode, the same positive offsets still brighten (matching Material Design 3 convention), and the sunken offset still darkens.
+In dark mode, positive offsets still brighten and sunken still darkens.
 
 ---
 
@@ -174,59 +160,31 @@ In dark mode, the same positive offsets still brighten (matching Material Design
 DUI uses a two-layer approach to styling:
 
 - **CSS custom properties (variables)** — for the variant/state system. These are the small set of values that variants, sizes, and derived states actually toggle.
-- **`::part(root)`** — for everything else. Consumers style any CSS property directly on the exposed part — gradients, filters, transforms, clip-paths, backdrop-filters, blend modes — without the library needing to pre-declare a variable.
+- **`::part(root)`** — for everything else. Consumers style any CSS property directly on the exposed part.
 
-A variable earns its place if it meets at least one of these criteria:
+A variable earns its place if it meets at least one of:
 
 1. **Variants toggle it.** E.g., `--button-bg` is swapped by `:host([variant="danger"])`.
 2. **Other variables derive from it.** E.g., hover colors computed from the base color.
-3. **Sizes toggle it.** E.g., `--button-height`, `--button-padding-x` change per size.
+3. **Sizes toggle it.** E.g., `--button-height` changes per size.
 4. **Ancestor cascading.** A parent can set `--button-bg` to theme all descendant buttons.
 
 If a value doesn't meet any of these, it should not be a variable. The consumer uses `::part(root)` instead.
 
-### Consumer usage model
-
-```css
-/* Variables — for what the variant system controls */
-dui-button {
-  --button-bg: linear-gradient(135deg, pink, purple);
-}
-
-/* ::part(root) — for everything else (unlimited CSS) */
-dui-button::part(root) {
-  filter: brightness(1.15);
-  box-shadow: 0 0 16px oklch(0.7 0.2 280 / 0.4);
-}
-```
-
 ### Why `background` not `background-color`
 
-Theme styles use the full `background` shorthand so variables like `--button-bg` accept gradients, images, and multiple layers.
+Component styles use the full `background` shorthand so variables like `--button-bg` accept gradients, images, and multiple layers — not just flat colors.
 
 ---
 
-## Theme interface
+## How DUI defines variants
 
-```typescript
-interface DuiTheme {
-  /** Token stylesheet injected into document.adoptedStyleSheets. */
-  tokens: CSSStyleSheet;
-  /** Themed :host defaults (font-family, color, line-height). */
-  base: CSSResult;
-  /** Tag name → component aesthetic styles. */
-  styles: Map<string, CSSResult>;
-}
-```
+### Two-axis system (intent × appearance)
 
----
-
-## How theme-default defines variants
-
-### Button variants (two-axis)
+Most components use a two-axis pattern. See [creating-components.md](./creating-components.md) for the full implementation pattern.
 
 **Variant** (intent): `"neutral"` (default), `"primary"`, `"danger"`
-**Appearance** (treatment): `"filled"` (default), `"outline"`, `"ghost"`, `"link"`
+**Appearance** (treatment): `"filled"` (default), `"outline"`, `"ghost"`, `"soft"`, `"link"`
 
 | Intent | Filled bg | Ghost/Outline text |
 |--------|----------|-------------------|
@@ -234,32 +192,20 @@ interface DuiTheme {
 | primary | `--accent` | `--accent-text` |
 | danger | `--destructive` | `--destructive-text` |
 
-### Button sizes
+### Sizes
 
-| Value | Height |
+| Value | Height token |
 |-------|--------|
+| `"xs"` | `--component-height-xs` |
 | `"sm"` | `--component-height-sm` |
 | `"md"` (default) | `--component-height-md` |
 | `"lg"` | `--component-height-lg` |
-
-### Badge variants (two-axis)
-
-**Variant**: `"neutral"` (default), `"primary"`, `"danger"`
-**Appearance**: `"filled"` (default), `"outline"`, `"ghost"`
-
-### Other variant vocabularies
-
-- **Textarea**: `"default"`, `"ghost"` (no border/background)
-- **Spinner**: `"pulse"`, `"lucide-loader"`, `"lucide-loader-circle"`
-- **Sidebar**: `"sidebar"` (default), `"floating"`, `"inset"`
-
-A different theme can offer entirely different variant names.
 
 ---
 
 ## `@property` declarations
 
-Theme-default registers component-level CSS custom properties via `@property` in `properties.css`:
+Component-level CSS custom properties are registered via `@property` in `properties.css`:
 
 ```css
 @property --button-bg {
@@ -269,35 +215,29 @@ Theme-default registers component-level CSS custom properties via `@property` in
 }
 ```
 
-**Declared**: Consumer-facing properties (`--button-bg`, `--button-radius`, etc.)
-**Not declared**: Internal tokens (`--space-4`, `--foreground`) — implementation details.
+This enables:
+- **Browser type-checking** — rejects invalid values
+- **Smooth transitions** — registered properties can be interpolated
+- **DevTools integration** — shows syntax and initial-value in computed styles
+
+Only consumer-facing properties are declared (`--button-bg`, `--button-radius`, etc.). Internal tokens (`--space-4`, `--foreground`) are not declared.
 
 ---
 
-## Creating a new theme
+## Customizing the palette
 
-To create a theme from scratch:
+Override the 4 primitive colors to change the entire color system:
 
-1. **Pick 4 primitive colors** in OKLCH — background, foreground, accent, destructive
-2. **Define `@property` declarations** for component-level properties
-3. **Create a base** — `:host` visual defaults
-4. **Create component styles** — one `CSSResult` per component
-5. **Export a `DuiTheme` object**
-
-```typescript
-import type { DuiTheme } from "@dui/core/apply-theme";
-
-export const myTheme: DuiTheme = {
-  tokens: myTokenSheet,
-  base: myThemedBase,
-  styles: new Map([
-    ["dui-button", myButtonStyles],
-    ["dui-badge", myBadgeStyles],
-  ]),
-};
+```css
+:root {
+  --accent: oklch(0.6 0.2 280);        /* purple accent */
+  --destructive: oklch(0.55 0.22 25);  /* keep red for danger */
+}
 ```
 
-### Example themes
+All derived tokens (surfaces, borders, text tiers, accent-subtle, etc.) update automatically.
+
+### Example palettes
 
 **Warm neutral** (4 primitives):
 ```css

@@ -79,3 +79,5 @@ export class DuiMapMarkerLabel extends LitElement {
     return html`<slot style="display:none" @slotchange=${this.#renderIntoPortal}></slot>`;
   }
 }
+
+customElements.define(DuiMapMarkerLabel.tagName, DuiMapMarkerLabel);

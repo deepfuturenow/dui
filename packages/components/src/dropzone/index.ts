@@ -1,5 +1,7 @@
-import { DuiDropzone, dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent } from "./dropzone.ts";
-export { DuiDropzone, dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent };
+import "./dropzone.ts";
+
+export { DuiDropzone } from "./dropzone.ts";
+
 export type {
   DropzoneErrorCode,
   DropzoneRejectionCode,
@@ -9,6 +11,5 @@ export type {
   DropzoneAcceptedDetail,
   DropzoneRejectedDetail,
   DropzoneErrorDetail,
-} from "./dropzone.ts";
-
-export const dropzoneFamily = [DuiDropzone];
+} from "@dui/primitives/dropzone";
+export { dropzoneDropEvent, dropAcceptedEvent, dropRejectedEvent, dropzoneErrorEvent } from "@dui/primitives/dropzone";

@@ -1,4 +1,4 @@
-import { DuiButton, navigateEvent } from "./button.ts";
-export { DuiButton, navigateEvent };
+import "./button.ts";
 
-export const buttonFamily = [DuiButton];
+export { DuiButton } from "./button.ts";
+export { navigateEvent } from "@dui/primitives/button";

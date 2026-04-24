@@ -1,4 +1,3 @@
-import { DuiIcon } from "./icon.ts";
-export { DuiIcon };
+import "./icon.ts";
 
-export const iconFamily = [DuiIcon];
+export { DuiIcon } from "./icon.ts";

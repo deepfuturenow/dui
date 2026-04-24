@@ -1,69 +1,45 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/tabs */
-
-import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { consume } from "@lit/context";
-import { base } from "@dui/core/base";
-import { type TabsContext, tabsContext } from "./tabs-context.ts";
+import { css } from "lit";
+import { DuiTabsPanelPrimitive } from "@dui/primitives/tabs";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: block;
+    --tabs-panel-padding: var(--space-3);
+    --tabs-panel-border-width: var(--border-width-thin);
+    --tabs-panel-border-color: var(--border);
+    --tabs-panel-border-radius: var(--radius-md);
+    --tabs-panel-background: none;
   }
 
-  .wrapper {
-    display: contents;
-  }
-
-  .wrapper[hidden] {
-    display: none;
+  :host(:not([data-hidden])) {
+    flex: 1;
+    min-height: 0;
+    padding: var(--tabs-panel-padding);
+    border: var(--tabs-panel-border-width) solid var(--tabs-panel-border-color);
+    border-radius: var(--tabs-panel-border-radius);
+    background: var(--tabs-panel-background);
   }
 
   [part="panel"] {
-    position: relative;
-    outline: 0;
+    transition-property: box-shadow;
+    transition-duration: var(--duration-fast);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-2);
+  }
+
+  [part="panel"]:focus-visible {
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width))
+        var(--focus-ring-color);
+    border-radius: var(--radius-md);
   }
 `;
 
-/**
- * Content panel for a tab. Shown when the matching tab is active.
- */
-export class DuiTabsPanel extends LitElement {
-  static tagName = "dui-tabs-panel" as const;
-  static override styles = [base, styles];
-
-  /** Panel value — must match the corresponding tab's value. */
-  @property()
-  accessor value = "";
-
-  /** Keep panel in DOM when not active. */
-  @property({ type: Boolean, attribute: "keep-mounted" })
-  accessor keepMounted = false;
-
-  @consume({ context: tabsContext, subscribe: true })
-  accessor _ctx!: TabsContext;
-
-  get #isActive(): boolean {
-    return this._ctx?.value === this.value;
-  }
-
-  override willUpdate(): void {
-    if (this.#isActive) {
-      this.removeAttribute("data-hidden");
-    } else {
-      this.setAttribute("data-hidden", "");
-    }
-  }
-
-  override render(): TemplateResult {
-    const isActive = this.#isActive;
-
-    return html`
-      <div class="wrapper" ?hidden=${!isActive}>
-        ${isActive || this.keepMounted
-          ? html`<div part="panel" role="tabpanel" tabindex="0"><slot></slot></div>`
-          : nothing}
-      </div>
-    `;
-  }
+export class DuiTabsPanel extends DuiTabsPanelPrimitive {
+  static override styles = [...DuiTabsPanelPrimitive.styles, styles];
 }
+
+customElements.define(DuiTabsPanel.tagName, DuiTabsPanel);

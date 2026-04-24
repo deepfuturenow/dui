@@ -1,4 +1,3 @@
-import { DuiSpinner } from "./spinner.ts";
-export { DuiSpinner };
+import "./spinner.ts";
 
-export const spinnerFamily = [DuiSpinner];
+export { DuiSpinner } from "./spinner.ts";

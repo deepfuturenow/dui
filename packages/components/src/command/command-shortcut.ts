@@ -1,20 +1,16 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/command */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiCommandShortcutPrimitive } from "@dui/primitives/command";
+import "../_install.ts";
 
 const styles = css`
-  :host {
-    display: inline-flex;
-    margin-left: auto;
+  .Shortcut {
+    font-size: var(--text-xs); line-height: var(--text-xs--line-height);
+    color: var(--text-2);
   }
 `;
 
-export class DuiCommandShortcut extends LitElement {
-  static tagName = "dui-command-shortcut" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`<span class="Shortcut"><slot></slot></span>`;
-  }
+export class DuiCommandShortcut extends DuiCommandShortcutPrimitive {
+  static override styles = [...DuiCommandShortcutPrimitive.styles, styles];
 }
+
+customElements.define(DuiCommandShortcut.tagName, DuiCommandShortcut);

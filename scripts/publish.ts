@@ -17,11 +17,8 @@ const ROOT = resolve(import.meta.dirname!, "..");
 const DIST = join(ROOT, "dist");
 
 const PACKAGES = [
-  "dui-core",
   "dui-components",
-  "dui-theme-default",
-  "dui-theme-default-templates",
-  "dui-inspector",
+  "dui-templates",
   "dui-cdn",
 ] as const;
 
@@ -79,8 +76,8 @@ async function main() {
   // Step 4: Publish (or dry-run)
   console.log(`\nStep 4: ${dryRun ? "Dry-run" : "Publishing"}...\n`);
 
-  // Publish order matters: core first, then components + theme, then CDN
-  const publishOrder = ["dui-core", "dui-components", "dui-theme-default", "dui-inspector", "dui-cdn"];
+  // Publish order: components first (others may depend on it), then rest, CDN last
+  const publishOrder = ["dui-components", "dui-templates", "dui-cdn"];
 
   for (const pkg of publishOrder) {
     const pkgDir = join(DIST, pkg);

@@ -1,156 +1,184 @@
 # Architecture
 
-## Three-layer architecture
+## Two-layer inheritance model
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Templates (theme-scoped compositions)      │
-│  └── @dui/theme-default-templates           │
-│       Pre-composed UI patterns that render  │
-│       themed components + vanilla HTML/CSS  │
+│  Templates (pre-composed patterns)          │
+│  @dui/templates                             │
+│  Combine styled components + vanilla HTML   │
 ├─────────────────────────────────────────────┤
-│  Theme (owns all aesthetics)                │
-│  ├── @property declarations (typed API)     │
-│  ├── Tokens (theme-internal, optional)      │
-│  ├── Base styles                            │
-│  └── Component styles + variant selectors   │
+│  Styled Components                          │
+│  @dui/components                            │
+│  Extend primitives with aesthetic CSS,      │
+│  design tokens, variant systems.            │
+│  Self-register via customElements.define()  │
 ├─────────────────────────────────────────────┤
-│  Library                                    │
-│  ├── @dui/components (structural only)      │
-│  └── @dui/core (reset, applyTheme,         │
-│       event factory, floating UI utils)     │
+│  Primitives (separate repo: dui-primitives) │
+│  @dui/primitives — unstyled structural      │
+│     base classes (accessibility, ARIA,      │
+│     keyboard, layout)                       │
+│  @dui/core — base reset, event factory,     │
+│     floating UI, popup coordinator          │
 └─────────────────────────────────────────────┘
 ```
 
-The **library** provides structure and behaviour with zero visual opinions. **Themes** own all aesthetics — tokens, variant vocabularies, component-level CSS custom property contracts, and `@property` declarations. **Templates** sit on top: pre-composed patterns that combine themed components with layout, aimed at specific use cases (feed items, social posts, activity timelines).
+**Primitives** provide structure and behavior with zero visual opinions — accessibility, keyboard navigation, ARIA attributes, and layout. **Components** extend primitives with aesthetic CSS: design tokens, variant/appearance/size systems, colors, spacing, typography. **Templates** sit on top: pre-composed patterns that combine styled components with layout.
 
-`theme-default` ships a comprehensive token system and a ShadCN-inspired variant vocabulary — but those are its design choices, not library requirements. A different theme can use entirely different token names, variant names, or no tokens at all.
+## How components work
 
-Swap the theme to completely change the look without touching component code.
-
-## How `applyTheme` works
-
-Called once before any DUI component is used. Here's what it does step by step:
-
-1. **Injects tokens** — Adds the theme's `CSSStyleSheet` (tokens + `@property` declarations) to `document.adoptedStyleSheets`. Idempotent — skips if already present.
-2. **Creates themed subclasses** — For each component class, creates `class extends Base` with composed styles.
-3. **Registers custom elements** — Calls `customElements.define(tagName, ThemedClass)`. Skips if already registered.
+Each component is a class that extends its corresponding primitive and adds aesthetic styles:
 
 ```typescript
-applyTheme({
-  theme: defaultTheme,
-  components: [DuiButton, DuiSwitch, DuiBadge],
-});
-```
+// packages/components/src/badge/badge.ts
+import { css } from "lit";
+import { DuiBadgePrimitive } from "@dui/primitives/badge";
+import "../_install.ts";
 
-### Dependency resolution
+const styles = css`
+  :host([variant="primary"]) {
+    --badge-bg: var(--accent);
+    --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
+  }
 
-Components and templates can declare `static dependencies` — an array of component classes they render internally. `applyTheme` resolves these recursively (depth-first) so dependencies register before dependents. This is especially useful for templates, which render DUI components in their shadow DOM:
+  [part="root"] {
+    background: var(--badge-bg);
+    color: var(--badge-fg);
+    font-family: var(--font-sans);
+    border-radius: var(--radius-full);
+    /* ... */
+  }
+`;
 
-```typescript
-// Template declares what it renders internally
-class DuiFeedItem extends LitElement {
-  static tagName = "dui-feed-item" as const;
-  static dependencies = [DuiBadge];
-  // ...
+export class DuiBadge extends DuiBadgePrimitive {
+  static override styles = [...DuiBadgePrimitive.styles, styles];
 }
 
-// Consumer only needs to list the template — DuiBadge auto-registers
-applyTheme({
-  theme: defaultTheme,
-  components: [DuiFeedItem],
-});
+customElements.define(DuiBadge.tagName, DuiBadge);
 ```
+
+Three things happen:
+
+1. **Style inheritance** — `[...DuiBadgePrimitive.styles, styles]` layers aesthetic CSS on top of structural CSS. Later entries win in the cascade.
+2. **Self-registration** — `customElements.define()` at module scope means importing the component registers it. No setup function needed.
+3. **Token injection** — `import "../_install.ts"` injects the design token stylesheet into `document.adoptedStyleSheets` (idempotent — runs once via ES module caching).
 
 ### Style composition order
 
-The composed styles array is built in this order:
-
 ```
-[...component structural styles, theme base, theme component styles]
+[primitive structural CSS,  component aesthetic CSS]
+ └── base reset              └── tokens, variants,
+     layout                      colors, sizing,
+     behavioral CSS              interaction states
 ```
 
-1. **Component structural styles** — `base` reset + component's own layout CSS
-2. **Theme base** — `:host` visual defaults (font-family, color, line-height)
-3. **Theme component styles** — Aesthetic CSS for this specific component (colors, spacing, borders, variant selectors)
+The aesthetic layer always overrides structural defaults.
 
-Later entries override earlier ones. This means theme styles always win over structural defaults.
+## Self-registration model
+
+Components self-register on import. There's no setup function, no `applyTheme()`, no configuration:
+
+```typescript
+// Importing registers the component
+import "@dui/components/button";
+
+// Now <dui-button> works in HTML
+```
+
+Design tokens (`tokens.css`, `prose.css`) are injected into `document.adoptedStyleSheets` via the `_install.ts` side-effect module. Every component imports it, but ES module caching ensures it runs exactly once.
+
+Templates work the same way — they import their component dependencies as side effects:
+
+```typescript
+// packages/templates/src/feed/feed-item.ts
+import "@dui/components/badge";  // registers dui-badge
+
+export class DuiFeedItem extends LitElement {
+  // renders <dui-badge> in its template
+}
+
+customElements.define(DuiFeedItem.tagName, DuiFeedItem);
+```
 
 ## Package responsibilities
 
-### `@dui/core`
+### `@dui/core` (from dui-primitives)
+
+Purely behavioral foundation. No design opinions.
 
 | Export | Purpose |
 |--------|---------|
 | `@dui/core/base` | Structural reset styles (box-sizing, margin/padding resets, reduced-motion) |
 | `@dui/core/event` | `customEvent()` factory for typed custom events |
-| `@dui/core/apply-theme` | `applyTheme()` function and `DuiTheme` interface |
 | `@dui/core/popup-coordinator` | Ensures only one popup is open at a time |
 | `@dui/core/floating-popup-utils` | Floating UI positioning helpers |
 | `@dui/core/floating-portal-controller` | Reactive controller for portal + floating UI lifecycle |
+| `@dui/core/dom` | DOM utilities |
+
+### `@dui/primitives` (from dui-primitives)
+
+Unstyled structural base classes. Each primitive is a subpath export:
+
+```typescript
+import { DuiButtonPrimitive } from "@dui/primitives/button";
+import { DuiBadgePrimitive } from "@dui/primitives/badge";
+```
+
+Primitives provide structure and behavior only. Properties like `variant` that only affect CSS are **not** declared on primitives — those are added by the styled component layer. Properties that affect behavior, DOM structure, or ARIA (like `disabled`, `orientation`, `type`) are defined here with typed enums.
 
 ### `@dui/components`
 
-Unstyled component classes. Each component is a subpath export:
+Styled components that extend primitives. Each import triggers self-registration:
 
 ```typescript
-import { DuiButton } from "@dui/components/button";
-import { DuiSwitch } from "@dui/components/switch";
-import { DuiBadge } from "@dui/components/badge";
+import "@dui/components/button";  // registers <dui-button>
+import "@dui/components/badge";   // registers <dui-badge>
 ```
 
-Components provide structure and behaviour only. Properties like `variant` and `size` are bare reflected strings — the component doesn't know or care what values exist. Variant names are defined by the theme.
+Components add:
+- **Design tokens** — injected via `_install.ts` into `document.adoptedStyleSheets`
+- **Variant/appearance/size CSS** — `:host([variant="primary"])` selectors that map to CSS custom properties
+- **Aesthetic CSS** — colors, spacing, typography, borders, shadows, transitions
+- **`customElements.define()`** — self-registration
 
-### `@dui/theme-default`
+### `@dui/templates`
 
-| Export | Purpose |
-|--------|---------|
-| `@dui/theme-default` | `defaultTheme` object (tokens + `@property` declarations + base + styles map) |
-| `@dui/theme-default/types` | TypeScript variant/size types (`ButtonVariant`, `ButtonSize`, etc.) |
-| `@dui/theme-default/components/button` | `buttonStyles` CSSResult |
-| `@dui/theme-default/components/switch` | `switchStyles` CSSResult |
-| `@dui/theme-default/components/badge` | `badgeStyles` CSSResult |
-
-The theme includes its own token system, variant vocabulary, and typed CSS custom property API via `@property` declarations. These are all `theme-default`'s design choices — a different theme defines its own.
-
-### `@dui/theme-default-templates`
-
-Pre-composed UI patterns for the default theme. Templates are Lit web components that render DUI components + vanilla HTML, styled exclusively with design tokens so they adapt to dark mode and token overrides.
-
-Templates are **theme-scoped** — they use `theme-default`'s variant vocabulary (`variant="danger"`, `appearance="ghost"`, etc.) and token names. A different theme would ship its own templates package. This is why templates live in a separate package rather than in `@dui/components` (which is theme-agnostic).
+Pre-composed UI patterns built from DUI components. Templates are Lit web components that render styled components + vanilla HTML, styled exclusively with design tokens so they adapt to dark mode and token overrides.
 
 | Export | Purpose |
 |--------|---------|
-| `@dui/theme-default-templates/feed` | Feed & events templates (`DuiFeedItem`, etc.) |
-| `@dui/theme-default-templates/all` | All template families |
+| `@dui/templates/feed` | Feed & events templates (`DuiFeedItem`, etc.) |
+| `@dui/templates/dashboard` | Dashboard patterns (`DuiSectionPanel`, `DuiPageHeader`) |
+| `@dui/templates/metrics` | Stat cards, gauges, progress bars |
+| `@dui/templates/data` | Key-value pairs, tables |
+| `@dui/templates/content` | Briefings, empty states |
+| `@dui/templates/media` | Avatar rows, media grids |
+| `@dui/templates/all` | All template families |
 
-### `@dui/docs`
+### `@dui/inspector` (separate repo: dui-inspector)
 
-Dev server for visual testing. Run with `cd packages/docs && deno task dev`. Uses esbuild with custom plugins to resolve `@dui/*` imports and load `.css` as raw text.
+Runtime component inspector — style layers, token resolution, live editing. Consumed via npm as `@deepfuture/dui-inspector`.
 
 ## Key design decisions
 
-**Why unstyled base?** — Themes are swappable without modifying components. Clear separation between structure (component author's job) and aesthetics (theme author's job). Smaller bundles when tree-shaking unused themes.
+**Why two-layer inheritance?** — Clean separation between "hard parts" (ARIA, keyboard, focus) and "design parts" (tokens, variants, colors). Primitives are reusable across different design systems. Anyone can build their own styled component library on top of dui-primitives.
 
-**Why runtime subclassing?** — No build step required. Works with any bundler. `applyTheme` is a single function call — no decorators, no build plugins, no code generation.
+**Why self-registration?** — `import "@dui/components/button"` just works. No setup function, no dependency on a specific registration mechanism. ES module semantics guarantee idempotent execution.
 
-**Why themes own tokens and variants?** — Tokens (`--primary`, `--space-4`) are aesthetic vocabulary. Variant names (`"primary" | "ghost"`) are aesthetic semantics. Both are design decisions that belong in the theme, not the library. This lets themes be fully self-contained aesthetic systems.
+**Why tokens in `document.adoptedStyleSheets`?** — Design tokens cascade into shadow DOM via CSS custom property inheritance. Injecting once at the document level means every component can read them without per-component token imports.
 
-**Why `@property` declarations?** — CSS `@property` provides type safety (browser rejects invalid values), smooth transitions (registered properties can be interpolated), self-documenting API (machine-readable schema), and DevTools integration.
+**Why not a separate theme package?** — Aesthetic CSS is tightly coupled to the primitive it extends (it targets the same `[part="root"]`, the same `:host` selectors). Keeping them together in one class makes the inheritance explicit and eliminates a coordination layer.
 
 ## Import paths
 
-`@dui/*` mappings are defined in each package's `deno.json` exports field. In a consuming app, add import map entries pointing to the dui packages:
+In the dui workspace, `@dui/core` and `@dui/primitives` are resolved via import mappings in the root `deno.json` that point to the dui-primitives repo on disk. Published packages use npm dependency resolution (`@deepfuture/dui-core`, `@deepfuture/dui-primitives`).
 
 ```json
+// Root deno.json — dev-time import mappings
 {
   "imports": {
-    "@dui/core": "./path/to/dui/packages/core/src/index.ts",
-    "@dui/core/base": "./path/to/dui/packages/core/src/base.ts",
-    "@dui/core/apply-theme": "./path/to/dui/packages/core/src/apply-theme.ts",
-    "@dui/components/button": "./path/to/dui/packages/components/src/button/index.ts"
+    "@dui/core/base": "../dui-primitives/packages/core/src/base.ts",
+    "@dui/primitives/button": "../dui-primitives/packages/primitives/src/button/index.ts"
   }
 }
 ```
-
-Within the dui workspace, Deno resolves `@dui/*` automatically from the workspace member exports.

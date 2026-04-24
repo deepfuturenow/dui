@@ -1,23 +1,21 @@
 # Creating Templates
 
-Step-by-step guide for adding a new template to `@dui/theme-default-templates`.
+Guide for adding a new template to `@dui/templates`.
 
 ---
 
 ## What templates are
 
-Templates are pre-composed UI patterns built from DUI components + vanilla HTML/CSS. Unlike unstyled components (which separate structure from aesthetics), templates are **opinionated about both** — they ship a complete look that adapts to the active theme via design tokens.
-
-Templates are **theme-scoped**: they use `theme-default`'s variant vocabulary (`variant="danger"`, `appearance="ghost"`, etc.) and token names. A different theme would ship its own templates.
+Templates are pre-composed UI patterns built from DUI components + vanilla HTML/CSS. Unlike components (which extend primitives), templates are **self-contained** — they own all their CSS and ship a complete look that adapts via design tokens.
 
 ### Templates vs. components
 
 | | Component | Template |
 |---|---|---|
-| Styles | Structure only — aesthetics in theme | Self-contained — owns all CSS |
-| Theme coupling | None (theme-agnostic) | Coupled to a specific theme's variants + tokens |
+| Extends | A primitive class | `LitElement` directly |
+| Styles | Aesthetic layer on top of primitive | Self-contained — owns all CSS |
 | Purpose | Reusable primitive (button, badge) | Ready-to-use pattern (feed item, social post) |
-| Package | `@dui/components` | `@dui/theme-default-templates` |
+| Package | `@dui/components` | `@dui/templates` |
 
 ### What templates should NOT do
 
@@ -32,7 +30,7 @@ Templates are **theme-scoped**: they use `theme-default`'s variant vocabulary (`
 Each template category gets its own folder:
 
 ```
-packages/theme-default-templates/src/
+packages/templates/src/
   {category}/
     {name}.ts              # Template class
     index.ts               # Re-exports + family array
@@ -43,15 +41,15 @@ packages/theme-default-templates/src/
 
 ## The template class
 
-Here's the complete pattern, using `dui-feed-item` as an example:
+Here's the pattern, using `dui-feed-item` as an example:
 
 ```typescript
-// packages/theme-default-templates/src/feed/feed-item.ts
+// packages/templates/src/feed/feed-item.ts
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
-import { type DuiComponentClass } from "@dui/core/apply-theme";
-import { DuiBadge } from "@dui/components/badge";
+// Side-effect imports — registers DUI components used in this template
+import "@dui/components/badge";
 
 const styles = css`
   :host {
@@ -84,31 +82,25 @@ const styles = css`
 export class DuiFeedItem extends LitElement {
   static tagName = "dui-feed-item" as const;
   static override styles = [base, styles];
-  static dependencies: DuiComponentClass[] = [DuiBadge];
 
-  @property() accessor title = "";
+  @property() override accessor title = "";
   @property() accessor subtitle = "";
   @property() accessor timestamp = "";
-  @property() accessor category = "";
   @property() accessor severity = "";
-  @property() accessor description = "";
 
   override render(): TemplateResult {
     return html`
       <article part="article">
         <header part="header">
           <span class="title">${this.title}</span>
-          ${this.category
-            ? html`<dui-badge appearance="ghost">${this.category}</dui-badge>`
+          ${this.severity
+            ? html`<dui-badge appearance="ghost">${this.severity}</dui-badge>`
             : nothing}
         </header>
         <div class="meta" part="meta">
           <span>${this.subtitle}</span>
           <time>${this.timestamp}</time>
         </div>
-        ${this.description
-          ? html`<p class="body" part="body">${this.description}</p>`
-          : nothing}
         <div class="actions">
           <slot name="actions"></slot>
         </div>
@@ -116,22 +108,24 @@ export class DuiFeedItem extends LitElement {
     `;
   }
 }
+
+customElements.define(DuiFeedItem.tagName, DuiFeedItem);
 ```
 
 ### Key conventions
 
 | Convention | Details |
 |---|---|
-| **Tag name** | `dui-{name}` — plain `dui-` prefix, no infix like `-t-` |
-| **`static tagName`** | Required — used by `applyTheme` for registration |
-| **`static dependencies`** | List DUI component classes rendered internally. `applyTheme` auto-registers them. |
-| **`base` import** | Always include `base` from `@dui/core/base` in styles for structural resets |
-| **Design tokens only** | Never hardcode `px`, `rem`, or color values. Use `--space-*`, `--font-size-*`, `--foreground`, etc. |
-| **Semantic HTML** | Use `<article>`, `<header>`, `<time>`, `<nav>` etc. — not just `<div>` soup |
-| **CSS parts** | Expose meaningful parts (`part="article"`, `part="header"`) for consumer overrides |
-| **Properties** | Use `@property()` with `accessor` for reactive props. All string type by default. Use `override` for `title` (inherited from `HTMLElement`). |
-| **Slots** | Include `<slot name="actions">` as a generic extension point. Use named slots sparingly. |
-| **`nothing` for empty** | Use Lit's `nothing` for conditional rendering, not empty strings |
+| **Tag name** | `dui-{name}` — plain `dui-` prefix |
+| **`static tagName`** | Required for the tag name |
+| **`customElements.define()`** | At module level — self-registers on import |
+| **Component dependencies** | Side-effect imports (`import "@dui/components/badge"`) — triggers registration |
+| **`base` import** | Always include `base` from `@dui/core/base` for structural resets |
+| **Design tokens only** | Never hardcode `px`, `rem`, or color values |
+| **Semantic HTML** | Use `<article>`, `<header>`, `<time>`, `<nav>` etc. |
+| **CSS parts** | Expose meaningful parts (`part="article"`, `part="header"`) |
+| **Properties** | Use `@property() accessor`. Use `override` for `title` (inherited from `HTMLElement`). |
+| **`nothing` for empty** | Use Lit's `nothing` for conditional rendering |
 
 ---
 
@@ -140,7 +134,7 @@ export class DuiFeedItem extends LitElement {
 ### Category index
 
 ```typescript
-// packages/theme-default-templates/src/feed/index.ts
+// packages/templates/src/feed/index.ts
 import { DuiFeedItem } from "./feed-item.ts";
 
 export { DuiFeedItem };
@@ -151,7 +145,7 @@ export const feedFamily = [DuiFeedItem];
 ### All templates barrel
 
 ```typescript
-// packages/theme-default-templates/src/all.ts
+// packages/templates/src/all.ts
 import { feedFamily } from "./feed/index.ts";
 
 export { DuiFeedItem } from "./feed/index.ts";
@@ -161,13 +155,11 @@ export const allTemplates = [
 ];
 ```
 
-When adding a new category, add its family to `all.ts`.
-
 ---
 
 ## Register in deno.json
 
-Add the category export to `packages/theme-default-templates/deno.json`:
+Add the category export to `packages/templates/deno.json`:
 
 ```json
 {
@@ -182,52 +174,34 @@ Add the category export to `packages/theme-default-templates/deno.json`:
 
 ## Wire into docs
 
-### 1. Add to the dev server resolver
-
-In `packages/docs/serve.ts`, add the export path to the `@dui/theme-default-templates` entry in `workspacePackages`.
-
-### 2. Add to the template registry
-
-In `packages/docs/src/template-registry.ts`, add a `TemplateMeta` entry with all properties, slots, and dependencies. Add the slug to `TEMPLATE_NAV_GROUPS` under the appropriate category.
-
-### 3. Import and register
-
-In `packages/docs/src/index.ts`:
-- Import the template class
-- Add it to the `applyTheme()` components array
-- Import the new docs page
-
-### 4. Add to docs-app routing
-
-In `packages/docs/src/docs-app.ts`, add a `case` for the template slug in the `#renderPage()` switch under `section === "templates"`.
-
-### 5. Create a demo page
-
-Create `packages/docs/src/pages/docs-page-{name}.ts` with representative demos showing the template with different prop combinations.
+1. **Template registry** — Add a `TemplateMeta` entry in `packages/docs/src/template-registry.ts` with properties, slots, and dependencies. Add the slug to `TEMPLATE_NAV_GROUPS`.
+2. **Route** — Add a case in `docs-app.ts` `#renderPage()` under `section === "templates"`.
+3. **Import** — In `packages/docs/src/index.ts`, import the template category (`import "@dui/templates/{category}"`) and the page file.
+4. **Demo page** — Create `packages/docs/src/pages/docs-page-{name}.ts`.
 
 ---
 
 ## Styling rules
 
-### Use only public design tokens
+### Use only design tokens
 
-Templates should reference only public tokens from the theme:
+Templates should reference only public tokens:
 
 | Category | Tokens |
 |---|---|
 | Spacing | `--space-0` through `--space-96` |
-| Typography | `--font-sans`, `--font-mono`, `--font-size-*`, `--font-weight-*`, `--letter-spacing-*`, `--line-height-*` |
+| Typography | `--font-sans`, `--font-mono`, `--text-*`, `--font-weight-*`, `--letter-spacing-*`, `--line-height-*` |
 | Colors | `--foreground`, `--background`, `--surface-1`/`2`/`3`, `--text-1`/`2`/`3`, `--border`, `--accent`, `--destructive` |
 | Borders | `--radius-*`, `--border-width-*` |
 | Motion | `--duration-fast`, `--duration-normal` |
 
-### Theme variant vocabulary
+### Variant vocabulary
 
-When rendering DUI components, use the default theme's variant names:
+When rendering DUI components, use the variant names from the component set:
 
 | Component | Available variants |
 |---|---|
-| `dui-badge` | `variant`: `neutral`, `primary`, `danger` / `appearance`: `filled`, `outline`, `ghost` |
-| `dui-button` | `variant`: `default`, `outline`, `ghost`, `link`, `danger` / `size`: `sm`, `md`, `lg`, `icon` |
+| `dui-badge` | `variant`: `neutral`, `primary`, `danger` / `appearance`: `filled`, `outline`, `ghost`, `soft` |
+| `dui-button` | `variant`: `neutral`, `primary`, `danger` / `appearance`: `filled`, `outline`, `ghost`, `soft`, `link` / `size`: `xs`, `sm`, `md`, `lg` |
 
-Templates can also use `--badge-bg`, `--badge-fg`, etc. for custom badge colors beyond the built-in variants.
+Badge and button also support custom colors via CSS variables (`--badge-bg`, `--button-bg`, etc.).

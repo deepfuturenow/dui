@@ -13,12 +13,11 @@ import { resolve, join } from "jsr:@std/path@^1";
 
 const ROOT = resolve(import.meta.dirname!, "..");
 
+const PRIMITIVES_ROOT = resolve(import.meta.dirname!, "../../../../dui-primitives");
+
 const DENO_JSON_FILES = [
-  "packages/core/deno.json",
   "packages/components/deno.json",
-  "packages/theme-default/deno.json",
-  "packages/theme-default-templates/deno.json",
-  "packages/inspector/deno.json",
+  "packages/templates/deno.json",
   "packages/docs/deno.json",
 ];
 
@@ -49,11 +48,11 @@ async function main() {
     Deno.exit(1);
   }
 
-  // Read current version from core
-  const coreJson = JSON.parse(
-    await Deno.readTextFile(join(ROOT, "packages/core/deno.json")),
+  // Read current version from components (core/primitives are versioned separately)
+  const componentsJson = JSON.parse(
+    await Deno.readTextFile(join(ROOT, "packages/components/deno.json")),
   );
-  const currentVersion = coreJson.version ?? "0.1.0";
+  const currentVersion = componentsJson.version ?? "0.1.0";
   const newVersion = bumpVersion(currentVersion, bump);
 
   console.log(`📦 Version bump: ${currentVersion} → ${newVersion}\n`);

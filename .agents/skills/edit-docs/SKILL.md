@@ -9,7 +9,7 @@ Wire a DUI component or template into the multi-page docs site, or modify existi
 
 ## Overview
 
-The docs site (`packages/docs`) uses a shell with sidebar navigation, hash routing, and per-page demo layouts.
+The docs site (`packages/docs`) uses a shell with sidebar navigation, hash routing, and per-page demo layouts. Components and templates self-register via side-effect imports — there is no `applyTheme()` call.
 
 ### Architecture
 
@@ -21,7 +21,7 @@ packages/docs/
 │   ├── component-sources.ts     # Raw source imports for code viewer
 │   ├── docs-app.ts              # Shell: top nav + sidebar + content area + route switch
 │   ├── docs-router.ts           # Hash-based router (#/section/slug)
-│   ├── index.ts                 # Entry point: all imports + applyTheme
+│   ├── index.ts                 # Entry point: side-effect imports for all components + templates
 │   └── pages/
 │       ├── docs-page-layout.ts      # Shared layout for component pages (title + API table)
 │       ├── docs-template-layout.ts  # Shared layout for template pages (title + API table)
@@ -32,6 +32,18 @@ packages/docs/
 ├── serve.ts                     # Dev server + esbuild + llms.txt generation
 └── static/
     └── index.html               # Just <docs-app>
+```
+
+### Registration model
+
+Components and templates self-register via `customElements.define()` on import. The docs entry point (`index.ts`) uses side-effect imports:
+
+```typescript
+// Self-registering imports — no applyTheme needed
+import "@dui/components";            // registers all components
+import "@dui/templates/feed";        // registers feed templates
+import "@dui/templates/dashboard";   // registers dashboard templates
+// ...
 ```
 
 ## Prerequisites
@@ -52,7 +64,7 @@ Before making changes, read:
 | `src/component-registry.ts` | Add `ComponentMeta` entry |
 | `src/component-sources.ts` | Add raw source import |
 | `src/docs-app.ts` | Add slug to `NAV_GROUPS` + route case in `#renderPage()` |
-| `src/index.ts` | Import page + component class + add to `applyTheme` |
+| `src/index.ts` | Import page file |
 | `src/pages/docs-page-{name}.ts` | **Create** — demo page |
 | `serve.ts` | Add export entries to `workspacePackages` (if not already present) |
 
@@ -126,20 +138,7 @@ case "{name}": return html`<docs-page-{name}></docs-page-{name}>`;
 
 ### Step 5 — Update serve.ts
 
-Verify the component's exports exist in `workspacePackages`. If not, add them:
-
-```typescript
-"@dui/components": {
-  exports: {
-    "./{name}": "./src/{name}/index.ts",
-  },
-},
-"@dui/theme-default": {
-  exports: {
-    "./components/{name}": "./src/components/{name}.ts",
-  },
-},
-```
+Verify the component's exports exist in `workspacePackages`. The `@dui/components` entry auto-reads from `packages/components/deno.json`, so new components should be picked up automatically as long as the component's export was added to `packages/components/deno.json`.
 
 ### Step 6 — Create the demo page
 
@@ -177,19 +176,15 @@ export class DocsPage{Name} extends LitElement {
 - `<docs-row>` — horizontal flex layout for placing items side by side
 - For compound components, use `<docs-page-layout tag="dui-{name}" .additionalTags=${["dui-{name}-item"]}>` to show multiple API tables
 
-### Step 7 — Import and register
+### Step 7 — Import the page
 
-In `packages/docs/src/index.ts`:
+In `packages/docs/src/index.ts`, add the page import near the other page imports:
 
 ```typescript
 import "./pages/docs-page-{name}.ts";
-import { Dui{Name} } from "@dui/components/{name}";
-
-// Add to applyTheme components array:
-applyTheme({
-  components: [..., Dui{Name}],
-});
 ```
+
+No component registration is needed — `import "@dui/components"` at the top of `index.ts` already registers all components via their side-effect imports. If you added a new component to `@dui/components`, it's automatically included.
 
 ### Step 8 — Verify
 
@@ -203,7 +198,7 @@ applyTheme({
 
 ## Adding a Template to Docs
 
-Templates use a parallel but slightly different system. This is also covered in the `/create-default-theme-template` skill, but here's the docs-specific summary.
+Templates use a parallel but slightly different system. This is also covered in the `/create-template` skill, but here's the docs-specific summary.
 
 ### Files to modify
 
@@ -211,9 +206,8 @@ Templates use a parallel but slightly different system. This is also covered in 
 |------|--------|
 | `src/template-registry.ts` | Add `TemplateMeta` entry + slug to `TEMPLATE_NAV_GROUPS` |
 | `src/docs-app.ts` | Add route case in `#renderPage()` under `section === "templates"` |
-| `src/index.ts` | Import page + template class + add to `applyTheme` |
+| `src/index.ts` | Import page + import template category (if new) |
 | `src/pages/docs-page-{name}.ts` | **Create** — demo page |
-| `serve.ts` | Add export to `@dui/theme-default-templates` workspace entry (if new category) |
 
 ### Demo page pattern for templates
 
@@ -242,6 +236,16 @@ export class DocsPage{Name} extends LitElement {
 
 Note: `<docs-template-layout>` instead of `<docs-page-layout>`. It reads from `templateRegistry` and shows a "Template" badge, properties table, slots table, and component dependencies.
 
+### Registration in index.ts
+
+For templates, `index.ts` imports template categories as side effects:
+
+```typescript
+import "@dui/templates/{category}";
+```
+
+If the category is already imported, no change needed — adding a template to an existing category's index automatically picks it up.
+
 ---
 
 ## Editing an Existing Page
@@ -268,10 +272,10 @@ To update API documentation (properties, events, slots):
 - [ ] Component source added to `component-sources.ts` (components only)
 - [ ] Slug added to `NAV_GROUPS` or `TEMPLATE_NAV_GROUPS`
 - [ ] Route case added in `#renderPage()`
-- [ ] `serve.ts` has export entries for all relevant packages
+- [ ] `serve.ts` exports present for all relevant packages
 - [ ] Page uses light DOM (`createRenderRoot() { return this; }`)
 - [ ] Page uses `<docs-page-layout>` (components) or `<docs-template-layout>` (templates)
 - [ ] Demos show all variants, sizes, and key features
-- [ ] Page and class imported in `index.ts`
-- [ ] Class added to `applyTheme` in `index.ts`
+- [ ] Page imported in `index.ts`
+- [ ] Template category imported in `index.ts` (templates only, if new category)
 - [ ] `deno check` passes

@@ -1,44 +1,16 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/breadcrumb */
+import { css } from "lit";
+import { DuiBreadcrumbEllipsisPrimitive } from "@dui/primitives/breadcrumb";
+import "../_install.ts";
 
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
-
-/** Structural styles only — layout CSS. */
 const styles = css`
-  :host {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   [part="root"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--text-2);
+    width: var(--space-4);
   }
 `;
 
-/**
- * `<dui-breadcrumb-ellipsis>` — Collapsed breadcrumb indicator.
- * Defaults to "\u2026" but can be overridden via slot (e.g., an icon).
- *
- * @slot - Custom ellipsis content. Defaults to "\u2026".
- * @csspart root - The `<span>` element (presentational, aria-hidden).
- */
-export class DuiBreadcrumbEllipsis extends LitElement {
-  static tagName = "dui-breadcrumb-ellipsis" as const;
-
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`
-      <span
-        role="presentation"
-        aria-hidden="true"
-        part="root"
-      >
-        <slot>&hellip;</slot>
-      </span>
-    `;
-  }
+export class DuiBreadcrumbEllipsis extends DuiBreadcrumbEllipsisPrimitive {
+  static override styles = [...DuiBreadcrumbEllipsisPrimitive.styles, styles];
 }
+
+customElements.define(DuiBreadcrumbEllipsis.tagName, DuiBreadcrumbEllipsis);

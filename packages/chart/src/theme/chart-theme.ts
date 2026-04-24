@@ -137,7 +137,9 @@ const chartThemeStyles = css`
   }
 `;
 
-/** Tag name → themed CSS map. Merge into your theme's `styles` Map. */
+export { chartThemeStyles };
+
+/** @deprecated Tag name → themed CSS map. Use direct imports instead. */
 export const chartStyles: Map<string, CSSResult> = new Map([
   ["dui-chart", chartThemeStyles],
 ]);

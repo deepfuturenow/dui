@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
-import { proseSheet } from "@dui/theme-default/prose";
+import { proseSheet } from "@dui/components/prose";
 import { sectionStyles } from "./docs-section-styles.ts";
 
 @customElement("docs-page-prose")
@@ -135,7 +135,7 @@ export class DocsPageProse extends LitElement {
       <h2 class="section-heading">Usage</h2>
       <p class="section-description">
         Wrap any block of HTML content with a <code>class="dui-prose"</code> element.
-        No imports needed beyond the existing <code>applyTheme()</code> call.
+        No imports needed beyond the existing component imports.
       </p>
       <div class="demo-card">
         <div class="demo-code">
@@ -342,13 +342,9 @@ console.log(tax); // 1</code></pre>
       <div class="demo-card">
         <div class="demo-area">
           <div class="dui-prose">
-            <pre><code>import { applyTheme } from "@dui/core/apply-theme";
-import { defaultTheme } from "@dui/theme-default";
-
-applyTheme({
-  theme: defaultTheme,
-  components: [/* ... */],
-});</code></pre>
+            <pre><code>// Self-registering — just import what you need
+import "@dui/components/button";
+import "@dui/components/badge";</code></pre>
           </div>
         </div>
       </div>

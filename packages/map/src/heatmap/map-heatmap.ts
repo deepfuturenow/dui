@@ -247,3 +247,5 @@ export class DuiMapHeatmap extends LitElement {
     return html``;
   }
 }
+
+customElements.define(DuiMapHeatmap.tagName, DuiMapHeatmap);

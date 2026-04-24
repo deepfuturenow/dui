@@ -1,46 +1,34 @@
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiSeparatorPrimitive } from "@dui/primitives/separator";
+import "../_install.ts";
 
-/** Structural styles only — layout CSS. */
 const styles = css`
   :host {
-    display: block;
-  }
-
-  :host([orientation="vertical"]) {
-    display: inline-block;
-    align-self: stretch;
-    height: 100%;
+    --separator-margin: 0;
   }
 
   [part="root"] {
     border: none;
-    margin: 0;
-    padding: 0;
+  }
+
+  :host([orientation="horizontal"]) [part="root"] {
+    height: 0;
+    border-top: var(--border-width-thin) solid var(--border);
+    margin-top: var(--separator-margin);
+    margin-bottom: var(--separator-margin);
+  }
+
+  :host([orientation="vertical"]) [part="root"] {
+    width: 0;
+    height: 100%;
+    border-left: var(--border-width-thin) solid var(--border);
+    margin-left: var(--separator-margin);
+    margin-right: var(--separator-margin);
   }
 `;
 
-/**
- * `<dui-separator>` — A visual divider between content sections.
- *
- * @csspart root - The separator element.
- */
-export class DuiSeparator extends LitElement {
-  static tagName = "dui-separator" as const;
-
-  static override styles = [base, styles];
-
-  @property({ reflect: true })
-  accessor orientation: "horizontal" | "vertical" = "horizontal";
-
-  override render(): TemplateResult {
-    return html`
-      <div
-        part="root"
-        role="separator"
-        aria-orientation="${this.orientation}"
-      ></div>
-    `;
-  }
+export class DuiSeparator extends DuiSeparatorPrimitive {
+  static override styles = [...DuiSeparatorPrimitive.styles, styles];
 }
+
+customElements.define(DuiSeparator.tagName, DuiSeparator);

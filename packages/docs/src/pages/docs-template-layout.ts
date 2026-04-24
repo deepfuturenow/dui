@@ -161,7 +161,7 @@ export class DocsTemplateLayout extends LitElement {
       ${meta.dependencies.length > 0 ? html`
         <h3 class="section-heading">Component Dependencies</h3>
         <p style="color: var(--text-2); font-size: var(--text-sm);">
-          These DUI components are rendered internally and auto-registered via <code>static dependencies</code>.
+          These DUI components are rendered internally by this template.
         </p>
         <div class="dep-list">
           ${meta.dependencies.map((d) => html`<span class="dep-tag">&lt;${d}&gt;</span>`)}

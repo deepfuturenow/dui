@@ -1,6 +1,5 @@
-import { DuiMenu } from "./menu.ts";
-export { DuiMenu };
-import { DuiMenuItem } from "./menu-item.ts";
-export { DuiMenuItem };
+import "./menu.ts";
+import "./menu-item.ts";
 
-export const menuFamily = [DuiMenu, DuiMenuItem];
+export { DuiMenu } from "./menu.ts";
+export { DuiMenuItem } from "./menu-item.ts";

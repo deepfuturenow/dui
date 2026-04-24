@@ -113,3 +113,5 @@ export class DuiMapMarkerPopup extends LitElement {
     return html`<slot style="display:none" @slotchange=${this.#renderIntoPortal}></slot>`;
   }
 }
+
+customElements.define(DuiMapMarkerPopup.tagName, DuiMapMarkerPopup);

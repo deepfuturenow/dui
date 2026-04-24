@@ -1,196 +1,84 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
-
-import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { ContextConsumer } from "@lit/context";
-import { base } from "@dui/core/base";
-import { sidebarContext } from "./sidebar-context.ts";
-
+import { css } from "lit";
+import { DuiSidebarMenuButtonPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: block;
+    --smb-height: var(--component-height-md);
+    --smb-padding-x: var(--sidebar-button-inset);
+    --smb-gap: var(--space-2);
+    --smb-icon-size: var(--space-4);
+    --smb-font-size: var(--text-sm);
+    --smb-radius: var(--radius-md);
+  }
+
+  :host([size="sm"]) {
+    --smb-height: var(--component-height-sm);
+    --smb-font-size: var(--text-xs);
+  }
+
+  :host([size="lg"]) {
+    --smb-height: var(--component-height-lg);
+    --smb-font-size: var(--text-sm);
+    --smb-gap: var(--space-2_5);
   }
 
   .Row {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
+    height: var(--smb-height);
+    border-radius: var(--smb-radius);
+    margin: 0 var(--space-2);
+    transition-property: background;
+    transition-duration: var(--duration-faster);
+    transition-timing-function: var(--ease-out-3);
   }
 
-  .Button {
-    box-sizing: border-box;
-    display: flex;
-    flex: 1;
-    min-width: 0;
-    align-items: center;
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    text-align: left;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    cursor: pointer;
-    user-select: none;
-    font: inherit;
-    color: inherit;
-    padding: 0;
+  .Row:hover {
+    background: oklch(from var(--foreground) l c h / 0.05);
   }
 
-  .Button:focus-visible {
-    outline: none;
-  }
-
-  .Label {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .Suffix {
-    flex-shrink: 0;
+  .Row[data-active] {
+    background: oklch(from var(--foreground) l c h / 0.10);
   }
 
   .Row[data-icon-collapsed] {
-    justify-content: center;
+    width: var(--sidebar-width-icon);
+    margin: 0 auto;
   }
 
-  .Row[data-icon-collapsed] .Label,
-  .Row[data-icon-collapsed] .Suffix {
-    display: none;
+  .Button {
+    gap: var(--smb-gap);
+    padding: 0 var(--smb-padding-x);
+    color: var(--sidebar-button-fg);
+    font-family: var(--font-sans);
+    font-size: var(--smb-font-size);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
+    --icon-size: var(--smb-icon-size);
+    --icon-color: var(--sidebar-muted-fg);
   }
 
-  :host([disabled]) .Button {
-    pointer-events: none;
+  .Button:focus-visible {
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--sidebar-ring);
+    border-radius: var(--smb-radius);
+  }
+
+  :host([disabled]) .Row {
+    opacity: 0.4;
+  }
+
+  :host([active]) .Button {
+    color: var(--sidebar-fg);
+    font-weight: var(--font-weight-medium);
+    --icon-color: var(--sidebar-fg);
   }
 `;
 
-
-
-/**
- * `<dui-sidebar-menu-button>` — Interactive button or link within a sidebar menu.
- *
- * Renders as a `<button>` by default, or an `<a>` when `href` is set.
- * Supports icon-collapsed mode where only the icon is visible, with an
- * optional tooltip.
- *
- * @slot icon - Icon slot, shown before the label.
- * @slot - Default slot for label text.
- * @slot suffix - Suffix slot, shown after the label.
- * @fires spa-navigate - Fired on normal link clicks. Detail: { href: string }
- */
-export class DuiSidebarMenuButton extends LitElement {
-  static tagName = "dui-sidebar-menu-button" as const;
-  static override styles = [base, styles];
-
-  /** Whether the button is in active/selected state. */
-  @property({ type: Boolean, reflect: true })
-  accessor active = false;
-
-  /** Whether the button is disabled. */
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  /** Tooltip text shown when sidebar is icon-collapsed. */
-  @property()
-  accessor tooltip: string = "";
-
-  /** When set, renders as an anchor tag instead of a button. */
-  @property()
-  accessor href: string | undefined = undefined;
-
-  #ctx = new ContextConsumer(this, {
-    context: sidebarContext,
-    subscribe: true,
-  });
-
-  get #isIconCollapsed(): boolean {
-    const ctx = this.#ctx.value;
-    return ctx?.collapsible === "icon" && ctx?.state === "collapsed";
-  }
-
-  #onLinkClick = (event: MouseEvent): void => {
-    if (this.disabled) {
-      event.preventDefault();
-      return;
-    }
-    if (
-      this.href &&
-      !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-    ) {
-      event.preventDefault();
-      this.dispatchEvent(
-        new CustomEvent("spa-navigate", {
-          detail: { href: this.href },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    }
-  };
-
-  #renderButton(): TemplateResult {
-    return html`
-      <button
-        class="Button"
-        ?disabled=${this.disabled}
-        ?data-active=${this.active}
-      >
-        <slot name="icon"></slot>
-        <span class="Label"><slot></slot></span>
-        <span class="Suffix"><slot name="suffix"></slot></span>
-      </button>
-    `;
-  }
-
-  #renderLink(): TemplateResult {
-    return html`
-      <a
-        class="Button"
-        href=${this.href ?? nothing}
-        aria-disabled=${this.disabled || nothing}
-        ?data-active=${this.active}
-        @click=${this.#onLinkClick}
-      >
-        <slot name="icon"></slot>
-        <span class="Label"><slot></slot></span>
-        <span class="Suffix"><slot name="suffix"></slot></span>
-      </a>
-    `;
-  }
-
-  #renderContent(): TemplateResult {
-    const iconCollapsed = this.#isIconCollapsed;
-
-    return html`
-      <div
-        class="Row"
-        ?data-icon-collapsed=${iconCollapsed}
-        ?data-active=${this.active}
-      >
-        ${this.href !== undefined ? this.#renderLink() : this.#renderButton()}
-      </div>
-    `;
-  }
-
-  override render(): TemplateResult {
-    const iconCollapsed = this.#isIconCollapsed;
-
-    if (iconCollapsed && this.tooltip) {
-      return html`
-        <dui-tooltip>
-          <dui-tooltip-trigger>
-            ${this.#renderContent()}
-          </dui-tooltip-trigger>
-          <dui-tooltip-popup side="right">
-            ${this.tooltip}
-          </dui-tooltip-popup>
-        </dui-tooltip>
-      `;
-    }
-
-    return this.#renderContent();
-  }
+export class DuiSidebarMenuButton extends DuiSidebarMenuButtonPrimitive {
+  static override styles = [...DuiSidebarMenuButtonPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarMenuButton.tagName, DuiSidebarMenuButton);

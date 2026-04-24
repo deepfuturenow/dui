@@ -9,7 +9,7 @@ How to integrate DUI components into an application.
 **npm / pnpm / yarn:**
 
 ```bash
-npm install @deepfuture/dui-core @deepfuture/dui-components @deepfuture/dui-theme-default
+npm install @deepfuture/dui-components
 ```
 
 **CDN (zero setup):**
@@ -18,7 +18,7 @@ npm install @deepfuture/dui-core @deepfuture/dui-components @deepfuture/dui-them
 <script type="module" src="https://cdn.jsdelivr.net/npm/@deepfuture/dui-cdn/dui.min.js"></script>
 ```
 
-The CDN bundle registers all components with the default theme automatically. No imports, no config — just use the elements in your HTML. For custom themes or tree-shaking, use the npm packages below.
+The CDN bundle registers all components automatically. No imports, no config — just use the elements in your HTML.
 
 **Deno (from source):**
 
@@ -27,56 +27,39 @@ Add `@dui/*` entries to your app's `deno.json` import map, pointing to the DUI p
 ```json
 {
   "imports": {
-    "@dui/core": "../dui/packages/core/src/index.ts",
-    "@dui/core/apply-theme": "../dui/packages/core/src/apply-theme.ts",
-    "@dui/core/event": "../dui/packages/core/src/event.ts",
     "@dui/components/button": "../dui/packages/components/src/button/index.ts",
-    "@dui/components/dialog": "../dui/packages/components/src/dialog/index.ts",
-    "@dui/components/all": "../dui/packages/components/src/all.ts",
-    "@dui/theme-default": "../dui/packages/theme-default/src/index.ts"
+    "@dui/components/dialog": "../dui/packages/components/src/dialog/index.ts"
   }
 }
 ```
 
-Paths are relative to your `deno.json`. Add entries for each component family you use (or just `@dui/components/all` for everything).
+Paths are relative to your `deno.json`. Add entries for each component you use.
 
 ---
 
-## Bootstrap pattern
+## Usage
 
-Call `applyTheme` before the first render. This registers component classes as custom elements with theme styles composed in.
+Components self-register on import. No setup function, no configuration:
 
-### All components
+### À la carte
 
-The simplest setup — register everything:
-
-```typescript
-// bootstrap.ts — import early in your app's entry point
-import { applyTheme } from "@dui/core/apply-theme";
-import { defaultTheme } from "@dui/theme-default";
-import { allComponents } from "@dui/components/all";
-
-applyTheme({ theme: defaultTheme, components: allComponents });
-```
-
-### À la carte with families
-
-Each component exports a `*Family` array containing the component and all its sub-components. Use this for smaller bundles:
+Import only the components you use:
 
 ```typescript
-import { applyTheme } from "@dui/core/apply-theme";
-import { defaultTheme } from "@dui/theme-default";
-import { buttonFamily } from "@dui/components/button";
-import { dialogFamily } from "@dui/components/dialog";
-import { sidebarFamily } from "@dui/components/sidebar";
-
-applyTheme({
-  theme: defaultTheme,
-  components: [...buttonFamily, ...dialogFamily, ...sidebarFamily],
-});
+import "@deepfuture/dui-components/button";
+import "@deepfuture/dui-components/dialog";
+import "@deepfuture/dui-components/sidebar";
 ```
 
-This avoids needing to know every sub-component — `dialogFamily` includes `DuiDialog`, `DuiDialogTrigger`, `DuiDialogPopup`, and `DuiDialogClose`. `sidebarFamily` includes all 13 sidebar sub-components.
+Each import registers the component and all its sub-components. Importing `dialog` registers `dui-dialog`, `dui-dialog-trigger`, `dui-dialog-popup`, and `dui-dialog-close`.
+
+### Everything
+
+Register all components at once:
+
+```typescript
+import "@deepfuture/dui-components";
+```
 
 ### TypeScript tag names
 
@@ -86,35 +69,17 @@ This avoids needing to know every sub-component — `dialogFamily` includes `Dui
 
 ## Using templates
 
-Templates are pre-composed UI patterns for the default theme. Install alongside the core packages:
+Templates are pre-composed UI patterns. Install alongside the components:
 
 ```bash
-npm install @deepfuture/dui-theme-default-templates
+npm install @deepfuture/dui-templates
 ```
 
-Templates declare their DUI component dependencies via `static dependencies`. When you pass a template to `applyTheme`, its dependencies auto-register — you don't need to import them separately:
+Templates self-register on import, just like components. They import their component dependencies internally:
 
 ```typescript
-import { applyTheme } from "@dui/core/apply-theme";
-import { defaultTheme } from "@dui/theme-default";
-import { DuiFeedItem } from "@dui/theme-default-templates/feed";
-
-// DuiBadge auto-registers because DuiFeedItem declares it as a dependency
-applyTheme({
-  theme: defaultTheme,
-  components: [DuiFeedItem],
-});
-```
-
-Or register all templates at once:
-
-```typescript
-import { allTemplates } from "@dui/theme-default-templates/all";
-
-applyTheme({
-  theme: defaultTheme,
-  components: [...allComponents, ...allTemplates],
-});
+// Registers dui-feed-item and its component dependencies (dui-badge, etc.)
+import "@deepfuture/dui-templates/feed";
 ```
 
 Then use in HTML:
@@ -128,6 +93,12 @@ Then use in HTML:
   severity="high"
   description="Magnitude 4.2 recorded near Portland, OR."
 ></dui-feed-item>
+```
+
+Or register all templates at once:
+
+```typescript
+import "@deepfuture/dui-templates/all";
 ```
 
 ---
@@ -158,27 +129,6 @@ html`
 
 ---
 
-## esbuild considerations
-
-The theme's `tokens.css` is imported as raw text using Deno's `with { type: "text" }` import attribute. If your app uses esbuild, you need a CSS raw text plugin:
-
-```typescript
-// In your esbuild config
-const cssRawTextPlugin: esbuild.Plugin = {
-  name: "css-raw-text",
-  setup(build) {
-    build.onLoad({ filter: /\.css$/ }, async (args) => {
-      const text = await Deno.readTextFile(args.path);
-      return { contents: text, loader: "text" };
-    });
-  },
-};
-```
-
-The DUI docs package (`packages/docs/serve.ts`) has a working implementation of this plugin for reference.
-
----
-
 ## Dark mode
 
 Toggle dark mode by setting `data-theme="dark"` on the `<html>` element:
@@ -189,4 +139,17 @@ document.documentElement.setAttribute("data-theme", "dark");
 document.documentElement.removeAttribute("data-theme");
 ```
 
-The theme's `tokens.css` uses `:root[data-theme="dark"]` selectors to swap color tokens automatically.
+The token stylesheet uses `:root[data-theme="dark"]` selectors to swap color tokens automatically.
+
+---
+
+## Programmatic access to classes
+
+If you need the component class (e.g., for `instanceof` checks), use named imports:
+
+```typescript
+import { DuiButton } from "@deepfuture/dui-components/button";
+import { DuiDialog } from "@deepfuture/dui-components/dialog";
+```
+
+The side-effect import (registration) happens automatically when you import the module — named imports don't skip it.

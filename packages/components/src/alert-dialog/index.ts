@@ -1,12 +1,13 @@
-import { DuiAlertDialog, openChangeEvent } from "./alert-dialog.ts";
-export { DuiAlertDialog, openChangeEvent };
-export type { AlertDialogOpenChangeDetail } from "./alert-dialog.ts";
-import { DuiAlertDialogTrigger } from "./alert-dialog-trigger.ts";
-export { DuiAlertDialogTrigger };
-import { DuiAlertDialogPopup } from "./alert-dialog-popup.ts";
-export { DuiAlertDialogPopup };
-import { DuiAlertDialogClose } from "./alert-dialog-close.ts";
-export { DuiAlertDialogClose };
-export type { AlertDialogContext } from "./alert-dialog-context.ts";
+import "./alert-dialog.ts";
+import "./alert-dialog-close.ts";
+import "./alert-dialog-popup.ts";
+import "./alert-dialog-trigger.ts";
 
-export const alertDialogFamily = [DuiAlertDialog, DuiAlertDialogTrigger, DuiAlertDialogPopup, DuiAlertDialogClose];
+export { DuiAlertDialog } from "./alert-dialog.ts";
+export { DuiAlertDialogClose } from "./alert-dialog-close.ts";
+export { DuiAlertDialogPopup } from "./alert-dialog-popup.ts";
+export { DuiAlertDialogTrigger } from "./alert-dialog-trigger.ts";
+
+export type { AlertDialogOpenChangeDetail } from "@dui/primitives/alert-dialog";
+export type { AlertDialogContext } from "@dui/primitives/alert-dialog";
+export { openChangeEvent } from "@dui/primitives/alert-dialog";

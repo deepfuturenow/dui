@@ -1,4 +1,4 @@
-import { DuiCalendar, valueChangeEvent } from "./calendar.ts";
-export { DuiCalendar, valueChangeEvent };
+import "./calendar.ts";
 
-export const calendarFamily = [DuiCalendar];
+export { DuiCalendar } from "./calendar.ts";
+export { valueChangeEvent } from "@dui/primitives/calendar";

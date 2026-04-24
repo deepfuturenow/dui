@@ -1,5 +1,5 @@
-import { DuiSelect } from "./select.ts";
-export { DuiSelect };
-export type { SelectOption } from "./select.ts";
+import "./select.ts";
 
-export const selectFamily = [DuiSelect];
+export { DuiSelect } from "./select.ts";
+
+export type { SelectOption } from "@dui/primitives/select";

@@ -1,4 +1,3 @@
-import { DuiScrollArea } from "./scroll-area.ts";
-export { DuiScrollArea };
+import "./scroll-area.ts";
 
-export const scrollAreaFamily = [DuiScrollArea];
+export { DuiScrollArea } from "./scroll-area.ts";

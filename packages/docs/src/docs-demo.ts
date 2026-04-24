@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { createHighlighter } from "shiki";
-import { getActiveTheme } from "@dui/core/apply-theme";
+import type { CSSResult } from "lit";
 import { componentSources } from "./component-sources.ts";
 
 const highlighterPromise = createHighlighter({
@@ -149,17 +149,21 @@ export class DuiDocsDemo extends LitElement {
         themes: { light: "github-light", dark: "dracula" },
       });
 
-      // Extract theme CSS for detected DUI components
+      // Extract component CSS for detected DUI components
       const tags = [
         ...new Set(
           [...this.#code.matchAll(/<(dui-[\w-]+)/g)].map((m) => m[1]!),
         ),
       ];
-      const theme = getActiveTheme();
-      if (theme) {
+      {
         const sections: string[] = [];
         for (const tag of tags) {
-          const cssText = theme.styles.get(tag)?.cssText;
+          const el = customElements.get(tag) as (typeof LitElement & { styles?: CSSResult | CSSResult[] }) | undefined;
+          if (!el?.styles) continue;
+          const styles = Array.isArray(el.styles) ? el.styles : [el.styles];
+          // Get the last style (the aesthetic one), skip base reset
+          const last = styles[styles.length - 1];
+          const cssText = (last as CSSResult)?.cssText;
           if (cssText) {
             sections.push(`/* ${tag} */\n${cssText.trim()}`);
           }

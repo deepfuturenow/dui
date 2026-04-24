@@ -1,8 +1,4 @@
-import {
-  DuiStepper,
-  valueChangeEvent,
-  valueCommittedEvent,
-} from "./stepper.ts";
-export { DuiStepper, valueChangeEvent, valueCommittedEvent };
+import "./stepper.ts";
 
-export const stepperFamily = [DuiStepper];
+export { DuiStepper } from "./stepper.ts";
+export { valueChangeEvent, valueCommittedEvent } from "@dui/primitives/stepper";

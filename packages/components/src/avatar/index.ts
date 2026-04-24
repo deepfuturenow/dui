@@ -1,5 +1,6 @@
-import { DuiAvatar, loadingStatusChangeEvent } from "./avatar.ts";
-export { DuiAvatar, loadingStatusChangeEvent };
-export type { ImageStatus } from "./avatar.ts";
+import "./avatar.ts";
 
-export const avatarFamily = [DuiAvatar];
+export { DuiAvatar } from "./avatar.ts";
+
+export type { ImageStatus } from "@dui/primitives/avatar";
+export { loadingStatusChangeEvent } from "@dui/primitives/avatar";

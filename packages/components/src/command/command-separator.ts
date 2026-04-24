@@ -1,19 +1,17 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/command */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiCommandSeparatorPrimitive } from "@dui/primitives/command";
+import "../_install.ts";
 
 const styles = css`
-  :host {
-    display: block;
+  .Separator {
+    height: var(--border-width-thin);
+    margin-inline: calc(-1 * var(--space-1));
+    background: var(--border);
   }
 `;
 
-export class DuiCommandSeparator extends LitElement {
-  static tagName = "dui-command-separator" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`<div class="Separator" role="separator"></div>`;
-  }
+export class DuiCommandSeparator extends DuiCommandSeparatorPrimitive {
+  static override styles = [...DuiCommandSeparatorPrimitive.styles, styles];
 }
+
+customElements.define(DuiCommandSeparator.tagName, DuiCommandSeparator);

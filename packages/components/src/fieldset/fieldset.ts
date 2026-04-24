@@ -1,64 +1,30 @@
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiFieldsetPrimitive } from "@dui/primitives/fieldset";
+import "../_install.ts";
 
-/** Structural styles only — layout CSS. */
 const styles = css`
-  :host {
-    display: block;
-  }
-
   [part="root"] {
-    border: none;
-    margin: 0;
-    padding: 0;
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
-  [part="legend"]:not([data-slotted]) { display: none; }
-  [part="legend"] { padding: 0; }
+  [part="root"][data-disabled] {
+    opacity: 0.4;
+  }
+
+  [part="legend"] {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-normal);
+    color: var(--text-1);
+    margin-bottom: var(--space-2);
+  }
 `;
 
-/**
- * `<dui-fieldset>` — Semantic grouping for related form fields.
- *
- * Wraps content in a native `<fieldset>` element, providing semantic
- * grouping for radio groups, checkbox groups, or logical field clusters.
- *
- * @slot legend - Legend text (e.g. `<span slot="legend">Personal Info</span>`).
- * @slot - Default slot for field children.
- * @csspart root - The native `<fieldset>` element.
- * @csspart legend - The native `<legend>` element.
- */
-export class DuiFieldset extends LitElement {
-  static tagName = "dui-fieldset" as const;
-
-  static override styles = [base, styles];
-
-  /** Disables all child form controls. */
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  @state()
-  accessor #hasLegend = false;
-
-  #onLegendSlotChange = (e: Event): void => {
-    const slot = e.target as HTMLSlotElement;
-    this.#hasLegend = slot.assignedNodes({ flatten: true }).length > 0;
-  };
-
-  override render(): TemplateResult {
-    return html`
-      <fieldset
-        part="root"
-        ?disabled="${this.disabled}"
-        ?data-disabled="${this.disabled}"
-      >
-        <legend part="legend" ?data-slotted="${this.#hasLegend}">
-          <slot name="legend" @slotchange="${this.#onLegendSlotChange}"></slot>
-        </legend>
-        <slot></slot>
-      </fieldset>
-    `;
-  }
+export class DuiFieldset extends DuiFieldsetPrimitive {
+  static override styles = [...DuiFieldsetPrimitive.styles, styles];
 }
+
+customElements.define(DuiFieldset.tagName, DuiFieldset);

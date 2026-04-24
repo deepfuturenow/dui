@@ -195,3 +195,5 @@ export class DuiMapRegion extends LitElement {
     return html``;
   }
 }
+
+customElements.define(DuiMapRegion.tagName, DuiMapRegion);

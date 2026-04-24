@@ -1,7 +1,8 @@
-import { DuiAccordion, valueChangeEvent } from "./accordion.ts";
-export { DuiAccordion, valueChangeEvent };
-import { DuiAccordionItem, openChangeEvent } from "./accordion-item.ts";
-export { DuiAccordionItem, openChangeEvent };
-export type { AccordionContext } from "./accordion-context.ts";
+import "./accordion.ts";
+import "./accordion-item.ts";
 
-export const accordionFamily = [DuiAccordion, DuiAccordionItem];
+export { DuiAccordion } from "./accordion.ts";
+export { DuiAccordionItem } from "./accordion-item.ts";
+
+export type { AccordionContext } from "@dui/primitives/accordion";
+export { valueChangeEvent, openChangeEvent } from "@dui/primitives/accordion";

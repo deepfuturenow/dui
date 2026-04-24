@@ -1,6 +1,6 @@
 # Styling & Customization
 
-How to customize DUI components. For the theme system internals, see [theming.md](./theming.md).
+How to customize DUI components. For the token system internals, see [theming.md](./theming.md).
 
 ---
 
@@ -17,21 +17,19 @@ Variables cascade from ancestors. `::part()` does not — it must target the ele
 
 ---
 
-## Discovering your theme's API
+## Discovering the API
 
-Your theme exposes CSS custom properties that you can override. For `theme-default`:
+Each component exposes CSS custom properties that you can override:
 
 - **Inspect in DevTools** — Chrome shows registered `@property` declarations with syntax and initial-value in computed styles
-- **Read `properties.css`** — The `@property` declarations are the machine-readable schema of the theme's API
-- **Read component styles** — Each file in `packages/theme-default/src/components/` shows the variables and their token defaults
-
-A different theme may expose different variables and different variant names. The override mechanism is just CSS specificity — set variables at a higher priority.
+- **Read `properties.css`** — The `@property` declarations in `packages/components/src/tokens/properties.css` are the machine-readable schema
+- **Read component source** — Each file in `packages/components/src/*/` shows the variables and their token defaults
 
 ---
 
 ## Styling with variables
 
-Each component's theme styles expose CSS custom properties that control its appearance. These are the values that variants (`variant="destructive"`) and sizes (`size="lg"`) toggle internally.
+Each component's styles expose CSS custom properties that control its appearance. These are the values that variants (`variant="danger"`) and sizes (`size="lg"`) toggle internally.
 
 ```css
 /* Change the button's base color */
@@ -83,7 +81,7 @@ Every `<dui-button>` inside `.danger-zone` inherits those colors automatically.
 
 ## Styling with `::part(root)`
 
-For CSS properties the variable system doesn't cover, use `::part(root)`. This gives you full access to any CSS property — no anticipation or pre-declared variables needed.
+For CSS properties the variable system doesn't cover, use `::part(root)`. This gives you full access to any CSS property — no pre-declared variables needed.
 
 ### Frosted glass
 
@@ -122,23 +120,12 @@ dui-button::part(root) {
 }
 ```
 
-### Filter effects
-
-```css
-dui-button::part(root) {
-  filter: brightness(1.1) contrast(1.05);
-}
-dui-button::part(root):hover {
-  filter: brightness(1.25);
-}
-```
-
 ### Combining both layers
 
 Variables and `::part()` work together naturally:
 
 ```css
-/* Variables for what variants control */
+/* Variables — for what the variant system controls */
 dui-button {
   --button-bg: linear-gradient(135deg, pink, purple);
   --button-fg: white;
@@ -152,9 +139,6 @@ dui-button::part(root) {
 dui-button::part(root):hover {
   filter: brightness(1.25);
   transform: translateY(-1px);
-}
-dui-button::part(root):active {
-  transform: scale(0.97);
 }
 ```
 
@@ -180,15 +164,15 @@ See each component's API reference for the full list of exposed parts.
 
 ## Transitions
 
-Theme styles include broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`). This means your `::part()` overrides for filters, transforms, and shadows will animate smoothly without you needing to redeclare transitions.
+Component styles include broad `transition-property` lists (e.g., `background, box-shadow, filter, transform, border-color`). This means your `::part()` overrides for filters, transforms, and shadows animate smoothly without redeclaring transitions.
 
-Additionally, `theme-default` uses `@property` declarations to register its CSS custom properties with types. Registered properties can be interpolated by the browser, enabling smooth animated transitions between variant values (e.g., color changes when switching variants) — something unregistered custom properties can't do.
+Additionally, `@property` declarations register CSS custom properties with types, enabling smooth animated transitions between variant values (e.g., color changes when switching variants).
 
 ---
 
-## Global theme tokens (theme-default)
+## Global token overrides
 
-`theme-default` declares global tokens on `:root`. Override them to change the entire theme:
+Override design tokens on `:root` to change the entire look:
 
 ```css
 :root {
@@ -200,4 +184,4 @@ Additionally, `theme-default` uses `@property` declarations to register its CSS 
 
 The color system is built on 4 primitives: `--background`, `--foreground`, `--accent`, `--destructive`. All other colors are derived. See [theming.md](./theming.md) for the full color system.
 
-These are `theme-default`'s token names — a different theme may use different names. See `packages/theme-default/src/tokens.css` for the full token list.
+See `packages/components/src/tokens/tokens.css` for the full token list.

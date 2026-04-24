@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import type { AvatarItem } from "@dui/theme-default-templates/media";
+import type { AvatarItem } from "@dui/templates/media";
 import "./docs-template-layout.ts";
 
 const teamMembers: AvatarItem[] = [

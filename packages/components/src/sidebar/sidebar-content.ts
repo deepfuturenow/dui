@@ -1,35 +1,11 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
+import { css } from "lit";
+import { DuiSidebarContentPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+const styles = css``;
 
-
-const styles = css`
-  :host {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-  }
-`;
-
-/**
- * `<dui-sidebar-content>` — Scrollable content section of the sidebar.
- *
- * Wraps its slot in a scroll area to provide overflow scrolling.
- *
- * @slot - Default slot for sidebar groups, menus, etc.
- */
-export class DuiSidebarContent extends LitElement {
-  static tagName = "dui-sidebar-content" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`
-      <dui-scroll-area>
-        <slot></slot>
-      </dui-scroll-area>
-    `;
-  }
+export class DuiSidebarContent extends DuiSidebarContentPrimitive {
+  static override styles = [...DuiSidebarContentPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarContent.tagName, DuiSidebarContent);

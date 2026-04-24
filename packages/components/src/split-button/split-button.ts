@@ -1,350 +1,323 @@
-import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
-import { base } from "@dui/core/base";
-import { customEvent } from "@dui/core/event";
-import { FloatingPortalController } from "@dui/core/floating-portal-controller";
-import { DuiMenuItem } from "../menu/menu-item.ts";
+import { css } from "lit";
+import { DuiSplitButtonPrimitive } from "@dui/primitives/split-button";
+import "../_install.ts";
 
-/** Fired when the action (left) button is clicked. */
-export const actionEvent = customEvent<{}>(
-  "dui-action",
-  { bubbles: true, composed: true },
-);
+const styles = css`
+  /* =================================================================
+   * Reuses the button's two-axis variant system:
+   *   variant   → semantic intent (neutral, primary, danger)
+   *   appearance → visual treatment (filled, outline, ghost)
+   *
+   * The whole .Root renders as one unified button shape. The action
+   * and trigger zones share the same background/border/radius.
+   * ================================================================= */
 
-/** Structural styles only — layout and behavioral CSS. */
-const hostStyles = css`
+  /* ---------------------------------------------------------------
+   * Layer 1 — Intent (sets --_intent-* private tokens)
+   * --------------------------------------------------------------- */
+
+  :host,
+  :host([variant=""]),
+  :host([variant="neutral"]) {
+    --_intent-base: var(--foreground);
+    --_intent-base-fg: var(--background);
+    --_intent-subtle: oklch(from var(--foreground) l c h / 0.08);
+    --_intent-subtle-fg: var(--text-1);
+    --_intent-border: var(--border);
+  }
+
+  :host([variant="primary"]) {
+    --_intent-base: var(--accent);
+    --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+    --_intent-subtle: var(--accent-subtle);
+    --_intent-subtle-fg: var(--accent-text);
+    --_intent-border: oklch(from var(--accent) l c h / 0.5);
+  }
+
+  :host([variant="danger"]) {
+    --_intent-base: var(--destructive);
+    --_intent-base-fg: oklch(from var(--destructive) 0.98 0.01 h);
+    --_intent-subtle: var(--destructive-subtle);
+    --_intent-subtle-fg: var(--destructive-text);
+    --_intent-border: oklch(from var(--destructive) l c h / 0.5);
+  }
+
+  /* ---------------------------------------------------------------
+   * Layer 2 — Appearance (maps --_intent-* to --sb-*)
+   * --------------------------------------------------------------- */
+
+  :host,
+  :host([appearance=""]),
+  :host([appearance="filled"]) {
+    --sb-bg: var(--_intent-base);
+    --sb-fg: var(--_intent-base-fg);
+    --sb-border: transparent;
+    --sb-divider: oklch(from var(--_intent-base-fg) l c h / 0.25);
+  }
+
+  :host([appearance="outline"]) {
+    --sb-bg: transparent;
+    --sb-fg: var(--_intent-subtle-fg);
+    --sb-border: var(--border);
+    --sb-divider: var(--border);
+  }
+
+  :host([appearance="ghost"]) {
+    --sb-bg: transparent;
+    --sb-fg: var(--_intent-subtle-fg);
+    --sb-border: transparent;
+    --sb-divider: var(--border);
+  }
+
+  :host([appearance="soft"]) {
+    --sb-bg: var(--_intent-subtle);
+    --sb-fg: var(--_intent-subtle-fg);
+    --sb-border: transparent;
+    --sb-divider: oklch(from var(--_intent-base) l c h / 0.15);
+  }
+
+  /* ---------------------------------------------------------------
+   * Sizes
+   * --------------------------------------------------------------- */
+
   :host {
-    display: inline-block;
+    --sb-height: var(--component-height-md);
+    --sb-action-padding-y: var(--space-2);
+    --sb-action-padding-x: var(--space-2_5);
+    --sb-trigger-padding-x: var(--space-1_5);
+    --sb-gap: var(--space-1_5);
+    --sb-radius: var(--radius-md);
+    --sb-font-size: var(--text-sm);
+    --sb-icon-size: var(--space-4_5);
+    --sb-trigger-icon-size: var(--space-4);
   }
-`;
 
-const componentStyles = css`
+  :host([size="xs"]) {
+    --sb-height: var(--component-height-xs);
+    --sb-action-padding-y: var(--space-1);
+    --sb-action-padding-x: var(--space-1_5);
+    --sb-trigger-padding-x: var(--space-1);
+    --sb-gap: var(--space-1);
+    --sb-font-size: var(--text-xs);
+    --sb-icon-size: var(--space-3_5);
+    --sb-trigger-icon-size: var(--space-3);
+  }
+
+  :host([size="sm"]) {
+    --sb-height: var(--component-height-sm);
+    --sb-action-padding-y: var(--space-1_5);
+    --sb-action-padding-x: var(--space-2);
+    --sb-trigger-padding-x: var(--space-1_5);
+    --sb-gap: var(--space-1);
+    --sb-font-size: var(--text-xs);
+    --sb-icon-size: var(--space-4);
+    --sb-trigger-icon-size: var(--space-3_5);
+  }
+
+  :host([size="lg"]) {
+    --sb-height: var(--component-height-lg);
+    --sb-action-padding-y: var(--space-2_5);
+    --sb-action-padding-x: var(--space-3);
+    --sb-trigger-padding-x: var(--space-2);
+    --sb-gap: var(--space-1_5);
+    --sb-font-size: var(--text-sm);
+    --sb-icon-size: var(--space-4_5);
+    --sb-trigger-icon-size: var(--space-4);
+  }
+
+  /* ---------------------------------------------------------------
+   * Root container — unified button shape
+   * --------------------------------------------------------------- */
+
   .Root {
-    display: inline-flex;
-    align-items: stretch;
-    box-sizing: border-box;
+    height: var(--sb-height);
+    border: var(--border-width-thin) solid var(--sb-border);
+    border-radius: var(--sb-radius);
+    background: var(--sb-bg);
+    color: var(--sb-fg);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--sb-font-size);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
-  .Action,
-  .Trigger {
-    appearance: none;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font: inherit;
+  /* ---------------------------------------------------------------
+   * Action button (left)
+   * --------------------------------------------------------------- */
+
+  [part="action"] {
+    --icon-size: var(--sb-icon-size);
+    --icon-color: var(--sb-fg);
+    gap: var(--sb-gap);
+    padding: var(--sb-action-padding-y) var(--sb-action-padding-x);
+    height: 100%;
     color: inherit;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    transition-property: background, filter;
+    transition-duration: var(--duration-faster);
+    transition-timing-function: var(--ease-out-3);
   }
 
-  .Action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  /* ---------------------------------------------------------------
+   * Divider
+   * --------------------------------------------------------------- */
+
+  [part="divider"] {
+    border-left: var(--border-width-thin) solid var(--sb-divider);
   }
 
-  .Divider {
-    display: block;
-    width: 0;
-    align-self: stretch;
+  /* ---------------------------------------------------------------
+   * Trigger button (right)
+   * --------------------------------------------------------------- */
+
+  [part="trigger"] {
+    --icon-size: var(--sb-trigger-icon-size);
+    --icon-color: var(--sb-fg);
+    padding: 0 var(--sb-trigger-padding-x);
+    height: 100%;
+    background: var(--sb-trigger-bg, var(--sb-bg));
+    color: inherit;
+    transition-property: background, filter;
+    transition-duration: var(--duration-faster);
+    transition-timing-function: var(--ease-out-3);
   }
 
-  .Trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  /* ---------------------------------------------------------------
+   * Interactive states — filled uses filter, outline/ghost use alpha
+   * --------------------------------------------------------------- */
+
+  /* Filled hover */
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
+    [part="action"]:hover:not(:disabled) {
+    filter: brightness(0.88);
+  }
+
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
+    [part="trigger"]:hover:not(:disabled) {
+    filter: brightness(0.88);
+  }
+
+  /* Filled active */
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
+    [part="action"]:active:not(:disabled) {
+    filter: brightness(0.80);
+  }
+
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
+    [part="trigger"]:active:not(:disabled) {
+    filter: brightness(0.80);
+  }
+
+  /* Filled trigger open state */
+  :host(:not([appearance="outline"]):not([appearance="ghost"]):not([appearance="soft"]))
+    [part="trigger"][data-open]:not(:disabled) {
+    filter: brightness(0.80);
+  }
+
+  /* Ghost / outline hover */
+  :host([appearance="ghost"]) [part="action"]:hover:not(:disabled),
+  :host([appearance="outline"]) [part="action"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.05);
+  }
+
+  :host([appearance="ghost"]) [part="trigger"]:hover:not(:disabled),
+  :host([appearance="outline"]) [part="trigger"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.05);
+  }
+
+  /* Ghost / outline active */
+  :host([appearance="ghost"]) [part="action"]:active:not(:disabled),
+  :host([appearance="outline"]) [part="action"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.10);
+  }
+
+  :host([appearance="ghost"]) [part="trigger"]:active:not(:disabled),
+  :host([appearance="outline"]) [part="trigger"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.10);
+  }
+
+  /* Ghost / outline trigger open state */
+  :host([appearance="ghost"]) [part="trigger"][data-open]:not(:disabled),
+  :host([appearance="outline"]) [part="trigger"][data-open]:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.10);
+  }
+
+  /* Soft hover */
+  :host([appearance="soft"]) [part="action"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.12);
+  }
+
+  :host([appearance="soft"]) [part="trigger"]:hover:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.12);
+  }
+
+  /* Soft active */
+  :host([appearance="soft"]) [part="action"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
+  }
+
+  :host([appearance="soft"]) [part="trigger"]:active:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
+  }
+
+  /* Soft trigger open state */
+  :host([appearance="soft"]) [part="trigger"][data-open]:not(:disabled) {
+    background: oklch(from var(--_intent-base) l c h / 0.18);
+  }
+
+  /* Focus visible */
+  [part="action"]:focus-visible,
+  [part="trigger"]:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--focus-ring-offset) var(--background),
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+    z-index: 1;
+    position: relative;
+  }
+
+  /* Disabled */
+  :host([disabled]) .Root {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  [part="action"]:disabled,
+  [part="trigger"]:disabled {
+    cursor: not-allowed;
+  }
+
+  /* ---------------------------------------------------------------
+   * Popup (rendered in portal shadow root)
+   * --------------------------------------------------------------- */
+
+  .Popup {
+    background: var(--surface-3);
+    border: var(--border-width-thin) solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-3);
+  }
+
+  .Popup[data-starting-style],
+  .Popup[data-ending-style] {
+    transform: translateY(calc(var(--space-1) * -1));
+  }
+
+  .Menu {
+    padding: var(--space-1);
   }
 `;
 
-/** Structural styles injected into the portal positioner. */
-const portalPopupStyles = [
-  css`
-    .Popup {
-      max-height: 240px;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      opacity: 1;
-      transform: translateY(0);
-      transition-property: opacity, transform;
-      pointer-events: auto;
-    }
-
-    .Popup[data-starting-style],
-    .Popup[data-ending-style] {
-      opacity: 0;
-    }
-  `,
-];
-
-/**
- * `<dui-split-button>` — A button with an attached dropdown menu trigger.
- *
- * The action zone (left) performs a primary action. The menu trigger (right)
- * opens a dropdown of `dui-menu-item` children for secondary actions.
- *
- * @slot - Action button label / content.
- * @slot icon - Custom icon for the dropdown trigger (defaults to chevron-down).
- * @slot menu - `dui-menu-item` elements rendered inside the dropdown popup.
- * @csspart root - The outer container wrapping both zones.
- * @csspart action - The left action button element.
- * @csspart divider - The vertical separator between action and trigger.
- * @csspart trigger - The right dropdown trigger button element.
- * @fires dui-action - Fired when the action button is clicked. Detail: {}
- */
-export class DuiSplitButton extends LitElement {
-  static tagName = "dui-split-button" as const;
-
-  static override styles = [base, hostStyles, componentStyles];
-
-  /** Visual variant — mapped to theme styles (e.g. neutral, primary, danger). */
-  @property({ reflect: true })
-  accessor variant: string = "";
-
-  /** Visual appearance — mapped to theme styles (e.g. filled, outline, ghost). */
-  @property({ reflect: true })
-  accessor appearance: string = "";
-
-  /** Size — mapped to theme styles (e.g. xs, sm, md, lg). */
-  @property({ reflect: true })
-  accessor size: string = "";
-
-  /** Sets `min-width` on the popup panel (e.g. `"200px"`). Defaults to `"var(--space-28)"`. */
-  @property({ attribute: "popup-min-width" })
-  accessor popupMinWidth: string = "var(--space-28)";
-
-  /** Whether the entire split button is disabled. */
-  @property({ type: Boolean, reflect: true })
-  accessor disabled = false;
-
-  @state()
-  accessor #highlightedIndex = -1;
-
-  #menuId = `split-menu-${crypto.randomUUID().slice(0, 8)}`;
-
-  #popup = new FloatingPortalController(this, {
-    getAnchor: () =>
-      this.shadowRoot?.querySelector<HTMLElement>(".Root"),
-    matchWidth: false,
-    styles: portalPopupStyles,
-    contentContainer: ".Menu",
-    contentSelector: "dui-menu-item",
-    onOpen: () => {
-      this.#highlightedIndex = -1;
-    },
-    onClose: () => {
-      this.#highlightedIndex = -1;
-    },
-    renderPopup: (portal) => html`
-      <div
-        class="Popup"
-        style="${this.popupMinWidth ? `min-width:${this.popupMinWidth}` : ""}"
-        ?data-starting-style="${portal.isStarting}"
-        ?data-ending-style="${portal.isEnding}"
-      >
-        <div
-          class="Menu"
-          id="${this.#menuId}"
-          role="menu"
-          @click="${this.#onItemSlotClick}"
-          @mousemove="${this.#onMenuMouseMove}"
-        ></div>
-      </div>
-    `,
-  });
-
-  get #items(): DuiMenuItem[] {
-    const container = this.#popup.renderRoot?.querySelector(".Menu") ?? this;
-    return [...container.querySelectorAll("dui-menu-item")] as DuiMenuItem[];
-  }
-
-  protected override updated(): void {
-    const items = this.#items;
-    for (let i = 0; i < items.length; i++) {
-      if (i === this.#highlightedIndex) {
-        items[i]!.setAttribute("data-highlighted", "");
-      } else {
-        items[i]!.removeAttribute("data-highlighted");
-      }
-    }
-  }
-
-  // ---- Action zone handlers ----
-
-  #onActionClick = (e: MouseEvent): void => {
-    e.stopPropagation();
-    if (this.disabled) return;
-    this.dispatchEvent(actionEvent({}));
-  };
-
-  #onActionKeyDown = (e: KeyboardEvent): void => {
-    if (this.disabled) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      this.dispatchEvent(actionEvent({}));
-    }
-  };
-
-  // ---- Trigger zone handlers ----
-
-  #onTriggerClick = (e: MouseEvent): void => {
-    e.stopPropagation();
-    if (this.disabled) return;
-    if (this.#popup.isOpen) {
-      this.#popup.close();
-    } else {
-      this.#popup.open();
-    }
-  };
-
-  #onTriggerKeyDown = (e: KeyboardEvent): void => {
-    if (this.disabled) return;
-    const items = this.#items;
-
-    switch (e.key) {
-      case "Enter":
-      case " ": {
-        if (this.#popup.isOpen && this.#highlightedIndex >= 0) {
-          e.preventDefault();
-          const item = items[this.#highlightedIndex];
-          if (item && !item.disabled) {
-            item.click();
-            this.#popup.close();
-          }
-        } else if (!this.#popup.isOpen) {
-          e.preventDefault();
-          this.#popup.open();
-        }
-        break;
-      }
-
-      case "ArrowDown": {
-        e.preventDefault();
-        if (!this.#popup.isOpen) {
-          this.#popup.open();
-        } else {
-          let next = this.#highlightedIndex + 1;
-          while (next < items.length && items[next]?.disabled) next++;
-          if (next < items.length) this.#highlightedIndex = next;
-        }
-        break;
-      }
-
-      case "ArrowUp": {
-        e.preventDefault();
-        if (!this.#popup.isOpen) {
-          this.#popup.open();
-        } else {
-          let prev = this.#highlightedIndex - 1;
-          while (prev >= 0 && items[prev]?.disabled) prev--;
-          if (prev >= 0) this.#highlightedIndex = prev;
-        }
-        break;
-      }
-
-      case "Home": {
-        if (this.#popup.isOpen) {
-          e.preventDefault();
-          const firstEnabled = items.findIndex((item) => !item.disabled);
-          if (firstEnabled >= 0) this.#highlightedIndex = firstEnabled;
-        }
-        break;
-      }
-
-      case "End": {
-        if (this.#popup.isOpen) {
-          e.preventDefault();
-          for (let i = items.length - 1; i >= 0; i--) {
-            if (!items[i]?.disabled) {
-              this.#highlightedIndex = i;
-              break;
-            }
-          }
-        }
-        break;
-      }
-
-      case "Escape": {
-        if (this.#popup.isOpen) {
-          e.preventDefault();
-          this.#popup.close();
-          this.#focusTrigger();
-        }
-        break;
-      }
-
-      case "Tab": {
-        if (this.#popup.isOpen) {
-          this.#popup.close();
-        }
-        break;
-      }
-    }
-  };
-
-  // ---- Menu handlers ----
-
-  #onItemSlotClick = (e: MouseEvent): void => {
-    const item = e
-      .composedPath()
-      .find(
-        (el) => el instanceof HTMLElement && el.matches(DuiMenuItem.tagName),
-      ) as DuiMenuItem | undefined;
-    if (item && !item.disabled) {
-      this.#popup.close();
-    }
-  };
-
-  #onMenuMouseMove = (): void => {
-    if (this.#highlightedIndex >= 0) {
-      this.#highlightedIndex = -1;
-    }
-  };
-
-  #focusTrigger(): void {
-    this.shadowRoot?.querySelector<HTMLElement>(".Trigger")?.focus();
-  }
-
-  override render(): TemplateResult {
-    return html`
-      <div class="Root" part="root">
-        <button
-          class="Action"
-          part="action"
-          type="button"
-          ?disabled="${this.disabled}"
-          @click="${this.#onActionClick}"
-          @keydown="${this.#onActionKeyDown}"
-        >
-          <slot></slot>
-        </button>
-
-        <span part="divider" class="Divider"></span>
-
-        <button
-          class="Trigger"
-          part="trigger"
-          type="button"
-          ?disabled="${this.disabled}"
-          aria-haspopup="menu"
-          aria-expanded="${this.#popup.isOpen}"
-          aria-controls="${this.#menuId}"
-          ?data-open="${this.#popup.isOpen || nothing}"
-          @click="${this.#onTriggerClick}"
-          @keydown="${this.#onTriggerKeyDown}"
-        >
-          <slot name="icon">
-            <dui-icon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </dui-icon>
-          </slot>
-        </button>
-      </div>
-    `;
-  }
+export class DuiSplitButton extends DuiSplitButtonPrimitive {
+  static override styles = [...DuiSplitButtonPrimitive.styles, styles];
 }
+
+customElements.define(DuiSplitButton.tagName, DuiSplitButton);

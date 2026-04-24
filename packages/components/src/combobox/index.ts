@@ -1,10 +1,10 @@
-import { DuiCombobox, valueChangeEvent, valuesChangeEvent,  } from "./combobox.ts";
-export { DuiCombobox, valueChangeEvent, valuesChangeEvent,  };
+import "./combobox.ts";
 
-export const comboboxFamily = [DuiCombobox];
+export { DuiCombobox } from "./combobox.ts";
 
 export type {
   SelectOption,
   ComboboxValueChangeDetail,
   ComboboxValuesChangeDetail,
-} from "./combobox.ts";
+} from "@dui/primitives/combobox";
+export { valueChangeEvent, valuesChangeEvent } from "@dui/primitives/combobox";

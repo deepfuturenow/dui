@@ -1,31 +1,25 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/tabs */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiTabsIndicatorPrimitive } from "@dui/primitives/tabs";
+import "../_install.ts";
 
 const styles = css`
   :host {
-    display: block;
-    position: absolute;
-    z-index: -1;
-    left: 0;
-    top: 50%;
-    translate: var(--active-tab-left, 0) -50%;
-    width: var(--active-tab-width, 0);
-    pointer-events: none;
-    transition-property: translate, width;
+    --tabs-indicator-height: var(--component-height-xs);
+    --tabs-indicator-radius: var(--radius-sm);
+    --tabs-indicator-bg: oklch(from var(--foreground) l c h / 0.08);
+    --tabs-indicator-duration: var(--duration-normal);
+    --tabs-indicator-easing: var(--ease-in-out-3);
+
+    height: var(--tabs-indicator-height);
+    border-radius: var(--tabs-indicator-radius);
+    background: var(--tabs-indicator-bg);
+    transition-duration: var(--tabs-indicator-duration);
+    transition-timing-function: var(--tabs-indicator-easing);
   }
 `;
 
-/**
- * Animated visual indicator that highlights the active tab.
- * Place inside dui-tabs-list.
- */
-export class DuiTabsIndicator extends LitElement {
-  static tagName = "dui-tabs-indicator" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`<span part="indicator"></span>`;
-  }
+export class DuiTabsIndicator extends DuiTabsIndicatorPrimitive {
+  static override styles = [...DuiTabsIndicatorPrimitive.styles, styles];
 }
+
+customElements.define(DuiTabsIndicator.tagName, DuiTabsIndicator);

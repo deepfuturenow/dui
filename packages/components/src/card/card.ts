@@ -1,118 +1,99 @@
-/** Ported from ShadCN/ui: https://ui.shadcn.com/docs/components/card */
+import { css } from "lit";
+import { DuiCardPrimitive } from "@dui/primitives/card";
+import "../_install.ts";
 
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
-import { base } from "@dui/core/base";
-
-/** Structural styles only — layout CSS. */
 const styles = css`
+  /* ---------------------------------------------------------------
+   * Size tokens
+   * --------------------------------------------------------------- */
+
   :host {
-    display: block;
+    --card-gap: var(--space-5);
+    --card-px: var(--space-5);
+    --card-py-top: var(--space-6);
+    --card-py-bottom: var(--space-5);
+    --card-action-offset-top: calc(-1 * var(--space-2_5));
+    --card-action-offset-end: calc(-1 * var(--space-1));
   }
+
+  :host([size="sm"]) {
+    --card-gap: var(--space-4);
+    --card-px: var(--space-4);
+    --card-py-top: var(--space-4);
+    --card-py-bottom: var(--space-4);
+  }
+
+  /* ---------------------------------------------------------------
+   * Root
+   * --------------------------------------------------------------- */
 
   [part="root"] {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    gap: var(--card-gap);
+    padding: 0;
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    border: var(--border-width-thin) solid var(--border);
   }
 
-  [part="header"]:not([hidden]) {
-    display: flex;
-    align-items: start;
-  }
+  /* ---------------------------------------------------------------
+   * Header
+   * --------------------------------------------------------------- */
 
-  [part="header-text"] {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
+  [part="header"] {
+    padding: var(--space-6) var(--card-px) var(--space-2);
+    gap: var(--space-2);
   }
 
   [part="action"] {
-    height: 0;
-    overflow: visible;
-    display: flex;
-    align-items: start;
+    margin-top: var(--card-action-offset-top);
+    margin-right: var(--card-action-offset-end);
   }
 
-  [part="footer"]:not([hidden]) {
-    display: flex;
-    align-items: center;
+  [part="header-text"] {
+    gap: var(--space-3);
+  }
+
+  ::slotted([slot="title"]) {
+    text-wrap: balance;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    text-box: trim-both cap alphabetic;
+  }
+
+  ::slotted([slot="description"]) {
+    text-wrap: pretty;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--text-2);
+    text-box: trim-both cap alphabetic;
+  }
+
+  /* ---------------------------------------------------------------
+   * Content
+   * --------------------------------------------------------------- */
+
+  [part="content"] {
+    padding: 0 var(--card-px);
+  }
+
+  /* ---------------------------------------------------------------
+   * Footer
+   * --------------------------------------------------------------- */
+
+  [part="footer"] {
+    padding: 0 var(--card-px) var(--card-py-bottom);
+    gap: var(--space-2);
+    justify-content: flex-end;
   }
 `;
 
-/**
- * `<dui-card>` — A container for grouped content with header, body,
- * and footer sections.
- *
- * Uses flex-column + gap for vertical rhythm. The card owns all internal
- * spacing; consumers slot content into named regions.
- *
- * @slot - Main card content (body).
- * @slot title - Card heading text.
- * @slot description - Helper text below the title.
- * @slot action - Top-right header action (button, badge, etc.).
- * @slot footer - Footer content (buttons, links, etc.).
- *
- * @csspart root - The outer card container.
- * @csspart header - The header section (title + description + action).
- * @csspart header-text - The vertical stack holding title and description.
- * @csspart content - The wrapper around the default slot.
- * @csspart footer - The footer section.
- */
-export class DuiCard extends LitElement {
-  static tagName = "dui-card" as const;
-
-  static override styles = [base, styles];
-
-  /** Card size — controls internal spacing via `--card-*` tokens. */
-  @property({ reflect: true })
-  accessor size: string = "";
-
-  @state() accessor #hasHeader = false;
-  @state() accessor #hasFooter = false;
-
-  #titleFilled = false;
-  #descFilled = false;
-  #actionFilled = false;
-
-  #onHeaderSlotChange = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    const filled = slot.assignedElements().length > 0;
-    if (slot.name === "title") this.#titleFilled = filled;
-    else if (slot.name === "description") this.#descFilled = filled;
-    else if (slot.name === "action") this.#actionFilled = filled;
-    this.#hasHeader = this.#titleFilled || this.#descFilled ||
-      this.#actionFilled;
-  };
-
-  #onFooterSlotChange = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    this.#hasFooter = slot.assignedElements().length > 0;
-  };
-
-  override render(): TemplateResult {
-    return html`
-      <div part="root">
-        <div part="header" ?hidden=${!this.#hasHeader}>
-          <div part="header-text">
-            <slot name="title" @slotchange=${this.#onHeaderSlotChange}></slot>
-            <slot
-              name="description"
-              @slotchange=${this.#onHeaderSlotChange}
-            ></slot>
-          </div>
-          <div part="action">
-            <slot name="action" @slotchange=${this.#onHeaderSlotChange}></slot>
-          </div>
-        </div>
-        <div part="content">
-          <slot></slot>
-        </div>
-        <div part="footer" ?hidden=${!this.#hasFooter}>
-          <slot name="footer" @slotchange=${this.#onFooterSlotChange}></slot>
-        </div>
-      </div>
-    `;
-  }
+export class DuiCard extends DuiCardPrimitive {
+  static override styles = [...DuiCardPrimitive.styles, styles];
 }
+
+customElements.define(DuiCard.tagName, DuiCard);

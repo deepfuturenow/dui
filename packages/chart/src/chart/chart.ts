@@ -8,6 +8,7 @@ import {
 import { property } from "lit/decorators.js";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
+import { chartThemeStyles } from "../theme/chart-theme.ts";
 import * as Plot from "@observablehq/plot";
 import type { PlotOptions } from "@observablehq/plot";
 
@@ -67,7 +68,7 @@ const styles = css`
  */
 export class DuiChart extends LitElement {
   static tagName = "dui-chart" as const;
-  static override styles = [base, styles];
+  static override styles = [base, styles, chartThemeStyles];
 
   /** Observable Plot options object. */
   @property({ type: Object })
@@ -361,3 +362,5 @@ export class DuiChart extends LitElement {
     return html`<div part="root"></div><div part="tooltip"></div>`;
   }
 }
+
+customElements.define(DuiChart.tagName, DuiChart);

@@ -1,7 +1,8 @@
-import { DuiToggle, pressedChangeEvent } from "./toggle.ts";
-export { DuiToggle, pressedChangeEvent };
-import { DuiToggleGroup, valueChangeEvent } from "./toggle-group.ts";
-export { DuiToggleGroup, valueChangeEvent };
-export type { ToggleGroupContext } from "./toggle-group-context.ts";
+import "./toggle.ts";
+import "./toggle-group.ts";
 
-export const toggleFamily = [DuiToggle, DuiToggleGroup];
+export { DuiToggle } from "./toggle.ts";
+export { DuiToggleGroup } from "./toggle-group.ts";
+
+export type { ToggleGroupContext } from "@dui/primitives/toggle";
+export { pressedChangeEvent, valueChangeEvent } from "@dui/primitives/toggle";

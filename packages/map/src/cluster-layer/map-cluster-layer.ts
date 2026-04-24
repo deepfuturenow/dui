@@ -278,3 +278,5 @@ export class DuiMapClusterLayer extends LitElement {
     return html``;
   }
 }
+
+customElements.define(DuiMapClusterLayer.tagName, DuiMapClusterLayer);

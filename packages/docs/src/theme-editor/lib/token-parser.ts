@@ -5,7 +5,7 @@
  * for the theme editor UI. Adapted for dui's :root-based selectors.
  */
 
-import { tokensCSS } from "@dui/theme-default/tokens-raw";
+import { tokensCSS } from "@dui/components/tokens-raw";
 
 export type TokenTheme = "light" | "dark" | undefined;
 

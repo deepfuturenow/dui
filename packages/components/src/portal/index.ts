@@ -1,5 +1,5 @@
-import { DuiPortal } from "./portal.ts";
-export { DuiPortal };
-export type { QueryRoot } from "./portal.ts";
+import "./portal.ts";
 
-export const portalFamily = [DuiPortal];
+export { DuiPortal } from "./portal.ts";
+
+export type { QueryRoot } from "@dui/primitives/portal";

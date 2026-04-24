@@ -1,20 +1,19 @@
-import { DuiCommand } from "./command.ts";
-export { DuiCommand };
-import { DuiCommandInput } from "./command-input.ts";
-export { DuiCommandInput };
-import { DuiCommandList } from "./command-list.ts";
-export { DuiCommandList };
-import { DuiCommandGroup } from "./command-group.ts";
-export { DuiCommandGroup };
-import { DuiCommandItem } from "./command-item.ts";
-export { DuiCommandItem };
-import { DuiCommandEmpty } from "./command-empty.ts";
-export { DuiCommandEmpty };
-import { DuiCommandSeparator } from "./command-separator.ts";
-export { DuiCommandSeparator };
-import { DuiCommandShortcut } from "./command-shortcut.ts";
-export { DuiCommandShortcut };
-export type { CommandContext, CommandItemEntry } from "./command-context.ts";
-export { commandScore } from "./command-score.ts";
+import "./command.ts";
+import "./command-empty.ts";
+import "./command-group.ts";
+import "./command-input.ts";
+import "./command-item.ts";
+import "./command-list.ts";
+import "./command-separator.ts";
+import "./command-shortcut.ts";
 
-export const commandFamily = [DuiCommand, DuiCommandInput, DuiCommandList, DuiCommandGroup, DuiCommandItem, DuiCommandEmpty, DuiCommandSeparator, DuiCommandShortcut];
+export { DuiCommand } from "./command.ts";
+export { DuiCommandEmpty } from "./command-empty.ts";
+export { DuiCommandGroup } from "./command-group.ts";
+export { DuiCommandInput } from "./command-input.ts";
+export { DuiCommandItem } from "./command-item.ts";
+export { DuiCommandList } from "./command-list.ts";
+export { DuiCommandSeparator } from "./command-separator.ts";
+export { DuiCommandShortcut } from "./command-shortcut.ts";
+
+export type { CommandContext, CommandItemEntry } from "@dui/primitives/command";

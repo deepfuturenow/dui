@@ -1,28 +1,17 @@
-/** Ported from original DUI: deep-future-app/app/client/components/dui/sidebar */
-
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { base } from "@dui/core/base";
+import { css } from "lit";
+import { DuiSidebarSeparatorPrimitive } from "@dui/primitives/sidebar";
+import "../_install.ts";
 
 const styles = css`
-  :host {
-    display: block;
-  }
-
   .Separator {
-    /* Structural only — height and color from theme */
+    height: var(--border-width-thin);
+    margin: var(--space-2) var(--space-2);
+    background: var(--sidebar-separator);
   }
 `;
 
-/**
- * `<dui-sidebar-separator>` — Visual divider within the sidebar.
- *
- * Renders a horizontal rule with `role="separator"`.
- */
-export class DuiSidebarSeparator extends LitElement {
-  static tagName = "dui-sidebar-separator" as const;
-  static override styles = [base, styles];
-
-  override render(): TemplateResult {
-    return html`<div class="Separator" role="separator"></div>`;
-  }
+export class DuiSidebarSeparator extends DuiSidebarSeparatorPrimitive {
+  static override styles = [...DuiSidebarSeparatorPrimitive.styles, styles];
 }
+
+customElements.define(DuiSidebarSeparator.tagName, DuiSidebarSeparator);

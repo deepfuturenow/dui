@@ -1,4 +1,4 @@
-import { DuiCollapsible, openChangeEvent } from "./collapsible.ts";
-export { DuiCollapsible, openChangeEvent };
+import "./collapsible.ts";
 
-export const collapsibleFamily = [DuiCollapsible];
+export { DuiCollapsible } from "./collapsible.ts";
+export { openChangeEvent } from "@dui/primitives/collapsible";

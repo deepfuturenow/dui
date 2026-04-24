@@ -3,6 +3,7 @@ import { property, state } from "lit/decorators.js";
 import { provide } from "@lit/context";
 import { base } from "@dui/core/base";
 import { customEvent } from "@dui/core/event";
+import { mapThemeStyles } from "../theme/map-theme.ts";
 import MapLibreGL from "maplibre-gl";
 // @ts-ignore — loaded as text via esbuild cssRawTextPlugin
 import maplibreCssText from "maplibre-gl/dist/maplibre-gl.css";
@@ -139,7 +140,7 @@ const styles = css`
  */
 export class DuiMap extends LitElement {
   static tagName = "dui-map" as const;
-  static override styles = [base, styles];
+  static override styles = [base, styles, mapThemeStyles];
 
   /**
    * Center coordinates as `[longitude, latitude]`.
@@ -559,3 +560,5 @@ export class DuiMap extends LitElement {
     `;
   }
 }
+
+customElements.define(DuiMap.tagName, DuiMap);

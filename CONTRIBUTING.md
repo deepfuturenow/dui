@@ -1,18 +1,21 @@
 # Contributing to DUI
 
-Thanks for your interest in contributing! DUI is an unstyled Lit web component library with composable themes. This guide will help you get set up and understand our conventions.
+Thanks for your interest in contributing! DUI is a styled Lit web component library built on [dui-primitives](https://github.com/deepfuturenow/dui-primitives). This guide will help you get set up and understand our conventions.
 
 ## Development Setup
 
 ### Prerequisites
 
 - [Deno](https://deno.com/) v2.x or later
+- The [dui-primitives](https://github.com/deepfuturenow/dui-primitives) repo cloned alongside this one (the root `deno.json` import maps point to it)
 
 ### Getting started
 
 ```bash
-# Clone the repo
+# Clone both repos
 git clone https://github.com/deepfuturenow/dui.git
+git clone https://github.com/deepfuturenow/dui-primitives.git
+
 cd dui
 
 # Install dependencies
@@ -42,24 +45,28 @@ Run all Deno commands from the repo root.
 
 ```
 packages/
-├── core/            # Base styles, applyTheme(), event factory, floating UI utilities
-├── components/      # Unstyled component classes (structural CSS only)
-├── theme-default/   # Design tokens, themed base, per-component aesthetic styles
+├── components/      # Styled components — extend dui-primitives, self-register
+├── templates/       # Pre-composed UI patterns built from components
+├── chart/           # Observable Plot wrapper
+├── map/             # MapLibre GL wrapper
 └── docs/            # Dev server and documentation site
 ```
+
+Components extend unstyled primitives from the separate `dui-primitives` repo (`@dui/core` + `@dui/primitives`).
 
 ## Code Conventions
 
 ### Components
 
-- Components do **not** use `@customElement`. Registration happens via `applyTheme()` at runtime.
+- Each component extends a primitive from `@dui/primitives` (e.g., `class DuiBadge extends DuiBadgePrimitive`).
+- Components self-register via `customElements.define()` at module level — importing registers them.
+- `import "../_install.ts"` injects design tokens into `document.adoptedStyleSheets`.
 - Each component declares `static tagName = "dui-foo" as const`.
-- Structural CSS lives in the component. Aesthetic CSS lives in the theme.
 - Properties use `@property()` with `accessor`. Internal state uses `@state() accessor #name`.
 - Private methods use native `#private` syntax.
-- Events use the `customEvent()` factory from `@dui/core/event`.
+- Events use the `customEvent()` factory from `@dui/core/event` (defined on the primitive, re-exported from the component index).
 
-### Theming
+### Styling
 
 - Design tokens are CSS custom properties — never hardcode `px`, `rem`, or color values.
 - Variables are for the variant/state system (variants, sizes, derived values).
@@ -68,9 +75,9 @@ packages/
 
 ### What NOT to do
 
-- Don't use `@customElement` decorator
+- Don't use `@customElement` decorator — components self-register via `customElements.define()`
 - Don't hardcode pixel, rem, or color values — use tokens
-- Don't put aesthetic styles in components — those go in the theme
+- Don't put aesthetic styles in primitives — those belong in the component layer
 - Don't use `querySelector` to reach into another component's Shadow DOM
 - Don't use `npm` or `node` — this is a Deno project
 
@@ -97,13 +104,14 @@ chore: bump dependencies
 
 ## Adding a New Component
 
-See [docs/creating-components.md](docs/creating-components.md) for the full step-by-step guide. The short version:
+See [docs/creating-components.md](docs/creating-components.md) for the full guide. The short version:
 
-1. Create `packages/components/src/{name}/` with the component class
-2. Add theme styles in `packages/theme-default/src/styles/{name}.ts`
-3. Register in `packages/components/src/all.ts`
-4. Add to the component registry in `packages/docs/src/component-registry.ts`
-5. Create a docs page at `packages/docs/src/pages/docs-page-{name}.ts`
+1. Ensure the primitive exists in `@dui/primitives` (if not, that's a separate task in the dui-primitives repo)
+2. Create `packages/components/src/{name}/` with a component class that extends the primitive
+3. Add the export to `packages/components/deno.json`
+4. Add the `@dui/primitives/{name}` import mapping to root `deno.json`
+5. Add to the component registry in `packages/docs/src/component-registry.ts`
+6. Create a docs page at `packages/docs/src/pages/docs-page-{name}.ts`
 
 ## Reporting Issues
 

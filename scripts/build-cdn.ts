@@ -1,14 +1,14 @@
 #!/usr/bin/env -S deno run --allow-all
 /**
- * CDN build script — creates a single pre-bundled file with all components,
- * default theme, and Lit inlined. Zero dependencies at runtime.
+ * CDN build script — creates a single pre-bundled file with all components
+ * and Lit inlined. Zero dependencies at runtime.
  *
  * Output: dist/dui-cdn/dui.min.js
  *
  * Usage:
  *   <script type="module" src="https://cdn.jsdelivr.net/npm/@deepfuture/dui-cdn/dui.min.js"></script>
  *
- * This auto-registers all components with the default theme.
+ * This auto-registers all components (import = ready).
  */
 
 import { resolve, join } from "jsr:@std/path@^1";
@@ -16,35 +16,28 @@ import { ensureDir } from "jsr:@std/fs@^1";
 import * as esbuild from "npm:esbuild@0.25.2";
 
 const ROOT = resolve(import.meta.dirname!, "..");
+const PRIMITIVES_ROOT = resolve(ROOT, "../../../dui-primitives");
 const DIST = join(ROOT, "dist", "dui-cdn");
 
-// Create a virtual entry point that imports everything and calls setup
+// Self-registering — nothing to wire
 const CDN_ENTRY = `
-import { applyTheme } from "@dui/core/apply-theme";
-import { defaultTheme } from "@dui/theme-default";
-import { allComponents } from "@dui/components/all";
-
-// Auto-register all components
-applyTheme({ theme: defaultTheme, components: allComponents });
-
-// Re-export for programmatic access
-export { applyTheme, defaultTheme, allComponents };
+import "@dui/components";
 `;
 
-/** Resolve @dui/* workspace imports (same approach as docs serve.ts) */
+/** Resolve @dui/* workspace imports */
 function duiResolverPlugin(): esbuild.Plugin {
   const workspacePackages: Record<string, { dir: string; exports: Record<string, string> }> = {
     "@dui/core": {
-      dir: join(ROOT, "packages/core"),
-      exports: JSON.parse(Deno.readTextFileSync(join(ROOT, "packages/core/deno.json"))).exports,
+      dir: join(PRIMITIVES_ROOT, "packages/core"),
+      exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/core/deno.json"))).exports,
+    },
+    "@dui/primitives": {
+      dir: join(PRIMITIVES_ROOT, "packages/primitives"),
+      exports: JSON.parse(Deno.readTextFileSync(join(PRIMITIVES_ROOT, "packages/primitives/deno.json"))).exports,
     },
     "@dui/components": {
       dir: join(ROOT, "packages/components"),
       exports: JSON.parse(Deno.readTextFileSync(join(ROOT, "packages/components/deno.json"))).exports,
-    },
-    "@dui/theme-default": {
-      dir: join(ROOT, "packages/theme-default"),
-      exports: JSON.parse(Deno.readTextFileSync(join(ROOT, "packages/theme-default/deno.json"))).exports,
     },
   };
 
@@ -133,13 +126,13 @@ async function main() {
 
     // Write package.json
     const version = JSON.parse(
-      await Deno.readTextFile(join(ROOT, "packages/core/deno.json")),
+      await Deno.readTextFile(join(PRIMITIVES_ROOT, "packages/core/deno.json")),
     ).version ?? "0.1.0";
 
     const packageJson = {
       name: "@deepfuture/dui-cdn",
       version,
-      description: "DUI CDN bundle — all components, default theme, Lit inlined. Zero dependencies.",
+      description: "DUI CDN bundle — all components, Lit inlined. Zero dependencies.",
       type: "module",
       license: "MIT",
       main: "dui.min.js",

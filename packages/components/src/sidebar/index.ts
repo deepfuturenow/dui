@@ -1,35 +1,31 @@
-import { DuiSidebarProvider, openChangeEvent } from "./sidebar-provider.ts";
-export { DuiSidebarProvider, openChangeEvent };
-export type { SidebarOpenChangeDetail } from "./sidebar-provider.ts";
-import { DuiSidebar } from "./sidebar.ts";
-export { DuiSidebar };
-import { DuiSidebarTrigger } from "./sidebar-trigger.ts";
-export { DuiSidebarTrigger };
-import { DuiSidebarContent } from "./sidebar-content.ts";
-export { DuiSidebarContent };
-import { DuiSidebarHeader } from "./sidebar-header.ts";
-export { DuiSidebarHeader };
-import { DuiSidebarFooter } from "./sidebar-footer.ts";
-export { DuiSidebarFooter };
-import { DuiSidebarGroup } from "./sidebar-group.ts";
-export { DuiSidebarGroup };
-import { DuiSidebarGroupLabel } from "./sidebar-group-label.ts";
-export { DuiSidebarGroupLabel };
-import { DuiSidebarMenu } from "./sidebar-menu.ts";
-export { DuiSidebarMenu };
-import { DuiSidebarMenuItem } from "./sidebar-menu-item.ts";
-export { DuiSidebarMenuItem };
-import { DuiSidebarMenuButton } from "./sidebar-menu-button.ts";
-export { DuiSidebarMenuButton };
-import { DuiSidebarSeparator } from "./sidebar-separator.ts";
-export { DuiSidebarSeparator };
-import { DuiSidebarInset } from "./sidebar-inset.ts";
-export { DuiSidebarInset };
-export type { SidebarContext } from "./sidebar-context.ts";
+import "./sidebar.ts";
+import "./sidebar-content.ts";
+import "./sidebar-footer.ts";
+import "./sidebar-group.ts";
+import "./sidebar-group-label.ts";
+import "./sidebar-header.ts";
+import "./sidebar-inset.ts";
+import "./sidebar-menu.ts";
+import "./sidebar-menu-button.ts";
+import "./sidebar-menu-item.ts";
+import "./sidebar-provider.ts";
+import "./sidebar-separator.ts";
+import "./sidebar-trigger.ts";
 
-export const sidebarFamily = [
-  DuiSidebarProvider, DuiSidebar, DuiSidebarTrigger, DuiSidebarContent,
-  DuiSidebarHeader, DuiSidebarFooter, DuiSidebarGroup, DuiSidebarGroupLabel,
-  DuiSidebarMenu, DuiSidebarMenuItem, DuiSidebarMenuButton,
-  DuiSidebarSeparator, DuiSidebarInset,
-];
+export { DuiSidebar } from "./sidebar.ts";
+export { DuiSidebarContent } from "./sidebar-content.ts";
+export { DuiSidebarFooter } from "./sidebar-footer.ts";
+export { DuiSidebarGroup } from "./sidebar-group.ts";
+export { DuiSidebarGroupLabel } from "./sidebar-group-label.ts";
+export { DuiSidebarHeader } from "./sidebar-header.ts";
+export { DuiSidebarInset } from "./sidebar-inset.ts";
+export { DuiSidebarMenu } from "./sidebar-menu.ts";
+export { DuiSidebarMenuButton } from "./sidebar-menu-button.ts";
+export { DuiSidebarMenuItem } from "./sidebar-menu-item.ts";
+export { DuiSidebarProvider } from "./sidebar-provider.ts";
+export { DuiSidebarSeparator } from "./sidebar-separator.ts";
+export { DuiSidebarTrigger } from "./sidebar-trigger.ts";
+
+export type { SidebarOpenChangeDetail } from "@dui/primitives/sidebar";
+export type { SidebarContext } from "@dui/primitives/sidebar";
+export { openChangeEvent } from "@dui/primitives/sidebar";

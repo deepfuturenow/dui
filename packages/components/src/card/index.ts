@@ -1,4 +1,3 @@
-import { DuiCard } from "./card.ts";
-export { DuiCard };
+import "./card.ts";
 
-export const cardFamily = [DuiCard];
+export { DuiCard } from "./card.ts";

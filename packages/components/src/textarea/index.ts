@@ -1,5 +1,6 @@
-import { DuiTextarea, textareaChangeEvent } from "./textarea.ts";
-export { DuiTextarea, textareaChangeEvent };
-export type { TextareaResize } from "./textarea.ts";
+import "./textarea.ts";
 
-export const textareaFamily = [DuiTextarea];
+export { DuiTextarea } from "./textarea.ts";
+
+export type { TextareaResize } from "@dui/primitives/textarea";
+export { textareaChangeEvent } from "@dui/primitives/textarea";

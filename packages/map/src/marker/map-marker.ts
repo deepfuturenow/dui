@@ -158,3 +158,5 @@ export class DuiMapMarker extends LitElement {
     return html`<slot></slot>`;
   }
 }
+
+customElements.define(DuiMapMarker.tagName, DuiMapMarker);

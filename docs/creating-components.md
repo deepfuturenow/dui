@@ -1,135 +1,274 @@
 # Creating Components
 
-Conventions and patterns for unstyled DUI components. For the step-by-step procedure (file creation, config updates, verification), use the `/create-component` skill.
+How to create a styled component by extending a [dui-primitives](https://github.com/deepfuturenow/dui-primitives) base class. This guide is written for anyone building components on top of `@dui/primitives` — whether in this repo or your own.
+
+For the step-by-step procedure with all file creation and config updates, use the `/create-component` skill.
 
 ---
 
-## File structure
+## The model
 
-Every component creates files in two packages:
+A DUI component is a styled subclass of an unstyled primitive:
 
 ```
-packages/components/src/{name}/
-  {name}.ts              # Component class + structural styles
-  index.ts               # Re-exports class + types + family array
+DuiBadgePrimitive (from @dui/primitives)
+  → structural CSS, ARIA, keyboard behavior
+  → extends LitElement
 
-packages/theme-default/src/components/
-  {name}.ts              # Aesthetic styles for this component
+DuiBadge (your component)
+  → aesthetic CSS (tokens, variants, colors, sizing)
+  → extends DuiBadgePrimitive
+  → calls customElements.define() to self-register
 ```
+
+The primitive handles the hard parts (accessibility, keyboard navigation, focus management). Your component adds the design — tokens, variant systems, colors, spacing, typography.
 
 ---
 
-## The component class
+## Minimal example: Badge
 
-Here's the complete pattern, using `dui-badge` as a minimal example:
+### The primitive (from `@dui/primitives`)
+
+This is what you're extending — you don't write this, it comes from the primitives package:
 
 ```typescript
-// packages/components/src/badge/badge.ts
-import { css, html, LitElement, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
-import { base } from "@dui/core/base";
-
-/** Structural styles only — layout CSS. */
-const styles = css`
-  :host {
-    display: inline-block;
-  }
-
-  [part="root"] {
-    display: inline-flex;
-    align-items: center;
-  }
-`;
-
-/**
- * `<dui-badge>` — A badge/chip component for status indicators and labels.
- *
- * @slot - Badge content — text and/or icons.
- * @csspart root - The badge span element.
- */
-export class DuiBadge extends LitElement {
+// @dui/primitives/badge — provided by dui-primitives
+export class DuiBadgePrimitive extends LitElement {
   static tagName = "dui-badge" as const;
-
-  static override styles = [base, styles];
-
-  @property({ reflect: true })
-  accessor variant: string = "";
+  static override styles = [base, styles]; // structural CSS only
 
   override render(): TemplateResult {
-    return html`
-      <span part="root">
-        <slot></slot>
-      </span>
-    `;
+    return html`<span part="root"><slot></slot></span>`;
   }
 }
 ```
 
-### Key rules
+### Your styled component
 
-| Rule | Example |
-|------|---------|
-| Extends `LitElement` directly | `class DuiBadge extends LitElement` |
-| `static tagName` with `as const` | `static tagName = "dui-badge" as const` |
-| No `@customElement` decorator | Registration happens via `applyTheme` |
-| `static override styles = [base, styles]` | `base` from `@dui/core/base`, `styles` = structural only |
-| `part="root"` on root internal element | `<span part="root">` |
-| JSDoc with `@slot`, `@csspart`, `@fires` | Document the public API |
+```typescript
+// your-components/src/badge/badge.ts
+import { css } from "lit";
+import { DuiBadgePrimitive } from "@dui/primitives/badge";
+import "../_install.ts";  // inject design tokens (see below)
+
+const styles = css`
+  :host,
+  :host([variant=""]),
+  :host([variant="neutral"]) {
+    --badge-bg: var(--foreground);
+    --badge-fg: var(--background);
+  }
+
+  :host([variant="primary"]) {
+    --badge-bg: var(--accent);
+    --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
+  }
+
+  :host([variant="danger"]) {
+    --badge-bg: var(--destructive);
+    --badge-fg: oklch(from var(--destructive) 0.98 0.01 h);
+  }
+
+  [part="root"] {
+    gap: var(--space-1);
+    height: var(--space-5);
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--badge-bg);
+    color: var(--badge-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+  }
+`;
+
+export class DuiBadge extends DuiBadgePrimitive {
+  static override styles = [...DuiBadgePrimitive.styles, styles];
+}
+
+customElements.define(DuiBadge.tagName, DuiBadge);
+```
+
+That's the complete pattern:
+
+1. **Import the primitive** and extend it
+2. **Add aesthetic CSS** — variants, tokens, colors, sizing, interaction states
+3. **Spread the primitive's styles** and append yours: `[...Primitive.styles, styles]`
+4. **Call `customElements.define()`** at module level to self-register
+
+---
+
+## Style composition
+
+Styles are layered via the Lit `styles` array. Later entries override earlier ones:
+
+```
+[...DuiBadgePrimitive.styles, styles]
+     └── structural CSS              └── aesthetic CSS
+         (from primitive)                (your addition)
+```
+
+Your aesthetic CSS targets the same `[part="root"]` and `:host` selectors that the primitive defines. Because it comes later in the array, it wins in the cascade.
+
+**Never override `render()`** unless you need to change the DOM structure. The primitive owns the template — you only add CSS.
+
+---
+
+## Token injection
+
+Design tokens (CSS custom properties like `--space-4`, `--accent`, `--font-sans`) need to be available globally so shadow DOM can inherit them. DUI injects them into `document.adoptedStyleSheets` via a side-effect module:
+
+```typescript
+// _install.ts — runs once via ES module caching
+import { tokenSheet } from "./tokens/tokens.ts";
+import { proseSheet } from "./tokens/prose.ts";
+
+for (const sheet of [tokenSheet, proseSheet]) {
+  if (sheet && !document.adoptedStyleSheets.includes(sheet)) {
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  }
+}
+```
+
+Every component imports this: `import "../_install.ts"`. ES module semantics guarantee it executes exactly once.
+
+If you're building your own component set, create your own `_install.ts` with your own token stylesheet.
+
+---
+
+## The two-axis variant system
+
+DUI components use a two-axis pattern for variants:
+
+- **Variant** (intent): `neutral`, `primary`, `danger` — what the color means
+- **Appearance** (treatment): `filled`, `outline`, `ghost`, `soft` — how it's rendered
+
+This is implemented with two layers of CSS custom properties:
+
+```css
+/* Layer 1: Intent — sets --_intent-* private tokens */
+:host([variant="primary"]) {
+  --_intent-base: var(--accent);
+  --_intent-base-fg: oklch(from var(--accent) 0.98 0.01 h);
+  --_intent-subtle: var(--accent-subtle);
+  --_intent-subtle-fg: var(--accent-text);
+}
+
+/* Layer 2: Appearance — maps --_intent-* to --button-* */
+:host([appearance="filled"]) {
+  --button-bg: var(--_intent-base);
+  --button-fg: var(--_intent-base-fg);
+}
+
+:host([appearance="outline"]) {
+  --button-bg: transparent;
+  --button-fg: var(--_intent-subtle-fg);
+  --button-border: var(--_intent-border);
+}
+
+/* Base element — consumes final --button-* values */
+[part="root"] {
+  background: var(--button-bg);
+  color: var(--button-fg);
+  border: var(--border-width-thin) solid var(--button-border);
+}
+```
+
+Adding a new intent (e.g., `warning`) or a new appearance (e.g., `soft`) only requires adding the corresponding `:host([...])` block. The two axes compose independently.
+
+Not every component needs two axes. Simple components (badge, spinner) may just use `variant` alone.
+
+---
+
+## What belongs in the component vs. the primitive
+
+| In the primitive | In your component |
+|-----------------|-------------------|
+| `render()` — DOM structure, slots, ARIA | Aesthetic CSS — colors, spacing, typography |
+| Behavioral properties (`disabled`, `orientation`, `type`) | Appearance properties (`variant`, `size`, `appearance`) |
+| Keyboard handling, focus management | Variant system (`:host([variant="..."])` selectors) |
+| Event dispatching (`customEvent()`) | Sizing system (`:host([size="..."])` selectors) |
+| Structural CSS (`display`, `position`, `flex`) | Interaction states (hover, active, focus-visible) |
+| Compound component coordination (Lit Context) | Transitions and animations |
+
+**Variant and size properties** are typically bare reflected strings on the primitive (`accessor variant: string = ""`), but the primitive doesn't know or care what values exist. Your component's CSS defines the vocabulary through its `:host([variant="..."])` selectors.
+
+---
+
+## Index and exports
+
+### Component index
+
+The index does a side-effect import (which triggers `customElements.define()`) and re-exports the class:
+
+```typescript
+// src/badge/index.ts
+import "./badge.ts";
+
+export { DuiBadge } from "./badge.ts";
+```
+
+For compound components, import all sub-components:
+
+```typescript
+// src/accordion/index.ts
+import "./accordion.ts";
+import "./accordion-item.ts";
+
+export { DuiAccordion } from "./accordion.ts";
+export { DuiAccordionItem } from "./accordion-item.ts";
+export { valueChangeEvent, openChangeEvent } from "@dui/primitives/accordion";
+```
+
+### Re-exporting events and types
+
+Events and types are defined on the primitive. Re-export them from your component index so consumers have a single import path:
+
+```typescript
+export { navigateEvent } from "@dui/primitives/button";
+export type { AccordionContext } from "@dui/primitives/accordion";
+```
+
+### Package exports (deno.json)
+
+```json
+{
+  "exports": {
+    "./badge": "./src/badge/index.ts",
+    "./button": "./src/button/index.ts"
+  }
+}
+```
 
 ---
 
 ## Properties
 
-Every public prop uses `@property()` with the `accessor` keyword.
+Properties are split between primitive and component:
+
+**Primitive declares behavioral properties** (typed enums):
 
 ```typescript
-@property({ reflect: true })
-accessor variant: string = "";
-
+// In the primitive — changes JS logic, DOM, or ARIA
 @property({ type: Boolean, reflect: true })
 accessor disabled = false;
 
 @property()
-accessor href: string | undefined = undefined;
+accessor type: "button" | "submit" | "reset" = "button";
 ```
 
-**Rules:**
+**Primitive declares appearance properties as bare strings** (component CSS defines the vocabulary):
 
-- `reflect: true` for properties that should appear as HTML attributes (booleans, strings, enums)
-- `type: Boolean` for boolean props — Lit handles attribute-to-property conversion
-- `type: String` (default, can omit) for string props
-- `type: Number` for numeric props
-- `type: Array` or `type: Object` for complex props — do NOT reflect these
-- For controlled/uncontrolled patterns: support `defaultChecked` (initial) + `checked` (controlled). Track internally with `@state`.
+```typescript
+// In the primitive — just a reflected attribute
+@property({ reflect: true })
+accessor variant: string = "";
 
-### The dividing line: component types vs. theme types
+@property({ reflect: true })
+accessor size: string = "";
+```
 
-Every property falls into one of two categories:
-
-**Stays in the component (typed enum)** — changes behaviour, DOM structure, or ARIA semantics:
-
-| Component | Property | Type | Why it stays |
-|-----------|----------|------|--------------|
-| Toggle Group | `type` | `"single" \| "multiple"` | Changes JS selection logic |
-| Accordion | `orientation` | `"vertical" \| "horizontal"` | Changes keyboard nav + `aria-orientation` |
-| Separator | `orientation` | `"horizontal" \| "vertical"` | Changes `role` presentation |
-| Sidebar | `collapsible` | `"offcanvas" \| "icon" \| "none"` | Changes DOM rendering |
-| Sidebar | `side` | `"left" \| "right"` | Changes layout structure |
-| Tooltip | `side` | `"top" \| "bottom"` | Drives positioning math |
-| Textarea | `resize` | `"none" \| "vertical" \| "horizontal" \| "both" \| "auto"` | Changes JS auto-grow behaviour |
-
-**Moves to theme (bare string)** — only changes CSS variable values:
-
-| Component | Property | Declaration |
-|-----------|----------|-------------|
-| Button | `variant`, `size` | `accessor variant: string = ""` |
-| Badge | `variant` | `accessor variant: string = ""` |
-| Spinner | `variant`, `size` | `accessor variant: string = ""` |
-| Textarea | `variant` | `accessor variant: string = ""` |
-| Sidebar | `variant` | `accessor variant: string = ""` |
-| Toolbar | `size` | `accessor size: string = ""` |
-
-**The principle:** If the property changes JavaScript logic, DOM output, or ARIA attributes, it belongs in the component with a typed enum. If it only changes CSS variable values, it belongs in the theme — the component declares it as a bare reflected string.
+**Your component does NOT re-declare properties** that the primitive already defines. The CSS handles variant/size logic entirely.
 
 ### Properties vs CSS variables
 
@@ -141,22 +280,9 @@ Properties are the **primary public API**. CSS variables are secondary:
 | Value needs TypeScript type checking | Value is a design token override |
 | Value affects behavior or accessibility | Value coordinates parent → child (e.g., `--icon-size`) |
 
-**Defaults always use design tokens** — never hardcoded `px` or `rem`.
-
 ### When to create a CSS variable vs. rely on `::part()`
 
-A variable earns its place in the theme if it meets at least one of: (1) variants toggle it, (2) other variables derive from it (e.g., hover colors via `color-mix`), (3) sizes toggle it, or (4) it needs ancestor cascading. If none apply, consumers use `::part(root)` instead — no variable needed. See [theming.md](./theming.md) for the full philosophy.
-
-**Do not** create purely aesthetic attributes on components (e.g., `rounded`, `square`). These belong in the theme layer — consumers achieve the same via variables (e.g., `--button-radius: var(--radius-full)`).
-
----
-
-## What components must NOT do
-
-- **No token references** — Components contain only structural CSS. No `var(--space-*)`, `var(--accent)`, or any design token.
-- **No variant union types** — Variant names are theme concerns. Declare `variant` and `size` as `string = ""`.
-- **No variant logic** — No `switch` statements or conditional rendering based on variant values. The component just reflects the attribute; the theme handles the visual meaning.
-- **No aesthetic CSS** — No colors, fonts, spacing values, borders, or shadows. Those belong in the theme.
+A variable earns its place if it meets at least one of: (1) variants toggle it, (2) other variables derive from it, (3) sizes toggle it, or (4) it needs ancestor cascading. If none apply, consumers use `::part(root)` instead. See [theming.md](./theming.md) for the full philosophy.
 
 ---
 
@@ -166,7 +292,6 @@ Use `@state()` with native private fields for internal state:
 
 ```typescript
 @state() accessor #open = false;
-@state() accessor #internalValue = "";
 ```
 
 All internal methods use native `#private`:
@@ -176,25 +301,6 @@ All internal methods use native `#private`:
   if (this.disabled) return;
   this.#open = !this.#open;
 };
-
-#handleKeyDown = (e: KeyboardEvent): void => {
-  if (e.key === " " || e.key === "Enter") {
-    e.preventDefault();
-    this.#handleClick(e);
-  }
-};
-```
-
-Reference them in templates with `this.#methodName`:
-
-```typescript
-override render(): TemplateResult {
-  return html`
-    <button part="root" @click=${this.#handleClick} @keydown=${this.#handleKeyDown}>
-      <slot></slot>
-    </button>
-  `;
-}
 ```
 
 ---
@@ -206,205 +312,30 @@ Use the `customEvent()` factory from `@dui/core/event`:
 ```typescript
 import { customEvent } from "@dui/core/event";
 
-/** Fired when a button with `href` is clicked. */
 export const navigateEvent = customEvent<{ href: string }>(
   "dui-navigate",
   { bubbles: true, composed: true },
 );
-
-// Dispatch in handler:
-this.dispatchEvent(navigateEvent({ href: this.href }));
 ```
 
-**Naming convention:** kebab-case describing the state change — `checked-change`, `value-change`, `open-change`.
-
-Always set `bubbles: true` and `composed: true` so events cross shadow DOM boundaries.
-
-**Public vs internal:** Custom events are the public API for consumers. For internal parent-child coordination in compound components, use Lit Context instead.
+Events are typically defined on the primitive (since they relate to behavior), then re-exported from the component index.
 
 ---
 
 ## Host styling: protect behavior-critical CSS
 
-The `:host` element is a **public surface** — outer-document styles always beat `:host` rules in the cascade, regardless of specificity. This is per-spec: the host is intentionally an "open surface" the consumer controls.
+The `:host` element is a **public surface** — outer-document styles always beat `:host` rules. If a style is functionally critical (e.g., `display: none` for hiding), it must live on an internal shadow DOM element, not on `:host`.
 
-**Principle:** If a style is functionally critical to the component's behavior (e.g., `display: none` for hiding), it must live on an internal shadow DOM element — not on `:host`. Putting critical styles on `:host` creates a fragile contract where any external `dui-my-component { display: flex }` silently breaks the component.
+### Safe on `:host`
 
-### What's safe on `:host`
-
-- `display: block` / `display: inline-block` — sane defaults replacing the browser's `inline`
-- CSS custom property definitions (`--foo: bar`)
+- `display: block` / `display: inline-block` — sane defaults
+- CSS custom property definitions
 - `box-sizing: border-box`
 
-### What must be on internal elements
+### Must be on internal elements
 
-- `display: none` toggled by state (show/hide behavior)
+- `display: none` toggled by state
 - `visibility: hidden` / `opacity: 0` for functional state changes
-- Any style where an external override would silently **break** the component
-
-### Pattern: state-driven visibility
-
-For components that toggle visibility (tabs panels, command items, filtered elements), hide the internal element instead of the host:
-
-```css
-:host {
-  display: block;
-}
-
-/* Target shadow DOM child — external styles can't reach .Item */
-:host([data-hidden]) .Item {
-  display: none;
-}
-```
-
-For components that always need hidden slot content (portal-based popups), use a wrapper:
-
-```css
-:host {
-  display: contents; /* host generates no box */
-}
-
-.slot-wrapper {
-  display: none; /* always hidden — content is rendered via portal */
-}
-```
-
-### Forwarding CSS custom properties through portals
-
-Portal elements are appended to `<body>`, outside the original DOM tree, so they don't inherit CSS custom properties from ancestor elements. When a theme exposes a CSS custom property on a portaled popup (e.g. `padding: var(--preview-card-popup-padding, var(--space-4))`), you must list it in `forwardProperties` so the controller copies the computed value from the host to the positioner at open time:
-
-```typescript
-#portal = new FloatingPortalController(this, {
-  // ... other options ...
-  forwardProperties: ["--preview-card-popup-padding"],
-});
-```
-
-If you forget this step the fallback value still applies — the property just won't be overridable by consumers.
-
-### Pattern: always-rendered wrapper
-
-When a component needs to hide even when returning `nothing` (e.g., tabs panels without `keepMounted`), always render a wrapper div so there's always an internal element to hide:
-
-```typescript
-override render(): TemplateResult {
-  const isActive = this.#isActive;
-  return html`
-    <div class="wrapper" ?hidden=${!isActive}>
-      ${isActive || this.keepMounted
-        ? html`<div part="panel" role="tabpanel"><slot></slot></div>`
-        : nothing}
-    </div>
-  `;
-}
-```
-
-```css
-.wrapper { display: contents; }  /* transparent when visible */
-.wrapper[hidden] { display: none; }  /* protected hiding */
-```
-
-The `data-hidden` attribute can still be set on the host as a **state signal** for external code, but it should not be relied on for CSS hiding.
-
----
-
-## Structural vs aesthetic CSS
-
-This is the core distinction in the unstyled architecture.
-
-### Structural CSS (lives in the component)
-
-Layout, display, behavioral properties. No visual opinions.
-
-```css
-:host {
-  display: inline-block;
-}
-
-[part="root"] {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-```
-
-**Structural properties:** `display`, `position`, `flex`/`grid` layout, `box-sizing`, `cursor`, `user-select`, `overflow`, `pointer-events`.
-
-> **Note:** `transition-property`, `transition-duration`, and `transition-timing-function` all belong in the theme. The theme decides what animates and how fast. Exception: behavioral transitions where the component relies on `transitionend` events (e.g., panel height animations, popup open/close) — these keep `transition-property` in the component.
-
-### Aesthetic CSS (lives in the theme)
-
-Colors, fonts, spacing values, borders, shadows, animations.
-
-```css
-:host {
-  --badge-bg: var(--accent);
-  --badge-fg: oklch(from var(--accent) 0.98 0.01 h);
-}
-
-[part="root"] {
-  gap: var(--space-1);
-  height: var(--space-5);
-  padding: 0 var(--space-2);
-  border-radius: var(--radius-full);
-  background: var(--badge-bg);
-  color: var(--badge-fg);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
-```
-
-> **Note:** Use `background` (the shorthand), not `background-color`. This lets variables accept gradients and images, not just colors.
-
-**Aesthetic properties:** `color`, `background`, `border`, `border-radius`, `padding`, `margin`, `gap`, `height`/`width` (when sizing), `font-*`, `letter-spacing`, `line-height`, `box-shadow`, `opacity`, `transition-property`, `transition-duration`, `transition-timing-function`.
-
-**When in doubt:** If the property references a design token (`var(--space-*)`, `var(--accent)`), it's aesthetic.
-
----
-
-## Slots and `::part()` exposure
-
-### Slots
-
-Use `<slot>` for content projection. Default (unnamed) slot for primary content:
-
-```typescript
-override render(): TemplateResult {
-  return html`
-    <button part="root">
-      <slot name="icon-start"></slot>
-      <slot></slot>
-      <slot name="icon-end"></slot>
-    </button>
-  `;
-}
-```
-
-### `::part()` for external styling
-
-Expose significant internal elements via `part`:
-
-- Root internal element: `part="root"`
-- Thumb: `part="thumb"`
-- Trigger: `part="trigger"`
-
----
-
-## Lifecycle
-
-All lifecycle methods use `override`. All private methods use `#private`.
-
-| Method | When to use |
-|--------|-------------|
-| `protected override firstUpdated()` | One-time setup after first render |
-| `protected override willUpdate(changed: PropertyValues)` | Compute derived values before render |
-| `protected override updated(changed: PropertyValues)` | Side effects after render |
-| `override disconnectedCallback()` | Cleanup (remove listeners, disconnect observers) |
-| `@query() accessor #el` | Reference a shadow DOM element |
 
 ---
 
@@ -417,133 +348,34 @@ All lifecycle methods use `override`. All private methods use `#private`.
 | Simple data only | **Data-driven** — `.items` property, rendered in parent shadow DOM | Select options |
 | Open-ended HTML content | **Lit Context** — light DOM children, context for coordination | Accordion items |
 
-### Lit Context pattern
-
-Define a context type with state + action callbacks. Parent provides via `@provide`, children consume via `@consume` with `subscribe: true`.
-
-```typescript
-// Context type
-export type AccordionContext = {
-  openValues: string[];
-  disabled: boolean;
-  toggle: (value: string) => void;
-};
-
-export const accordionContext = createContext<AccordionContext>("dui-accordion");
-```
-
-Key principles:
-- No imperative coordination — no `querySelectorAll`, no `this.closest()`
-- Fully reactive — context changes propagate automatically
-- Immutable updates — parent creates new context via spread, never mutates
-
----
-
-## Field context integration
-
-Form controls (checkbox, input, switch, etc.) consume `FieldContext` for integration with `<dui-field>`:
-
-```typescript
-import { consume } from "@lit/context";
-import { fieldContext, type FieldContext } from "../field/field-context.ts";
-
-@consume({ context: fieldContext, subscribe: true })
-@state()
-accessor #fieldCtx!: FieldContext;
-```
-
-Use definite assignment (`!`), not `| undefined`. Access with optional chaining: `this.#fieldCtx?.disabled`.
+Compound component coordination (context, events) lives in the primitive. Your styled components just extend each sub-primitive.
 
 ---
 
 ## Icon support
 
-Set `--icon-size` and `--icon-fg` in theme styles for slotted icons:
+Set `--icon-size` and `--icon-color` in your component's aesthetic CSS so slotted `<dui-icon>` elements size correctly:
 
 ```css
 [part="root"] {
-  --icon-size: var(--badge-icon-size);
-  --icon-fg: var(--badge-fg);
+  --icon-size: var(--button-icon-size);
+  --icon-color: var(--button-fg);
 }
 ```
-
-| Token | Size | Typical use |
-|-------|------|-------------|
-| `var(--space-3)` | 12px | Badges, compact indicators |
-| `var(--space-4)` | 16px | Small buttons, inline icons |
-| `var(--space-4_5)` | 18px | Default button icons |
-| `var(--space-5)` | 20px | Large button icons |
-
----
-
-## Exports
-
-### `index.ts` — re-export class + family array
-
-```typescript
-// packages/components/src/badge/index.ts
-import { DuiBadge } from "./badge.ts";
-export { DuiBadge };
-
-export const badgeFamily = [DuiBadge];
-```
-
-For compound components, the family includes all sub-components:
-
-```typescript
-// packages/components/src/accordion/index.ts
-import { DuiAccordion } from "./accordion.ts";
-import { DuiAccordionItem } from "./accordion-item.ts";
-export { DuiAccordion, DuiAccordionItem };
-
-export const accordionFamily = [DuiAccordion, DuiAccordionItem];
-```
-
-Consumers use families for convenient registration: `applyTheme({ components: [...accordionFamily] })`.
-
-### Add to package exports
-
-In `packages/components/deno.json`:
-
-```json
-{
-  "exports": {
-    "./badge": "./src/badge/index.ts"
-  }
-}
-```
-
-### Add to theme
-
-See [theming.md](./theming.md) for adding theme styles and registering in the theme's styles map.
-
----
 
 ---
 
 ## Validation checklist
 
-- [ ] **Extends `LitElement`** — not a custom base class
-- [ ] **`static tagName`** with `as const` — no `@customElement` decorator
-- [ ] **`static override styles = [base, styles]`** — `base` from `@dui/core/base`
-- [ ] **Structural CSS only** — no colors, fonts, or spacing values in the component
-- [ ] **No behavior-critical styles on `:host`** — `display: none`, `visibility: hidden`, `opacity: 0` for state must be on internal elements
-- [ ] **No token references** — no `var(--space-*)`, `var(--accent)`, etc.
-- [ ] **No variant union types** — `variant` and `size` are `string = ""`
-- [ ] **`part="root"`** on root internal element
-- [ ] **Reflected properties** for variant/size (`@property({ reflect: true })`)
-- [ ] **All decorated properties** use the `accessor` keyword
-- [ ] **All internal state** uses `@state() accessor #name` (native private)
-- [ ] **All private methods** use native `#private` syntax
-- [ ] **All lifecycle overrides** use the `override` keyword
-- [ ] **Events** use `customEvent()` factory with `bubbles: true, composed: true`
-- [ ] **JSDoc** with `@slot`, `@csspart`, `@fires` as needed
-- [ ] **`index.ts`** re-exports class + family array (no variant types — those go in the theme)
-- [ ] **Package exports** added to `deno.json`
-- [ ] **Theme styles** created in `packages/theme-default/src/components/`
-- [ ] **Theme styles registered** in `defaultTheme.styles` map
-- [ ] **Theme exports** added to theme's `deno.json`
-- [ ] **Theme variant types** added to `packages/theme-default/src/types.ts`
-- [ ] **`@property` declarations** added to `properties.css` for consumer-facing variables
-- [ ] **All token values** use design tokens — no hardcoded `px` or `rem`
-- [ ] **Provenance comment** at top of file (when ported from external library)
+- [ ] Extends the primitive class (not `LitElement` directly)
+- [ ] `import "../_install.ts"` for token injection
+- [ ] `static override styles = [...Primitive.styles, styles]`
+- [ ] `customElements.define()` called at module level
+- [ ] Aesthetic CSS uses design tokens only — no hardcoded values
+- [ ] Does NOT re-declare properties from the primitive
+- [ ] Does NOT override `render()` (unless DOM changes are needed)
+- [ ] Uses two-axis variant system where appropriate
+- [ ] `index.ts` has side-effect import + named re-exports
+- [ ] Events and types re-exported from primitive
+- [ ] Export added to `deno.json`
+- [ ] `deno check` passes
