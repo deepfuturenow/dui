@@ -286,7 +286,7 @@ export { valueChangeEvent } from "@dui/primitives/{name}";
 **Root `deno.json`** — add the import mapping for the primitive (if not already present):
 
 ```json
-"@dui/primitives/{name}": "../../../dui-primitives/packages/primitives/src/{name}/index.ts"
+"@dui/primitives/{name}": "../dui-primitives/packages/primitives/src/{name}/index.ts"
 ```
 
 ### Step 6 — Add to docs
