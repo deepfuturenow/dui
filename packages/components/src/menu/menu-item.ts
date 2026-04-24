@@ -12,7 +12,6 @@ const styles = css`
     border-radius: var(--radius-sm);
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    text-box: trim-both cap alphabetic;
     font-family: var(--font-sans);
     color: var(--text-1);
   }

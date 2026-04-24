@@ -7,7 +7,6 @@ const styles = css`
     color: var(--text-2);
     font-size: var(--text-sm); line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
-    text-box: trim-both cap alphabetic;
     padding-inline: var(--space-2);
     height: var(--component-height-md);
     transition-property: color, box-shadow, background, filter, transform;

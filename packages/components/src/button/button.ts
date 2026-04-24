@@ -140,7 +140,6 @@ const styles = css`
     font-size: var(--button-font-size);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
-    text-box: trim-both cap alphabetic;
     white-space: nowrap;
     transition-property: background, box-shadow, filter, transform, border-color, text-decoration-color;
     transition-duration: var(--duration-fast);

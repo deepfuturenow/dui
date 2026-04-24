@@ -15,7 +15,6 @@ const styles = css`
     color: var(--background);
     font-family: var(--font-sans);
     font-size: var(--text-xs); line-height: var(--text-xs--line-height);
-    text-box: trim-both cap alphabetic;
     box-shadow: var(--shadow-sm);
     max-width: var(--space-80);
     transition-duration: var(--duration-fastest);

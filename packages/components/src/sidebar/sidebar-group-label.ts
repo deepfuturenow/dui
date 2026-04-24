@@ -9,7 +9,6 @@ const styles = css`
     color: var(--sidebar-muted-fg);
     font-family: var(--font-sans);
     font-size: var(--text-xs); line-height: var(--text-xs--line-height);
-    text-box: trim-both cap alphabetic;
     font-weight: var(--font-weight-medium);
   }
 

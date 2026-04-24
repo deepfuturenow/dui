@@ -54,7 +54,6 @@ const styles = css`
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-snug);
-    text-box: trim-both cap alphabetic;
     --icon-size: var(--smb-icon-size);
     --icon-color: var(--sidebar-muted-fg);
   }

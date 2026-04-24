@@ -23,7 +23,6 @@ const styles = css`
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-sm); line-height: var(--text-sm--line-height);
-    text-box: trim-both cap alphabetic;
     height: var(--component-height-md);
     border-radius: var(--radius-sm);
     transition-property: background, box-shadow, filter, transform;

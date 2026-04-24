@@ -25,7 +25,6 @@ const styles = css`
     padding: 0 var(--space-3);
     font-weight: var(--font-weight-medium);
     font-size: var(--text-xs); line-height: var(--text-xs--line-height);
-    text-box: trim-both cap alphabetic;
     color: var(--text-2);
     background: var(--surface-1);
     border-bottom: var(--border-width-thin) solid var(--border);

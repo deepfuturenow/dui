@@ -86,7 +86,6 @@ const styles = css`
     font-family: var(--font-sans);
     font-size: var(--text-xs); letter-spacing: var(--letter-spacing-normal); line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
-    text-box: trim-both cap alphabetic;
     white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);
   }
