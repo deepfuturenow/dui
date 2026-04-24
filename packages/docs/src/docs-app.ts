@@ -725,7 +725,7 @@ export class DocsApp extends LitElement {
               aria-current=${this.#isTopNavActive("create") ? "page" : "false"}>
               Create
             </a>
-            <a class="top-bar-link" href="http://localhost:4041" target="_blank" style="opacity: 0.6;">
+            <a class="top-bar-link" href="https://deepfuturenow.github.io/dui-primitives" target="_blank">
               Primitives ↗
             </a>
           </nav>
