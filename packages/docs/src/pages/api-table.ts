@@ -172,9 +172,8 @@ export class ApiTable extends LitElement {
     const meta = this.#meta;
     if (!meta) return html`<p>Component not found: ${this.tag}</p>`;
 
-    // Merge themeAttributes into properties
+    // Merge themeAttributes into properties — styled first, then primitive
     const allProperties = [
-      ...meta.properties.map((p) => ({ ...p, source: "primitive" as const })),
       ...(meta.themeAttributes ?? []).map((a) => ({
         name: a.name,
         type: a.values,
@@ -182,6 +181,7 @@ export class ApiTable extends LitElement {
         description: a.description,
         source: "styled" as const,
       })),
+      ...meta.properties.map((p) => ({ ...p, source: "primitive" as const })),
     ];
 
     // Merge themeCssProperties into cssProperties
@@ -197,6 +197,36 @@ export class ApiTable extends LitElement {
 
     return html`
       <div class="hierarchy">${hierarchy}</div>
+
+      ${allCssProperties.length > 0
+        ? html`
+        <div class="api-section">
+        <div class="api-section-header">
+          <div class="api-section-label">CSS Custom Properties</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allCssProperties.map(
+              (c) => html`
+              <tr>
+                <td><code class="chip">${c.name}</code></td>
+                <td>${c.description}</td>
+                <td><span class="source-label">${c.source === "primitive" ? "primitive" : "styled"}</span></td>
+              </tr>
+            `,
+            )}
+          </tbody>
+        </table>
+        </div>
+      `
+        : ""}
 
       ${allProperties.length > 0
         ? html`
@@ -284,36 +314,6 @@ export class ApiTable extends LitElement {
               <tr>
                 <td><code class="chip">${s.name}</code></td>
                 <td>${s.description}</td>
-              </tr>
-            `,
-            )}
-          </tbody>
-        </table>
-        </div>
-      `
-        : ""}
-
-      ${allCssProperties.length > 0
-        ? html`
-        <div class="api-section">
-        <div class="api-section-header">
-          <div class="api-section-label">CSS Custom Properties</div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            ${allCssProperties.map(
-              (c) => html`
-              <tr>
-                <td><code class="chip">${c.name}</code></td>
-                <td>${c.description}</td>
-                <td><span class="source-label">${c.source === "primitive" ? "primitive" : "styled"}</span></td>
               </tr>
             `,
             )}
