@@ -13,7 +13,7 @@ import { resolve, join } from "jsr:@std/path@^1";
 
 const ROOT = resolve(import.meta.dirname!, "..");
 
-const PRIMITIVES_ROOT = resolve(import.meta.dirname!, "../../../../dui-primitives");
+const PRIMITIVES_ROOT = resolve(import.meta.dirname!, "../../dui-primitives");
 
 const DENO_JSON_FILES = [
   "packages/components/deno.json",

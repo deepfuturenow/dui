@@ -16,7 +16,7 @@ import { ensureDir } from "jsr:@std/fs@^1";
 import * as esbuild from "npm:esbuild@0.25.2";
 
 const ROOT = resolve(import.meta.dirname!, "..");
-const PRIMITIVES_ROOT = resolve(ROOT, "../../../dui-primitives");
+const PRIMITIVES_ROOT = resolve(ROOT, "../dui-primitives");
 const DIST = join(ROOT, "dist", "dui-cdn");
 
 // Self-registering — nothing to wire
@@ -126,7 +126,7 @@ async function main() {
 
     // Write package.json
     const version = JSON.parse(
-      await Deno.readTextFile(join(PRIMITIVES_ROOT, "packages/core/deno.json")),
+      await Deno.readTextFile(join(ROOT, "packages/components/deno.json")),
     ).version ?? "0.1.0";
 
     const packageJson = {

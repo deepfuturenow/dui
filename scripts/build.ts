@@ -18,7 +18,7 @@ import { ensureDir, exists } from "jsr:@std/fs@^1";
 
 const ROOT = resolve(import.meta.dirname!, "..");
 const DIST = join(ROOT, "dist");
-const PRIMITIVES_ROOT = resolve(ROOT, "../../../dui-primitives");
+const PRIMITIVES_ROOT = resolve(ROOT, "../dui-primitives");
 
 /** Package definitions mapping source to npm package names */
 const PACKAGES = [
