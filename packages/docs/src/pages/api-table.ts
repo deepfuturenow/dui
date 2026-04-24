@@ -1,9 +1,22 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   componentRegistry,
   type ComponentMeta,
 } from "../component-registry.ts";
+
+/**
+ * Derive the class hierarchy from a tag name.
+ * dui-foo-bar → DuiFooBar › DuiFooBarPrimitive › LitElement
+ */
+function deriveHierarchy(tagName: string): string {
+  const pascal = tagName
+    .replace(/^dui-/, "")
+    .split("-")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("");
+  return `Dui${pascal} › Dui${pascal}Primitive › LitElement`;
+}
 
 /**
  * `<api-table>` — Renders API reference tables for a component's
@@ -16,17 +29,69 @@ export class ApiTable extends LitElement {
       display: block;
     }
 
+    .hierarchy {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-3);
+      margin-bottom: var(--space-6);
+      letter-spacing: var(--letter-spacing-wide);
+    }
+
+    .hierarchy .sep {
+      color: var(--text-3);
+      opacity: 0.5;
+      margin: 0 var(--space-1);
+    }
+
     .api-section {
       border-top: var(--border-width-thin) solid var(--text-2);
       padding-top: var(--space-4);
       margin-top: var(--space-4);
     }
 
+    .api-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin: 0 0 var(--space-2);
+    }
+
     .api-section-label {
       font-size: var(--text-base);
       font-weight: 600;
       color: var(--foreground);
-      margin: 0 0 var(--space-2);
+      margin: 0;
+    }
+
+    .primitive-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-2xs);
+      font-weight: 500;
+      letter-spacing: var(--letter-spacing-wider);
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: var(--surface-1);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-full);
+      padding: var(--space-0_5) var(--space-2);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out-3),
+                  border-color var(--duration-fast) var(--ease-out-3);
+    }
+
+    .primitive-badge:hover {
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+
+    .section-note {
+      font-size: var(--text-xs);
+      color: var(--text-3);
+      margin: 0 0 var(--space-3);
+      line-height: var(--line-height-relaxed);
     }
 
     table {
@@ -69,20 +134,13 @@ export class ApiTable extends LitElement {
       border-radius: var(--radius-sm);
     }
 
-    .theme-heading {
-      font-size: var(--text-base);
-      font-weight: 700;
-      color: var(--foreground);
-      margin: var(--space-10) 0 var(--space-1);
-      padding-top: var(--space-4);
-      border-top: var(--border-width-medium, 2px) solid var(--border);
-    }
-
-    .theme-note {
-      font-size: var(--text-sm, 0.875rem);
-      color: var(--text-2);
-      margin: 0 0 var(--space-4);
-      line-height: var(--line-height-relaxed, 1.625);
+    .source-label {
+      font-size: var(--text-2xs);
+      font-weight: 500;
+      letter-spacing: var(--letter-spacing-wider);
+      text-transform: uppercase;
+      color: var(--text-3);
+      white-space: nowrap;
     }
   `;
 
@@ -94,95 +152,77 @@ export class ApiTable extends LitElement {
     return componentRegistry.find((c) => c.tagName === this.tag);
   }
 
-  #renderThemeSection(meta: ComponentMeta) {
-    const hasAttrs = meta.themeAttributes && meta.themeAttributes.length > 0;
-    const hasProps = meta.themeCssProperties && meta.themeCssProperties.length > 0;
-    if (!hasAttrs && !hasProps) return "";
+  /** Build the primitives docs URL for this component */
+  #primitivesUrl(tag: string): string {
+    // dui-foo-bar → foo-bar
+    const slug = tag.replace(/^dui-/, "");
+    return `https://deepfuturenow.github.io/dui-primitives/#/components/${slug}`;
+  }
 
-    return html`
-      <div class="theme-heading">Theme (Default)</div>
-      <p class="theme-note">The following attributes and CSS custom properties are defined by the default theme. A custom theme may support different values.</p>
-      ${hasAttrs
-        ? html`
-        <div class="api-section">
-        <div class="api-section-label">Attributes</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Attribute</th>
-              <th>Values</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${meta.themeAttributes!.map(
-              (a) => html`
-              <tr>
-                <td><code class="chip">${a.name}</code></td>
-                <td><code>${a.values}</code></td>
-                <td>${a.description}</td>
-              </tr>
-            `,
-            )}
-          </tbody>
-        </table>
-        </div>
-      `
-        : ""}
-      ${hasProps
-        ? html`
-        <div class="api-section">
-        <div class="api-section-label">CSS Custom Properties</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${meta.themeCssProperties!.map(
-              (c) => html`
-              <tr>
-                <td><code class="chip">${c.name}</code></td>
-                <td>${c.description}</td>
-              </tr>
-            `,
-            )}
-          </tbody>
-        </table>
-        </div>
-      `
-        : ""}
-    `;
+  #renderPrimitiveBadge(tag: string) {
+    return html`<a
+      class="primitive-badge"
+      href="${this.#primitivesUrl(tag)}"
+      target="_blank"
+      title="Defined on the primitive"
+    >Primitive ↗</a>`;
   }
 
   override render() {
     const meta = this.#meta;
     if (!meta) return html`<p>Component not found: ${this.tag}</p>`;
 
+    // Merge themeAttributes into properties
+    const allProperties = [
+      ...meta.properties.map((p) => ({ ...p, source: "primitive" as const })),
+      ...(meta.themeAttributes ?? []).map((a) => ({
+        name: a.name,
+        type: a.values,
+        default: undefined as string | undefined,
+        description: a.description,
+        source: "styled" as const,
+      })),
+    ];
+
+    // Merge themeCssProperties into cssProperties
+    const allCssProperties = [
+      ...meta.cssProperties.map((c) => ({ ...c, source: "primitive" as const })),
+      ...(meta.themeCssProperties ?? []).map((c) => ({
+        ...c,
+        source: "styled" as const,
+      })),
+    ];
+
+    const hierarchy = deriveHierarchy(meta.tagName);
+
     return html`
-      ${meta.properties.length > 0
+      <div class="hierarchy">${hierarchy}</div>
+
+      ${allProperties.length > 0
         ? html`
         <div class="api-section">
-        <div class="api-section-label">Properties</div>
+        <div class="api-section-header">
+          <div class="api-section-label">Properties</div>
+        </div>
         <table>
           <thead>
             <tr>
               <th>Name</th>
-              <th>Type</th>
+              <th>Type / Values</th>
               <th>Default</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            ${meta.properties.map(
+            ${allProperties.map(
               (p) => html`
               <tr>
                 <td><code class="chip">${p.name}</code></td>
                 <td><code>${p.type}</code></td>
                 <td>${p.default ? html`<code>${p.default}</code>` : "—"}</td>
                 <td>${p.description}</td>
+                <td><span class="source-label">${p.source === "primitive" ? "primitive" : "styled"}</span></td>
               </tr>
             `,
             )}
@@ -191,10 +231,15 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
+
       ${meta.events.length > 0
         ? html`
         <div class="api-section">
-        <div class="api-section-label">Events</div>
+        <div class="api-section-header">
+          <div class="api-section-label">Events</div>
+          ${this.#renderPrimitiveBadge(meta.tagName)}
+        </div>
+        <p class="section-note">Emitted by the underlying primitive.</p>
         <table>
           <thead>
             <tr>
@@ -218,10 +263,14 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
+
       ${meta.slots.length > 0
         ? html`
         <div class="api-section">
-        <div class="api-section-label">Slots</div>
+        <div class="api-section-header">
+          <div class="api-section-label">Slots</div>
+          ${this.#renderPrimitiveBadge(meta.tagName)}
+        </div>
         <table>
           <thead>
             <tr>
@@ -243,23 +292,28 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
-      ${meta.cssProperties.length > 0
+
+      ${allCssProperties.length > 0
         ? html`
         <div class="api-section">
-        <div class="api-section-label">CSS Custom Properties</div>
+        <div class="api-section-header">
+          <div class="api-section-label">CSS Custom Properties</div>
+        </div>
         <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            ${meta.cssProperties.map(
+            ${allCssProperties.map(
               (c) => html`
               <tr>
                 <td><code class="chip">${c.name}</code></td>
                 <td>${c.description}</td>
+                <td><span class="source-label">${c.source === "primitive" ? "primitive" : "styled"}</span></td>
               </tr>
             `,
             )}
@@ -268,10 +322,14 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
+
       ${meta.cssParts && meta.cssParts.length > 0
         ? html`
         <div class="api-section">
-        <div class="api-section-label">CSS Parts</div>
+        <div class="api-section-header">
+          <div class="api-section-label">CSS Parts</div>
+          ${this.#renderPrimitiveBadge(meta.tagName)}
+        </div>
         <table>
           <thead>
             <tr>
@@ -293,7 +351,6 @@ export class ApiTable extends LitElement {
         </div>
       `
         : ""}
-      ${this.#renderThemeSection(meta)}
     `;
   }
 }

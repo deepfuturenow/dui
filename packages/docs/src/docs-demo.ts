@@ -242,10 +242,10 @@ export class DuiDocsDemo extends LitElement {
             <dui-tabs-list>
               <dui-tab value="html">HTML</dui-tab>
               ${hasStyles
-                ? html`<dui-tab value="styles">Default Theme</dui-tab>`
+                ? html`<dui-tab value="styles">Styled Component</dui-tab>`
                 : nothing}
               ${hasSource
-                ? html`<dui-tab value="source">Unstyled Component</dui-tab>`
+                ? html`<dui-tab value="source">Primitive</dui-tab>`
                 : nothing}
               <dui-tabs-indicator></dui-tabs-indicator>
             </dui-tabs-list>
