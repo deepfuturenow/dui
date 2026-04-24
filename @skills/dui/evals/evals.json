@@ -1,0 +1,96 @@
+[
+  {
+    "id": 1,
+    "prompt": "Build a settings form with sections for Profile (name input, bio textarea) and Preferences (theme toggle group for light/dark/system, notifications switch). Add a Save button at the bottom.",
+    "expected_output": "A settings form using DUI components with correct import patterns and CSS layout.",
+    "files": [],
+    "expectations": [
+      "Uses dui-input for name, dui-textarea for bio",
+      "Uses dui-toggle-group with dui-toggle children for theme selection (not dui-select or custom radios)",
+      "Uses dui-switch for notifications",
+      "Uses dui-button with variant='primary' for Save",
+      "Uses dui-field for form field label/description wiring",
+      "Imports components via side-effect imports (e.g. import '@deepfuture/dui-components/button')",
+      "Uses CSS flexbox or grid for layout, not DUI layout components",
+      "Uses design tokens (--space-*, --font-size-*) for spacing, not hardcoded px/rem",
+      "No applyTheme() or setup function — just imports"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Create a delete confirmation dialog. When the user clicks a red 'Delete Account' button, show an alert dialog with a warning icon, title 'Are you sure?', description explaining the action is permanent, and Cancel/Delete buttons.",
+    "expected_output": "An alert dialog with correct compound component hierarchy and danger styling.",
+    "files": [],
+    "expectations": [
+      "Uses dui-alert-dialog (not dui-dialog) for destructive confirmation",
+      "Compound hierarchy: dui-alert-dialog > dui-alert-dialog-trigger + dui-alert-dialog-popup",
+      "Trigger contains dui-button with variant='danger'",
+      "Uses dui-icon with SVG in default slot for the warning icon",
+      "Cancel button uses dui-alert-dialog-close wrapper",
+      "Delete button uses variant='danger' and appropriate appearance",
+      "Uses ::part(root) or ::part(popup) for any visual effects beyond tokens",
+      "No !important in CSS"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Build a dashboard layout with a collapsible sidebar on the left (logo, nav items for Dashboard, Analytics, Settings), breadcrumbs at the top of the main content area, and a data table showing recent orders with columns for Order ID, Customer, Amount, and Status (with colored badges).",
+    "expected_output": "A full dashboard layout using sidebar, breadcrumb, data-table, and badge components.",
+    "files": [],
+    "expectations": [
+      "Uses dui-sidebar-provider with dui-sidebar, dui-sidebar-content, dui-sidebar-menu, dui-sidebar-menu-item, dui-sidebar-menu-button",
+      "Uses dui-sidebar-inset for the main content area",
+      "Uses dui-breadcrumb with dui-breadcrumb-item, dui-breadcrumb-link, dui-breadcrumb-page",
+      "Uses dui-data-table with columns and data properties",
+      "Uses dui-badge for status column (via custom cell renderer)",
+      "Dark mode via data-theme='dark' on <html>, not class='dark' or manual overrides",
+      "Uses CSS flexbox/grid for page layout",
+      "No custom markup for separators, badges, or progress indicators"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "I have the DUI inspector available in my dev environment. I want to customize the sidebar to have a blue accent color and larger text. Walk me through the process.",
+    "expected_output": "An inspector-first workflow discovering real token names before writing CSS.",
+    "files": [],
+    "expectations": [
+      "Starts with __dui_inspect('dui-sidebar-menu-button') to discover available tokens",
+      "Uses __dui_inspect() to view the catalog and find sidebar-related components",
+      "Uses __dui_mutate.setComponentToken() or __dui_mutate.setToken() to prototype changes",
+      "Verifies changes with __dui_inspect() after mutation",
+      "Uses __dui_export() to get structured source changes",
+      "Does NOT guess token names — discovers them via inspector first",
+      "Acknowledges that the inspector shows the ground truth for available tokens"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "Build a notifications panel that opens from a bell icon button. It should show a list of notifications with timestamps, a badge showing unread count, and an empty state when there are none. Include a 'Mark all read' action.",
+    "expected_output": "A popover-based notifications panel using DUI components throughout.",
+    "files": [],
+    "expectations": [
+      "Uses dui-popover (not dui-dialog) for the notifications panel",
+      "Uses dui-badge for unread count indicator",
+      "Uses dui-icon for the bell icon",
+      "Uses dui-separator between notification items",
+      "Uses dui-scroll-area for the notification list if it could overflow",
+      "Uses dui-button for 'Mark all read' action",
+      "Does not use custom styled spans for badges or custom dividers for separators",
+      "Uses dui-spinner for loading state if applicable"
+    ]
+  },
+  {
+    "id": 6,
+    "prompt": "Create a card grid showing 3 metric cards: Total Revenue, Active Users, and Conversion Rate. Each card should have a title, a large number, and a description showing the change from last period.",
+    "expected_output": "A responsive card grid using dui-card-grid and dui-card components.",
+    "files": [],
+    "expectations": [
+      "Uses dui-card-grid with columns='3' for responsive layout",
+      "Uses dui-card for each metric card",
+      "Uses dui-card slots: title, description, default for the metric value",
+      "Uses design tokens for typography and spacing, not hardcoded values",
+      "Does not build a custom card component from divs",
+      "Imports via side-effect imports"
+    ]
+  }
+]
