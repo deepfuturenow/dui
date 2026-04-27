@@ -44,6 +44,29 @@ const PACKAGES = [
       "lit": "^3.3.2",
     },
   },
+  {
+    name: "@deepfuture/dui-chart",
+    srcDir: "packages/chart",
+    distDir: "dui-chart",
+    description: "DUI chart component — Observable Plot wrapper with design token theming",
+    dependencies: {
+      "@deepfuture/dui-primitives": "0.1.0",
+      "lit": "^3.3.2",
+      "@observablehq/plot": "^0.6",
+    },
+  },
+  {
+    name: "@deepfuture/dui-map",
+    srcDir: "packages/map",
+    distDir: "dui-map",
+    description: "DUI map components — MapLibre GL wrapper with markers, routes, regions, and clustering",
+    dependencies: {
+      "@deepfuture/dui-primitives": "0.1.0",
+      "lit": "^3.3.2",
+      "@lit/context": "^1.1.3",
+      "maplibre-gl": "^5.15.0",
+    },
+  },
 ] as const;
 
 /** Read version from packages/components/deno.json (this repo's source of truth) */
@@ -70,6 +93,8 @@ function rewriteImports(content: string): string {
     ["@dui/components", "@deepfuture/dui-components"],
     ["@dui/inspector", "@deepfuture/dui-inspector"],
     ["@dui/templates", "@deepfuture/dui-templates"],
+    ["@dui/chart", "@deepfuture/dui-chart"],
+    ["@dui/map", "@deepfuture/dui-map"],
   ];
   let result = content;
   for (const [from, to] of rewrites) {
@@ -168,6 +193,10 @@ async function compilePackage(
         "@dui/components/*": [join(ROOT, "packages/components/src/*/index.ts")],
         "@dui/templates": [join(ROOT, "packages/templates/src/all.ts")],
         "@dui/templates/*": [join(ROOT, "packages/templates/src/*.ts")],
+        "@dui/chart": [join(ROOT, "packages/chart/src/index.ts")],
+        "@dui/chart/*": [join(ROOT, "packages/chart/src/*/index.ts")],
+        "@dui/map": [join(ROOT, "packages/map/src/index.ts")],
+        "@dui/map/*": [join(ROOT, "packages/map/src/*/index.ts")],
       },
     },
     include: [srcRoot + "/**/*.ts"],
@@ -411,9 +440,9 @@ async function main() {
   await verifyBuildOutput();
 
   console.log("\n✨ Build complete! Output in dist/");
-  console.log("   dist/dui-components/");
-
-  console.log("   dist/dui-templates/");
+  for (const pkg of PACKAGES) {
+    console.log(`   dist/${pkg.distDir}/`);
+  }
 }
 
 /** Remove .js and .d.ts files that tsc leaked into source directories */

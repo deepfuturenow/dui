@@ -19,6 +19,8 @@ const DIST = join(ROOT, "dist");
 const PACKAGES = [
   "dui-components",
   "dui-templates",
+  "dui-chart",
+  "dui-map",
   "dui-cdn",
 ] as const;
 
@@ -77,7 +79,7 @@ async function main() {
   console.log(`\nStep 4: ${dryRun ? "Dry-run" : "Publishing"}...\n`);
 
   // Publish order: components first (others may depend on it), then rest, CDN last
-  const publishOrder = ["dui-components", "dui-templates", "dui-cdn"];
+  const publishOrder = ["dui-components", "dui-templates", "dui-chart", "dui-map", "dui-cdn"];
 
   for (const pkg of publishOrder) {
     const pkgDir = join(DIST, pkg);

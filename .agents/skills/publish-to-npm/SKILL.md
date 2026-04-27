@@ -9,6 +9,8 @@ Lockstep publish of all DUI packages to npm:
 
 - `@deepfuture/dui-components`
 - `@deepfuture/dui-templates`
+- `@deepfuture/dui-chart`
+- `@deepfuture/dui-map`
 - `@deepfuture/dui-cdn`
 
 All packages share the same version number. The source of truth for the current version is `packages/components/deno.json`.
@@ -58,7 +60,7 @@ This updates `version` in `packages/components/deno.json`, `packages/templates/d
 deno task build
 ```
 
-Verify the output shows `dist/dui-components/` and `dist/dui-templates/`.
+Verify the output shows `dist/dui-components/`, `dist/dui-templates/`, `dist/dui-chart/`, and `dist/dui-map/`.
 
 If the build fails, stop and fix the issue before continuing.
 
@@ -83,7 +85,9 @@ deno task publish:live
 This runs `npm publish --access public` for each package in dependency order:
 1. `dui-components` (depends on core + primitives from npm)
 2. `dui-templates` (depends on core + components)
-3. `dui-cdn` (bundles everything)
+3. `dui-chart` (depends on core + Observable Plot)
+4. `dui-map` (depends on core + MapLibre GL)
+5. `dui-cdn` (bundles everything)
 
 ### 7. Commit and tag
 

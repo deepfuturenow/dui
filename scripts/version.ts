@@ -18,6 +18,8 @@ const PRIMITIVES_ROOT = resolve(import.meta.dirname!, "../../dui-primitives");
 const DENO_JSON_FILES = [
   "packages/components/deno.json",
   "packages/templates/deno.json",
+  "packages/chart/deno.json",
+  "packages/map/deno.json",
   "packages/docs/deno.json",
 ];
 
