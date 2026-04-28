@@ -242,6 +242,12 @@ const llmsTxt = generateLlmsTxt();
 await Deno.writeTextFile(join(STATIC_DIR, "llms.txt"), llmsTxt);
 console.log("Generated llms.txt");
 
+// Regenerate skill references from the registry
+import { generateComponentsMd } from "../../scripts/generate-skill-refs.ts";
+const skillRefsPath = join(WORKSPACE_ROOT, "skills", "dui", "references", "components.md");
+await Deno.writeTextFile(skillRefsPath, generateComponentsMd());
+console.log("Generated skills/dui/references/components.md");
+
 const buildMode = Deno.args.includes("--build");
 
 if (buildMode) {

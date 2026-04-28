@@ -87,6 +87,7 @@
     "version": "deno run --allow-all scripts/version.ts",
     "publish": "deno run --allow-all scripts/publish.ts",
     "publish:live": "deno run --allow-all scripts/publish.ts --publish",
+    "gen:skill-refs": "deno run --allow-read --allow-write scripts/generate-skill-refs.ts",
     "design-md": "deno run --allow-read --allow-write --allow-run scripts/generate-design-md.ts",
     "import-design-md": "deno run --allow-read --allow-write scripts/import-design-md.ts",
     "lint:design-md": "npx @nicholasgasior/design-md lint DESIGN.md"

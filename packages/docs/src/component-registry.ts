@@ -43,7 +43,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Container for dui-accordion-item children" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--accordion-item-border", description: "Border between accordion items (defaults to thin border)" },
+    ],
   },
   {
     tagName: "dui-accordion-item",
@@ -288,7 +290,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "trigger", description: "Trigger label content" },
       { name: "default", description: "Panel content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--collapsible-indicator-display", description: "Show/hide the chevron indicator (default: block, set to none to hide)" },
+    ],
     cssParts: [
       { name: "trigger", description: "The expand/collapse button" },
       { name: "indicator", description: "The chevron indicator" },
@@ -548,7 +552,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Popover content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--popover-popup-padding", description: "Padding inside the popup (default: var(--space-4))" },
+    ],
   },
   {
     tagName: "dui-popover-close",
@@ -675,8 +681,11 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Label content" },
     ],
     cssProperties: [
+      { name: "--switch-width", description: "Track width" },
+      { name: "--switch-height", description: "Track height" },
+      { name: "--switch-thumb-size", description: "Thumb diameter" },
       { name: "--switch-thumb-offset", description: "Thumb inset offset" },
-      { name: "--switch-checked-offset", description: "Checked state thumb offset" },
+      { name: "--switch-checked-offset", description: "Checked state thumb offset (computed)" },
     ],
     cssParts: [
       { name: "root", description: "The switch track" },
@@ -700,7 +709,19 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Tab list and tab panels" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--tabs-indicator-bg", description: "Indicator background color" },
+      { name: "--tabs-indicator-height", description: "Indicator height" },
+      { name: "--tabs-indicator-radius", description: "Indicator border radius" },
+      { name: "--tabs-indicator-duration", description: "Indicator animation duration" },
+      { name: "--tabs-indicator-easing", description: "Indicator animation easing" },
+      { name: "--tabs-list-justify", description: "Tab list justify-content (e.g. start, center, stretch)" },
+      { name: "--tabs-panel-padding", description: "Panel content padding" },
+      { name: "--tabs-panel-background", description: "Panel background color" },
+      { name: "--tabs-panel-border-width", description: "Panel border width" },
+      { name: "--tabs-panel-border-color", description: "Panel border color" },
+      { name: "--tabs-panel-border-radius", description: "Panel border radius" },
+    ],
   },
   {
     tagName: "dui-tabs-list",
@@ -713,7 +734,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "dui-tab elements and optional dui-tabs-indicator" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--tabs-list-justify", description: "Tab list justify-content" },
+    ],
     cssParts: [
       { name: "list", description: "The tab list container" },
     ],
@@ -751,7 +774,13 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Panel content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--tabs-panel-padding", description: "Panel content padding" },
+      { name: "--tabs-panel-background", description: "Panel background color" },
+      { name: "--tabs-panel-border-width", description: "Panel border width" },
+      { name: "--tabs-panel-border-color", description: "Panel border color" },
+      { name: "--tabs-panel-border-radius", description: "Panel border radius" },
+    ],
     cssParts: [
       { name: "panel", description: "The tab panel content area" },
     ],
@@ -765,7 +794,13 @@ export const componentRegistry: ComponentMeta[] = [
     properties: [],
     events: [],
     slots: [],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--tabs-indicator-bg", description: "Indicator background color" },
+      { name: "--tabs-indicator-height", description: "Indicator height" },
+      { name: "--tabs-indicator-radius", description: "Indicator border radius" },
+      { name: "--tabs-indicator-duration", description: "Indicator animation duration" },
+      { name: "--tabs-indicator-easing", description: "Indicator animation easing" },
+    ],
   },
   {
     tagName: "dui-textarea",
@@ -816,7 +851,11 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "center", description: "Content centered in the toolbar" },
       { name: "right", description: "Content aligned to the end" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--toolbar-padding-x", description: "Horizontal padding (default: var(--space-4))" },
+      { name: "--toolbar-padding-y", description: "Vertical padding (default: var(--space-2))" },
+      { name: "--toolbar-padding-x-button", description: "Reduced horizontal padding when hasButtonLeft/Right (default: var(--space-2))" },
+    ],
     cssParts: [
       { name: "root", description: "The toolbar container" },
       { name: "left", description: "Left-aligned slot container" },
@@ -1286,7 +1325,23 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Sidebar content (header, content, footer)" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--sidebar-width", description: "Expanded sidebar width" },
+      { name: "--sidebar-width-icon", description: "Collapsed (icon mode) sidebar width" },
+      { name: "--sidebar-width-mobile", description: "Mobile sidebar panel width" },
+      { name: "--sidebar-bg", description: "Sidebar background color" },
+      { name: "--sidebar-fg", description: "Sidebar text color" },
+      { name: "--sidebar-border", description: "Sidebar border color" },
+      { name: "--sidebar-ring", description: "Focus ring color for sidebar elements" },
+      { name: "--sidebar-muted-fg", description: "Muted/secondary text color" },
+      { name: "--sidebar-separator", description: "Separator color within the sidebar" },
+      { name: "--sidebar-button-fg", description: "Menu button text color" },
+      { name: "--sidebar-button-bg", description: "Menu button hover/active background" },
+      { name: "--sidebar-button-inset", description: "Menu button horizontal padding" },
+      { name: "--sidebar-group-padding-y", description: "Vertical padding for sidebar groups" },
+      { name: "--sidebar-group-label-inset", description: "Left margin for group labels" },
+      { name: "--sidebar-header-content-gap", description: "Gap below the sidebar header" },
+    ],
   },
   {
     tagName: "dui-sidebar-trigger",
@@ -1413,7 +1468,14 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "default", description: "Label text" },
       { name: "suffix", description: "Suffix slot, shown after the label" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--smb-height", description: "Button height" },
+      { name: "--smb-padding-x", description: "Horizontal padding" },
+      { name: "--smb-gap", description: "Gap between icon and label" },
+      { name: "--smb-radius", description: "Border radius" },
+      { name: "--smb-font-size", description: "Font size" },
+      { name: "--smb-icon-size", description: "Icon size" },
+    ],
     themeAttributes: [
       { name: "size", values: '"default" | "sm" | "lg"', description: "Size variant" },
     ],
@@ -1518,6 +1580,7 @@ export const componentRegistry: ComponentMeta[] = [
     events: [],
     slots: [],
     cssProperties: [
+      { name: "--progress-height", description: "Bar height" },
       { name: "--progress-value", description: "Computed progress percentage (set internally)" },
     ],
     cssParts: [
