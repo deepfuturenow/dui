@@ -28,3 +28,5 @@ screenshots/
 # Environment
 .env
 .env.local
+DESIGN.md
+dui-theme-overrides.css

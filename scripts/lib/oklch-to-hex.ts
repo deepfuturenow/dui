@@ -1,0 +1,129 @@
+/**
+ * OKLCH → sRGB hex conversion.
+ *
+ * Implements Björn Ottosson's OKLCH → Oklab → LMS → linear-sRGB pipeline
+ * with gamut clipping to [0, 1] sRGB range.
+ *
+ * Reference: https://bottosson.github.io/posts/oklab/
+ */
+
+export interface Oklch {
+  l: number; // 0–1
+  c: number; // 0–~0.4
+  h: number; // 0–360
+}
+
+/** Parse an oklch CSS string like `"oklch(0.55 0.25 260)"` into an Oklch object. */
+export function parseOklch(str: string): Oklch {
+  const m = str.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/);
+  if (!m) return { l: 0.5, c: 0, h: 0 };
+  return { l: parseFloat(m[1]), c: parseFloat(m[2]), h: parseFloat(m[3]) };
+}
+
+/** Format an OKLCH triplet as a CSS oklch() string. */
+export function formatOklch({ l, c, h }: Oklch): string {
+  const hRound = c < 0.002 ? 0 : Math.round(h);
+  return `oklch(${l.toFixed(2)} ${c.toFixed(2)} ${hRound})`;
+}
+
+/** Convert OKLCH → Oklab (a, b from C, H in degrees). */
+function oklchToOklab(l: number, c: number, h: number): [number, number, number] {
+  const hRad = (h * Math.PI) / 180;
+  return [l, c * Math.cos(hRad), c * Math.sin(hRad)];
+}
+
+/** Convert Oklab → linear sRGB via LMS intermediate. */
+function oklabToLinearSrgb(L: number, a: number, b: number): [number, number, number] {
+  // Oklab → LMS (cube-root domain)
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+
+  // LMS (cube-root → linear)
+  const l = l_ * l_ * l_;
+  const m = m_ * m_ * m_;
+  const s = s_ * s_ * s_;
+
+  // LMS → linear sRGB
+  const r = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
+  const g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
+  const bOut = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s;
+
+  return [r, g, bOut];
+}
+
+/** Apply sRGB gamma (linear → display). */
+function linearToSrgb(c: number): number {
+  if (c <= 0.0031308) return 12.92 * c;
+  return 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+}
+
+/** Clamp a number to [0, 1]. */
+function clamp01(v: number): number {
+  return Math.max(0, Math.min(1, v));
+}
+
+/**
+ * Convert an OKLCH color to a hex sRGB string (#RRGGBB).
+ * Out-of-gamut colors are clipped to sRGB.
+ */
+export function oklchToHex(oklch: Oklch): string {
+  const [L, a, b] = oklchToOklab(oklch.l, oklch.c, oklch.h);
+  const [lr, lg, lb] = oklabToLinearSrgb(L, a, b);
+
+  const r = Math.round(clamp01(linearToSrgb(lr)) * 255);
+  const g = Math.round(clamp01(linearToSrgb(lg)) * 255);
+  const bVal = Math.round(clamp01(linearToSrgb(lb)) * 255);
+
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bVal.toString(16).padStart(2, "0")}`;
+}
+
+/**
+ * Compute a derived token's approximate hex value.
+ *
+ * Handles the subset of derivation formulas used in DUI's tokens.css:
+ * - Lightness offsets: oklch(from base calc(l ± offset) c h)
+ * - Alpha reductions: oklch(from base l c h / alpha)
+ *   For alpha tokens, composites over the given background color.
+ * - Accent/destructive subtle: oklch(from base l c h / 0.10)
+ * - Accent text: lightness/chroma scaling
+ */
+export function computeDerivedHex(
+  base: Oklch,
+  derivation: { lightnessOffset?: number; alpha?: number; lightnessScale?: number; chromaScale?: number },
+  background?: Oklch,
+): string {
+  let { l, c, h } = base;
+
+  if (derivation.lightnessOffset !== undefined) {
+    l = clamp01(l + derivation.lightnessOffset);
+  }
+  if (derivation.lightnessScale !== undefined) {
+    l = clamp01(l * derivation.lightnessScale);
+  }
+  if (derivation.chromaScale !== undefined) {
+    c = c * derivation.chromaScale;
+  }
+
+  if (derivation.alpha !== undefined && derivation.alpha < 1) {
+    // Composite the semi-transparent color over the background
+    const bg = background ?? { l: 0.97, c: 0, h: 0 }; // default light bg
+    const [fgL, fgA, fgB] = oklchToOklab(l, c, h);
+    const [bgL, bgA, bgB] = oklchToOklab(bg.l, bg.c, bg.h);
+    const a = derivation.alpha;
+
+    // Blend in Oklab space (perceptually more accurate)
+    const blendedL = fgL * a + bgL * (1 - a);
+    const blendedA = fgA * a + bgA * (1 - a);
+    const blendedB = fgB * a + bgB * (1 - a);
+
+    const [lr, lg, lb] = oklabToLinearSrgb(blendedL, blendedA, blendedB);
+    const r = Math.round(clamp01(linearToSrgb(lr)) * 255);
+    const g = Math.round(clamp01(linearToSrgb(lg)) * 255);
+    const bVal = Math.round(clamp01(linearToSrgb(lb)) * 255);
+
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bVal.toString(16).padStart(2, "0")}`;
+  }
+
+  return oklchToHex({ l, c, h });
+}

@@ -86,6 +86,9 @@
     "build:all": "deno run --allow-all scripts/build.ts && deno run --allow-all scripts/build-cdn.ts",
     "version": "deno run --allow-all scripts/version.ts",
     "publish": "deno run --allow-all scripts/publish.ts",
-    "publish:live": "deno run --allow-all scripts/publish.ts --publish"
+    "publish:live": "deno run --allow-all scripts/publish.ts --publish",
+    "design-md": "deno run --allow-read --allow-write --allow-run scripts/generate-design-md.ts",
+    "import-design-md": "deno run --allow-read --allow-write scripts/import-design-md.ts",
+    "lint:design-md": "npx @nicholasgasior/design-md lint DESIGN.md"
   }
 }

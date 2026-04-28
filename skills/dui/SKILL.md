@@ -300,6 +300,85 @@ Some attributes like `variant`, `appearance`, and `size` are **theme attributes*
 
 Behavioral **properties** like `disabled`, `open`, `value` are reactive Lit properties that affect component behavior and DOM structure.
 
+## DESIGN.md integration
+
+DUI supports [DESIGN.md](https://github.com/nicholasgasior/design.md), a format for describing a visual identity to coding agents. If a project has a `DESIGN.md` file, **read it before writing any UI code**. It contains two layers:
+
+### Layer 1: Visual identity (YAML front matter + standard sections)
+
+Machine-readable tokens and visual rules. Map DESIGN.md tokens to DUI CSS custom properties:
+
+| DESIGN.md token | DUI CSS custom property |
+|---|---|
+| `colors.background` | `--background` |
+| `colors.foreground` | `--foreground` |
+| `colors.accent` | `--accent` |
+| `colors.destructive` | `--destructive` |
+| `colors.surface-1` | `--surface-1` |
+| `colors.text-1` / `text-2` / `text-3` | `--text-1` / `--text-2` / `--text-3` |
+| `colors.border` | `--border` |
+| `rounded.sm` / `md` / `lg` | `--radius-sm` / `--radius-md` / `--radius-lg` |
+| `spacing.sm` / `md` / `lg` | `--space-2` / `--space-4` / `--space-6` |
+| `typography.body-md.fontFamily` | `--font-sans` |
+| `typography.code.fontFamily` | `--font-mono` |
+
+If the DESIGN.md colors differ from DUI defaults, apply overrides on `:root`:
+
+```css
+:root {
+  --background: oklch(...);
+  --foreground: oklch(...);
+  --accent: oklch(...);
+  --destructive: oklch(...);
+}
+```
+
+The DESIGN.md includes hex values in the YAML front matter; the original OKLCH values are in comments. Prefer OKLCH for DUI overrides when available.
+
+### Layer 2: Interaction design grammar (extended sections)
+
+Behavioral constraints that guide page composition and interaction patterns:
+
+| DESIGN.md section | Implementation guidance |
+|---|---|
+| **Page Archetypes** | Use the defined page shapes (list, detail, settings, dashboard). List = `dui-data-table`, detail = tabbed `dui-tabs`, settings = `dui-sidebar-provider` + forms |
+| **Interaction Model** | Follow the declared save semantics (optimistic/explicit/autosave). Use `dui-alert-dialog` for destructive confirmations only |
+| **Forms & Validation** | Validate on blur using `dui-field` error states. Mark optional fields with "(optional)". Use `dui-fieldset` for groups |
+| **Notification & Feedback** | Toast for transient success, inline `dui-field` errors for validation, banner for page-level alerts |
+| **State Patterns** | `dui-spinner` for unknown-shape loading, skeleton for known-shape. Under 200ms show nothing |
+| **Overlay Hierarchy** | `dui-dialog` for focused tasks, `dui-alert-dialog` for destructive confirmations, `dui-popover` for contextual content, `dui-menu` for actions |
+| **Transitions & Motion** | Reference `--duration-fast`, `--duration-normal`, `--duration-slow` — never hardcode milliseconds. DUI handles component transitions internally |
+| **Responsive Behavior** | Use CSS container queries for component-level responsiveness. Sidebar collapses on tablet, hides on mobile |
+| **Density & Rhythm** | Follow the declared spacing rules using `--space-*` tokens |
+| **Content Conventions** | Sentence case everywhere. Verb + object for buttons |
+
+### Generating a DESIGN.md
+
+Consumers can generate a DESIGN.md from DUI defaults:
+
+```bash
+# CLI (from the DUI repo)
+deno task design-md
+deno task design-md --accent "oklch(0.6 0.2 280)" --font-sans "Inter"
+deno task design-md --visual-only  # skip interaction grammar
+```
+
+Or export from the DUI theme editor (docs site → Create → sidebar → "Download DESIGN.md").
+
+### Validating a DESIGN.md
+
+Validate DESIGN.md files before using them:
+
+```bash
+# Lint for structural errors and contrast issues
+npx @nicholasgasior/design-md lint DESIGN.md
+
+# Compare two versions
+npx @nicholasgasior/design-md diff DESIGN.md DESIGN-v2.md
+```
+
+If lint returns errors, fix them before proceeding. Warnings (contrast-ratio, missing tokens) should be noted and surfaced to the user.
+
 ## Event handling
 
 ### `dui-navigate` for link buttons

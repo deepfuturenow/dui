@@ -8,6 +8,7 @@ import { currentRoute, onRouteChange, navigate, setSidebarParam, type Route } fr
 import { SANS_FONT_OPTIONS, SERIF_FONT_OPTIONS, MONO_FONT_OPTIONS, COLOR_PRIMITIVES } from "./create/create-config.ts";
 import { parseOklch, formatOklch, type Oklch } from "./create/color-utils.ts";
 import { loadGoogleFont } from "./create/font-loader.ts";
+import { generateDesignMdFromEditor, downloadAsFile, copyToClipboard } from "./create/design-md-export.ts";
 import "./create/create-controls.ts";
 
 /** Sidebar navigation groups for the Components section. */
@@ -299,7 +300,57 @@ export class DocsApp extends LitElement {
       border-left: none;
     }
 
+    /* ── Export section (Create page sidebar) ── */
+    .export-section {
+      padding: var(--space-4) var(--space-4) var(--space-6);
+      border-top: var(--border-width-thin, 1px) solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
 
+    .export-label {
+      font-size: var(--text-xs, 0.75rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wider, 0.05em);
+      color: var(--text-2);
+      margin-bottom: var(--space-1);
+      font-family: var(--font-mono);
+    }
+
+    .export-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border: var(--border-width-thin, 1px) solid var(--border);
+      border-radius: var(--radius-md, 0.5rem);
+      background: var(--accent);
+      color: var(--background);
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .export-btn:hover {
+      opacity: 0.9;
+    }
+
+    .export-btn--secondary {
+      background: transparent;
+      color: var(--text-1);
+      border-color: var(--border);
+    }
+
+    .export-btn--secondary:hover {
+      background: var(--surface-1);
+      opacity: 1;
+    }
 
     /* ── Content ── */
     .content {
@@ -465,6 +516,10 @@ export class DocsApp extends LitElement {
   @state()
   accessor #selectedColors: Record<string, Oklch> = {};
 
+  /** Brief "Copied!" feedback for the copy button */
+  @state()
+  accessor #copyFeedback = false;
+
   #cleanup?: () => void;
 
   override connectedCallback(): void {
@@ -590,6 +645,30 @@ export class DocsApp extends LitElement {
       "--radius-md": base,
       "--radius-lg": `${val + 0.25}rem`,
     };
+  }
+
+  #getEditorState() {
+    return {
+      colors: this.#selectedColors,
+      fontSans: this.#selectedFontSans,
+      fontSerif: this.#selectedFontSerif,
+      fontMono: this.#selectedFontMono,
+      radius: this.#selectedRadius,
+    };
+  }
+
+  #onExportDesignMd(): void {
+    const md = generateDesignMdFromEditor(this.#getEditorState());
+    downloadAsFile(md, "DESIGN.md");
+  }
+
+  async #onCopyDesignMd(): Promise<void> {
+    const md = generateDesignMdFromEditor(this.#getEditorState());
+    const ok = await copyToClipboard(md);
+    if (ok) {
+      this.#copyFeedback = true;
+      setTimeout(() => { this.#copyFeedback = false; }, 2000);
+    }
   }
 
   #isTopNavActive(section: string): boolean {
@@ -773,6 +852,17 @@ export class DocsApp extends LitElement {
             selectedRadius=${this.#selectedRadius}
             .colors=${this.#selectedColors}
           ></create-controls>
+          <div class="export-section">
+            <label class="export-label">Export</label>
+            <button class="export-btn" @click=${this.#onExportDesignMd}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              Download DESIGN.md
+            </button>
+            <button class="export-btn export-btn--secondary" @click=${this.#onCopyDesignMd}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              ${this.#copyFeedback ? "Copied!" : "Copy to clipboard"}
+            </button>
+          </div>
         </nav>
       `;
     }
