@@ -157,7 +157,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Navigation | `dui-sidebar-provider`, `dui-breadcrumb`, `dui-tabs` |
 | Overlays | `dui-dialog` (modal), `dui-alert-dialog` (confirmation), `dui-popover`, `dui-tooltip`, `dui-menu`, `dui-command` |
 | Disclosure | `dui-accordion`, `dui-collapsible` |
-| Content containers | `dui-card`, `dui-card-grid` |
+| Content containers (structured header/action/footer) | `dui-card`, `dui-card-grid` |
 | Layout | `dui-scroll-area`, `dui-separator` — for rows/columns/centering/page margins, use standard CSS flexbox and grid |
 | Text | `dui-trunc` (truncation with `max-lines` or `max-width`) |
 | Utility | `dui-icon`, `dui-portal`, `dui-link` |
@@ -175,7 +175,8 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Raw `<svg>` with manual sizing | `dui-icon` with SVG in its slot |
 | `overflow: auto` div | `dui-scroll-area` |
 | Raw `<a>` tag | `dui-link` |
-| Custom card div with header/footer | `dui-card` |
+| Structured content with header/action/footer | `dui-card` |
+| Simple content containers (stat tiles, info boxes) | styled `<div>` with `--surface-1`, `--border`, `--radius-lg` |
 | Label + input + error div | `dui-field` wrapping the input |
 
 See `references/rules.md` for incorrect/correct code pairs.

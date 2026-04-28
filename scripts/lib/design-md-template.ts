@@ -301,8 +301,10 @@ Key spacing guidelines:
 | Title → subtitle | \`--space-1\` to \`--space-2\` |
 | Heading → body content | \`--space-3\` to \`--space-4\` |
 | Between sections | \`--space-5\` to \`--space-6\` |
-| Label → value (cards) | \`--space-1\` to \`--space-3\` |
+| Label → value (cards) | \`--space-2\` to \`--space-3\` |
 | List/stack items | \`--space-2\` to \`--space-4\` |
+
+Because DUI trims line-height padding from text elements (\`text-box: trim-both cap alphabetic\`), the gap value IS the entire visible space between glyph edges — there is no built-in buffer. **Prefer the middle or upper end of each range.** Reserve the low end for elements with large size contrast (e.g., a large heading next to a small label) where the glyph proportions already create visual separation.
 
 Wrap related text in a flex column with \`gap\` for vertical rhythm. Never rely on default browser margins.
 
@@ -492,7 +494,9 @@ Use \`dui-field\` to wrap inputs with label, description, and error message. Use
 
 **Form rhythm:** Label-to-input gap (\`--space-1\` to \`--space-2\`) = half the input-to-input gap (\`--space-3\` to \`--space-4\`).
 
-**Table density:** Row height = 1.5× body line-height for comfortable, 1.2× for compact. Use \`dui-data-table\` with the density that matches the data volume.`,
+**Table density:** Row height = 1.5× body line-height for comfortable, 1.2× for compact. Use \`dui-data-table\` with the density that matches the data volume.
+
+**Card vs. styled div:** Use \`dui-card\` only when content has structured regions (title/description header, action slot, footer with buttons). For simple raised containers — stat tiles, metric blocks, info boxes — use a plain \`<div>\` styled with \`background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4)\`. Cards add header/footer layout machinery; don't pay for structure you aren't using.`,
 
   "Transitions & Motion": `DUI components have built-in transitions using semantic duration tokens. Reference these tokens — never specify millisecond values directly.
 

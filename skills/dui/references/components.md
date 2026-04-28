@@ -620,6 +620,7 @@ A standalone disclosure widget with animated open/close transitions.
 ### dui-card
 A container for grouped content with header, body, and footer sections. Uses flex-column + gap for vertical rhythm.
 **Import:** `@dui/components/card`
+**When to use:** Use `dui-card` when content has **structured regions** — a title/description header, an action slot, or a footer with buttons. If you just need a raised surface to group content (e.g., a stat tile, a metric block, a simple info box), use a styled `<div>` with `background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4)` instead. Cards add header/footer layout machinery — don't pay for structure you aren't using.
 **Properties:** `size` ("" | "sm", default: "")
 **Slots:** `default` (Main card content (body).), `title` (Card heading text.), `description` (Helper text below the title.), `action` (Top-right header action (button, badge, etc.).), `footer` (Footer content (buttons, links, etc.).)
 **Parts:** `root`, `header`, `header-text`, `action`, `content`, `footer`
