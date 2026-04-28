@@ -80,6 +80,10 @@ function generateFrontMatter(config: DesignMdConfig): string {
 #   foreground:  ${config.oklchOriginals.foreground}
 #   accent:      ${config.oklchOriginals.accent}
 #   destructive: ${config.oklchOriginals.destructive}
+#
+# Note: The names below are spec-format identifiers for tooling
+# (e.g. import-design-md.ts). For DUI CSS custom property names
+# (--space-*, --text-*, --radius-*), see the prose sections below.
 
 colors:
   background: "${c.background}"
@@ -151,15 +155,6 @@ typography:
     fontWeight: 400
     lineHeight: 1.5
 
-spacing:
-  xs: 4px
-  sm: 8px
-  md: 16px
-  lg: 24px
-  xl: 32px
-  2xl: 48px
-  3xl: 64px
-
 rounded:
   none: 0px
   xs: ${pxFrom(Math.max(baseRem - 0.375, 0))}
@@ -169,52 +164,6 @@ rounded:
   xl: ${pxFrom(baseRem + 1)}
   2xl: ${pxFrom(baseRem + 1.5)}
   full: 9999px
-
-components:
-  button-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "${c.background}"
-    rounded: "{rounded.md}"
-    padding: 12px
-    height: 36px
-  button-primary-hover:
-    backgroundColor: "{colors.accent}"
-  button-danger:
-    backgroundColor: "{colors.destructive}"
-    textColor: "${c.background}"
-    rounded: "{rounded.md}"
-  button-ghost:
-    backgroundColor: transparent
-    textColor: "{colors.foreground}"
-  card:
-    backgroundColor: "{colors.surface-1}"
-    textColor: "{colors.text-1}"
-    rounded: "{rounded.lg}"
-    padding: 20px
-  input:
-    backgroundColor: "{colors.background}"
-    textColor: "{colors.text-1}"
-    rounded: "{rounded.md}"
-    height: 36px
-    padding: 8px
-  badge-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "${c.background}"
-    rounded: "{rounded.full}"
-    padding: 4px
-  badge-neutral:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.text-1}"
-    rounded: "{rounded.full}"
-  dialog:
-    backgroundColor: "{colors.background}"
-    textColor: "{colors.text-1}"
-    rounded: "{rounded.lg}"
-    padding: 24px
-  sidebar:
-    backgroundColor: "{colors.surface-1}"
-    textColor: "{colors.text-1}"
-    padding: 16px
 ---`;
 
   return yaml;
@@ -238,8 +187,6 @@ function generateVisualSections(config: DesignMdConfig): string {
 This design system is built on DUI, a Lit-based web component library with two-layer inheritance. Unstyled primitives provide structure and behavior; styled components extend them with aesthetic CSS and design tokens.
 
 The visual identity is minimal, professional, and density-aware. It uses a neutral canvas with a single accent color for interactive elements, clear typographic hierarchy via text-box trimming, and consistent spacing through a base-4 scale.
-
-Components self-register on import — no configuration, no setup function. The styling API is CSS custom properties that cascade into shadow DOM.
 
 ## Colors
 
@@ -342,55 +289,6 @@ Radius scale based on a configurable base value:
 | \`--radius-full\` | 9999px | Pills, avatars |
 
 Consistent radius usage: all elements at the same hierarchy level use the same radius token.
-
-## Components
-
-DUI components self-register on import. Importing a component registers it and all its sub-components:
-
-\`\`\`typescript
-import "@deepfuture/dui-components/button";   // registers dui-button
-import "@deepfuture/dui-components/dialog";    // registers dui-dialog + sub-components
-\`\`\`
-
-### Styling API
-
-1. **CSS custom properties** — the primary styling API. Override \`--button-bg\`, \`--card-padding\`, etc.
-2. **\`::part(root)\`** — for CSS properties without a dedicated token (transforms, backdrop-filter, box-shadow).
-3. **Theme attributes** — \`variant\`, \`appearance\`, \`size\` are reflected HTML attributes that select CSS rulesets.
-
-### Composition
-
-- **Slots** are the composition API. Pass content via named/default slots.
-- **Compound components** stay together (\`dui-dialog-trigger\` inside \`dui-dialog\`).
-- Never reach into shadow DOM with \`querySelector\`.
-
-### Key component families
-
-Button, Card, Input, Textarea, Select, Combobox, Checkbox, Radio, Switch, Slider, Tabs, Accordion, Dialog, Alert Dialog, Popover, Menu, Command, Data Table, Badge, Avatar, Sidebar, Breadcrumb, Tooltip, Progress, Spinner, and more. See the full catalog in the DUI docs.
-
-## Do's and Don'ts
-
-### Do
-
-- Use CSS custom properties as the styling API
-- Use \`::part(root)\` for properties without a dedicated token
-- Use semantic design tokens (\`--foreground\`, \`--accent\`, \`--surface-1\`) for colors
-- Use \`--space-*\` tokens for all spacing
-- Use flex/grid with \`gap\` for layout
-- Apply \`data-theme="dark"\` on \`<html>\` for dark mode
-- Use DUI components before writing custom markup
-- Add explicit spacing between text elements (text-box trimming removes defaults)
-- Apply \`text-box: trim-both cap alphabetic\` to \`<span>\`, \`<div>\`, and other generic elements used for text
-
-### Don't
-
-- Don't hardcode \`px\`, \`rem\`, or color values — use tokens
-- Don't reach into shadow DOM with \`querySelector\`
-- Don't use \`!important\` — use the right token or part instead
-- Don't add manual dark-mode color logic — the token system handles it
-- Don't rely on default browser margins for spacing
-- Don't mix icon sets — pick one and use it consistently
-- Don't use \`@customElement\` decorator — components self-register via \`customElements.define()\`
 `;
 }
 

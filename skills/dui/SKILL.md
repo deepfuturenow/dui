@@ -7,7 +7,7 @@ description: Build frontend UIs using DUI, a Lit-based styled web component libr
 
 DUI is a styled Lit web component library built on two-layer inheritance. Unstyled primitives (in a separate repo) provide structure and behavior; styled components extend them with aesthetic CSS and design tokens. Components self-register on import — no setup function, no configuration.
 
-**Read `DESIGN.md` first.** Every DUI project has a `DESIGN.md` at the repo root. It defines the visual identity (colors, typography, spacing, radii, elevation) and interaction grammar (page archetypes, overlay hierarchy, form validation, state patterns, motion, accessibility, and more). The DESIGN.md is the authoritative source for all design decisions. This skill covers DUI-specific implementation: component selection, installation, inspector workflow, and code patterns.
+**Read `DESIGN.md` first.** Every DUI project has a `DESIGN.md` at the repo root. It defines the visual identity (colors, typography, spacing, radii, elevation) and interaction grammar (page archetypes, overlay hierarchy, form validation, state patterns, motion, accessibility, and more). The DESIGN.md is the authoritative source for all design decisions. This skill owns DUI implementation guidance: component selection, styling API, composition rules, inspector workflow, and code patterns. There is no overlap — DESIGN.md says *what the design looks like and how the app behaves*; this skill says *how to build it with DUI components*.
 
 ## Project detection
 
@@ -172,7 +172,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Custom styled `<span>` for tags/status | `dui-badge` |
 | Custom `animate-spin` div | `dui-spinner` |
 | Custom progress bar div | `dui-progress` |
-| Raw `<svg>` with manual sizing | `dui-icon` with SVG in its slot |
+| Raw `<svg>` with manual sizing | `dui-icon` + `lucide-static` import (`unsafeHTML(Home)`), or raw SVG in slot as fallback |
 | `overflow: auto` div | `dui-scroll-area` |
 | Raw `<a>` tag | `dui-link` |
 | Structured content with header/action/footer | `dui-card` |
