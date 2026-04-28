@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Ellipsis } from "lucide-static";
 import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
@@ -49,7 +51,7 @@ export class BlockUserAccount extends LitElement {
       <div class="more-btn">
         <dui-menu>
           <dui-button slot="trigger" appearance="ghost" size="icon-sm">
-            <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></dui-icon>
+            <dui-icon>${unsafeHTML(Ellipsis)}</dui-icon>
           </dui-button>
           <dui-menu-item>Edit profile</dui-menu-item>
           <dui-menu-item>Change avatar</dui-menu-item>

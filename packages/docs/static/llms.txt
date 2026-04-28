@@ -64,6 +64,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: value (string[] | undefined), defaultValue (string[], []), disabled (boolean, false), multiple (boolean, false), loopFocus (boolean, true), orientation ("vertical" | "horizontal", "vertical"), keepMounted (boolean, false)
 - Events: value-change (string[])
 - Slots: default (Container for dui-accordion-item children)
+- CSS Variables: --accordion-item-border (Border between accordion items (defaults to thin border))
 
 ### Accordion Item
 - Tag: `<dui-accordion-item>`
@@ -172,6 +173,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: open (boolean, false), defaultOpen (boolean, false), disabled (boolean, false), keepMounted (boolean, false)
 - Events: open-change ({ open: boolean })
 - Slots: trigger (Trigger label content), default (Panel content)
+- CSS Variables: --collapsible-indicator-display (Show/hide the chevron indicator (default: block, set to none to hide))
 - CSS Parts: trigger (The expand/collapse button), indicator (The chevron indicator), panel (The collapsible panel wrapper), content (The panel content area)
 
 ### Badge
@@ -232,7 +234,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 ### Icon
 - Tag: `<dui-icon>`
 - Import: `@dui/components/icon`
-- Description: Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
+- Description: Slot-based SVG icon container. Use lucide-static imports with unsafeHTML for tree-shakeable icons (recommended), or paste raw SVGs into the default slot. Inherits currentColor and sizes via --icon-size.
 - Events: none
 - Slots: default (SVG element to display)
 - CSS Variables: --icon-size (Icon dimensions (default: 1em)), --icon-color (Icon color (default: currentColor))
@@ -276,6 +278,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: showArrow (boolean, true), closeOnClick (boolean, false)
 - Events: none
 - Slots: default (Popover content)
+- CSS Variables: --popover-popup-padding (Padding inside the popup (default: var(--space-4)))
 
 ### Popover Close
 - Tag: `<dui-popover-close>`
@@ -316,7 +319,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: checked (boolean | undefined), defaultChecked (boolean, false), disabled (boolean, false), readOnly (boolean, false), required (boolean, false), name (string | undefined), value (string, "on")
 - Events: checked-change ({ checked: boolean })
 - Slots: default (Label content)
-- CSS Variables: --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset)
+- CSS Variables: --switch-width (Track width), --switch-height (Track height), --switch-thumb-size (Thumb diameter), --switch-thumb-offset (Thumb inset offset), --switch-checked-offset (Checked state thumb offset (computed))
 - CSS Parts: root (The switch track), thumb (The switch thumb)
 
 ### Tabs
@@ -326,6 +329,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: value (string | undefined), defaultValue (string | undefined), orientation ("horizontal" | "vertical", "horizontal"), controls ("header" | "footer", "header")
 - Events: value-change (string)
 - Slots: default (Tab list and tab panels)
+- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-height (Indicator height), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing), --tabs-list-justify (Tab list justify-content (e.g. start, center, stretch)), --tabs-panel-padding (Panel content padding), --tabs-panel-background (Panel background color), --tabs-panel-border-width (Panel border width), --tabs-panel-border-color (Panel border color), --tabs-panel-border-radius (Panel border radius)
 
 ### Tabs List
 - Tag: `<dui-tabs-list>`
@@ -333,6 +337,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: Container for tab triggers. Manages indicator positioning.
 - Events: none
 - Slots: default (dui-tab elements and optional dui-tabs-indicator)
+- CSS Variables: --tabs-list-justify (Tab list justify-content)
 - CSS Parts: list (The tab list container)
 
 ### Tab
@@ -351,6 +356,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: value (string, ""), keepMounted (boolean, false)
 - Events: none
 - Slots: default (Panel content)
+- CSS Variables: --tabs-panel-padding (Panel content padding), --tabs-panel-background (Panel background color), --tabs-panel-border-width (Panel border width), --tabs-panel-border-color (Panel border color), --tabs-panel-border-radius (Panel border radius)
 - CSS Parts: panel (The tab panel content area)
 
 ### Tabs Indicator
@@ -358,6 +364,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Import: `@dui/components/tabs`
 - Description: Animated background indicator for the active tab.
 - Events: none
+- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-height (Indicator height), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing)
 
 ### Textarea
 - Tag: `<dui-textarea>`
@@ -374,6 +381,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: inset (boolean, false), hasButtonLeft (boolean, false), hasButtonRight (boolean, false)
 - Events: none
 - Slots: left (Content aligned to the start), center (Content centered in the toolbar), right (Content aligned to the end)
+- CSS Variables: --toolbar-padding-x (Horizontal padding (default: var(--space-4))), --toolbar-padding-y (Vertical padding (default: var(--space-2))), --toolbar-padding-x-button (Reduced horizontal padding when hasButtonLeft/Right (default: var(--space-2)))
 - CSS Parts: root (The toolbar container), left (Left-aligned slot container), center (Center-aligned slot container), right (Right-aligned slot container)
 
 ### Trunc
@@ -573,6 +581,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: The sidebar panel itself. Renders desktop or mobile layout based on viewport.
 - Events: none
 - Slots: default (Sidebar content (header, content, footer))
+- CSS Variables: --sidebar-width (Expanded sidebar width), --sidebar-width-icon (Collapsed (icon mode) sidebar width), --sidebar-width-mobile (Mobile sidebar panel width), --sidebar-bg (Sidebar background color), --sidebar-fg (Sidebar text color), --sidebar-border (Sidebar border color), --sidebar-ring (Focus ring color for sidebar elements), --sidebar-muted-fg (Muted/secondary text color), --sidebar-separator (Separator color within the sidebar), --sidebar-button-fg (Menu button text color), --sidebar-button-bg (Menu button hover/active background), --sidebar-button-inset (Menu button horizontal padding), --sidebar-group-padding-y (Vertical padding for sidebar groups), --sidebar-group-label-inset (Left margin for group labels), --sidebar-header-content-gap (Gap below the sidebar header)
 
 ### Sidebar Trigger
 - Tag: `<dui-sidebar-trigger>`
@@ -637,6 +646,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Properties: active (boolean, false), disabled (boolean, false), tooltip (string, ""), href (string | undefined)
 - Events: spa-navigate ({ href: string })
 - Slots: icon (Icon slot, shown before the label), default (Label text), suffix (Suffix slot, shown after the label)
+- CSS Variables: --smb-height (Button height), --smb-padding-x (Horizontal padding), --smb-gap (Gap between icon and label), --smb-radius (Border radius), --smb-font-size (Font size), --smb-icon-size (Icon size)
 
 ### Sidebar Separator
 - Tag: `<dui-sidebar-separator>`
@@ -675,7 +685,7 @@ transform, border-color) so ::part() overrides animate smoothly.
 - Description: A progress bar indicating completion status. Supports determinate and indeterminate states.
 - Properties: value (number | null, null), min (number, 0), max (number, 100)
 - Events: none
-- CSS Variables: --progress-value (Computed progress percentage (set internally))
+- CSS Variables: --progress-height (Bar height), --progress-value (Computed progress percentage (set internally))
 - CSS Parts: root (The progress container), track (The track background), indicator (The filled indicator bar)
 
 ### Toggle

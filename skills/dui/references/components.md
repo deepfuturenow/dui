@@ -620,7 +620,6 @@ A standalone disclosure widget with animated open/close transitions.
 ### dui-card
 A container for grouped content with header, body, and footer sections. Uses flex-column + gap for vertical rhythm.
 **Import:** `@dui/components/card`
-**When to use:** Use `dui-card` when content has **structured regions** — a title/description header, an action slot, or a footer with buttons. If you just need a raised surface to group content (e.g., a stat tile, a metric block, a simple info box), use a styled `<div>` with `background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4)` instead. Cards add header/footer layout machinery — don't pay for structure you aren't using.
 **Properties:** `size` ("" | "sm", default: "")
 **Slots:** `default` (Main card content (body).), `title` (Card heading text.), `description` (Helper text below the title.), `action` (Top-right header action (button, badge, etc.).), `footer` (Footer content (buttons, links, etc.).)
 **Parts:** `root`, `header`, `header-text`, `action`, `content`, `footer`
@@ -652,7 +651,7 @@ A visual divider between content sections. Supports horizontal and vertical orie
 ## Helpers
 
 ### dui-icon
-Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.
+Slot-based SVG icon container. Use lucide-static imports with unsafeHTML for tree-shakeable icons (recommended), or paste raw SVGs into the default slot. Inherits currentColor and sizes via --icon-size.
 **Import:** `@dui/components/icon`
 **Slots:** `default` (SVG element to display)
 **Parts:** `root`

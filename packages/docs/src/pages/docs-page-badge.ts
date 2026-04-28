@@ -1,4 +1,6 @@
 import { LitElement, html } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Check, Info, X } from "lucide-static";
 import { customElement } from "lit/decorators.js";
 
 @customElement("docs-page-badge")
@@ -52,9 +54,9 @@ export class DocsPageBadge extends LitElement {
 
       <dui-docs-demo label="Icons & custom colors">
         <docs-row>
-          <dui-badge appearance="soft" style="--badge-bg: oklch(0.4 0.5 155 / 0.13); --badge-fg: oklch(0.55 0.15 155)"><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></dui-icon>Complete</dui-badge>
-          <dui-badge variant="primary"><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>Info</dui-badge>
-          <dui-badge variant="danger"><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></dui-icon>Error</dui-badge>
+          <dui-badge appearance="soft" style="--badge-bg: oklch(0.4 0.5 155 / 0.13); --badge-fg: oklch(0.55 0.15 155)"><dui-icon>${unsafeHTML(Check)}</dui-icon>Complete</dui-badge>
+          <dui-badge variant="primary"><dui-icon>${unsafeHTML(Info)}</dui-icon>Info</dui-badge>
+          <dui-badge variant="danger"><dui-icon>${unsafeHTML(X)}</dui-icon>Error</dui-badge>
           <dui-badge appearance="outline" style="--badge-fg: oklch(0.65 0.22 80); --badge-border: oklch(0.75 0.18 80)">Warning</dui-badge>
           <dui-badge style="--badge-bg: oklch(0.62 0.2 300); --badge-fg: white">Cupcake</dui-badge>
         </docs-row>

@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Paperclip, SlidersHorizontal, ArrowRight } from "lucide-static";
 import { blockBase, gridOverlay } from "./block-base.ts";
 import { customElement } from "lit/decorators.js";
 
@@ -113,7 +115,7 @@ export class BlockChat extends LitElement {
         <div class="toolbar">
           <div class="toolbar-left">
             <dui-button appearance="ghost" size="sm">
-              <dui-icon style="margin-right: var(--space-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></dui-icon>
+              <dui-icon style="margin-right: var(--space-1)">${unsafeHTML(Paperclip)}</dui-icon>
               Files
             </dui-button>
 
@@ -122,14 +124,14 @@ export class BlockChat extends LitElement {
             <dui-tooltip side="bottom">
               <dui-tooltip-trigger>
                 <dui-button appearance="ghost" size="icon-sm">
-                  <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg></dui-icon>
+                  <dui-icon>${unsafeHTML(SlidersHorizontal)}</dui-icon>
                 </dui-button>
               </dui-tooltip-trigger>
               <dui-tooltip-popup>Settings</dui-tooltip-popup>
             </dui-tooltip>
             <dui-separator orientation="vertical" style="height: var(--space-4); align-self: center; padding-right: var(--space-3)"></dui-separator>
             <dui-button size="sm" style="--button-padding-x: var(--space-4)">
-              <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></dui-icon>
+              <dui-icon>${unsafeHTML(ArrowRight)}</dui-icon>
             </dui-button>
           </div>
         </div>

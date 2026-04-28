@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Copy } from "lucide-static";
 import { customElement } from "lit/decorators.js";
 import { gridOverlay } from "./block-base.ts";
 
@@ -92,7 +94,7 @@ export class BlockInviteTeam extends LitElement {
             readonly
           ></dui-input>
           <dui-button appearance="outline" size="icon">
-            <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></dui-icon>
+            <dui-icon>${unsafeHTML(Copy)}</dui-icon>
           </dui-button>
         </div>
 

@@ -1,4 +1,6 @@
 import { LitElement, html } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Home, Search, Check, X, Star, CircleX, CircleCheckBig, Info, Cloud, Zap, Settings, Heart, Bell, Mail, Camera } from "lucide-static";
 import { customElement } from "lit/decorators.js";
 
 const iconLibraryStyles = `
@@ -47,33 +49,33 @@ export class DocsPageIcon extends LitElement {
         <style>${iconLibraryStyles}</style>
 <dui-docs-demo label="Basic usage">
         <docs-row>
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></dui-icon>
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></dui-icon>
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></dui-icon>
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></dui-icon>
+          <dui-icon>${unsafeHTML(Home)}</dui-icon>
+          <dui-icon>${unsafeHTML(Search)}</dui-icon>
+          <dui-icon>${unsafeHTML(Check)}</dui-icon>
+          <dui-icon>${unsafeHTML(X)}</dui-icon>
         </docs-row>
       </dui-docs-demo>
 
       <dui-docs-demo label="Custom sizes via --icon-size">
         <div class="row" style="align-items: end;">
-          <dui-icon style="--icon-size: var(--space-3)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></dui-icon>
-          <dui-icon style="--icon-size: var(--space-4_5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></dui-icon>
-          <dui-icon style="--icon-size: var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></dui-icon>
-          <dui-icon style="--icon-size: var(--space-8)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></dui-icon>
+          <dui-icon style="--icon-size: var(--space-3)">${unsafeHTML(Star)}</dui-icon>
+          <dui-icon style="--icon-size: var(--space-4_5)">${unsafeHTML(Star)}</dui-icon>
+          <dui-icon style="--icon-size: var(--space-6)">${unsafeHTML(Star)}</dui-icon>
+          <dui-icon style="--icon-size: var(--space-8)">${unsafeHTML(Star)}</dui-icon>
         </div>
       </dui-docs-demo>
 
       <dui-docs-demo label="Custom colors via --icon-color">
         <docs-row>
-          <dui-icon style="--icon-color: var(--destructive); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></dui-icon>
-          <dui-icon style="--icon-color: var(--success); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></dui-icon>
-          <dui-icon style="--icon-color: var(--accent); --icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>
+          <dui-icon style="--icon-color: var(--destructive); --icon-size: var(--space-5)">${unsafeHTML(CircleX)}</dui-icon>
+          <dui-icon style="--icon-color: var(--success); --icon-size: var(--space-5)">${unsafeHTML(CircleCheckBig)}</dui-icon>
+          <dui-icon style="--icon-color: var(--accent); --icon-size: var(--space-5)">${unsafeHTML(Info)}</dui-icon>
         </docs-row>
       </dui-docs-demo>
 
       <dui-docs-demo label="Inline with text">
         <p style="display: flex; align-items: center; gap: var(--space-1); font-size: var(--text-sm);">
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></dui-icon>
+          <dui-icon>${unsafeHTML(Info)}</dui-icon>
           Icons inherit the surrounding font size via <code>1em</code> default.
         </p>
       </dui-docs-demo>
@@ -82,47 +84,34 @@ export class DocsPageIcon extends LitElement {
       <p class="description">dui-icon works with any SVG icon set. Slot in SVGs from your preferred library.</p>
 
       <!-- Lucide -->
-      <h3>Lucide</h3>
+      <h3>Lucide (Recommended)</h3>
       <div class="library-info">
-        <p>Beautiful &amp; consistent stroke icons. Community fork of Feather Icons with 1,500+ icons. Copy SVGs from <code>lucide.dev</code>, or install the package to import SVG strings.</p>
+        <p>Beautiful &amp; consistent stroke icons. 1,500+ icons. Install the <code>lucide-static</code> package for tree-shakeable SVG string imports — no copy-pasting required.</p>
         <pre><code>deno add npm:lucide-static</code></pre>
-        <pre><code>import { Home } from "lucide-static";
+        <pre><code>import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Home, Search, Settings } from "lucide-static";
 
-// Copy SVG directly into your template:
-&lt;dui-icon&gt;
-  &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round"&gt;
-    &lt;path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/&gt;
-    &lt;polyline points="9 22 9 12 15 12 15 22"/&gt;
-  &lt;/svg&gt;
-&lt;/dui-icon&gt;
-
-// Or use the package (exports SVG strings):
-&lt;dui-icon .innerHTML=&dollar;{Home}&gt;&lt;/dui-icon&gt;</code></pre>
+// In your Lit template:
+html\`
+  &lt;dui-icon&gt;\${unsafeHTML(Home)}&lt;/dui-icon&gt;
+  &lt;dui-icon&gt;\${unsafeHTML(Search)}&lt;/dui-icon&gt;
+  &lt;dui-icon&gt;\${unsafeHTML(Settings)}&lt;/dui-icon&gt;
+\`</code></pre>
+        <p>Each import is a raw SVG string with <code>stroke="currentColor"</code>, so it works with <code>--icon-color</code> and <code>--icon-size</code> out of the box. Only the icons you import get bundled.</p>
+        <p><strong>Fallback:</strong> you can also copy SVGs directly from <a href="https://lucide.dev" target="_blank">lucide.dev</a> and paste them into the <code>&lt;dui-icon&gt;</code> slot.</p>
       </div>
       <dui-docs-demo label="Lucide icons">
         <div class="row" style="--icon-size: var(--space-5)">
-          <!-- home -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></dui-icon>
-          <!-- search -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></dui-icon>
-          <!-- settings -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></dui-icon>
-          <!-- heart -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></dui-icon>
-          <!-- star -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></dui-icon>
-          <!-- bell -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></dui-icon>
-          <!-- mail -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></dui-icon>
-          <!-- camera -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></dui-icon>
-          <!-- cloud -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></dui-icon>
-          <!-- zap -->
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></dui-icon>
+          <dui-icon>${unsafeHTML(Home)}</dui-icon>
+          <dui-icon>${unsafeHTML(Search)}</dui-icon>
+          <dui-icon>${unsafeHTML(Settings)}</dui-icon>
+          <dui-icon>${unsafeHTML(Heart)}</dui-icon>
+          <dui-icon>${unsafeHTML(Star)}</dui-icon>
+          <dui-icon>${unsafeHTML(Bell)}</dui-icon>
+          <dui-icon>${unsafeHTML(Mail)}</dui-icon>
+          <dui-icon>${unsafeHTML(Camera)}</dui-icon>
+          <dui-icon>${unsafeHTML(Cloud)}</dui-icon>
+          <dui-icon>${unsafeHTML(Zap)}</dui-icon>
         </div>
       </dui-docs-demo>
 

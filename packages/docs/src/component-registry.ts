@@ -458,7 +458,7 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-icon",
     name: "Icon",
-    description: "Slot-based SVG icon container. Provide your own SVG via the default slot; inherits currentColor and sizes via --icon-size.",
+    description: "Slot-based SVG icon container. Use lucide-static imports with unsafeHTML for tree-shakeable icons (recommended), or paste raw SVGs into the default slot. Inherits currentColor and sizes via --icon-size.",
     importPath: "@dui/components/icon",
     properties: [],
     events: [],

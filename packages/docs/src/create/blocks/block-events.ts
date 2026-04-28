@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { ChevronRight } from "lucide-static";
 import { customElement } from "lit/decorators.js";
 import { gridOverlay } from "./block-base.ts";
 
@@ -116,7 +118,7 @@ export class BlockEvents extends LitElement {
       <dui-card>
         <span slot="title">Events Timeline</span>
         <dui-button slot="action" appearance="ghost" size="icon-sm">
-          <dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></dui-icon>
+          <dui-icon>${unsafeHTML(ChevronRight)}</dui-icon>
         </dui-button>
 
         <div class="event">

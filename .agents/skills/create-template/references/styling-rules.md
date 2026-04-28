@@ -224,9 +224,17 @@ dui-button::part(root) {
 <svg width="16" height="16" style="color: gray;">...</svg>
 ```
 
-✅ **Right:**
+✅ **Right (recommended — import from `lucide-static`):**
+```ts
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { Home } from "lucide-static";
+
+html`<dui-icon>${unsafeHTML(Home)}</dui-icon>`
+```
+
+✅ **Also right (fallback — raw SVG in slot):**
 ```html
-<dui-icon size="16px">
+<dui-icon style="--icon-size: 16px;">
   <svg>...</svg>
 </dui-icon>
 ```

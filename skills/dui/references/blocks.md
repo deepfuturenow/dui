@@ -214,7 +214,7 @@ Key techniques:
 - **Toolbar with left/right groups:** Flex with `justify-content: space-between`. Left group has icon buttons, right group has settings + send.
 - **Tooltip wrapping a button:** `dui-tooltip > dui-tooltip-trigger > dui-button` — the full compound hierarchy.
 - **Vertical separator between buttons:** `dui-separator orientation="vertical"` with explicit height and padding.
-- **Icon buttons:** `dui-button appearance="ghost" size="icon-sm"` with `dui-icon` containing inline SVG.
+- **Icon buttons:** `dui-button appearance="ghost" size="icon-sm"` with `dui-icon` + `lucide-static` imports (e.g., `<dui-icon>${unsafeHTML(SlidersHorizontal)}</dui-icon>`).
 
 ---
 
