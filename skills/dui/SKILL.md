@@ -181,6 +181,62 @@ Read `references/components.md` for the full catalog. Quick lookup:
 
 See `references/rules.md` for incorrect/correct code pairs.
 
+## Sidebar layout
+
+The sidebar compound component requires a specific layout structure. The `dui-sidebar` component uses `position: sticky; top: 0; height: 100dvh` internally, so it self-sizes correctly regardless of parent height context.
+
+Canonical structure:
+
+```html
+<dui-sidebar-provider style="min-height: 100dvh;">
+  <dui-sidebar>
+    <dui-sidebar-header>...</dui-sidebar-header>
+    <dui-sidebar-content>
+      <dui-sidebar-group>
+        <dui-sidebar-group-label slot="label">Section</dui-sidebar-group-label>
+        <dui-sidebar-menu>
+          <dui-sidebar-menu-item>
+            <dui-sidebar-menu-button href="/page" active>Page</dui-sidebar-menu-button>
+          </dui-sidebar-menu-item>
+        </dui-sidebar-menu>
+      </dui-sidebar-group>
+    </dui-sidebar-content>
+    <dui-sidebar-footer>...</dui-sidebar-footer>
+  </dui-sidebar>
+
+  <dui-sidebar-inset>
+    <header style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-bottom: var(--border-width-thin) solid var(--border);">
+      <dui-sidebar-trigger></dui-sidebar-trigger>
+      <dui-separator orientation="vertical" style="height: var(--space-4);"></dui-separator>
+      <dui-breadcrumb>...</dui-breadcrumb>
+    </header>
+    <main style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6);">
+      <!-- page content -->
+    </main>
+  </dui-sidebar-inset>
+</dui-sidebar-provider>
+```
+
+Key points:
+- **Provider needs `min-height: 100dvh`** on the host or via a parent to fill the viewport.
+- **Sidebar self-sizes** — no height or sticky positioning needed on the consumer side.
+- **Inset is the main content area** — it adjusts width automatically when the sidebar opens/closes.
+- **Top bar** — a `<header>` inside `dui-sidebar-inset` with the trigger, a vertical separator, and breadcrumbs.
+
+See `references/blocks.md` → Page Shells for complete dashboard, settings, and list-view layouts.
+
+## Page shells
+
+Most app pages follow one of three patterns. See `references/blocks.md` → Page Shells for the full component trees:
+
+| Page type | Key components inside `sidebar-inset` | Block |
+|-----------|--------------------------------------|-------|
+| **Dashboard** | `card-grid` (stat tiles) + `dui-card` (data table, chart) | `block-dashboard-shell` |
+| **Settings** | `dui-tabs` → tab panels with `dui-field` + form controls | `block-settings-shell` |
+| **List view** | filter bar (`dui-input` + `dui-select` + `dui-button`) + `dui-data-table` | `block-list-shell` |
+
+All three share the same outer structure: `dui-sidebar-provider > dui-sidebar + dui-sidebar-inset > top-bar + main content`.
+
 ## Styling API
 
 Two layers for styling DUI components:
@@ -209,6 +265,23 @@ Behavioral **properties** like `disabled`, `open`, `value` are reactive Lit prop
 - **Compound components stay together** — `dui-dialog-trigger` inside `dui-dialog`, `dui-select-option` inside `dui-select`.
 - **Never reach into shadow DOM** — use CSS custom properties, `::part(root)`, or the inspector API.
 - **Standard CSS for layout** — flexbox and grid directly. DUI has no layout wrapper components.
+- **Complex-property components** — `dui-data-table`, `dui-chart`, `dui-select`, and `dui-combobox` have properties (`columns`, `data`, `spec`, `options`) that accept arrays/objects. These can't be set via HTML attributes. Set them imperatively in `firstUpdated()` via `querySelector` on your own light DOM. This is **not** the same as reaching into another component's shadow DOM — you own these elements.
+
+```typescript
+// Canonical pattern for complex-property components
+import type { ColumnDef } from "@dui/components/data-table";
+
+override firstUpdated() {
+  const table = this.renderRoot.querySelector("dui-data-table") as any;
+  if (table) {
+    table.columns = COLUMNS;
+    table.data = DATA;
+    table.pageSize = 10;
+  }
+}
+```
+
+If the component is in your own Lit template (not inside another component's shadow DOM), `querySelector` on `this.renderRoot` (or `this.shadowRoot`) is the correct approach. Update the element's properties in `updated()` when reactive state changes.
 
 ## Event handling
 

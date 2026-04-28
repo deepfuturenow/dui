@@ -19,7 +19,7 @@ const COLUMNS: ColumnDef<Member>[] = [
     width: "1%",
     render: (value) => {
       const v = value as string;
-      return html`<dui-badge variant="${v === "Active" ? "success" : "default"}" appearance="${v === "Active" ? "default" : "outline"}">${v}</dui-badge>`;
+      return html`<dui-badge variant="${v === "Active" ? "primary" : "neutral"}" appearance="${v === "Active" ? "soft" : "outline"}">${v}</dui-badge>`;
     },
   },
 ];

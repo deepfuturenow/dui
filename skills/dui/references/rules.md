@@ -262,6 +262,49 @@ dui-button::part(root) {
 </dui-dialog>
 ```
 
+### Complex-property components use imperative property setting
+
+Components like `dui-data-table`, `dui-chart`, `dui-select`, and `dui-combobox` have properties that accept arrays or objects. These must be set via JS, not HTML attributes.
+
+❌ **Wrong:**
+```html
+<!-- Arrays/objects can't be set as HTML attributes -->
+<dui-data-table columns='[{"key":"name"}]' data='[{"name":"Alice"}]'></dui-data-table>
+```
+
+❌ **Also wrong:**
+```typescript
+// Don't grab elements from outside your own shadow root
+const table = document.querySelector('my-page').shadowRoot.querySelector('dui-data-table');
+table.data = DATA; // reaching into another component's shadow DOM
+```
+
+✅ **Right:**
+```typescript
+// Set complex properties on your own light DOM children in firstUpdated()
+import type { ColumnDef } from "@dui/components/data-table";
+
+const COLUMNS: ColumnDef<Member>[] = [
+  { key: "name", header: "Name", sortable: true },
+  { key: "status", header: "Status", render: (v) => html`<dui-badge>${v}</dui-badge>` },
+];
+
+override firstUpdated() {
+  const table = this.renderRoot.querySelector("dui-data-table") as any;
+  if (table) {
+    table.columns = COLUMNS;
+    table.data = DATA;
+    table.pageSize = 10;
+  }
+}
+
+// Update data when state changes
+override updated() {
+  const table = this.renderRoot.querySelector("dui-data-table") as any;
+  if (table) table.data = this.#filteredData;
+}
+```
+
 ### Use slots, not wrapper divs
 
 ❌ **Wrong:**

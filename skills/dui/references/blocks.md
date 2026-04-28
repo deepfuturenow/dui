@@ -6,6 +6,191 @@ Real-world UI blocks that demonstrate how to compose DUI components with CSS lay
 
 ---
 
+## Page Shells
+
+Full-page layout patterns from `dui-sidebar-provider` down to content. Use these as the starting point for any page with sidebar navigation.
+
+### block-dashboard-shell
+**Components:** `dui-sidebar-provider`, `dui-sidebar`, `dui-sidebar-header`, `dui-sidebar-content`, `dui-sidebar-group`, `dui-sidebar-group-label`, `dui-sidebar-menu`, `dui-sidebar-menu-item`, `dui-sidebar-menu-button`, `dui-sidebar-footer`, `dui-sidebar-inset`, `dui-sidebar-trigger`, `dui-breadcrumb`, `dui-card-grid`, `dui-data-table`
+**Pattern:** Dashboard with sidebar nav, breadcrumbs, stat cards, and a data table
+
+Component tree:
+```html
+<dui-sidebar-provider>
+  <dui-sidebar>
+    <dui-sidebar-header>
+      <!-- Logo / app name -->
+    </dui-sidebar-header>
+    <dui-sidebar-content>
+      <dui-sidebar-group>
+        <dui-sidebar-group-label slot="label">Main</dui-sidebar-group-label>
+        <dui-sidebar-menu>
+          <dui-sidebar-menu-item>
+            <dui-sidebar-menu-button href="/dashboard" active>
+              <dui-icon slot="icon">...</dui-icon>
+              Dashboard
+            </dui-sidebar-menu-button>
+          </dui-sidebar-menu-item>
+          <!-- more items -->
+        </dui-sidebar-menu>
+      </dui-sidebar-group>
+    </dui-sidebar-content>
+    <dui-sidebar-footer>
+      <!-- User avatar / settings -->
+    </dui-sidebar-footer>
+  </dui-sidebar>
+
+  <dui-sidebar-inset>
+    <!-- Top bar with trigger + breadcrumbs -->
+    <header class="top-bar">
+      <dui-sidebar-trigger></dui-sidebar-trigger>
+      <dui-separator orientation="vertical"></dui-separator>
+      <dui-breadcrumb>
+        <dui-breadcrumb-item><dui-breadcrumb-link><a href="/">Home</a></dui-breadcrumb-link></dui-breadcrumb-item>
+        <dui-breadcrumb-separator></dui-breadcrumb-separator>
+        <dui-breadcrumb-item><dui-breadcrumb-page>Dashboard</dui-breadcrumb-page></dui-breadcrumb-item>
+      </dui-breadcrumb>
+    </header>
+
+    <!-- Page content -->
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Overview of recent activity and key metrics.</p>
+      </div>
+
+      <!-- Stat cards -->
+      <dui-card-grid columns="4">
+        <div class="stat-card">...</div>
+        <div class="stat-card">...</div>
+        <div class="stat-card">...</div>
+        <div class="stat-card">...</div>
+      </dui-card-grid>
+
+      <!-- Data table in a card -->
+      <dui-card>
+        <span slot="title">Recent Orders</span>
+        <dui-data-table></dui-data-table>
+      </dui-card>
+    </main>
+  </dui-sidebar-inset>
+</dui-sidebar-provider>
+```
+
+Key techniques:
+- **Provider wraps everything:** `dui-sidebar-provider` is the outermost element with `min-height: 100dvh`.
+- **Top bar layout:** `.top-bar { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-bottom: var(--border-width-thin) solid var(--border); }` with a vertical separator between trigger and breadcrumbs.
+- **Page content padding:** `.page-content { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }` for consistent spacing between sections.
+- **Stat cards as simple divs:** Use styled `<div>` with `background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4)` for stat tiles — no need for `dui-card` when there's no header/footer structure.
+
+---
+
+### block-settings-shell
+**Components:** `dui-sidebar-provider`, `dui-sidebar`, `dui-sidebar-inset`, `dui-breadcrumb`, `dui-tabs`, `dui-field`, `dui-input`, `dui-select`, `dui-switch`, `dui-button`
+**Pattern:** Settings page with sidebar nav and tabbed form sections
+
+Component tree:
+```html
+<dui-sidebar-provider>
+  <dui-sidebar>
+    <!-- Same sidebar structure as dashboard-shell -->
+  </dui-sidebar>
+
+  <dui-sidebar-inset>
+    <header class="top-bar">...</header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p>Manage your account and preferences.</p>
+      </div>
+
+      <dui-tabs default-value="profile">
+        <dui-tabs-list>
+          <dui-tab value="profile">Profile</dui-tab>
+          <dui-tab value="notifications">Notifications</dui-tab>
+          <dui-tab value="billing">Billing</dui-tab>
+          <dui-tabs-indicator></dui-tabs-indicator>
+        </dui-tabs-list>
+
+        <dui-tabs-panel value="profile">
+          <div class="form-section">
+            <dui-field>
+              <span slot="label">Display Name</span>
+              <dui-input value="Jane Doe"></dui-input>
+            </dui-field>
+            <dui-field>
+              <span slot="label">Email</span>
+              <dui-input type="email" value="jane@acme.co"></dui-input>
+            </dui-field>
+            <dui-button variant="primary">Save Changes</dui-button>
+          </div>
+        </dui-tabs-panel>
+
+        <dui-tabs-panel value="notifications">
+          <div class="form-section">
+            <dui-switch>Email notifications</dui-switch>
+            <dui-switch>Push notifications</dui-switch>
+          </div>
+        </dui-tabs-panel>
+      </dui-tabs>
+    </main>
+  </dui-sidebar-inset>
+</dui-sidebar-provider>
+```
+
+Key techniques:
+- **Tabs inside the inset content:** `dui-tabs` fills the content area below the page header. Tab panels contain form sections.
+- **Form section spacing:** `.form-section { display: flex; flex-direction: column; gap: var(--space-5); max-width: 32rem; }` constrains form width and spaces fields.
+- **Save button at section end:** Place the submit button as the last item in the flex column.
+
+---
+
+### block-list-shell
+**Components:** `dui-sidebar-provider`, `dui-sidebar`, `dui-sidebar-inset`, `dui-breadcrumb`, `dui-input`, `dui-select`, `dui-button`, `dui-data-table`, `dui-badge`
+**Pattern:** List view with sidebar nav, filter bar, and data table
+
+Component tree:
+```html
+<dui-sidebar-provider>
+  <dui-sidebar>
+    <!-- Same sidebar structure as dashboard-shell -->
+  </dui-sidebar>
+
+  <dui-sidebar-inset>
+    <header class="top-bar">...</header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Members</h1>
+        <p>Manage team members and their roles.</p>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <dui-input placeholder="Search members..."></dui-input>
+        <dui-select .options=${[{ label: "All roles", value: "" }, { label: "Admin", value: "admin" }]}></dui-select>
+        <dui-button variant="primary">Invite</dui-button>
+      </div>
+
+      <!-- Data table (set columns/data imperatively in firstUpdated) -->
+      <dui-data-table></dui-data-table>
+    </main>
+  </dui-sidebar-inset>
+</dui-sidebar-provider>
+```
+
+Key techniques:
+- **Filter bar layout:** `.filter-bar { display: flex; gap: var(--space-2); align-items: center; } .filter-bar dui-input { flex: 1; }` stretches the search input.
+- **Data table imperative setup:** Set `columns`, `data`, and `pageSize` in `firstUpdated()` via `querySelector` (see SKILL.md → Composition rules).
+- **Badge cell renderers:** Use `render: (v) => html\`<dui-badge variant="primary">${v}</dui-badge>\`` in column definitions for status cells.
+
+---
+
+## Card-Level Blocks
+
+---
+
 ## block-settings
 **Source:** [`block-settings.ts`](https://raw.githubusercontent.com/deepfuturenow/dui/main/packages/docs/src/create/blocks/block-settings.ts) (122 lines)
 **Components:** `dui-card`, `dui-switch`, `dui-checkbox`, `dui-slider`
@@ -40,7 +225,7 @@ Key techniques:
 
 Key techniques:
 - **Timeline with CSS pseudo-elements:** `.event::before` draws the vertical line, `.event::after` draws the dot. Pure CSS, no extra DOM.
-- **Badge variants for categories:** `dui-badge variant="info"`, `variant="success"`, `variant="danger"` for event types. Outline badges for tags.
+- **Badge variants for categories:** `dui-badge variant="primary"`, `variant="neutral"`, `variant="danger"` for event types. Outline badges for tags.
 - **Toggle group in card footer slot:** `dui-toggle-group slot="footer"` places the filter controls in the card's footer. Footer background set via `dui-card::part(footer) { background: var(--sunken-1) }`.
 - **Card header styling:** `dui-card::part(header) { border-bottom: ...; background-color: var(--surface-3) }` for a distinct header region.
 - **Ghost icon button as card action:** `dui-button slot="action" appearance="ghost" size="icon-sm"`.

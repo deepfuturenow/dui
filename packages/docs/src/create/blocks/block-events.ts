@@ -121,7 +121,7 @@ export class BlockEvents extends LitElement {
 
         <div class="event">
           <div class="event-header">
-            <dui-badge variant="info">LAUNCH</dui-badge>
+            <dui-badge variant="primary">LAUNCH</dui-badge>
             <span class="event-time">2h ago</span>
           </div>
           <p class="event-title">OpenAI releases GPT-5 with real-time multimodal reasoning and 1M token context</p>
@@ -134,7 +134,7 @@ export class BlockEvents extends LitElement {
 
         <div class="event">
           <div class="event-header">
-            <dui-badge variant="success">FUNDING</dui-badge>
+            <dui-badge variant="neutral">FUNDING</dui-badge>
             <span class="event-time">5h ago</span>
           </div>
           <p class="event-title">Stripe raises $8B Series J at $95B valuation to expand AI-powered fraud detection</p>

@@ -3,6 +3,16 @@ import { DuiSidebarPrimitive } from "@dui/primitives/sidebar";
 import "../_install.ts";
 
 const styles = css`
+  /* ── Host: sticky full-viewport height ── */
+  /* Percentage heights on internal elements need a definite parent.
+     Using height: 100dvh + sticky keeps the sidebar pinned while
+     main content scrolls freely — no parent height context needed. */
+  :host {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+  }
+
   /* ── Desktop Outer ── */
 
   .DesktopOuter {
