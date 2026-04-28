@@ -153,31 +153,10 @@ async function parseGrammarFile(path: string): Promise<Record<string, string>> {
  * Lint integration
  * ═══════════════════════════════════════════════════════════════════ */
 
-async function runLint(filePath: string): Promise<boolean> {
-  console.log("\n🔍 Running DESIGN.md lint...");
-  try {
-    const cmd = new Deno.Command("npx", {
-      args: ["@nicholasgasior/design-md", "lint", filePath],
-      stdout: "piped",
-      stderr: "piped",
-    });
-    const { code, stdout, stderr } = await cmd.output();
-    const out = new TextDecoder().decode(stdout);
-    const err = new TextDecoder().decode(stderr);
-
-    if (out.trim()) console.log(out.trim());
-    if (err.trim()) console.error(err.trim());
-
-    if (code !== 0) {
-      console.error("❌ Lint found errors. Review and fix before using this DESIGN.md.");
-      return false;
-    }
-    console.log("✅ Lint passed.");
-    return true;
-  } catch {
-    console.warn("⚠️  Could not run lint (npx @nicholasgasior/design-md not available). Skipping.");
-    return true;
-  }
+async function runLint(_filePath: string): Promise<boolean> {
+  // Lint integration removed — @nicholasgasior/design-md package does not exist.
+  // Pass --no-lint or omit; this is now a no-op.
+  return true;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
