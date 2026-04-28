@@ -181,6 +181,44 @@ Read `references/components.md` for the full catalog. Quick lookup:
 
 See `references/rules.md` for incorrect/correct code pairs.
 
+## Theme configuration
+
+DUI ships with default blue accent tokens. If the project has a DESIGN.md with different colors, fonts, or radius, apply them after importing DUI:
+
+```typescript
+import "@deepfuture/dui-components/button"; // or any component import
+import { applyTheme } from "@deepfuture/dui-components/theme";
+
+applyTheme({
+  light: {
+    background:  "oklch(0.97 0.00 0)",
+    foreground:  "oklch(0.15 0.00 0)",
+    accent:      "oklch(0.55 0.25 160)",
+    destructive: "oklch(0.55 0.22 25)",
+  },
+  dark: {
+    background:  "oklch(0.15 0.00 0)",
+    foreground:  "oklch(0.93 0.00 0)",
+    accent:      "oklch(0.75 0.18 160)",
+    destructive: "oklch(0.70 0.18 25)",
+  },
+  fonts: { sans: "Inter", mono: "Geist Mono" },
+  radius: "0.5rem",
+});
+```
+
+The four color primitives are `background`, `foreground`, `accent`, `destructive`. All derived tokens (`--surface-1`, `--text-2`, `--border`, `--accent-subtle`, etc.) update automatically via `oklch(from var(...) ...)`.
+
+**Dark mode derivation:** If you omit `dark`, it's auto-derived from `light` (inverted lightness, boosted accent). Provide both for precise control.
+
+**Fonts:** `fonts.sans`, `fonts.mono`, `fonts.serif` override `--font-sans`, `--font-mono`, `--font-serif`. Pass the family name (e.g. `"Inter"`), not the full stack.
+
+**Radius:** `radius` sets the base value (e.g. `"0.5rem"` or `"8px"`). The full scale (`--radius-xs` through `--radius-2xl`) is derived proportionally.
+
+**Where to call it:** In your app's entry point / bootstrap file, after any DUI component import. Call it once. Safe to call again to change the theme at runtime.
+
+**Reading from DESIGN.md:** Extract the OKLCH values from the `colors` comment block at the top of DESIGN.md, the font family from the `typography` section, and the base radius from the `rounded.md` value. Map them directly to the `applyTheme()` config.
+
 ## Sidebar layout
 
 The sidebar compound component requires a specific layout structure. The `dui-sidebar` component uses `position: sticky; top: 0; height: 100dvh` internally, so it self-sizes correctly regardless of parent height context.
