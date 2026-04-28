@@ -9,7 +9,7 @@ Wire a DUI component or template into the multi-page docs site, or modify existi
 
 ## Overview
 
-The docs site (`packages/docs`) uses a shell with sidebar navigation, hash routing, and per-page demo layouts. Components and templates self-register via side-effect imports — there is no `applyTheme()` call.
+The docs site (`packages/docs`) uses a shell with sidebar navigation, hash routing, and per-page demo layouts. Components and templates self-register via side-effect imports.
 
 ### Architecture
 

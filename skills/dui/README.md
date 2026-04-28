@@ -86,19 +86,6 @@ skills/dui/
 
 `SKILL.md` is always loaded when the skill triggers. The reference files are loaded on demand — the agent reads `components.md` when it needs to look up a component, and `inspector.md` when working with the inspector API.
 
-## Key differences from previous versions
-
-If you're familiar with an older version of this skill, note these architectural changes:
-
-- **No `applyTheme()`** — components self-register on import. No setup function needed.
-- **Styled, not unstyled** — components ship with aesthetic CSS. Two-layer inheritance: primitives (behavior) → components (styled).
-- **Dark mode** — `data-theme="dark"` on `<html>`, not `class="dark"` on `<body>`.
-- **Color tokens** — 4 OKLCH primitives (`--background`, `--foreground`, `--accent`, `--destructive`) with derived tokens. Not `--color-primary`, `--color-bg`, etc.
-- **Theme attributes** — `variant`, `appearance`, `size` are HTML attributes selected by CSS (`:host([variant="primary"])`), not always Lit properties.
-- **New components** — `dui-card`, `dui-card-grid`, `dui-field`, `dui-fieldset`, `dui-split-button`, `dui-stepper`, `dui-map-*`, `dui-chart`.
-- **Templates** — `@dui/templates` provides pre-composed UI patterns.
-- **npm package** — single `@deepfuture/dui-components` package with subpath exports, not per-component packages.
-
 ## Evals
 
 The `evals/` directory contains test prompts for verifying the skill works correctly. Each eval is a realistic user request with specific expectations about what the agent's output should include.

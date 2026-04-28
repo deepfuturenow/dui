@@ -36,7 +36,7 @@ dui-inspector/               # @dui/inspector — runtime component inspector (s
 ## Key patterns
 
 - **Two-layer inheritance:** Primitives (`DuiFooPrimitive extends LitElement`) in dui-primitives → Components (`DuiFoo extends DuiFooPrimitive`) in dui
-- **Self-registering:** Components call `customElements.define()` at module level — importing registers them. No `applyTheme()`.
+- **Self-registering:** Components call `customElements.define()` at module level — importing registers them.
 - **Token injection:** `import "../_install.ts"` in each component injects design tokens into `document.adoptedStyleSheets` (runs once via ES module caching)
 - `static tagName = "dui-foo" as const` identifies each component
 - Properties use `@property()` with `accessor`. Internal state uses `@state() accessor #name`.

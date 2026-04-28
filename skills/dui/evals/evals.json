@@ -12,8 +12,7 @@
       "Uses dui-field for form field label/description wiring",
       "Imports components via side-effect imports (e.g. import '@deepfuture/dui-components/button')",
       "Uses CSS flexbox or grid for layout, not DUI layout components",
-      "Uses design tokens (--space-*, --font-size-*) for spacing, not hardcoded px/rem",
-      "No applyTheme() or setup function — just imports"
+      "Uses design tokens (--space-*, --font-size-*) for spacing, not hardcoded px/rem"
     ]
   },
   {
