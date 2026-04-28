@@ -404,6 +404,7 @@ h6 { font-size: var(--text-base); line-height: var(--text-base--line-height); } 
  * not CSS line-box edges, to the 4px grid.
  * ================================================================= */
 h1, h2, h3, h4, h5, h6,
-p, li, blockquote, dt, dd {
+p, li, blockquote, dt, dd,
+label, legend, caption, figcaption, th, td {
   text-box: trim-both cap alphabetic;
 }

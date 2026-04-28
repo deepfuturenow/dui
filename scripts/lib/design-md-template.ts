@@ -272,7 +272,9 @@ Apply \`data-theme="dark"\` on \`<html>\`. The token stylesheet redefines the 4 
 
 Font stack: **${f.sans}** (sans-serif), **${f.mono}** (monospace).
 
-DUI applies \`text-box: trim-both cap alphabetic\` to all prose elements. This trims invisible leading/trailing space from text boxes so glyphs sit on exact pixel boundaries. Combined with a global margin reset, **text elements have zero implicit spacing** — all vertical rhythm must be explicit via \`gap\` or \`margin\` using \`--space-*\` tokens.
+DUI applies \`text-box: trim-both cap alphabetic\` globally to semantic prose elements (\`h1\`–\`h6\`, \`p\`, \`li\`, \`label\`, \`td\`, \`blockquote\`). This trims invisible leading/trailing space from text boxes so glyphs sit on exact pixel boundaries. Combined with a global margin reset, **text elements have zero implicit spacing** — all vertical rhythm must be explicit via \`gap\` or \`margin\` using \`--space-*\` tokens.
+
+**Important:** Generic containers like \`<span>\` and \`<div>\` are NOT covered by the global rule. When using a \`<span>\`, \`<div>\`, or any non-semantic element to display text, you must apply \`text-box: trim-both cap alphabetic\` yourself — otherwise the element will have excess line-height padding and spacing will look inconsistent with the rest of the system.
 
 ### Type scale
 
@@ -378,6 +380,7 @@ Button, Card, Input, Textarea, Select, Combobox, Checkbox, Radio, Switch, Slider
 - Apply \`data-theme="dark"\` on \`<html>\` for dark mode
 - Use DUI components before writing custom markup
 - Add explicit spacing between text elements (text-box trimming removes defaults)
+- Apply \`text-box: trim-both cap alphabetic\` to \`<span>\`, \`<div>\`, and other generic elements used for text
 
 ### Don't
 
