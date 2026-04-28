@@ -1,0 +1,27 @@
+name: Check generated files
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-skill-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Regenerate skill references
+        run: deno task gen:skill-refs
+
+      - name: Check for uncommitted changes
+        run: |
+          git diff --exit-code skills/dui/references/components.md || {
+            echo "::error::skills/dui/references/components.md is out of date. Run 'deno task gen:skill-refs' and commit the result."
+            exit 1
+          }
