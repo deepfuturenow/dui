@@ -7,6 +7,8 @@ description: Build frontend UIs using DUI, a Lit-based styled web component libr
 
 DUI is a styled Lit web component library built on two-layer inheritance. Unstyled primitives (in a separate repo) provide structure and behavior; styled components extend them with aesthetic CSS and design tokens. Components self-register on import — no setup function, no configuration.
 
+**Read `DESIGN.md` first.** Every DUI project has a `DESIGN.md` at the repo root. It defines the visual identity (colors, typography, spacing, radii, elevation) and interaction grammar (page archetypes, overlay hierarchy, form validation, state patterns, motion, accessibility, and more). The DESIGN.md is the authoritative source for all design decisions. This skill covers DUI-specific implementation: component selection, installation, inspector workflow, and code patterns.
+
 ## Project detection
 
 Before writing any DUI code, check the project's DUI status:
@@ -15,15 +17,14 @@ Before writing any DUI code, check the project's DUI status:
 2. If found, note which packages are installed — components self-register on import, so look for `import "@deepfuture/dui-components/button"` or `import "@dui/components/button"` patterns
 3. If DUI is not installed, follow the install instructions below
 4. Check whether `@deepfuture/dui-inspector` (or `@dui/inspector`) is available — if so, use the inspector workflow below
+5. Read `DESIGN.md` at the project root before writing any UI code
 
 ## Principles
 
-1. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
-2. **Inspect before styling or debugging.** Before overriding any DUI token or adding custom CSS to a DUI component, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. Do the same when debugging unexpected behavior. The inspector is the ground truth.
-3. **Style via CSS custom properties, not DOM manipulation.** Components expose `--token-name` custom properties as their styling API. Don't reach into shadow DOM.
-4. **Use `::part(root)` for CSS properties that don't have a token.** Every component exposes a `root` part for full CSS expressiveness (backdrop-filter, transforms, box-shadow, etc.).
-5. **Use semantic design tokens.** Use tokens (e.g. `--foreground`, `--background`, `--accent`) before hardcoded colors like `#3b82f6`.
-6. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
+1. **Read DESIGN.md first.** It defines colors, typography, spacing, component styling, page archetypes, overlay rules, form validation timing, and every other design decision. Follow it.
+2. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
+3. **Inspect before styling.** Before overriding any token or adding custom CSS, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. The inspector is the ground truth — don't guess token names.
+4. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
 
 ## Installation
 
@@ -80,26 +81,18 @@ npm install @deepfuture/dui-templates
 import "@deepfuture/dui-templates/feed";  // registers dui-feed-item etc.
 ```
 
-## Typography & spacing
+## Typography & spacing implementation
 
-DUI applies `text-box: trim-both cap alphabetic` to all prose elements (`h1`–`h6`, `p`, `li`, `blockquote`, `dt`, `dd`). This trims the invisible leading/trailing space from text boxes so glyphs sit on exact pixel boundaries. Combined with the global margin reset, **text elements have zero implicit spacing** — no default margins, no line-height padding above or below.
+DUI's text-box trimming (`text-box: trim-both cap alphabetic`) means **text elements have zero implicit spacing**. You must create all vertical rhythm explicitly. See DESIGN.md → Typography and Layout for the rules; here are the implementation patterns.
 
-This means you must explicitly create all vertical rhythm between text elements. Without it, headings and paragraphs will visually collide.
-
-### The rule
-
-**Every group of text elements needs explicit spacing via `gap` (on a flex/grid parent) or `margin-bottom` using `--space-*` tokens.** Never rely on default browser margins or line-height to separate text.
-
-### Recommended approach
-
-Wrap related text in a flex column with `gap`:
+### Flex column with gap
 
 ```css
 .page-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);           /* breathing room between title and subtitle */
-  margin-bottom: var(--space-6); /* space before the next section */
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
 }
 ```
 
@@ -110,7 +103,7 @@ Wrap related text in a flex column with `gap`:
 </div>
 ```
 
-Inside cards and panels, the same pattern applies:
+### Inside cards and panels
 
 ```css
 .stat-card {
@@ -135,19 +128,9 @@ Inside cards and panels, the same pattern applies:
 }
 ```
 
-### Spacing guidelines
-
-| Relationship | Spacing |
-|---|---|
-| Title → subtitle / description | `var(--space-1)` to `var(--space-2)` |
-| Heading → body content below | `var(--space-3)` to `var(--space-4)` |
-| Between sections / groups | `var(--space-5)` to `var(--space-6)` |
-| Label → value (inside cards) | `var(--space-1)` to `var(--space-3)` |
-| Between items in a list / stack | `var(--space-2)` to `var(--space-4)` |
-
 ### dui-prose for long-form content
 
-For rendered markdown or CMS content where you want automatic spacing, apply `class="dui-prose"` to the container. This restores heading margins, paragraph spacing, list indentation, and other typographic defaults — all using design tokens.
+For rendered markdown or CMS content, apply `class="dui-prose"` to the container. This restores automatic heading margins, paragraph spacing, and list indentation. For app UI (dashboards, forms, settings), use explicit flex/gap spacing instead.
 
 ```html
 <div class="dui-prose">
@@ -156,33 +139,7 @@ For rendered markdown or CMS content where you want automatic spacing, apply `cl
 </div>
 ```
 
-`dui-prose` is for long-form content only. For app UI (dashboards, forms, settings), use explicit flex/gap spacing as shown above.
-
 See `references/rules.md` for incorrect/correct code pairs.
-
-## Critical rules
-
-### Styling
-
-- **CSS custom properties are the styling API.** Override `--button-bg`, `--button-radius`, etc. — not internal shadow DOM elements.
-- **`::part(root)` for everything else.** Filters, transforms, backdrop-filter, box-shadow — anything not covered by a token.
-- **No `!important`.** If you need `!important`, you're fighting the system — use the right token or part instead.
-- **Semantic tokens for colors.** `--foreground`, `--background`, `--accent`, `--surface-1`/`--surface-2` — never raw color values, unless absolutely necessary.
-- **Dark mode via `data-theme="dark"` on `<html>`.** The token stylesheet handles the rest via custom property overrides. Never add manual dark-mode color logic.
-
-### Composition
-
-- **Slots are the composition API.** Pass content into components via slots, not by wrapping in divs.
-- **Compound components stay together.** `dui-dialog-trigger` belongs inside `dui-dialog`. `dui-select-option` belongs inside `dui-select`. Don't restructure compound component hierarchies.
-- **Never reach into shadow DOM.** Don't use `querySelector` on a component's `shadowRoot` from outside. Use CSS custom properties, `::part(root)`, or the inspector API instead.
-- **Use standard CSS for layout.** Use flexbox and grid directly for layout (rows, columns, centering, page margins). DUI does not provide layout wrapper components — layout is CSS's job.
-
-### Icons
-
-- **`dui-icon` with `currentColor` convention.** The icon inherits text color from its parent. Override with `--icon-color` and `--icon-size` custom properties.
-- **Slot-based content.** Pass SVG or img into `dui-icon`'s default slot.
-
-See `references/rules.md` for incorrect/correct code pairs for every rule above.
 
 ## Component selection
 
@@ -207,18 +164,6 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Maps | `dui-map` + `dui-map-marker`, `dui-map-controls`, `dui-map-route`, `dui-map-region`, `dui-map-heatmap`, `dui-map-cluster-layer` |
 | Charts | `dui-chart` (Observable Plot wrapper) |
 
-### Choosing between overlays
-
-| Use case | Component |
-| --- | --- |
-| Focused task requiring input | `dui-dialog` |
-| Destructive action confirmation | `dui-alert-dialog` |
-| Small contextual content on click | `dui-popover` |
-| Brief hint on hover | `dui-tooltip` |
-| Action menu / context menu | `dui-menu` |
-| Search / command palette | `dui-command` |
-| Rich preview on hover | `dui-preview-card` |
-
 ### Use DUI components, not custom markup
 
 | Instead of... | Use |
@@ -233,54 +178,11 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Custom card div with header/footer | `dui-card` |
 | Label + input + error div | `dui-field` wrapping the input |
 
-See `references/rules.md` for incorrect/correct code pairs for every rule.
+See `references/rules.md` for incorrect/correct code pairs.
 
-## Theming
+## Styling API
 
-DUI's color system is built on 4 OKLCH primitives with compositional derivation:
-
-| Token | Role |
-| --- | --- |
-| `--background` | Page/app background |
-| `--foreground` | Primary text/foreground |
-| `--accent` | Accent/brand color |
-| `--destructive` | Danger/error color |
-
-Everything else is derived: `--surface-1`/`2`/`3` (elevated surfaces via lightness offsets), `--text-1`/`2`/`3` (text tiers via alpha), `--border`/`--border-strong` (foreground at reduced alpha), `--accent-subtle`, `--destructive-subtle`. Customizing the palette means changing 4 values.
-
-Design tokens are injected into `document.adoptedStyleSheets` at import time. They cascade into shadow DOM via CSS custom property inheritance.
-
-### Dark mode
-
-```html
-<html data-theme="dark">
-  <!-- All DUI components render in dark mode -->
-</html>
-```
-
-Toggle by setting/removing `data-theme="dark"` on `<html>`. The token stylesheet redefines the 4 primitives for dark mode; all derived tokens update automatically.
-
-```typescript
-// Toggle dark mode
-document.documentElement.setAttribute("data-theme", "dark");
-// Revert to light
-document.documentElement.removeAttribute("data-theme");
-```
-
-### Customizing the palette
-
-Override the 4 primitives on `:root`:
-
-```css
-:root {
-  --accent: oklch(0.6 0.2 280);        /* purple accent */
-  --background: oklch(0.96 0.01 80);   /* warm canvas */
-}
-```
-
-All derived tokens update automatically.
-
-### Two-layer styling
+Two layers for styling DUI components:
 
 | Layer | Mechanism | Best for |
 |-------|-----------|----------|
@@ -291,7 +193,7 @@ Variables cascade from ancestors. `::part()` must target the element directly.
 
 ### Theme attributes vs properties
 
-Some attributes like `variant`, `appearance`, and `size` are **theme attributes** — they're reflected HTML attributes that the styled CSS layer selects on (`:host([variant="primary"])`). They appear as attributes in markup:
+Some attributes like `variant`, `appearance`, and `size` are **theme attributes** — reflected HTML attributes that the styled CSS layer selects on (`:host([variant="primary"])`):
 
 ```html
 <dui-button variant="primary" size="lg">Save</dui-button>
@@ -300,84 +202,12 @@ Some attributes like `variant`, `appearance`, and `size` are **theme attributes*
 
 Behavioral **properties** like `disabled`, `open`, `value` are reactive Lit properties that affect component behavior and DOM structure.
 
-## DESIGN.md integration
+### Composition rules
 
-DUI supports [DESIGN.md](https://github.com/nicholasgasior/design.md), a format for describing a visual identity to coding agents. If a project has a `DESIGN.md` file, **read it before writing any UI code**. It contains two layers:
-
-### Layer 1: Visual identity (YAML front matter + standard sections)
-
-Machine-readable tokens and visual rules. Map DESIGN.md tokens to DUI CSS custom properties:
-
-| DESIGN.md token | DUI CSS custom property |
-|---|---|
-| `colors.background` | `--background` |
-| `colors.foreground` | `--foreground` |
-| `colors.accent` | `--accent` |
-| `colors.destructive` | `--destructive` |
-| `colors.surface-1` | `--surface-1` |
-| `colors.text-1` / `text-2` / `text-3` | `--text-1` / `--text-2` / `--text-3` |
-| `colors.border` | `--border` |
-| `rounded.sm` / `md` / `lg` | `--radius-sm` / `--radius-md` / `--radius-lg` |
-| `spacing.sm` / `md` / `lg` | `--space-2` / `--space-4` / `--space-6` |
-| `typography.body-md.fontFamily` | `--font-sans` |
-| `typography.code.fontFamily` | `--font-mono` |
-
-If the DESIGN.md colors differ from DUI defaults, apply overrides on `:root`:
-
-```css
-:root {
-  --background: oklch(...);
-  --foreground: oklch(...);
-  --accent: oklch(...);
-  --destructive: oklch(...);
-}
-```
-
-The DESIGN.md includes hex values in the YAML front matter; the original OKLCH values are in comments. Prefer OKLCH for DUI overrides when available.
-
-### Layer 2: Interaction design grammar (extended sections)
-
-Behavioral constraints that guide page composition and interaction patterns:
-
-| DESIGN.md section | Implementation guidance |
-|---|---|
-| **Page Archetypes** | Use the defined page shapes (list, detail, settings, dashboard). List = `dui-data-table`, detail = tabbed `dui-tabs`, settings = `dui-sidebar-provider` + forms |
-| **Interaction Model** | Follow the declared save semantics (optimistic/explicit/autosave). Use `dui-alert-dialog` for destructive confirmations only |
-| **Forms & Validation** | Validate on blur using `dui-field` error states. Mark optional fields with "(optional)". Use `dui-fieldset` for groups |
-| **Notification & Feedback** | Toast for transient success, inline `dui-field` errors for validation, banner for page-level alerts |
-| **State Patterns** | `dui-spinner` for unknown-shape loading, skeleton for known-shape. Under 200ms show nothing |
-| **Overlay Hierarchy** | `dui-dialog` for focused tasks, `dui-alert-dialog` for destructive confirmations, `dui-popover` for contextual content, `dui-menu` for actions |
-| **Transitions & Motion** | Reference `--duration-fast`, `--duration-normal`, `--duration-slow` — never hardcode milliseconds. DUI handles component transitions internally |
-| **Responsive Behavior** | Use CSS container queries for component-level responsiveness. Sidebar collapses on tablet, hides on mobile |
-| **Density & Rhythm** | Follow the declared spacing rules using `--space-*` tokens |
-| **Content Conventions** | Sentence case everywhere. Verb + object for buttons |
-
-### Generating a DESIGN.md
-
-Consumers can generate a DESIGN.md from DUI defaults:
-
-```bash
-# CLI (from the DUI repo)
-deno task design-md
-deno task design-md --accent "oklch(0.6 0.2 280)" --font-sans "Inter"
-deno task design-md --visual-only  # skip interaction grammar
-```
-
-Or export from the DUI theme editor (docs site → Create → sidebar → "Download DESIGN.md").
-
-### Validating a DESIGN.md
-
-Validate DESIGN.md files before using them:
-
-```bash
-# Lint for structural errors and contrast issues
-npx @nicholasgasior/design-md lint DESIGN.md
-
-# Compare two versions
-npx @nicholasgasior/design-md diff DESIGN.md DESIGN-v2.md
-```
-
-If lint returns errors, fix them before proceeding. Warnings (contrast-ratio, missing tokens) should be noted and surfaced to the user.
+- **Slots** are the composition API — pass content via named/default slots, not wrapper divs.
+- **Compound components stay together** — `dui-dialog-trigger` inside `dui-dialog`, `dui-select-option` inside `dui-select`.
+- **Never reach into shadow DOM** — use CSS custom properties, `::part(root)`, or the inspector API.
+- **Standard CSS for layout** — flexbox and grid directly. DUI has no layout wrapper components.
 
 ## Event handling
 
