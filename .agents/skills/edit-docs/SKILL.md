@@ -39,7 +39,7 @@ packages/docs/
 Components and templates self-register via `customElements.define()` on import. The docs entry point (`index.ts`) uses side-effect imports:
 
 ```typescript
-// Self-registering imports — no applyTheme needed
+// Self-registering imports — no setup function needed
 import "@dui/components";            // registers all components
 import "@dui/templates/feed";        // registers feed templates
 import "@dui/templates/dashboard";   // registers dashboard templates
