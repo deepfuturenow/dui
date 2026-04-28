@@ -63,6 +63,65 @@ function clamp01(v: number): number {
   return Math.max(0, Math.min(1, v));
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+ * sRGB hex → OKLCH (reverse pipeline)
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/** Inverse sRGB gamma (display → linear). */
+function srgbToLinear(c: number): number {
+  if (c <= 0.04045) return c / 12.92;
+  return Math.pow((c + 0.055) / 1.055, 2.4);
+}
+
+/** Convert linear sRGB → Oklab via LMS intermediate. */
+function linearSrgbToOklab(r: number, g: number, b: number): [number, number, number] {
+  // linear sRGB → LMS
+  const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+  const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+  const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+
+  // LMS → LMS (cube-root domain)
+  const l_ = Math.cbrt(l);
+  const m_ = Math.cbrt(m);
+  const s_ = Math.cbrt(s);
+
+  // LMS (cube-root) → Oklab
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const bOut = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+  return [L, a, bOut];
+}
+
+/** Convert Oklab → OKLCH (polar form). */
+function oklabToOklch(L: number, a: number, b: number): Oklch {
+  const c = Math.sqrt(a * a + b * b);
+  let h = (Math.atan2(b, a) * 180) / Math.PI;
+  if (h < 0) h += 360;
+  return { l: L, c, h };
+}
+
+/**
+ * Convert a hex sRGB string (#RGB, #RRGGBB, or #RRGGBBAA) to OKLCH.
+ * Alpha channel is ignored.
+ */
+export function hexToOklch(hex: string): Oklch {
+  let h = hex.replace(/^#/, "");
+
+  // Expand shorthand (#RGB → #RRGGBB)
+  if (h.length === 3 || h.length === 4) {
+    h = h.split("").map((c) => c + c).join("");
+  }
+
+  const r = parseInt(h.slice(0, 2), 16) / 255;
+  const g = parseInt(h.slice(2, 4), 16) / 255;
+  const b = parseInt(h.slice(4, 6), 16) / 255;
+
+  const [lr, lg, lb] = [srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)];
+  const [L, a, bLab] = linearSrgbToOklab(lr, lg, lb);
+  return oklabToOklch(L, a, bLab);
+}
+
 /**
  * Convert an OKLCH color to a hex sRGB string (#RRGGBB).
  * Out-of-gamut colors are clipped to sRGB.
