@@ -76,7 +76,7 @@ The aesthetic layer always overrides structural defaults.
 
 ## Self-registration model
 
-Components self-register on import. There's no setup function, no `applyTheme()`, no configuration:
+Components self-register on import. There's no setup function.
 
 ```typescript
 // Importing registers the component
