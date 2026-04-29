@@ -129,6 +129,32 @@ html`
 
 ---
 
+## Theme configuration
+
+DUI ships blue defaults. To apply your brand colors, fonts, and radius, use `applyTheme()` after importing any component:
+
+```typescript
+import "@deepfuture/dui-components";
+import { applyTheme } from "@deepfuture/dui-components/theme";
+
+applyTheme({
+  light: {
+    accent:      "oklch(0.55 0.25 160)",  // green brand
+    destructive: "oklch(0.55 0.22 25)",
+  },
+  dark: {
+    accent:      "oklch(0.75 0.18 160)",
+    destructive: "oklch(0.70 0.18 25)",
+  },
+  fonts: { sans: "Inter", mono: "Geist Mono" },
+  radius: "0.5rem",
+});
+```
+
+All 4 color primitives (`background`, `foreground`, `accent`, `destructive`) can be overridden. Omit `dark` to auto-derive dark mode from light. See [theming.md](./theming.md) for the full API and cascade details.
+
+---
+
 ## Dark mode
 
 Toggle dark mode by setting `data-theme="dark"` on the `<html>` element:

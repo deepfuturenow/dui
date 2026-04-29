@@ -226,34 +226,137 @@ Only consumer-facing properties are declared (`--button-bg`, `--button-radius`, 
 
 ## Customizing the palette
 
-Override the 4 primitive colors to change the entire color system:
+### `applyTheme()` — the recommended approach
 
-```css
-:root {
-  --accent: oklch(0.6 0.2 280);        /* purple accent */
-  --destructive: oklch(0.55 0.22 25);  /* keep red for danger */
-}
+DUI injects tokens via `document.adoptedStyleSheets` on first import. Adopted stylesheets cascade **after** linked stylesheets, so a consumer's `main.css` overrides won't work — they lose to DUI's defaults. The `applyTheme()` API solves this by appending an adopted stylesheet in the correct cascade position.
+
+Import `applyTheme` from `@dui/components/theme` (npm: `@deepfuture/dui-components/theme`) and call it after importing any DUI component:
+
+```typescript
+import "@deepfuture/dui-components/button";
+import { applyTheme } from "@deepfuture/dui-components/theme";
+
+applyTheme({
+  light: {
+    background:  "oklch(0.97 0.00 0)",
+    foreground:  "oklch(0.15 0.00 0)",
+    accent:      "oklch(0.55 0.25 160)",
+    destructive: "oklch(0.55 0.22 25)",
+  },
+  dark: {
+    background:  "oklch(0.15 0.00 0)",
+    foreground:  "oklch(0.93 0.00 0)",
+    accent:      "oklch(0.75 0.18 160)",
+    destructive: "oklch(0.70 0.18 25)",
+  },
+});
 ```
 
-All derived tokens (surfaces, borders, text tiers, accent-subtle, etc.) update automatically.
+All derived tokens (`--surface-1`, `--text-2`, `--border`, `--accent-subtle`, etc.) update automatically via `oklch(from var(...) ...)`.
+
+### API
+
+```typescript
+type ThemePrimitives = {
+  background?: string;   // page canvas
+  foreground?: string;   // primary text / ink
+  accent?: string;       // brand / interactive
+  destructive?: string;  // errors, danger
+};
+
+type ThemeFonts = {
+  sans?: string;   // e.g. "Inter"
+  mono?: string;   // e.g. "Geist Mono"
+  serif?: string;  // e.g. "Lora"
+};
+
+type ThemeConfig = {
+  light?: ThemePrimitives;
+  dark?: ThemePrimitives;
+  fonts?: ThemeFonts;
+  radius?: string;  // e.g. "0.5rem" — the full scale is derived
+};
+
+function applyTheme(config: ThemeConfig): void;
+```
+
+**Colors:** Provide OKLCH strings for any of the 4 primitives you want to override. Omitted values keep DUI's defaults.
+
+**Dark mode derivation:** If you provide `light` but omit `dark`, dark mode primitives are auto-derived (lightness inversion, chroma adjustment). For full control, provide both.
+
+**Fonts:** Values are family names — the full stack is appended automatically (e.g. `"Inter"` becomes `'Inter', system-ui, -apple-system, sans-serif`).
+
+**Radius:** A base value (rem or px) from which the full radius scale is derived (`--radius-xs` through `--radius-2xl`).
+
+**Idempotent:** Safe to call multiple times. Each call replaces the previous theme sheet.
+
+### Fonts and radius
+
+```typescript
+applyTheme({
+  light: { accent: "oklch(0.55 0.25 160)" },
+  fonts: { sans: "Inter", mono: "Geist Mono" },
+  radius: "0.5rem",
+});
+```
+
+Font and radius overrides are theme-independent — they apply to `:root` regardless of light/dark mode.
 
 ### Example palettes
 
-**Warm neutral** (4 primitives):
-```css
---background:  oklch(0.96 0.01 80);
---foreground:  oklch(0.20 0.02 60);
---accent:      oklch(0.58 0.16 55);
---destructive: oklch(0.55 0.20 25);
+**Warm neutral:**
+```typescript
+applyTheme({
+  light: {
+    background:  "oklch(0.96 0.01 80)",
+    foreground:  "oklch(0.20 0.02 60)",
+    accent:      "oklch(0.58 0.16 55)",
+    destructive: "oklch(0.55 0.20 25)",
+  },
+});
 ```
 
-**Ocean** (4 primitives):
-```css
---background:  oklch(0.97 0.01 230);
---foreground:  oklch(0.18 0.02 240);
---accent:      oklch(0.55 0.20 230);
---destructive: oklch(0.58 0.20 25);
+**Ocean:**
+```typescript
+applyTheme({
+  light: {
+    background:  "oklch(0.97 0.01 230)",
+    foreground:  "oklch(0.18 0.02 240)",
+    accent:      "oklch(0.55 0.20 230)",
+    destructive: "oklch(0.58 0.20 25)",
+  },
+});
 ```
+
+**Forest:**
+```typescript
+applyTheme({
+  light: {
+    background:  "oklch(0.96 0.01 145)",
+    foreground:  "oklch(0.18 0.02 145)",
+    accent:      "oklch(0.55 0.18 145)",
+    destructive: "oklch(0.55 0.20 25)",
+  },
+});
+```
+
+### Using with DESIGN.md
+
+If your project has a DESIGN.md with OKLCH color primitives, extract the values and pass them to `applyTheme()`. The DESIGN.md is the design intent; `applyTheme()` is the one-line bridge to runtime.
+
+### Why not plain CSS overrides?
+
+DUI injects tokens via `document.adoptedStyleSheets`. Adopted stylesheets cascade after `<link>` and `<style>` tags, so a plain CSS file can't override DUI's defaults:
+
+```
+adoptedStyleSheets[0]  — DUI tokens (injected on import)
+  :root:not([data-theme="dark"]) { --accent: oklch(0.55 0.25 260); }  ← WINS
+
+<link> main.css
+  :root { --accent: oklch(0.55 0.25 160); }  ← LOSES (lower cascade position)
+```
+
+`applyTheme()` appends another adopted stylesheet **after** DUI's, so overrides cascade correctly. Consumers don't need to know about `adoptedStyleSheets` internals.
 
 ---
 

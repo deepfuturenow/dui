@@ -286,6 +286,61 @@ export class DocsPageTheming extends LitElement {
       border-radius: var(--radius-sm);
       border: var(--border-width-thin) solid var(--border);
     }
+
+    /* ── applyTheme snippet ── */
+    .snippet-container {
+      margin-top: var(--space-4);
+    }
+
+    .snippet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .snippet-label {
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-2);
+      font-family: var(--font-mono);
+    }
+
+    .copy-btn {
+      padding: var(--space-1) var(--space-2_5);
+      border-radius: var(--radius-sm);
+      border: var(--border-width-thin) solid var(--border);
+      background: var(--background);
+      color: var(--text-2);
+      font-size: var(--text-xs);
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: background var(--duration-fast), color var(--duration-fast);
+    }
+
+    .copy-btn:hover {
+      background: oklch(from var(--foreground) l c h / 0.05);
+      color: var(--text-1);
+    }
+
+    .copy-btn[data-copied] {
+      background: var(--accent-subtle);
+      color: var(--accent-text);
+      border-color: oklch(from var(--accent) l c h / 0.3);
+    }
+
+    .snippet-code {
+      background: var(--sunken-1);
+      border: var(--border-width-thin) solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      line-height: var(--line-height-relaxed);
+      color: var(--text-1);
+      white-space: pre;
+      overflow-x: auto;
+    }
   `];
 
   // Presets: [name, bg, fg, accent, destructive]
@@ -299,6 +354,7 @@ export class DocsPageTheming extends LitElement {
   ];
 
   @state() accessor #activePreset = "Default";
+  @state() accessor #copied = false;
 
   #applyPreset(name: string, bg: string, fg: string, accent: string, destructive: string) {
     this.#activePreset = name;
@@ -307,6 +363,7 @@ export class DocsPageTheming extends LitElement {
     root.style.setProperty("--foreground", fg);
     root.style.setProperty("--accent", accent);
     root.style.setProperty("--destructive", destructive);
+    this.#copied = false;
   }
 
   #resetTheme() {
@@ -321,6 +378,46 @@ export class DocsPageTheming extends LitElement {
   #updatePrimitive(name: string, l: number, c: number, h: number) {
     document.documentElement.style.setProperty(`--${name}`, `oklch(${l} ${c} ${h})`);
     this.#activePreset = "";
+    this.#copied = false;
+    this.requestUpdate();
+  }
+
+  /** Build the current applyTheme() snippet from live primitive values. */
+  #buildSnippet(): string {
+    const cs = getComputedStyle(document.documentElement);
+    const bg = document.documentElement.style.getPropertyValue("--background").trim()
+      || cs.getPropertyValue("--background").trim();
+    const fg = document.documentElement.style.getPropertyValue("--foreground").trim()
+      || cs.getPropertyValue("--foreground").trim();
+    const accent = document.documentElement.style.getPropertyValue("--accent").trim()
+      || cs.getPropertyValue("--accent").trim();
+    const destructive = document.documentElement.style.getPropertyValue("--destructive").trim()
+      || cs.getPropertyValue("--destructive").trim();
+
+    const pad = (s: string) => `"${s}"`;
+    return [
+      `import { applyTheme } from "@deepfuture/dui-components/theme";`,
+      ``,
+      `applyTheme({`,
+      `  light: {`,
+      `    background:  ${pad(bg)},`,
+      `    foreground:  ${pad(fg)},`,
+      `    accent:      ${pad(accent)},`,
+      `    destructive: ${pad(destructive)},`,
+      `  },`,
+      `});`,
+    ].join("\n");
+  }
+
+  async #copySnippet() {
+    const text = this.#buildSnippet();
+    try {
+      await navigator.clipboard.writeText(text);
+      this.#copied = true;
+      setTimeout(() => { this.#copied = false; this.requestUpdate(); }, 2000);
+    } catch {
+      // Fallback: select the code block text
+    }
     this.requestUpdate();
   }
 
@@ -355,6 +452,18 @@ export class DocsPageTheming extends LitElement {
             >${name}</button>
           `)}
           <button class="preset-btn" @click=${() => this.#resetTheme()}>Reset</button>
+        </div>
+
+        <div class="snippet-container">
+          <div class="snippet-header">
+            <span class="snippet-label">applyTheme() snippet</span>
+            <button
+              class="copy-btn"
+              ?data-copied=${this.#copied}
+              @click=${() => this.#copySnippet()}
+            >${this.#copied ? "Copied!" : "Copy"}</button>
+          </div>
+          <div class="snippet-code">${this.#buildSnippet()}</div>
         </div>
       </div>
 

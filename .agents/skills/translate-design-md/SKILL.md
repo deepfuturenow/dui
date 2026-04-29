@@ -127,7 +127,31 @@ If the user wants prose merging:
 
 **Do's and Don'ts:** Keep DUI's standard list. Append source-specific guidance that doesn't contradict DUI conventions.
 
-## Step 6: Print summary
+## Step 6: Generate applyTheme() snippet
+
+After the DUI DESIGN.md is generated, produce a ready-to-use `applyTheme()` call that the consumer can paste into their bootstrap file:
+
+1. Read the 4 OKLCH primitives from the generated DESIGN.md's YAML front matter
+2. Build the snippet:
+
+```typescript
+import { applyTheme } from "@deepfuture/dui-components/theme";
+
+applyTheme({
+  light: {
+    background:  "<bg oklch>",
+    foreground:  "<fg oklch>",
+    accent:      "<accent oklch>",
+    destructive: "<destructive oklch>",
+  },
+});
+```
+
+3. Print the snippet and explain: _"Add this to your app's bootstrap file (e.g. `main.ts` or `bootstrap.ts`) after importing DUI components. Dark mode will be auto-derived from the light values. If you need explicit dark mode control, add a `dark: { ... }` block."_
+
+The snippet uses the npm package path (`@deepfuture/dui-components/theme`). For Deno projects using import maps, use `@dui/components/theme` instead.
+
+## Step 7: Print summary
 
 After completion, the script already prints a formatted summary. Add a brief note about what was done:
 

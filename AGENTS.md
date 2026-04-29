@@ -44,6 +44,7 @@ dui-inspector/               # @dui/inspector — runtime component inspector (s
 - Private methods use native `#private` syntax.
 - Events use the `customEvent()` factory from `@dui/core/event` (part of `@dui/primitives`).
 - Design tokens are CSS custom properties — never hardcode `px` or `rem` values.
+- **Theme bridge:** `applyTheme()` from `@dui/components/theme` overrides DUI's default color primitives. If a consumer project has a DESIGN.md, extract the 4 OKLCH primitives and call `applyTheme()` in the bootstrap file. See `docs/theming.md`.
 
 ## Screenshots
 
