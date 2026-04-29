@@ -18,6 +18,7 @@ import "./blocks/block-3d-scene.ts";
 import "./blocks/block-token-usage.ts";
 import "./blocks/block-sidebar.ts";
 import "./blocks/block-map.ts";
+import "./blocks/block-dashboard.ts";
 // import "./blocks/block-analytics.ts";
 
 @customElement("create-preview")
@@ -107,6 +108,9 @@ export class CreatePreview extends LitElement {
         <block-members></block-members>
         <block-events></block-events>
       </div>
+
+      <hr class="divider">
+      <block-dashboard></block-dashboard>
 
       <hr class="divider">
       <block-colors></block-colors>
