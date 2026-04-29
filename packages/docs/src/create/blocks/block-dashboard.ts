@@ -20,6 +20,7 @@ export class BlockDashboard extends LitElement {
     }
 
     .frame-container {
+      max-width: 1280px;
       border: var(--border-width-thin) solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
@@ -29,7 +30,7 @@ export class BlockDashboard extends LitElement {
     iframe {
       display: block;
       width: 100%;
-      height: 500px;
+      height: 900px;
       border: none;
     }
   `];
