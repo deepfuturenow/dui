@@ -7,7 +7,7 @@ description: Build frontend UIs using DUI, a Lit-based styled web component libr
 
 DUI is a styled Lit web component library built on two-layer inheritance. Unstyled primitives (in a separate repo) provide structure and behavior; styled components extend them with aesthetic CSS and design tokens. Components self-register on import — no setup function, no configuration.
 
-**Read `DESIGN.md` first.** Every DUI project has a `DESIGN.md` at the repo root. It defines the visual identity (colors, typography, spacing, radii, elevation) and interaction grammar (page archetypes, overlay hierarchy, form validation, state patterns, motion, accessibility, and more). The DESIGN.md is the authoritative source for all design decisions. This skill owns DUI implementation guidance: component selection, styling API, composition rules, inspector workflow, and code patterns. There is no overlap — DESIGN.md says *what the design looks like and how the app behaves*; this skill says *how to build it with DUI components*.
+**Read `DESIGN.md` first.** It Ewill be at the repo root. Not all projects have a `DESIGN.md`. If present, it defines the visual identity (colors, typography, spacing, radii, elevation) and interaction grammar (page archetypes, overlay hierarchy, form validation, state patterns, motion, accessibility, and more). The DESIGN.md is the authoritative source for all design decisions. DESIGN.md says *what the design looks like and how the app behaves*; this skill says *how to build it with DUI components*.
 
 ## Project detection
 
@@ -25,6 +25,21 @@ Before writing any DUI code, check the project's DUI status:
 2. **Use DUI components first.** Before writing custom markup, check if a DUI component exists. Read `references/components.md` for the full catalog.
 3. **Inspect before styling.** Before overriding any token or adding custom CSS, run `__dui_inspect('dui-component-name')` to see available tokens, parts, slots, and current values. The inspector is the ground truth — don't guess token names.
 4. **Compose, don't reinvent.** A settings page = `dui-tabs` + `dui-input` + `dui-select` + `dui-switch`. A dashboard = `dui-sidebar` + `dui-data-table` + layout primitives.
+
+## Critical rules
+
+These are enforced in every DUI project. Each links to ❌/✅ code pairs in [references/rules.md](references/rules.md).
+
+- **Use design tokens, not hardcoded values.** `var(--space-4)` not `1rem`. `var(--accent)` not `#3b82f6`. → [rules.md#styling](references/rules.md#styling)
+- **Use CSS variables for colors/sizes, `::part()` for effects.** `--button-bg` for color. `::part(root)` for filters, transforms, shadows. → [rules.md#styling](references/rules.md#styling)
+- **Never reach into shadow DOM.** Style with tokens and `::part()`. → [rules.md#composition](references/rules.md#composition)
+- **Keep compound components together.** `dui-dialog-trigger` inside `dui-dialog`, not outside. → [rules.md#composition](references/rules.md#composition)
+- **Use `dui-field` for form rows.** It wires ARIA labels, descriptions, and validation automatically. → [rules.md#forms](references/rules.md#forms)
+- **Icon-only buttons need `aria-label`.** Dialogs need a title slot. Every input needs a visible label. → [rules.md#accessibility](references/rules.md#accessibility)
+- **Set complex properties imperatively.** `dui-data-table`, `dui-chart`, `dui-select`, `dui-combobox` — set `.columns`, `.data`, `.options`, `.spec` in `firstUpdated()`. → [rules.md#composition](references/rules.md#composition)
+- **Inspect before styling.** Run `__dui_inspect('dui-component')` to discover real token names. → [rules.md#inspector](references/rules.md#inspector)
+- **All text spacing is explicit.** DUI trims text boxes — use flex + gap, not default margins. → [rules.md#typography--spacing](references/rules.md#typography--spacing)
+- **Use DUI components, not custom markup.** `dui-separator` not `<hr>`. `dui-badge` not styled `<span>`. `dui-field` not manual label wiring. → [rules.md#use-dui-components-not-custom-markup](references/rules.md#use-dui-components-not-custom-markup)
 
 ## Installation
 
@@ -83,7 +98,7 @@ import "@deepfuture/dui-templates/feed";  // registers dui-feed-item etc.
 
 ## Typography & spacing implementation
 
-DUI's text-box trimming (`text-box: trim-both cap alphabetic`) means **text elements have zero implicit spacing**. You must create all vertical rhythm explicitly. See DESIGN.md → Typography and Layout for the rules; here are the implementation patterns.
+DUI's text-box trimming (`text-box: trim-both cap alphabetic`) means **text elements have zero implicit spacing**. You must create all vertical rhythm explicitly. See DESIGN.md → Typography and Layout for the rules; here are the implementation patterns. 
 
 ### Flex column with gap
 
@@ -109,7 +124,7 @@ DUI's text-box trimming (`text-box: trim-both cap alphabetic`) means **text elem
 .stat-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .stat-label {
@@ -155,7 +170,7 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Toggle between options | `dui-toggle-group` |
 | Data display | `dui-data-table`, `dui-badge`, `dui-avatar`, `dui-calendar`, `dui-progress`, `dui-spinner` |
 | Navigation | `dui-sidebar-provider`, `dui-breadcrumb`, `dui-tabs` |
-| Overlays | `dui-dialog` (modal), `dui-alert-dialog` (confirmation), `dui-popover`, `dui-tooltip`, `dui-menu`, `dui-command` |
+| Overlays | `dui-dialog` (modal), `dui-alert-dialog` (confirmation), `dui-popover`, `dui-tooltip`, `dui-menu`, `dui-command` — see overlay guide below |
 | Disclosure | `dui-accordion`, `dui-collapsible` |
 | Content containers (structured header/action/footer) | `dui-card`, `dui-card-grid` |
 | Layout | `dui-scroll-area`, `dui-separator` — for rows/columns/centering/page margins, use standard CSS flexbox and grid |
@@ -163,6 +178,18 @@ Read `references/components.md` for the full catalog. Quick lookup:
 | Utility | `dui-icon`, `dui-portal`, `dui-link` |
 | Maps | `dui-map` + `dui-map-marker`, `dui-map-controls`, `dui-map-route`, `dui-map-region`, `dui-map-heatmap`, `dui-map-cluster-layer` |
 | Charts | `dui-chart` (Observable Plot wrapper) |
+
+### Choosing an overlay
+
+| Use case | Component |
+| --- | --- |
+| Focused task (form, settings, detail view) | `dui-dialog` — closes on backdrop click |
+| Destructive or irreversible confirmation | `dui-alert-dialog` — requires explicit action, no backdrop dismiss |
+| Small contextual content (date picker, filters) | `dui-popover` — anchored to trigger, click to toggle |
+| Brief hint on hover/focus | `dui-tooltip` — delay before show, no interaction inside |
+| Rich preview on hover (profile card, link preview) | `dui-preview-card` — stays open when cursor moves to popup |
+| Action list (edit, delete, share) | `dui-menu` — keyboard-navigable, closes on selection |
+| Searchable command palette | `dui-command` inside `dui-dialog` |
 
 ### Use DUI components, not custom markup
 
@@ -413,7 +440,7 @@ When the inspector is not available, fall back to the static component reference
 
 ## Detailed references
 
-- [references/components.md](references/components.md) — Full catalog of all 57 component families with properties, theme attributes, slots, parts, and CSS custom properties
+- [references/components.md](references/components.md) — Compact catalog of all 57 component families with key properties, theme attributes, events, and slots. Use the inspector for full token/part details.
 - [references/rules.md](references/rules.md) — Incorrect/correct code pairs for every critical rule
 - [references/blocks.md](references/blocks.md) — Real-world composition examples: settings forms, chat inputs, dashboards, maps, data tables, and more. Each entry summarizes the pattern and key CSS/layout techniques, with a pointer to the full source. **Read a block's source file when building something similar.**
 - [references/inspector.md](references/inspector.md) — Complete inspector API reference

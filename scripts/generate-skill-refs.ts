@@ -3,7 +3,7 @@
  * Generate skill reference files from the component registry.
  *
  * Produces:
- *   skills/dui/references/components.md — Full component catalog
+ *   skills/dui/references/components.md — Compact component catalog
  *
  * Run manually:
  *   deno task gen:skill-refs
@@ -65,67 +65,93 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════
- * Render a component entry
+ * Compact renderer — one block per family, key info only.
+ * Tokens and parts are discoverable via the inspector.
  * ═══════════════════════════════════════════════════════════════════ */
 
-function renderComponent(c: ComponentMeta, isSubComponent: boolean): string {
+function renderCompact(comp: ComponentMeta, subs: ComponentMeta[]): string {
   const lines: string[] = [];
-  const heading = isSubComponent ? "####" : "###";
 
-  lines.push(`${heading} ${c.tagName}`);
-  lines.push(c.description);
-  lines.push(`**Import:** \`${c.importPath}\``);
+  // Header: tag + import
+  lines.push(`### ${comp.tagName} \`${comp.importPath}\``);
+  lines.push(comp.description);
 
-  // Properties
-  if (c.properties.length > 0) {
-    const props = c.properties.map((p) => {
-      const def = p.default !== undefined ? `, default: ${p.default}` : "";
-      return `\`${p.name}\` (${p.type}${def})`;
-    });
-    lines.push(`**Properties:** ${props.join(", ")}`);
+  // Sub-components (one line)
+  if (subs.length > 0) {
+    lines.push(`**Sub-components:** ${subs.map((s) => `\`${s.tagName}\``).join(", ")}`);
   }
 
-  // Theme attributes
-  if (c.themeAttributes && c.themeAttributes.length > 0) {
-    const attrs = c.themeAttributes.map((a) => `\`${a.name}\` (${a.values})`);
-    lines.push(`**Theme attributes:** ${attrs.join(", ")}`);
+  // Theme attributes (the values agents set in HTML)
+  if (comp.themeAttributes && comp.themeAttributes.length > 0) {
+    const attrs = comp.themeAttributes.map((a) => `\`${a.name}\` (${a.values})`);
+    lines.push(`**Theme:** ${attrs.join(" · ")}`);
   }
 
-  // Events
-  if (c.events.length > 0) {
-    const evts = c.events.map((e) => {
-      const detail = e.detail ? ` (${e.detail})` : "";
+  // Key properties — just names, no types/defaults (agents use inspector for details)
+  const allProps = comp.properties;
+  // Collect sub-component props that are noteworthy (skip obvious ones like disabled, value)
+  const subPropLines: string[] = [];
+  for (const sub of subs) {
+    const interesting = sub.properties.filter(
+      (p) => !["disabled", "value"].includes(p.name) && !comp.properties.some((cp) => cp.name === p.name),
+    );
+    if (interesting.length > 0) {
+      const shortTag = sub.tagName.replace(comp.tagName + "-", "");
+      subPropLines.push(`${shortTag}: ${interesting.map((p) => `\`${p.name}\``).join(", ")}`);
+    }
+  }
+
+  if (allProps.length > 0 || subPropLines.length > 0) {
+    const mainProps = allProps.map((p) => `\`${p.name}\``).join(", ");
+    const parts = [];
+    if (mainProps) parts.push(mainProps);
+    if (subPropLines.length > 0) parts.push(subPropLines.join(" · "));
+    lines.push(`**Props:** ${parts.join(" · ")}`);
+  }
+
+  // Events — include sub-component events too
+  const allEvents = [...comp.events];
+  for (const sub of subs) {
+    for (const e of sub.events) {
+      if (!allEvents.some((ae) => ae.name === e.name)) {
+        allEvents.push(e);
+      }
+    }
+  }
+  if (allEvents.length > 0) {
+    const evts = allEvents.map((e) => {
+      const detail = e.detail ? ` → \`${e.detail}\`` : "";
       return `\`${e.name}\`${detail}`;
     });
     lines.push(`**Events:** ${evts.join(", ")}`);
   }
 
-  // Slots
-  if (c.slots.length > 0) {
-    const slots = c.slots.map((s) => `\`${s.name}\` (${s.description})`);
-    lines.push(`**Slots:** ${slots.join(", ")}`);
+  // Slots — include key sub-component slots (especially required ones like dialog title)
+  const mainSlots = comp.slots.filter((s) => s.name !== "default" || comp.slots.length === 1);
+  const subSlots: string[] = [];
+  for (const sub of subs) {
+    const notable = sub.slots.filter(
+      (s) => s.name !== "default" && !mainSlots.some((ms) => ms.name === s.name),
+    );
+    for (const s of notable) {
+      const shortTag = sub.tagName.replace(comp.tagName + "-", "");
+      subSlots.push(`\`${s.name}\` (${shortTag}: ${s.description})`);
+    }
   }
 
-  // Parts
-  if (c.cssParts && c.cssParts.length > 0) {
-    const parts = c.cssParts.map((p) => `\`${p.name}\``);
-    lines.push(`**Parts:** ${parts.join(", ")}`);
-  } else {
-    lines.push(`**Parts:** \`root\``);
-  }
-
-  // CSS custom properties (tokens)
-  const allTokens = [...c.cssProperties, ...(c.themeCssProperties ?? [])];
-  if (allTokens.length > 0) {
-    const tokens = allTokens.map((t) => `\`${t.name}\``);
-    lines.push(`**Tokens:** ${tokens.join(", ")}`);
+  const allSlotParts = [
+    ...mainSlots.map((s) => `\`${s.name}\` (${s.description})`),
+    ...subSlots,
+  ];
+  if (allSlotParts.length > 0) {
+    lines.push(`**Slots:** ${allSlotParts.join(", ")}`);
   }
 
   return lines.join("\n");
 }
 
 /* ═══════════════════════════════════════════════════════════════════
- * Generate the full components.md
+ * Generate the compact components.md
  * ═══════════════════════════════════════════════════════════════════ */
 
 export function generateComponentsMd(): string {
@@ -138,7 +164,7 @@ export function generateComponentsMd(): string {
   parts.push("");
   parts.push("# DUI Component Reference");
   parts.push("");
-  parts.push(`All ${topLevel.length} component families. Every component exposes \`::part(root)\` for CSS access beyond tokens.`);
+  parts.push(`Compact catalog of all ${topLevel.length} component families. Use the inspector (\`__dui_inspect('dui-button')\`) for full token, part, and property details. Every component exposes \`::part(root)\` for CSS access beyond tokens.`);
   parts.push("");
   parts.push("---");
 
@@ -150,15 +176,9 @@ export function generateComponentsMd(): string {
       const comp = componentRegistry.find((c) => c.tagName === tag);
       if (!comp) continue;
 
-      parts.push("");
-      parts.push(renderComponent(comp, false));
-
-      // Render sub-components
       const subs = subComponents.filter((s) => s.parent === tag);
-      for (const sub of subs) {
-        parts.push("");
-        parts.push(renderComponent(sub, true));
-      }
+      parts.push("");
+      parts.push(renderCompact(comp, subs));
     }
   }
 
@@ -169,13 +189,9 @@ export function generateComponentsMd(): string {
     parts.push("");
     parts.push("## Other");
     for (const comp of ungrouped) {
-      parts.push("");
-      parts.push(renderComponent(comp, false));
       const subs = subComponents.filter((s) => s.parent === comp.tagName);
-      for (const sub of subs) {
-        parts.push("");
-        parts.push(renderComponent(sub, true));
-      }
+      parts.push("");
+      parts.push(renderCompact(comp, subs));
     }
   }
 
@@ -191,5 +207,6 @@ if (import.meta.main) {
   const outPath = "skills/dui/references/components.md";
   const md = generateComponentsMd();
   await Deno.writeTextFile(outPath, md);
-  console.log(`✅ Generated ${outPath} (${md.length} bytes, ${componentRegistry.length} components)`);
+  const lineCount = md.split("\n").length;
+  console.log(`✅ Generated ${outPath} (${md.length} bytes, ${lineCount} lines, ${componentRegistry.filter((c) => !c.parent).length} families)`);
 }
