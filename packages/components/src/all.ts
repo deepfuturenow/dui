@@ -42,6 +42,7 @@ import "./stepper/index.ts";
 import "./switch/index.ts";
 import "./tabs/index.ts";
 import "./textarea/index.ts";
+import "./toast/index.ts";
 import "./toggle/index.ts";
 import "./toolbar/index.ts";
 import "./tooltip/index.ts";
@@ -130,6 +131,13 @@ export { DuiTabsIndicator } from "./tabs/index.ts";
 export { DuiTabsList } from "./tabs/index.ts";
 export { DuiTabsPanel } from "./tabs/index.ts";
 export { DuiTextarea } from "./textarea/index.ts";
+export {
+  DuiToast,
+  DuiToastAction,
+  DuiToastClose,
+  DuiToastRegion,
+  toast,
+} from "./toast/index.ts";
 export { DuiToggle } from "./toggle/index.ts";
 export { DuiToggleGroup } from "./toggle/index.ts";
 export { DuiToolbar } from "./toolbar/index.ts";

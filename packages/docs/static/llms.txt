@@ -403,6 +403,42 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Events: textarea-change ({ value: string })
 - CSS Parts: textarea (The native textarea element)
 
+### Toast Region
+- Tag: `<dui-toast-region>`
+- Import: `@dui/components/toast`
+- Description: Viewport and provider for a stack of `<dui-toast>` elements. Owns position, the registry, pause/expand state, hotkey focus, and stack-visual math (cascade-and-expand). Default position is bottom-right; cascade stacking is on by default.
+- Properties: position ("top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right", "bottom-right"), maxVisible (number, 3), label (string, "Notifications"), expandOnHover (boolean, true), expanded (boolean | undefined), swipeDirections (string | undefined), swipeThreshold (number, 50), hotkey (string, "Alt+T"), theme ("light" | "dark" | "inverted" | undefined)
+- Events: toast-dismiss ({ id: string; reason: ToastDismissReason })
+- Slots: default (One or more `<dui-toast>` elements)
+- CSS Variables: --toast-region-offset (Distance from the anchored viewport edge (default: 1rem)), --toast-region-gap (Gap between toasts in flow mode (cascade overrides this)), --toast-region-width (Region width hint (default: 24rem)), --toast-stack-peek (Vertical offset between stacked toasts when collapsed (default: var(--space-3_5))), --toast-stack-scale-step (Scale falloff per stacked toast when collapsed (default: 0.05)), --toast-expanded-gap (Vertical gap between toasts when expanded (default: var(--space-2)))
+- CSS Parts: list (The list container holding all toasts)
+
+### Toast
+- Tag: `<dui-toast>`
+- Import: `@dui/components/toast`
+- Description: A single toast notification. Renders a Sonner-style layout with built-in default icons per type, title, description, optional action and close affordances. Manages auto-dismiss, ARIA live-region wiring, swipe-to-dismiss, and stacking state.
+- Properties: open (boolean | undefined), defaultOpen (boolean, true), duration (number, 4000), type ("default" | "info" | "success" | "warning" | "error" | "loading", "default"), priority ("polite" | "assertive", "polite"), toastId (string | undefined), headless (boolean, false)
+- Events: open-change ({ open: boolean }), dismiss ({ id: string; reason: ToastDismissReason })
+- Slots: title (Title text (auto-wires aria-labelledby)), description (Description text (auto-wires aria-describedby)), icon (Custom icon to replace the type-default. Empty = built-in.), action (Action button(s); typically a `<dui-toast-action>` wrapper), close (Close affordance; typically a `<dui-toast-close>` wrapper), default (Custom content (Tier-2 escape hatch); rendered alongside title/description)
+- CSS Variables: --toast-bg (Toast surface (default: var(--surface-2))), --toast-fg (Toast text color (default: var(--text-1))), --toast-border-color (Border color (default: var(--border))), --toast-border-width (Border width (default: var(--border-width-thin))), --toast-radius (Corner radius (default: var(--radius-md))), --toast-shadow (Box shadow (default: var(--shadow-lg))), --toast-padding-block (Vertical padding (default: var(--space-3))), --toast-padding-inline (Horizontal padding (default: var(--space-3_5))), --toast-gap (Icon ↔ text gap (default: var(--space-2_5))), --toast-text-gap (Title ↔ description gap (default: var(--space-1))), --toast-action-gap (Description ↔ action gap (default: var(--space-2))), --toast-title-size (Title font size (default: var(--text-sm))), --toast-title-weight (Title font weight (default: semibold)), --toast-description-size (Description font size (default: var(--text-xs))), --toast-description-color (Description text color (default: var(--text-2))), --toast-icon-size (Icon size (default: var(--space-4))), --toast-icon-color (Icon color (default: var(--toast-type-color))), --toast-type-color (Resolved per-type color hook (success → var(--success), error → var(--destructive), etc.)), --toast-enter-duration (Enter animation duration (default: var(--duration-normal))), --toast-exit-duration (Exit animation duration (default: var(--duration-fast))), --toast-stack-transition (Stacking transition timing function (default: var(--ease-out-3)))
+- CSS Parts: root (The toast container), icon (The icon container), title (The title wrapper), description (The description wrapper), action-wrapper (The action slot's grid cell), close-wrapper (The close slot's absolute-positioned container)
+
+### Toast Action
+- Tag: `<dui-toast-action>`
+- Import: `@dui/components/toast`
+- Description: Action button wrapper for a toast. Clicking the slotted control dismisses the parent toast with reason `action`. Bare `<button>` children are styled as a small filled neutral button.
+- Events: none
+- Slots: default (Content that triggers the action (typically a button))
+- CSS Parts: action (The action wrapper container)
+
+### Toast Close
+- Tag: `<dui-toast-close>`
+- Import: `@dui/components/toast`
+- Description: Close button wrapper for a toast. Clicking the slotted control dismisses the parent toast with reason `close`. Visibility is controlled by the parent toast (hover-only on devices with hover, always visible on touch).
+- Events: none
+- Slots: default (Content that closes the toast (typically a button))
+- CSS Parts: close (The close wrapper container)
+
 ### Toolbar
 - Tag: `<dui-toolbar>`
 - Import: `@dui/components/toolbar`

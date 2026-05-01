@@ -23,7 +23,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
       "preview-card", "progress", "radio-group", "scroll-area",
       "select", "separator", "sidebar-provider", "slider", "spinner",
       "split-button", "stepper",
-      "switch", "tabs", "textarea", "toggle", "toggle-group", "toolbar",
+      "switch", "tabs", "textarea", "toast", "toggle", "toggle-group", "toolbar",
       "tooltip", "tree",
     ],
   },
@@ -1005,6 +1005,7 @@ export class DocsApp extends LitElement {
         case "spinner": return html`<docs-page-spinner></docs-page-spinner>`;
         case "tabs": return html`<docs-page-tabs></docs-page-tabs>`;
         case "textarea": return html`<docs-page-textarea></docs-page-textarea>`;
+        case "toast": return html`<docs-page-toast></docs-page-toast>`;
         case "trunc": return html`<docs-page-trunc></docs-page-trunc>`;
         case "avatar": return html`<docs-page-avatar></docs-page-avatar>`;
         case "portal": return html`<docs-page-portal></docs-page-portal>`;

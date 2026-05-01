@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-Compact catalog of all 58 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
+Compact catalog of all 60 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 ---
 
@@ -283,6 +283,20 @@ Text truncation with ellipsis. Single-line by default, or multi-line clamping wi
 **Slots:** `default` (Text content to truncate)
 
 ## Other
+
+### dui-toast-region `@dui/components/toast`
+Viewport and provider for a stack of `<dui-toast>` elements. Owns position, the registry, pause/expand state, hotkey focus, and stack-visual math (cascade-and-expand). Default position is bottom-right; cascade stacking is on by default.
+**Props:** `position`, `maxVisible`, `label`, `expandOnHover`, `expanded`, `swipeDirections`, `swipeThreshold`, `hotkey`, `theme`
+**Events:** `toast-dismiss` → `{ id: string; reason: ToastDismissReason }`
+**Slots:** `default` (One or more `<dui-toast>` elements)
+
+### dui-toast `@dui/components/toast`
+A single toast notification. Renders a Sonner-style layout with built-in default icons per type, title, description, optional action and close affordances. Manages auto-dismiss, ARIA live-region wiring, swipe-to-dismiss, and stacking state.
+**Sub-components:** `dui-toast-action`, `dui-toast-close`
+**Theme:** `appearance` ("default" | "rich")
+**Props:** `open`, `defaultOpen`, `duration`, `type`, `priority`, `toastId`, `headless`
+**Events:** `open-change` → `{ open: boolean }`, `dismiss` → `{ id: string; reason: ToastDismissReason }`
+**Slots:** `title` (Title text (auto-wires aria-labelledby)), `description` (Description text (auto-wires aria-describedby)), `icon` (Custom icon to replace the type-default. Empty = built-in.), `action` (Action button(s); typically a `<dui-toast-action>` wrapper), `close` (Close affordance; typically a `<dui-toast-close>` wrapper)
 
 ### dui-tree `@dui/components/tree`
 Hierarchical tree view with keyboard navigation, optional single/multiple selection, and async loading. Follows the W3C APG Treeview pattern.

@@ -43,6 +43,7 @@
     "./tabs": "./src/tabs/index.ts",
     "./textarea": "./src/textarea/index.ts",
     "./theme": "./src/theme/index.ts",
+    "./toast": "./src/toast/index.ts",
     "./toggle": "./src/toggle/index.ts",
     "./toolbar": "./src/toolbar/index.ts",
     "./tooltip": "./src/tooltip/index.ts",

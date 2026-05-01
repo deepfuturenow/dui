@@ -24,6 +24,7 @@ import "./pages/docs-page-slider.ts";
 import "./pages/docs-page-spinner.ts";
 import "./pages/docs-page-tabs.ts";
 import "./pages/docs-page-textarea.ts";
+import "./pages/docs-page-toast.ts";
 import "./pages/docs-page-trunc.ts";
 import "./pages/docs-page-avatar.ts";
 import "./pages/docs-page-portal.ts";
