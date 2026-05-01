@@ -64,6 +64,7 @@
     "@dui/primitives/switch": "../dui-primitives/packages/primitives/src/switch/index.ts",
     "@dui/primitives/tabs": "../dui-primitives/packages/primitives/src/tabs/index.ts",
     "@dui/primitives/textarea": "../dui-primitives/packages/primitives/src/textarea/index.ts",
+    "@dui/primitives/toast": "../dui-primitives/packages/primitives/src/toast/index.ts",
     "@dui/primitives/toggle": "../dui-primitives/packages/primitives/src/toggle/index.ts",
     "@dui/primitives/toolbar": "../dui-primitives/packages/primitives/src/toolbar/index.ts",
     "@dui/primitives/tooltip": "../dui-primitives/packages/primitives/src/tooltip/index.ts",
