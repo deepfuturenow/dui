@@ -463,6 +463,26 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Events: none
 - Slots: default (Tooltip content)
 
+### Tree
+- Tag: `<dui-tree>`
+- Import: `@dui/components/tree`
+- Description: Hierarchical tree view with keyboard navigation, optional single/multiple selection, and async loading. Follows the W3C APG Treeview pattern.
+- Properties: size ("sm" | "md" | "lg", "sm"), expandedValues (string[] | undefined), defaultExpandedValues (string[], []), selectionMode ("none" | "single" | "multiple", "none"), selectedValues (string[] | undefined), defaultSelectedValues (string[], []), disabled (boolean, false)
+- Events: dui-expanded-change ({ values: string[] }), dui-selection-change ({ values: string[] }), dui-action ({ value: string })
+- Slots: default (dui-tree-item children)
+- CSS Variables: --dui-tree-row-height (Row height (set by size, can be overridden)), --dui-tree-indent (Indentation step per nesting level (set by size, can be overridden)), --dui-tree-row-spacing (Vertical gap between rows (default 0)), --dui-tree-row-radius (Corner radius on each row (default var(--radius-sm))), --dui-tree-hover-bg (Row hover background), --dui-tree-selected-bg (Selected row background)
+- CSS Parts: root (The tree layout container)
+
+### Tree Item
+- Tag: `<dui-tree-item>`
+- Import: `@dui/components/tree`
+- Description: A node in a dui-tree. Becomes a branch when it has slotted child dui-tree-item elements, or when has-children is set for async loading.
+- Properties: value (string, ""), disabled (boolean, false), hasChildren (boolean, false), loading (boolean, false)
+- Events: dui-load-children ({ value: string })
+- Slots: label (The visible label/content for this node (truncated by default)), end (Trailing content (status icons, badges, counts) — muted, always visible), default (Child dui-tree-item elements (makes this item a branch))
+- CSS Variables: --dui-tree-level (1-based nesting depth, set automatically by the primitive)
+- CSS Parts: root (The treeitem element (focus target). Wraps content + children — DO NOT style :hover here.), content (Row visual container — style hover/selected backgrounds, padding, radius here.), indicator (Expand/collapse chevron (or spinner when loading). Always rendered so leaf labels align.), group (The child group container (hidden when collapsed))
+
 ### Input
 - Tag: `<dui-input>`
 - Import: `@dui/components/input`

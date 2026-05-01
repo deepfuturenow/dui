@@ -24,7 +24,7 @@ const NAV_GROUPS: { label: string; slugs: string[] }[] = [
       "select", "separator", "sidebar-provider", "slider", "spinner",
       "split-button", "stepper",
       "switch", "tabs", "textarea", "toggle", "toggle-group", "toolbar",
-      "tooltip",
+      "tooltip", "tree",
     ],
   },
   {
@@ -994,6 +994,7 @@ export class DocsApp extends LitElement {
         case "menu": return html`<docs-page-menu></docs-page-menu>`;
         case "popover": return html`<docs-page-popover></docs-page-popover>`;
         case "tooltip": return html`<docs-page-tooltip></docs-page-tooltip>`;
+        case "tree": return html`<docs-page-tree></docs-page-tree>`;
         case "dialog": return html`<docs-page-dialog></docs-page-dialog>`;
         case "alert-dialog": return html`<docs-page-alert-dialog></docs-page-alert-dialog>`;
         case "breadcrumb": return html`<docs-page-breadcrumb></docs-page-breadcrumb>`;

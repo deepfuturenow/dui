@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-Compact catalog of all 57 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
+Compact catalog of all 58 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 ---
 
@@ -283,6 +283,13 @@ Text truncation with ellipsis. Single-line by default, or multi-line clamping wi
 **Slots:** `default` (Text content to truncate)
 
 ## Other
+
+### dui-tree `@dui/components/tree`
+Hierarchical tree view with keyboard navigation, optional single/multiple selection, and async loading. Follows the W3C APG Treeview pattern.
+**Sub-components:** `dui-tree-item`
+**Props:** `size`, `expandedValues`, `defaultExpandedValues`, `selectionMode`, `selectedValues`, `defaultSelectedValues`, `disabled` · item: `hasChildren`, `loading`
+**Events:** `dui-expanded-change` → `{ values: string[] }`, `dui-selection-change` → `{ values: string[] }`, `dui-action` → `{ value: string }`, `dui-load-children` → `{ value: string }`
+**Slots:** `default` (dui-tree-item children), `label` (item: The visible label/content for this node (truncated by default)), `end` (item: Trailing content (status icons, badges, counts) — muted, always visible)
 
 ### dui-map `@dui/map`
 Root map component wrapping MapLibre GL JS. Initializes the map, provides context to children, auto-detects dark/light theme.

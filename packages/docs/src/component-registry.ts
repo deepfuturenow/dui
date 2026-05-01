@@ -979,6 +979,70 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [],
   },
   {
+    tagName: "dui-tree",
+    name: "Tree",
+    description: "Hierarchical tree view with keyboard navigation, optional single/multiple selection, and async loading. Follows the W3C APG Treeview pattern.",
+    importPath: "@dui/components/tree",
+    properties: [
+      { name: "size", type: '"sm" | "md" | "lg"', default: '"sm"', description: "Visual density of all rows in the tree" },
+      { name: "expandedValues", type: "string[] | undefined", description: "Controlled expanded branches" },
+      { name: "defaultExpandedValues", type: "string[]", default: "[]", description: "Initial expanded branches (uncontrolled)" },
+      { name: "selectionMode", type: '"none" | "single" | "multiple"', default: '"none"', description: "Selection behavior" },
+      { name: "selectedValues", type: "string[] | undefined", description: "Controlled selected items" },
+      { name: "defaultSelectedValues", type: "string[]", default: "[]", description: "Initial selected items (uncontrolled)" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the entire tree" },
+    ],
+    events: [
+      { name: "dui-expanded-change", detail: "{ values: string[] }", description: "Branches expanded or collapsed" },
+      { name: "dui-selection-change", detail: "{ values: string[] }", description: "Selection changed" },
+      { name: "dui-action", detail: "{ value: string }", description: "Leaf activated in non-selectable tree (Enter/click)" },
+    ],
+    slots: [
+      { name: "default", description: "dui-tree-item children" },
+    ],
+    cssProperties: [
+      { name: "--dui-tree-row-height", description: "Row height (set by size, can be overridden)" },
+      { name: "--dui-tree-indent", description: "Indentation step per nesting level (set by size, can be overridden)" },
+      { name: "--dui-tree-row-spacing", description: "Vertical gap between rows (default 0)" },
+      { name: "--dui-tree-row-radius", description: "Corner radius on each row (default var(--radius-sm))" },
+      { name: "--dui-tree-hover-bg", description: "Row hover background" },
+      { name: "--dui-tree-selected-bg", description: "Selected row background" },
+    ],
+    cssParts: [
+      { name: "root", description: "The tree layout container" },
+    ],
+  },
+  {
+    tagName: "dui-tree-item",
+    name: "Tree Item",
+    description: "A node in a dui-tree. Becomes a branch when it has slotted child dui-tree-item elements, or when has-children is set for async loading.",
+    importPath: "@dui/components/tree",
+    parent: "dui-tree",
+    properties: [
+      { name: "value", type: "string", default: '""', description: "Unique identifier for this item (required)" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disables this item and its descendants" },
+      { name: "hasChildren", type: "boolean", default: "false", description: "Marks this item as a branch even with no slotted children — used for async loading. Fires dui-load-children on first expand." },
+      { name: "loading", type: "boolean", default: "false", description: "Show a spinner in place of the chevron while async children load" },
+    ],
+    events: [
+      { name: "dui-load-children", detail: "{ value: string }", description: "First expand of a has-children branch with no slotted children. Bubbles to dui-tree." },
+    ],
+    slots: [
+      { name: "label", description: "The visible label/content for this node (truncated by default)" },
+      { name: "end", description: "Trailing content (status icons, badges, counts) — muted, always visible" },
+      { name: "default", description: "Child dui-tree-item elements (makes this item a branch)" },
+    ],
+    cssProperties: [
+      { name: "--dui-tree-level", description: "1-based nesting depth, set automatically by the primitive" },
+    ],
+    cssParts: [
+      { name: "root", description: "The treeitem element (focus target). Wraps content + children — DO NOT style :hover here." },
+      { name: "content", description: "Row visual container — style hover/selected backgrounds, padding, radius here." },
+      { name: "indicator", description: "Expand/collapse chevron (or spinner when loading). Always rendered so leaf labels align." },
+      { name: "group", description: "The child group container (hidden when collapsed)" },
+    ],
+  },
+  {
     tagName: "dui-input",
     name: "Input",
     description: "A native input element that integrates with dui-field for accessible labeling and validation.",
