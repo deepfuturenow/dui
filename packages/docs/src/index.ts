@@ -38,6 +38,7 @@ import "./pages/docs-page-command.ts";
 import "./pages/docs-page-sidebar.ts";
 import "./pages/docs-page-separator.ts";
 import "./pages/docs-page-split-button.ts";
+import "./pages/docs-page-splitter.ts";
 import "./pages/docs-page-progress.ts";
 import "./pages/docs-page-toggle.ts";
 import "./pages/docs-page-toggle-group.ts";

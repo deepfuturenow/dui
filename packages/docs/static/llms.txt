@@ -755,6 +755,33 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Slots: default (Action button label content), icon (Custom icon for the dropdown trigger (defaults to chevron-down)), menu (dui-menu-item elements for the dropdown)
 - CSS Parts: root (The outer container wrapping both zones), action (The left action button), divider (The vertical separator between zones), trigger (The right dropdown trigger button)
 
+### Splitter
+- Tag: `<dui-splitter>`
+- Import: `@dui/components/splitter`
+- Description: Resizable panel group for dividing an area into draggable, constrained panes. Implements the W3C ARIA Window Splitter pattern. Compose with `<dui-splitter-panel>` and `<dui-splitter-handle>`. Imperative API on the element: `getSizes()`, `setSizes(sizes)`, `resetSizes()`, `collapsePanel(id)`, `expandPanel(id)`, `isPanelCollapsed(id)`.
+- Properties: orientation ("horizontal" | "vertical", "horizontal"), value (number[] | undefined), default-value (number[], []), disabled (boolean, false), keyboard-step (number, 10), keyboard-step-large (number, 25), auto-save-id (string)
+- Events: value-change (number[]), collapse-change ({ panelId: string; collapsed: boolean })
+- Slots: default (`<dui-splitter-panel>` and `<dui-splitter-handle>` children, alternating.)
+- CSS Parts: root (The internal flex container.)
+
+### Splitter Panel
+- Tag: `<dui-splitter-panel>`
+- Import: `@dui/components/splitter`
+- Description: A single resizable panel inside a `<dui-splitter>`. The host owns `flex-basis`; paint content onto `::part(root)`.
+- Properties: panel-id (string), default-size (number), min-size (number, 0), max-size (number, 100), collapsible (boolean, false), order (number)
+- Events: none
+- Slots: default (Panel content.)
+- CSS Parts: root (The panel content wrapper. Paint backgrounds, padding, and content layout here. Use `:host([data-collapsed])` (or `dui-splitter-panel[data-collapsed]`) to style the collapsed state.)
+
+### Splitter Handle
+- Tag: `<dui-splitter-handle>`
+- Import: `@dui/components/splitter`
+- Description: Draggable separator between two adjacent panels. Renders an 8px interaction target with a centered 1px line; both are independently sizable.
+- Properties: disabled (boolean, false)
+- Events: none
+- CSS Variables: --splitter-handle-size (Interaction target thickness (host's cross-axis size). Default `var(--space-2)` (8px).), --splitter-handle-visible-size (Visible line thickness, drawn centered in the target. Default `var(--border-width-thin)` (1px). Set to 0 for an invisible-but-grabbable handle.), --splitter-handle-color (Idle color of the visible line. Default `var(--border)`.), --splitter-handle-hover-color (Hover color. Default `var(--border-strong)`.), --splitter-handle-active-color (Color when dragging or keyboard-focused. Default `var(--accent)`.), --splitter-handle-radius (Corner radius of the visible line. Default `var(--radius-full)`.), --splitter-handle-transition-duration (Color/size transition duration. Default `var(--duration-fast)`.)
+- CSS Parts: root (The internal `role="separator"` element.)
+
 ### Separator
 - Tag: `<dui-separator>`
 - Import: `@dui/components/separator`
