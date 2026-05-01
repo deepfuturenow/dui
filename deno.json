@@ -67,6 +67,7 @@
     "@dui/primitives/toggle": "../dui-primitives/packages/primitives/src/toggle/index.ts",
     "@dui/primitives/toolbar": "../dui-primitives/packages/primitives/src/toolbar/index.ts",
     "@dui/primitives/tooltip": "../dui-primitives/packages/primitives/src/tooltip/index.ts",
+    "@dui/primitives/tree": "../dui-primitives/packages/primitives/src/tree/index.ts",
     "@dui/primitives/trunc": "../dui-primitives/packages/primitives/src/trunc/index.ts"
   },
   "unstable": ["raw-imports"],

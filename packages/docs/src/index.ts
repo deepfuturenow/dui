@@ -13,6 +13,7 @@ import "./pages/docs-page-combobox.ts";
 import "./pages/docs-page-menu.ts";
 import "./pages/docs-page-popover.ts";
 import "./pages/docs-page-tooltip.ts";
+import "./pages/docs-page-tree.ts";
 import "./pages/docs-page-dialog.ts";
 import "./pages/docs-page-alert-dialog.ts";
 import "./pages/docs-page-breadcrumb.ts";

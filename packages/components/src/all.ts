@@ -45,6 +45,7 @@ import "./textarea/index.ts";
 import "./toggle/index.ts";
 import "./toolbar/index.ts";
 import "./tooltip/index.ts";
+import "./tree/index.ts";
 import "./trunc/index.ts";
 
 export { DuiAccordion } from "./accordion/index.ts";
@@ -135,6 +136,8 @@ export { DuiToolbar } from "./toolbar/index.ts";
 export { DuiTooltip } from "./tooltip/index.ts";
 export { DuiTooltipPopup } from "./tooltip/index.ts";
 export { DuiTooltipTrigger } from "./tooltip/index.ts";
+export { DuiTree } from "./tree/index.ts";
+export { DuiTreeItem } from "./tree/index.ts";
 export { DuiTrunc } from "./trunc/index.ts";
 
 export type { AccordionContext } from "@dui/primitives/accordion";
@@ -162,3 +165,4 @@ export type { TextareaResize } from "@dui/primitives/textarea";
 export type { ToggleGroupContext } from "@dui/primitives/toggle";
 export type { TooltipOpenChangeDetail } from "@dui/primitives/tooltip";
 export type { TooltipContext, TooltipSide } from "@dui/primitives/tooltip";
+export type { SelectionMode, TreeContext } from "@dui/primitives/tree";

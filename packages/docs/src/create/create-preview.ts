@@ -18,6 +18,7 @@ import "./blocks/block-3d-scene.ts";
 import "./blocks/block-token-usage.ts";
 import "./blocks/block-sidebar.ts";
 import "./blocks/block-map.ts";
+import "./blocks/block-file-tree.ts";
 import "./blocks/block-dashboard.ts";
 // import "./blocks/block-analytics.ts";
 
@@ -95,6 +96,7 @@ export class CreatePreview extends LitElement {
         <block-chat></block-chat>
         <block-calendar></block-calendar>
         <block-sidebar></block-sidebar>
+        <block-file-tree></block-file-tree>
         <block-invite-team></block-invite-team>
         <block-3d-scene></block-3d-scene>
         <block-faq></block-faq>
