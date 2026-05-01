@@ -32,6 +32,7 @@ dui-inspector/               # @dui/inspector — runtime component inspector (s
 - Run all Deno commands from the repo root: `deno check`, `deno lint`, `deno fmt`
 - Dev server: `cd packages/docs && deno task dev` (serves on port 4040)
 - Always use `git -C /absolute/path <subcommand>` instead of `cd /path && git <subcommand>`
+- **Only run `deno fmt` on files you authored from scratch.** For files that already exist, rely on your targeted `edit`/`write` calls and run `deno fmt --check` (read-only) to verify. Whole-file formatters silently expand the blast radius of a change: if a pre-existing file is fmt-dirty on `main`, running `deno fmt` on it will sweep up unrelated reformatting into your diff (commonly hundreds or thousands of lines of noise). If genuine fmt cleanup is wanted, do it in a separate `chore: deno fmt` commit, never inside a feature commit.
 
 ## Key patterns
 
@@ -70,6 +71,7 @@ Then use `read` to view the image if needed.
 - Do not hardcode `px`, `rem`, or color values — use design tokens (`--space-*`, `--font-size-*`, etc.)
 - Do not put aesthetic styles in primitives — those belong in the component layer
 - Do not use `querySelector` to reach into another component's Shadow DOM from outside
+- Do not run `deno fmt` (or any whole-file formatter) on files you didn't author. See "Running commands" above.
 
 ## Docs site
 
