@@ -38,6 +38,7 @@
     "./slider": "./src/slider/index.ts",
     "./spinner": "./src/spinner/index.ts",
     "./split-button": "./src/split-button/index.ts",
+    "./splitter": "./src/splitter/index.ts",
     "./stepper": "./src/stepper/index.ts",
     "./switch": "./src/switch/index.ts",
     "./tabs": "./src/tabs/index.ts",

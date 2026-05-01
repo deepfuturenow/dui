@@ -3,7 +3,7 @@
 
 # DUI Component Reference
 
-Compact catalog of all 58 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
+Compact catalog of all 59 component families. Use the inspector (`__dui_inspect('dui-button')`) for full token, part, and property details. Every component exposes `::part(root)` for CSS access beyond tokens.
 
 ---
 
@@ -290,6 +290,13 @@ Hierarchical tree view with keyboard navigation, optional single/multiple select
 **Props:** `size`, `expandedValues`, `defaultExpandedValues`, `selectionMode`, `selectedValues`, `defaultSelectedValues`, `disabled` · item: `hasChildren`, `loading`
 **Events:** `dui-expanded-change` → `{ values: string[] }`, `dui-selection-change` → `{ values: string[] }`, `dui-action` → `{ value: string }`, `dui-load-children` → `{ value: string }`
 **Slots:** `default` (dui-tree-item children), `label` (item: The visible label/content for this node (truncated by default)), `end` (item: Trailing content (status icons, badges, counts) — muted, always visible)
+
+### dui-splitter `@dui/components/splitter`
+Resizable panel group for dividing an area into draggable, constrained panes. Implements the W3C ARIA Window Splitter pattern. Compose with `<dui-splitter-panel>` and `<dui-splitter-handle>`. Imperative API on the element: `getSizes()`, `setSizes(sizes)`, `resetSizes()`, `collapsePanel(id)`, `expandPanel(id)`, `isPanelCollapsed(id)`.
+**Sub-components:** `dui-splitter-panel`, `dui-splitter-handle`
+**Props:** `orientation`, `value`, `default-value`, `disabled`, `keyboard-step`, `keyboard-step-large`, `auto-save-id` · panel: `panel-id`, `default-size`, `min-size`, `max-size`, `collapsible`, `order`
+**Events:** `value-change` → `number[]`, `collapse-change` → `{ panelId: string; collapsed: boolean }`
+**Slots:** `default` (`<dui-splitter-panel>` and `<dui-splitter-handle>` children, alternating.)
 
 ### dui-map `@dui/map`
 Root map component wrapping MapLibre GL JS. Initializes the map, provides context to children, auto-detects dark/light theme.

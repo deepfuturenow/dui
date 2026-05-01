@@ -60,6 +60,7 @@
     "@dui/primitives/slider": "../dui-primitives/packages/primitives/src/slider/index.ts",
     "@dui/primitives/spinner": "../dui-primitives/packages/primitives/src/spinner/index.ts",
     "@dui/primitives/split-button": "../dui-primitives/packages/primitives/src/split-button/index.ts",
+    "@dui/primitives/splitter": "../dui-primitives/packages/primitives/src/splitter/index.ts",
     "@dui/primitives/stepper": "../dui-primitives/packages/primitives/src/stepper/index.ts",
     "@dui/primitives/switch": "../dui-primitives/packages/primitives/src/switch/index.ts",
     "@dui/primitives/tabs": "../dui-primitives/packages/primitives/src/tabs/index.ts",
