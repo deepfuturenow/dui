@@ -17,8 +17,50 @@ All packages share the same version number. The source of truth for the current 
 
 ## Prerequisites
 
-- npm login to the `@deepfuture` org (run `npm whoami` to verify)
+- **npm authentication** (see "Authentication" below)
 - All changes committed (the version bump itself will be committed at the end)
+
+## Authentication
+
+npm requires authentication to publish to the `@deepfuture` org. The publish script (`scripts/publish.ts`) supports three methods:
+
+### Option 1: Granular access token (recommended)
+
+npm's web-based OTP flow breaks when `npm publish` runs as a subprocess — npm masks the auth callback URLs with `***`, making them unclickable. A **granular access token** bypasses OTP entirely and is the most reliable method.
+
+**One-time setup:**
+1. Go to [npmjs.com](https://www.npmjs.com) → Avatar → Access Tokens → Generate New Token → **Granular Access Token**
+2. Set permissions to **Read and write**
+3. Scope to packages under `@deepfuture`
+4. Copy the token (starts with `npm_`)
+
+**Usage:**
+```bash
+NPM_TOKEN=npm_xxxx deno task publish:live
+```
+
+Or add to your shell profile for convenience:
+```bash
+export NPM_TOKEN=npm_xxxx
+```
+
+### Option 2: OTP from authenticator app
+
+If you have a TOTP authenticator app configured for your npm account, pass the code directly:
+
+```bash
+deno task publish:live --otp 123456
+```
+
+The code must remain valid for ~10 seconds while all 5 packages publish.
+
+### Option 3: Interactive login (fragile)
+
+Run `npm whoami` to verify you're logged in. This relies on npm's interactive web auth flow, which **does not work reliably** when npm is spawned as a subprocess (the auth URLs get masked with `***`). Use Option 1 or 2 instead.
+
+### Why not just `npm login`?
+
+npm's 2FA enforcement sends you to a browser URL to authenticate. When the publish script spawns `npm publish` as a child process of Deno, npm detects a non-interactive context and masks the auth callback URL (e.g. `https://www.npmjs.com/auth/cli/***`), making the flow impossible to complete. This is a known npm CLI behavior, not a DUI bug. The `NPM_TOKEN` approach sidesteps the issue entirely.
 
 ## Steps
 
@@ -78,8 +120,14 @@ Check that:
 
 ### 6. Publish for real
 
+Using a granular access token (recommended):
 ```bash
-deno task publish:live
+NPM_TOKEN=npm_xxxx deno task publish:live
+```
+
+Or with OTP:
+```bash
+deno task publish:live --otp 123456
 ```
 
 This runs `npm publish --access public` for each package in dependency order:
@@ -88,6 +136,8 @@ This runs `npm publish --access public` for each package in dependency order:
 3. `dui-chart` (depends on core + Observable Plot)
 4. `dui-map` (depends on core + MapLibre GL)
 5. `dui-cdn` (bundles everything)
+
+If publish fails with an OTP/auth error, see the **Authentication** section above.
 
 ### 7. Commit and tag
 
