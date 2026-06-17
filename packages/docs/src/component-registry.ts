@@ -1495,7 +1495,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "defaultOpen", type: "boolean", default: "true", description: "Initial open state (uncontrolled)" },
       { name: "side", type: '"left" | "right"', default: '"left"', description: "Which side the sidebar appears on" },
       { name: "variant", type: '"sidebar" | "floating" | "inset"', default: '"sidebar"', description: "Visual variant" },
-      { name: "collapsible", type: '"offcanvas" | "icon" | "none"', default: '"offcanvas"', description: "How the sidebar collapses" },
+      { name: "collapsible", type: '"offcanvas" | "icon" | "none" | "always"', default: '"offcanvas"', description: "How the sidebar collapses. 'always' forces the mobile overlay at all viewport sizes." },
     ],
     events: [
       { name: "open-change", detail: "{ open: boolean }", description: "Fired when the sidebar opens or closes" },

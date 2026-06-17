@@ -656,7 +656,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Tag: `<dui-sidebar-provider>`
 - Import: `@dui/components/sidebar`
 - Description: Root state manager for the sidebar. Manages open/close state, mobile detection, and provides context.
-- Properties: open (boolean | undefined), defaultOpen (boolean, true), side ("left" | "right", "left"), variant ("sidebar" | "floating" | "inset", "sidebar"), collapsible ("offcanvas" | "icon" | "none", "offcanvas")
+- Properties: open (boolean | undefined), defaultOpen (boolean, true), side ("left" | "right", "left"), variant ("sidebar" | "floating" | "inset", "sidebar"), collapsible ("offcanvas" | "icon" | "none" | "always", "offcanvas")
 - Events: open-change ({ open: boolean })
 - Slots: default (Sidebar and content areas)
 

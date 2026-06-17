@@ -2,6 +2,7 @@ import { LitElement, html, css, svg } from "lit";
 import { customElement } from "lit/decorators.js";
 import "@dui/components/sidebar";
 import "@dui/components/icon";
+import "@dui/components/button";
 
 /* ── Lucide-style icon paths ── */
 
@@ -14,6 +15,8 @@ const indicatorsIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 
 const openQuestionsIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`;
 
 const appendixIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`;
+
+const panelLeftIcon = svg`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>`;
 
 @customElement("dashboard-exemplar-app")
 export class DashboardExemplarApp extends LitElement {
@@ -36,12 +39,26 @@ export class DashboardExemplarApp extends LitElement {
       display: flex;
       align-items: center;
       gap: var(--space-2);
+      height: var(--space-6);
     }
 
     .app-name {
       font-size: var(--text-sm);
       font-weight: var(--font-weight-semibold);
       color: var(--text-1);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-1) var(--space-1);
+      border-bottom: var(--border-width-thin) solid var(--border);
+    }
+
+    dui-sidebar-trigger {
+      --button-width: var(--space-8);
+      --button-padding-x: 0;
     }
 
     .inset-content {
@@ -56,7 +73,7 @@ export class DashboardExemplarApp extends LitElement {
 
   override render() {
     return html`
-      <dui-sidebar-provider collapsible="none">
+      <dui-sidebar-provider collapsible="offcanvas">
         <dui-sidebar>
           <dui-sidebar-header>
             <div class="header-content">
@@ -101,6 +118,13 @@ export class DashboardExemplarApp extends LitElement {
           </dui-sidebar-content>
         </dui-sidebar>
         <dui-sidebar-inset>
+          <div class="topbar">
+            <dui-sidebar-trigger>
+              <dui-button appearance="ghost">
+                <dui-icon>${panelLeftIcon}</dui-icon>
+              </dui-button>
+            </dui-sidebar-trigger>
+          </div>
           <div class="inset-content">
             <p class="inset-placeholder">Select a section from the sidebar.</p>
           </div>
