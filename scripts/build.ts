@@ -28,7 +28,7 @@ const PACKAGES = [
     distDir: "dui-components",
     description: "DUI styled web components — extends dui-primitives with design tokens and variant CSS",
     dependencies: {
-      "@deepfuture/dui-primitives": "0.1.0",
+      "@deepfuture/dui-primitives": "0.0.0", // replaced at build time by getPrimitivesVersion()
       "lit": "^3.3.2",
       "@lit/context": "^1.1.3",
     },
@@ -39,8 +39,8 @@ const PACKAGES = [
     distDir: "dui-templates",
     description: "DUI templates — pre-composed UI patterns built from DUI components",
     dependencies: {
-      "@deepfuture/dui-primitives": "0.1.0",
-      "@deepfuture/dui-components": "0.1.0",
+      "@deepfuture/dui-primitives": "0.0.0", // replaced at build time
+      "@deepfuture/dui-components": "0.0.0", // replaced at build time
       "lit": "^3.3.2",
     },
   },
@@ -50,7 +50,7 @@ const PACKAGES = [
     distDir: "dui-chart",
     description: "DUI chart component — Observable Plot wrapper with design token theming",
     dependencies: {
-      "@deepfuture/dui-primitives": "0.1.0",
+      "@deepfuture/dui-primitives": "0.0.0", // replaced at build time
       "lit": "^3.3.2",
       "@observablehq/plot": "^0.6",
     },
@@ -61,7 +61,7 @@ const PACKAGES = [
     distDir: "dui-map",
     description: "DUI map components — MapLibre GL wrapper with markers, routes, regions, and clustering",
     dependencies: {
-      "@deepfuture/dui-primitives": "0.1.0",
+      "@deepfuture/dui-primitives": "0.0.0", // replaced at build time
       "lit": "^3.3.2",
       "@lit/context": "^1.1.3",
       "maplibre-gl": "^5.15.0",
