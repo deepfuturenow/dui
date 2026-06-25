@@ -13,7 +13,7 @@ const styles = css`
     line-height: var(--text-sm--line-height);
     box-shadow: var(--shadow-lg);
     border: var(--border-width-thin) solid var(--border);
-    max-width: var(--max-width, var(--space-80));
+    max-width: var(--preview-card-popup-max-width, var(--space-80));
     transition-duration: var(--duration-faster);
     transition-timing-function: var(--ease-out-3);
   }
