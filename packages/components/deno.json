@@ -1,6 +1,6 @@
 {
   "name": "@dui/components",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "exports": {
     ".": "./src/all.ts",
     "./accordion": "./src/accordion/index.ts",
