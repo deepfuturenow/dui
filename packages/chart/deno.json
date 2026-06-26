@@ -1,6 +1,6 @@
 {
   "name": "@dui/chart",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "exports": {
     ".": "./src/index.ts",
     "./chart": "./src/chart/index.ts",
