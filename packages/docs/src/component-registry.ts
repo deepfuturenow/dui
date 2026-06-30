@@ -317,7 +317,7 @@ export const componentRegistry: ComponentMeta[] = [
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
       { name: "appearance", values: '"filled" | "outline" | "soft"', description: "Visual treatment" },
-      { name: "size", values: '"sm" | undefined', description: "Badge size. Default is standard; sm is compact (18px)." },
+      { name: "size", values: '"sm" | undefined', description: "Badge size. Default is standard; sm is compact (16px)." },
     ],
     themeCssProperties: [
       { name: "--badge-bg", description: "Background color" },

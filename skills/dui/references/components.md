@@ -129,7 +129,7 @@ A sortable, paginated data table with column definitions and custom cell rendere
 
 ### dui-badge `@dui/components/badge`
 An inline status indicator element.
-**Theme:** `variant` ("neutral" | "primary" | "danger") · `appearance` ("filled" | "outline" | "soft")
+**Theme:** `variant` ("neutral" | "primary" | "danger") · `appearance` ("filled" | "outline" | "soft") · `size` ("sm" | undefined)
 **Slots:** `default` (Badge content)
 
 ### dui-avatar `@dui/components/avatar`

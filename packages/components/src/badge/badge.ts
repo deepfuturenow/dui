@@ -81,10 +81,10 @@ const styles = css`
   }
 
   :host([size="sm"]) {
-    --badge-height: var(--space-4_5);
+    --badge-height: var(--space-4);
     --badge-padding-x: var(--space-1_5);
     --badge-gap: var(--space-0_5);
-    --badge-font-size: var(--text-xs);
+    --badge-font-size: var(--text-2xs);
     --badge-icon-size: var(--space-2_5);
   }
 

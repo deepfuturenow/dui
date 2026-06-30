@@ -57,11 +57,11 @@ export class DocsPageBadge extends LitElement {
           <dui-badge>Default</dui-badge>
           <dui-badge size="sm">Small</dui-badge>
         </docs-row>
-        <docs-row style="margin-top: var(--space-2);">
+        <docs-row>
           <dui-badge variant="primary">Default</dui-badge>
           <dui-badge variant="primary" size="sm">Small</dui-badge>
         </docs-row>
-        <docs-row style="margin-top: var(--space-2);">
+        <docs-row>
           <dui-badge variant="danger" appearance="outline">Default</dui-badge>
           <dui-badge variant="danger" appearance="outline" size="sm">Small</dui-badge>
         </docs-row>
