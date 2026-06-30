@@ -52,6 +52,43 @@ export class DocsPageBadge extends LitElement {
         </table>
       </dui-docs-demo>
 
+      <dui-docs-demo label="Sizes">
+        <docs-row>
+          <dui-badge>Default</dui-badge>
+          <dui-badge size="sm">Small</dui-badge>
+        </docs-row>
+        <docs-row style="margin-top: var(--space-2);">
+          <dui-badge variant="primary">Default</dui-badge>
+          <dui-badge variant="primary" size="sm">Small</dui-badge>
+        </docs-row>
+        <docs-row style="margin-top: var(--space-2);">
+          <dui-badge variant="danger" appearance="outline">Default</dui-badge>
+          <dui-badge variant="danger" appearance="outline" size="sm">Small</dui-badge>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Custom radius">
+        <docs-row>
+          <dui-badge style="--badge-radius: var(--radius-sm)">Subtle</dui-badge>
+          <dui-badge style="--badge-radius: var(--radius-md)">Medium</dui-badge>
+          <dui-badge>Full (default)</dui-badge>
+        </docs-row>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Uppercase compact (via ::part)">
+        <style>
+          .badge-uppercase::part(root) {
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+          }
+        </style>
+        <docs-row>
+          <dui-badge size="sm" class="badge-uppercase" style="--badge-radius: var(--radius-sm)">Active</dui-badge>
+          <dui-badge size="sm" class="badge-uppercase" style="--badge-radius: var(--radius-sm)" variant="primary">New</dui-badge>
+          <dui-badge size="sm" class="badge-uppercase" style="--badge-radius: var(--radius-sm)" variant="danger" appearance="soft">Alert</dui-badge>
+        </docs-row>
+      </dui-docs-demo>
+
       <dui-docs-demo label="Icons & custom colors">
         <docs-row>
           <dui-badge appearance="soft" style="--badge-bg: oklch(0.4 0.5 155 / 0.13); --badge-fg: oklch(0.55 0.15 155)"><dui-icon>${unsafeHTML(Check)}</dui-icon>Complete</dui-badge>
