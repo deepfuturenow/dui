@@ -317,11 +317,17 @@ export const componentRegistry: ComponentMeta[] = [
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },
       { name: "appearance", values: '"filled" | "outline" | "soft"', description: "Visual treatment" },
+      { name: "size", values: '"sm" | undefined', description: "Badge size. Default is standard; sm is compact (18px)." },
     ],
     themeCssProperties: [
       { name: "--badge-bg", description: "Background color" },
       { name: "--badge-fg", description: "Text and icon color" },
       { name: "--badge-border", description: "Border color" },
+      { name: "--badge-height", description: "Badge height (default: var(--space-5))" },
+      { name: "--badge-padding-x", description: "Horizontal padding (default: var(--space-2))" },
+      { name: "--badge-gap", description: "Gap between icon and text (default: var(--space-1))" },
+      { name: "--badge-radius", description: "Border radius (default: var(--radius-full))" },
+      { name: "--badge-font-size", description: "Font size (default: var(--text-xs))" },
       { name: "--badge-icon-size", description: "Icon size within badge" },
     ],
   },

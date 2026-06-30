@@ -31,7 +31,7 @@ export class DocsPageSplitter extends LitElement {
       /* Panel content surface. The host owns flex-basis; paint here. */
       .splitter-frame dui-splitter-panel::part(root) {
         padding: var(--space-3);
-        font-size: var(--font-size-sm);
+        font-size: var(--text-sm);
         color: var(--muted-foreground);
         background: var(--surface-1);
         height: 100%;

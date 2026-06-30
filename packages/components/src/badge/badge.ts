@@ -68,6 +68,11 @@ const styles = css`
    * --------------------------------------------------------------- */
 
   :host {
+    --badge-height: var(--space-5);
+    --badge-padding-x: var(--space-2);
+    --badge-gap: var(--space-1);
+    --badge-radius: var(--radius-full);
+    --badge-font-size: var(--text-xs);
     --badge-icon-size: var(--space-3);
     --icon-size: var(--badge-icon-size);
     --icon-color: var(--badge-fg);
@@ -75,16 +80,25 @@ const styles = css`
     line-height: 0;
   }
 
+  :host([size="sm"]) {
+    --badge-height: var(--space-4_5);
+    --badge-padding-x: var(--space-1_5);
+    --badge-gap: var(--space-0_5);
+    --badge-font-size: var(--text-xs);
+    --badge-icon-size: var(--space-2_5);
+  }
+
   [part="root"] {
-    /* display: inline-block; */
-    gap: var(--space-1);
-    height: var(--space-5);
-    padding: 0 var(--space-2);
-    border-radius: var(--radius-full);
+    gap: var(--badge-gap);
+    height: var(--badge-height);
+    padding: 0 var(--badge-padding-x);
+    border-radius: var(--badge-radius);
     background: var(--badge-bg);
     color: var(--badge-fg);
     font-family: var(--font-sans);
-    font-size: var(--text-xs); letter-spacing: var(--letter-spacing-normal); line-height: var(--line-height-snug);
+    font-size: var(--badge-font-size);
+    letter-spacing: var(--letter-spacing-normal);
+    line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);

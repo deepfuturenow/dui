@@ -170,6 +170,37 @@ Additionally, `@property` declarations register CSS custom properties with types
 
 ---
 
+## Fonts
+
+DUI defaults `--font-sans` to `system-ui, -apple-system, sans-serif` — the OS system font. No web fonts are loaded by default, so components look correct out of the box without external dependencies.
+
+To use a custom font (e.g. Inter, Geist), load it yourself and override the token:
+
+```html
+<!-- Load the font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+</style>
+```
+
+Or use `applyTheme()` which appends the fallback stack automatically:
+
+```typescript
+import { applyTheme } from "@dui/components/theme";
+
+applyTheme({
+  fonts: { sans: "Inter" },
+});
+```
+
+See [theming.md](./theming.md) for more on `applyTheme()`.
+
+---
+
 ## Global token overrides
 
 Override design tokens on `:root` to change the entire look:
