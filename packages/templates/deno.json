@@ -1,6 +1,6 @@
 {
   "name": "@dui/templates",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "exports": {
     "./feed": "./src/feed/index.ts",
     "./dashboard": "./src/dashboard/index.ts",

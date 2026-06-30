@@ -1,6 +1,6 @@
 {
   "name": "@dui/map",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "exports": {
     ".": "./src/index.ts",
     "./map": "./src/map/index.ts",
