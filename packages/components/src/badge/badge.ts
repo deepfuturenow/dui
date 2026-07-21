@@ -98,7 +98,7 @@ const styles = css`
     font-family: var(--font-sans);
     font-size: var(--badge-font-size);
     letter-spacing: var(--letter-spacing-normal);
-    line-height: var(--line-height-snug);
+    line-height: 1em;
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);
