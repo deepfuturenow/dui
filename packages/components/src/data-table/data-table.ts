@@ -1,8 +1,18 @@
 import { css } from "lit";
 import { DuiDataTablePrimitive } from "@dui/primitives/data-table";
 import "../_install.ts";
+// The selection column renders <dui-checkbox>; register the styled checkbox so
+// it upgrades to this repo's look and behavior (mirrors toast → spinner).
+import "../checkbox/index.ts";
 
 const styles = css`
+  :host {
+    /* Selected-row tint — a subtle accent wash, matching this system's
+      "selected" convention (see calendar's data-today). Consumers can
+      override this property; :host lets an outer rule win over it. */
+    --data-table-selected-background: var(--accent-subtle);
+  }
+
   .DataTable {
     gap: var(--space-2);
   }
@@ -64,9 +74,26 @@ const styles = css`
     background: var(--surface-1);
   }
 
+  /* Selected rows stay tinted, and must beat the neutral :hover rule above.
+    Same specificity, so source order (these come later) decides — without
+    these, hovering a selected row would wipe its selected background. */
+  tbody tr[aria-selected="true"] {
+    background: var(--data-table-selected-background);
+  }
+
+  tbody tr[aria-selected="true"]:hover {
+    background: oklch(from var(--accent) l c h / 0.18);
+  }
+
   td {
     padding: var(--space-2) var(--space-3);
     vertical-align: middle;
+  }
+
+  /* Selection column: tighter inline padding so the narrow checkbox column
+    doesn't read as over-wide (width comes from the primitive's width: 1%). */
+  [part~="selection"] {
+    padding-inline: var(--space-2);
   }
 
   .EmptyRow td {
