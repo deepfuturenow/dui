@@ -41,6 +41,20 @@ export class DocsPageDataTable extends LitElement {
         if (el.id === "table-no-pagination") {
           el.pageSize = 0;
         }
+        if (el.id === "table-selection") {
+          el.pageSize = 5;
+          el.rowKey = (row: { email: string }) => row.email;
+          // Both rows sit on page 1 (pageSize 5) so the tint shows immediately.
+          el.selectedKeys = ["bob@example.com", "dave@example.com"];
+          // Selection is controlled: reflect each proposed change back into
+          // selectedKeys so the checkboxes and row styling stay in sync.
+          el.addEventListener(
+            "selection-change",
+            (e: CustomEvent<{ selectedKeys: string[] }>) => {
+              el.selectedKeys = e.detail.selectedKeys;
+            },
+          );
+        }
       });
     });
   }
@@ -51,6 +65,10 @@ export class DocsPageDataTable extends LitElement {
       <docs-page-layout tag="dui-data-table">
         <dui-docs-demo label="Default (10 rows/page)">
         <dui-data-table></dui-data-table>
+      </dui-docs-demo>
+
+      <dui-docs-demo label="Row selection (multiple)">
+        <dui-data-table id="table-selection" selection-mode="multiple"></dui-data-table>
       </dui-docs-demo>
 
       <dui-docs-demo label="5 rows per page">
