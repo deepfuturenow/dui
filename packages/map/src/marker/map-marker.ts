@@ -47,7 +47,7 @@ export class DuiMapMarker extends LitElement {
 
   /** Whether the marker can be dragged. */
   @property({ type: Boolean })
-  accessor draggable = false;
+  override accessor draggable = false;
 
   /** Marker rotation in degrees. */
   @property({ type: Number })

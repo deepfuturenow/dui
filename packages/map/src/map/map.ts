@@ -75,7 +75,9 @@ function getSystemTheme(): Theme {
 
 /** MapLibre CSS adopted into shadow DOM. */
 const maplibreSheet = new CSSStyleSheet();
-maplibreSheet.replaceSync(maplibreCssText);
+// esbuild's cssRawTextPlugin loads this as a string at build time; the type
+// checker sees the raw CSS module, so narrow it to string at the use site.
+maplibreSheet.replaceSync(maplibreCssText as unknown as string);
 
 /** Structural styles only — layout and behavioral CSS. */
 const styles = css`
