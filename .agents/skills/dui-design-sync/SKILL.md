@@ -48,7 +48,7 @@ deno run --allow-read --allow-write .agents/skills/dui-design-sync/gen.ts
 
 ## Adding components (incremental)
 
-The first wave is the **top 15** most-used components, listed in `components.ts` with hand-authored demo cards. To add more of the 61 top-level components:
+`components.ts` holds all **47** styled top-level components with hand-authored demo cards. (The 61 registry top-level entries minus the 13 `dui-map*`/`dui-chart` tags — separate `@dui/map` + `@dui/chart` packages not in the CDN bundle — and `dui-portal`, a no-visual rendering utility.) To add or revise components:
 1. Append `Entry` objects to `COMPONENTS` in `components.ts` (`tag`, `group`, `keywords`, and either a hand-authored `card` body or rely on the `themeAttributes` autoCard fallback + a good `example`).
 2. Re-run `gen.ts`.
 3. Upload only the **new** `components/<Group>/<Name>/` dirs (plus re-push `_ds_bundle.js`/`styles.css` if the bundle/tokens changed). The existing components are untouched.
@@ -61,12 +61,12 @@ Target the **production** project (see below). Fresh/empty project → increment
 
 ## Projects (Claude Design)
 
-- **`DUI Design System v2`** — `9d8ba712-dcf5-4337-a755-bb26f289a6d9` — the new production DS (real live components). Top-15 + JetBrains Mono webfont uploaded; remaining ~46 components pending.
+- **`DUI Design System v2`** — `9d8ba712-dcf5-4337-a755-bb26f289a6d9` — the new production DS (real live components). All 47 styled components + JetBrains Mono webfont uploaded.
 - `DUI Design System` — `019dcf73-717e-784e-8ca8-a30c2ca5d5ff` — OLD static recreations. Consumed by the "ETO" design project. Retire once v2 is complete, then re-point ETO.
 - `DUI Live Components (POC)` — `b920e6b6-…` — the throwaway POC (adapter-vs-raw test). Can be deleted.
 
 ## Known follow-ups
 
-- **Remaining ~46 components** — add in waves via `components.ts`.
+- **`@dui/map` + `@dui/chart`** — separate packages, not in the CDN bundle, so not yet synced. Would need their own bundle build to add.
 - **Icons** — `<dui-icon>` needs Material Symbols Outlined (~3.9 MB, not in the token closure). If icon-heavy designs are wanted, wire it: add it back to `fetch-fonts.ts` FAMILIES and confirm `<dui-icon>` resolves the font in the design runtime.
 - **`_ds_sync.json` anchor** — not yet emitted; add via the copied `lib/sync-hashes.mjs` for skip-unchanged re-syncs.
