@@ -25,6 +25,9 @@ Thumbs.db
 plans/
 screenshots/
 
+# design-sync staging (regenerable via .agents/skills/dui-design-sync/gen.ts)
+.design-sync/
+
 # Environment
 .env
 .env.local
