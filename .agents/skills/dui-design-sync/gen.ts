@@ -243,7 +243,13 @@ Listen to component events with \`addEventListener\` on a ref (e.g. \`value-chan
 
 ## Icons
 
-DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inherits size/color from \`--icon-size\` / \`--icon-color\` (or the parent component's icon tokens). **Source icons from [Lucide](https://lucide.dev)** — its 24×24 stroke icons match DUI's visual style and are MIT-licensed. Paste the icon's SVG markup (\`stroke="currentColor"\`, \`fill="none"\`, no hardcoded colors) into the element:
+DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inherits size/color from \`--icon-size\` / \`--icon-color\` (or the parent component's icon tokens). Source icons from **[Lucide](https://lucide.dev)** — its 24×24 stroke icons match DUI's visual style (open-source, ISC-licensed). The full set (~1,600 icons) is available three ways:
+
+1. **Browse names** at https://lucide.dev/icons — names are kebab-case (\`arrow-right\`, \`chevron-down\`, \`circle-check\`, \`trash-2\`, \`triangle-alert\`). Use exact existing names; don't invent them.
+2. **Fetch any icon's exact SVG** from its stable URL — \`https://unpkg.com/lucide-static/icons/<name>.svg\` (e.g. \`https://unpkg.com/lucide-static/icons/arrow-right.svg\`). This is the whole library, one predictable URL per icon.
+3. **Emit inline** the equivalent \`<svg>\` you already know for common icons.
+
+Whichever way, inline the SVG into \`<dui-icon>\` and keep \`fill="none" stroke="currentColor" stroke-width="2"\` with round caps/joins so it inherits the surrounding text/intent color:
 
 \`\`\`jsx
 <dui-icon style={{ '--icon-size': 'var(--space-5)' }}>
@@ -251,7 +257,7 @@ DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inheri
 </dui-icon>
 \`\`\`
 
-Icons compose inside other components: a leading icon in \`<dui-button>\`, \`<dui-toggle slot="icon">\`, menu items, etc. Keep \`stroke="currentColor"\` so the icon takes the surrounding text/intent color. Prefer Lucide names the user asks for; if unsure which icon, pick the closest Lucide equivalent.
+Icons compose inside other components: a leading icon in \`<dui-button>\`, \`<dui-toggle slot="icon">\`, menu items, etc.
 
 ## Tokens
 
