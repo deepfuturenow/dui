@@ -133,12 +133,20 @@ const CARD_CSS = `
   .dsc-demo.col { flex-direction:column; align-items:flex-start; }
 `;
 
+/** All cards share one width so content renders at a consistent scale in the pane;
+ * heights come from card-heights.json (measured content height at CARD_W) so each
+ * card fits its content. Regenerate that file when demos change (see SKILL.md). */
+const CARD_W = 1000;
+const CARD_HEIGHTS: Record<string, number> = (() => {
+  try { return JSON.parse(Deno.readTextFileSync(resolve(import.meta.dirname!, "card-heights.json"))); } catch { return {}; }
+})();
+
 function cardHtml(e: Entry): string {
   const m = meta(e.tag);
-  const [w, h] = (e.viewport ?? "1000x600").split("x");
+  const h = CARD_HEIGHTS[e.tag] ?? (e.viewport ?? "1000x400").split("x")[1];
   const demo = e.card ?? autoCard(e);
   return `<!doctype html>
-<!-- @dsCard group="${e.group}" viewport="${w}x${h}" -->
+<!-- @dsCard group="${e.group}" viewport="${CARD_W}x${h}" -->
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
@@ -256,6 +264,8 @@ Whichever way, inline the SVG into \`<dui-icon>\` and keep \`fill="none" stroke=
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
 </dui-icon>
 \`\`\`
+
+**Tune \`stroke-width\` to the rendered size** so weight stays even: \`2\` suits the default ~20–24px; bump to ~\`2.25\`–\`2.5\` for small icons (≤16px) so thin strokes don't disappear, and ease to ~\`1.5\` for large icons (≥32px) so they don't look heavy.
 
 Icons compose inside other components: a leading icon in \`<dui-button>\`, \`<dui-toggle slot="icon">\`, menu items, etc.
 

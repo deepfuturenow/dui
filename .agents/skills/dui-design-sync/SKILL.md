@@ -21,7 +21,7 @@ This is a **tailored fork** of the bundled `/design-sync` skill. DUI is Deno + L
 Per component it emits `components/<Group>/<Name>/{<Name>.d.ts, .prompt.md, .jsx, .html}`:
 - **`.d.ts`** — `<Name>Props` interface from the registry (+ referenced type defs appended as a prelude).
 - **`.prompt.md`** — raw-tag usage doc; documents the **ref + effect recipe** for object/array props (e.g. `<dui-select>` `options`).
-- **`.html`** — a live Lit-native preview card (loads `_ds_bundle.js`, uses real tags) with a `@dsCard group="…" viewport="WxH"` first-line marker.
+- **`.html`** — a live Lit-native preview card (loads `_ds_bundle.js`, uses real tags) with a `@dsCard group="…" viewport="WxH"` first-line marker. Every card uses one fixed width (`CARD_W` in gen.ts) so content renders at a consistent scale in the pane; the height per card comes from `card-heights.json` (measured content height at `CARD_W`) so cards fit their content — no dead space, no side gaps. **Re-measure when demos change:** render each card in a `CARD_W`-wide iframe, read `body.scrollHeight`, and rewrite `card-heights.json` (`{ "<tag>": <height> }`).
 - **`.jsx`** — re-export stub.
 
 ## Running it
