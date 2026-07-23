@@ -136,7 +136,7 @@ const CARD_CSS = `
 /** All cards share one width so content renders at a consistent scale in the pane;
  * heights come from card-heights.json (measured content height at CARD_W) so each
  * card fits its content. Regenerate that file when demos change (see SKILL.md). */
-const CARD_W = 1000;
+const CARD_W = 800;
 const CARD_HEIGHTS: Record<string, number> = (() => {
   try { return JSON.parse(Deno.readTextFileSync(resolve(import.meta.dirname!, "card-heights.json"))); } catch { return {}; }
 })();
