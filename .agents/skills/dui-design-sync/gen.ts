@@ -17,6 +17,7 @@ const ROOT = resolve(import.meta.dirname!, "../../..");
 const OUT = resolve(ROOT, ".design-sync/ds-bundle");
 const CDN = resolve(ROOT, "dist/dui-cdn/dui.min.js");
 const TOKENS = resolve(ROOT, "packages/components/src/tokens/tokens.css");
+const FONTS_SRC = resolve(ROOT, ".design-sync/fonts-src"); // populated by fetch-fonts.ts
 
 const byTag = new Map(componentRegistry.map((c) => [c.tagName, c]));
 const meta = (tag: string): ComponentMeta => {
@@ -193,9 +194,21 @@ async function emitShared(entries: Entry[]) {
   await write("_ds_bundle.js", hdr + cdn);
 
   await write("tokens/tokens.css", await Deno.readTextFile(TOKENS));
+
+  // Fonts (optional) — copy .design-sync/fonts-src/ → fonts/ if fetch-fonts.ts has run.
+  let fontsImport = "";
+  try {
+    const files = [...Deno.readDirSync(FONTS_SRC)].filter((f) => f.isFile);
+    if (files.length) {
+      for (const f of files) await write(`fonts/${f.name}`, await Deno.readFile(join(FONTS_SRC, f.name)));
+      fontsImport = `@import "./fonts/fonts.css";\n`;
+      console.log(`   fonts: ${files.length} file(s) → fonts/`);
+    }
+  } catch { /* no fonts-src — text renders with system fallbacks */ }
+
   await write(
     "styles.css",
-    `/* DUI — single stylesheet entry. Component styling lives in shadow DOM and is\n * injected at runtime by _ds_bundle.js; only tokens (and fonts, when present)\n * need to be reachable here for the agent's own layout markup. */\n@import "./tokens/tokens.css";\n`,
+    `/* DUI — single stylesheet entry. Component styling lives in shadow DOM and is\n * injected at runtime by _ds_bundle.js; only tokens (and fonts, when present)\n * need to be reachable here for the agent's own layout markup. */\n${fontsImport}@import "./tokens/tokens.css";\n`,
   );
   await write("_ds_needs_recompile", `{"by":"dui-design-sync"}\n`);
   await write("README.md", readme(entries));

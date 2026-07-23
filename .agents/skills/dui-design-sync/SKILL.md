@@ -30,14 +30,21 @@ Per component it emits `components/<Group>/<Name>/{<Name>.d.ts, .prompt.md, .jsx
 # 1. Ensure the CDN bundle is current (rebuild if components changed):
 deno task build:cdn
 
-# 2. Generate the upload layout:
-deno run --allow-read --allow-write .claude/skills/dui-design-sync/gen.ts
+# 2. (once, or when brand fonts change) Vendor the brand webfonts:
+deno run --allow-net --allow-read --allow-write .agents/skills/dui-design-sync/fetch-fonts.ts
+#    → .design-sync/fonts-src/ (gitignored). gen.ts copies these into fonts/ and
+#    @imports fonts/fonts.css from styles.css. Skip and text uses system fallbacks.
+
+# 3. Generate the upload layout:
+deno run --allow-read --allow-write .agents/skills/dui-design-sync/gen.ts
 #    → .design-sync/ds-bundle/
 
-# 3. (optional) Render-check locally: serve ds-bundle/ and open the cards.
+# 4. (optional) Render-check locally: serve ds-bundle/ and open the cards.
 
-# 4. Upload with the DesignSync tool (see below).
+# 5. Upload with the DesignSync tool (see below).
 ```
+
+**Fonts:** only families the token closure references get a webface. Per `tokens.css`, `--font-sans` = `system-ui` (no Inter), `--font-mono` = `JetBrains Mono` (shipped), `--font-serif` = a system serif (Cambria — no free webfont, stays a fallback). `fetch-fonts.ts` ships JetBrains Mono only. Material Symbols (for `<dui-icon>`, ~3.9 MB) is intentionally excluded — it's not in the token closure; wire it separately if icons are needed.
 
 ## Adding components (incremental)
 
@@ -54,12 +61,12 @@ Target the **production** project (see below). Fresh/empty project → increment
 
 ## Projects (Claude Design)
 
-- **`DUI Design System v2`** — `9d8ba712-dcf5-4337-a755-bb26f289a6d9` — the new production DS (real live components). Top-15 uploaded; remaining ~46 + fonts pending.
+- **`DUI Design System v2`** — `9d8ba712-dcf5-4337-a755-bb26f289a6d9` — the new production DS (real live components). Top-15 + JetBrains Mono webfont uploaded; remaining ~46 components pending.
 - `DUI Design System` — `019dcf73-717e-784e-8ca8-a30c2ca5d5ff` — OLD static recreations. Consumed by the "ETO" design project. Retire once v2 is complete, then re-point ETO.
 - `DUI Live Components (POC)` — `b920e6b6-…` — the throwaway POC (adapter-vs-raw test). Can be deleted.
 
 ## Known follow-ups
 
-- **Fonts**: the app warns "Missing brand fonts" (JetBrains Mono, Inter, Material Symbols) — scraped from `tokens.css`. Ship a `fonts/` dir (woff2 + `fonts/fonts.css`) and `@import` it from `styles.css`. Non-blocking (renders with system fallbacks).
 - **Remaining ~46 components** — add in waves via `components.ts`.
+- **Icons** — `<dui-icon>` needs Material Symbols Outlined (~3.9 MB, not in the token closure). If icon-heavy designs are wanted, wire it: add it back to `fetch-fonts.ts` FAMILIES and confirm `<dui-icon>` resolves the font in the design runtime.
 - **`_ds_sync.json` anchor** — not yet emitted; add via the copied `lib/sync-hashes.mjs` for skip-unchanged re-syncs.
