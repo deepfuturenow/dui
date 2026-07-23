@@ -1,19 +1,18 @@
 #!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
 /**
- * Vendor the DUI brand webfonts (woff2) from Google Fonts into
- * .design-sync/fonts-src/ + a self-contained fonts.css with local URLs.
+ * Refresh the committed DUI brand webfonts (woff2) from Google Fonts into this
+ * skill's fonts/ dir + a self-contained fonts.css with local URLs. The fonts are
+ * committed to the repo so a sync is reproducible offline; run this only to
+ * refresh them. gen.ts copies fonts/ → ds-bundle/fonts/ and @imports it from
+ * styles.css. Requires network.
  *
- * gen.ts copies fonts-src/ → ds-bundle/fonts/ and @imports it from styles.css.
- * Run this once (or when the brand fonts change). Requires network.
- *
- * Fonts: Inter (--font-sans), JetBrains Mono (--font-mono),
- * Material Symbols Outlined (--font-symbol, for <dui-icon>). Cambria
- * (--font-serif) is a system serif with no webface — left to the fallback stack.
+ * Only JetBrains Mono (--font-mono) ships — the one brand font the token closure
+ * references (--font-sans is system-ui; --font-serif is a system serif with no
+ * webface). See FAMILIES below.
  */
 import { join, resolve } from "jsr:@std/path@^1";
 
-const ROOT = resolve(import.meta.dirname!, "../../..");
-const OUT = resolve(ROOT, ".design-sync/fonts-src");
+const OUT = resolve(import.meta.dirname!, "fonts");
 // A modern-browser UA so the CSS2 API serves woff2 (not legacy ttf).
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 

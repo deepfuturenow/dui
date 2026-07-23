@@ -1,6 +1,6 @@
 ---
-name: dui-design-sync
-description: Sync the DUI component library into a Claude Design (claude.ai/design) design system as real, runnable <dui-*> web components. Use when the user wants to publish/update DUI in Claude Design, add components to the DUI design system, or re-run the DUI design sync.
+name: dui-claude-design-system
+description: Generate/update the Claude Design (claude.ai/design) design-system version of DUI — the DUI component library published as real, runnable <dui-*> web components with tokens, per-component docs, and composition steering. Use when the user wants to build/publish/update the DUI design system in Claude Design, add components to it, or re-run the DUI → Claude Design sync.
 ---
 
 # DUI → Claude Design sync
@@ -28,22 +28,25 @@ Per component it emits `components/<Group>/<Name>/{<Name>.d.ts, .prompt.md, .jsx
 
 ## Running it
 
+Inputs are committed for reproducibility: the CDN bundle (`dist/dui-cdn/dui.min.js`, un-ignored in `.gitignore`), the brand fonts (`fonts/`), and the measured card heights (`card-heights.json`). A from-scratch run needs only `gen.ts` — no network, no build — and produces byte-identical output. The two refresh scripts below are only for when their upstreams change.
+
 ```bash
-# 1. Ensure the CDN bundle is current (rebuild if components changed):
-deno task build:cdn
+# Generate the upload layout (deterministic; only step needed for a normal sync):
+deno run --allow-read --allow-write .agents/skills/dui-claude-design-system/gen.ts
+#    → .design-sync/ds-bundle/  (gitignored, regenerable)
 
-# 2. (once, or when brand fonts change) Vendor the brand webfonts:
-deno run --allow-net --allow-read --allow-write .agents/skills/dui-design-sync/fetch-fonts.ts
-#    → .design-sync/fonts-src/ (gitignored). gen.ts copies these into fonts/ and
-#    @imports fonts/fonts.css from styles.css. Skip and text uses system fallbacks.
+# (optional) Render-check locally: serve ds-bundle/ and open the cards.
+# Then upload with the DesignSync tool (see below).
+```
 
-# 3. Generate the upload layout:
-deno run --allow-read --allow-write .agents/skills/dui-design-sync/gen.ts
-#    → .design-sync/ds-bundle/
+Refresh scripts (run only when the upstream changes, then commit the result):
+```bash
+# CDN bundle — rebuilt on every DUI publish by the publish-to-npm skill, which
+# commits dist/dui-cdn/dui.min.js. Rebuild manually if you changed components:
+deno task build:cdn && git add -f dist/dui-cdn/dui.min.js
 
-# 4. (optional) Render-check locally: serve ds-bundle/ and open the cards.
-
-# 5. Upload with the DesignSync tool (see below).
+# Brand webfonts — refresh the committed fonts/ dir from Google Fonts:
+deno run --allow-net --allow-read --allow-write .agents/skills/dui-claude-design-system/fetch-fonts.ts
 ```
 
 **Fonts:** only families the token closure references get a webface. Per `tokens.css`, `--font-sans` = `system-ui` (no Inter), `--font-mono` = `JetBrains Mono` (shipped), `--font-serif` = a system serif (Cambria — no free webfont, stays a fallback). `fetch-fonts.ts` ships JetBrains Mono only. Material Symbols (for `<dui-icon>`, ~3.9 MB) is intentionally excluded — it's not in the token closure; wire it separately if icons are needed.
@@ -59,7 +62,9 @@ Group taxonomy: `Actions, Forms, Data Display, Navigation, Overlays, Feedback, L
 
 ## Uploading (DesignSync tool)
 
-Target the **production** project (see below). Fresh/empty project → incremental path; existing → atomic. Sequence: `finalize_plan` (writes globs + `localDir: .design-sync/ds-bundle`) → `write_files` the sentinel `_ds_needs_recompile` first → the files (≤256 per call) → re-write the sentinel last so the app rebuilds its card index.
+**Target project — the pin.** `config.json` records the target `projectId` (currently `DUI Design System v2`). A re-sync **updates that same project** (`DesignSync(get_project)` to confirm it exists, then `finalize_plan` + `write_files` against it) — do **not** `create_project`. Only create a new project when `config.json` has no `projectId` (or the user asks for a fresh one / a different environment can't access the pinned one), and then write the new id back into `config.json`.
+
+Upload sequence: `finalize_plan` (writes globs + `localDir: .design-sync/ds-bundle`) → `write_files` the sentinel `_ds_needs_recompile` first → the files (≤256 per call) → re-write the sentinel last so the app rebuilds its card index. Fresh/empty project → incremental path; existing (the normal case) → atomic.
 
 ## Projects (Claude Design)
 

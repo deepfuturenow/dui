@@ -17,7 +17,7 @@ const ROOT = resolve(import.meta.dirname!, "../../..");
 const OUT = resolve(ROOT, ".design-sync/ds-bundle");
 const CDN = resolve(ROOT, "dist/dui-cdn/dui.min.js");
 const TOKENS = resolve(ROOT, "packages/components/src/tokens/tokens.css");
-const FONTS_SRC = resolve(ROOT, ".design-sync/fonts-src"); // populated by fetch-fonts.ts
+const FONTS_SRC = resolve(import.meta.dirname!, "fonts"); // committed; refresh via fetch-fonts.ts
 
 const byTag = new Map(componentRegistry.map((c) => [c.tagName, c]));
 const meta = (tag: string): ComponentMeta => {
@@ -248,7 +248,7 @@ async function emitShared(entries: Entry[]) {
     components: entries.map((e) => ({ name: pascal(e.tag), sourcePath: `components/${e.group}/${pascal(e.tag)}/${pascal(e.tag)}.jsx` })),
     sourceHashes: {},
     inlinedExternals: [],
-    builtBy: "dui-design-sync",
+    builtBy: "dui-claude-design-system",
   };
   const hdr = `/* @ds-bundle: ${JSON.stringify(header).replace(/\*\//g, "*\\/")} */\n`;
   await write("_ds_bundle.js", hdr + cdn);
@@ -256,7 +256,7 @@ async function emitShared(entries: Entry[]) {
   await write("tokens/tokens.css", transformTokens(await Deno.readTextFile(TOKENS)));
   await write("thumbnail.html", THUMBNAIL);
 
-  // Fonts (optional) — copy .design-sync/fonts-src/ → fonts/ if fetch-fonts.ts has run.
+  // Fonts — copy the committed fonts/ dir into the bundle (refresh with fetch-fonts.ts).
   let fontsImport = "";
   try {
     const files = [...Deno.readDirSync(FONTS_SRC)].filter((f) => f.isFile);
@@ -271,7 +271,7 @@ async function emitShared(entries: Entry[]) {
     "styles.css",
     `/* DUI — single stylesheet entry. Component styling lives in shadow DOM and is\n * injected at runtime by _ds_bundle.js; only tokens (and fonts, when present)\n * need to be reachable here for the agent's own layout markup. */\n${fontsImport}@import "./tokens/tokens.css";\n`,
   );
-  await write("_ds_needs_recompile", `{"by":"dui-design-sync"}\n`);
+  await write("_ds_needs_recompile", `{"by":"dui-claude-design-system"}\n`);
   await write("README.md", readme(entries));
 }
 

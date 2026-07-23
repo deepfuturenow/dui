@@ -147,11 +147,14 @@ can be skipped.
 
 ```bash
 git add -A
+git add -f dist/dui-cdn/dui.min.js   # keep the committed CDN bundle current (see note)
 git commit -m "chore: release vX.Y.Z"
 git tag vX.Y.Z
 ```
 
 Replace `X.Y.Z` with the actual version number.
+
+**Why the explicit `dist/dui-cdn/dui.min.js` add:** the rest of `dist/` is gitignored, but this one bundle is intentionally committed (un-ignored in `.gitignore`) because it's an input to the **`dui-claude-design-system`** skill, which grabs the committed bundle and trusts it's current. Step 5 (`deno task publish` → `build:cdn`) regenerates it, so committing it on every release keeps that skill's output in sync with the published components. `git add -A` already picks it up, but the explicit add makes the dependency intentional.
 
 ### 8. Push to GitHub
 
