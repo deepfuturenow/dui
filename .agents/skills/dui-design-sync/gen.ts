@@ -303,6 +303,19 @@ return <dui-select ref={ref} placeholder="Pick one..." />;
 
 Listen to component events with \`addEventListener\` on a ref (e.g. \`value-change\`, \`open-change\`).
 
+## Reach for the real component
+
+Before building **any** named pattern *or* small affordance, use the real DUI element — not a hand-styled \`<span>\`/\`<div>\`. The drift that matters is small: a status pill, tag, count, or code token faked with a styled span is exactly what slips through.
+
+- pill / tag / status / count / label → \`<dui-badge>\`
+- link / action / button → \`<dui-button>\`
+- text field → \`<dui-input>\` (multi-line → \`<dui-textarea>\`)
+- checkbox / toggle / radio / select → \`<dui-checkbox>\` / \`<dui-switch>\` / \`<dui-radio-group>\` / \`<dui-select>\`
+- key/value or grouped-content block → \`<dui-card>\`
+- avatar, progress, spinner, tooltip, menu, dialog, tabs, breadcrumb, … → the matching \`<dui-*>\` element (see the component list below)
+
+Restyle a real component through its \`::part(...)\` and CSS custom properties (e.g. \`--badge-bg\`) when you need to — that's supported. **Imitating** one with a plain element is not. The only spans/divs that stay plain are pure layout or prose wrappers, never affordances. If you're unsure whether something is a component, check the list below (or its \`.prompt.md\`) before hand-rolling.
+
 ## Icons
 
 DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inherits size/color from \`--icon-size\` / \`--icon-color\` (or the parent component's icon tokens). Source icons from **[Lucide](https://lucide.dev)** — its 24×24 stroke icons match DUI's visual style (open-source, ISC-licensed). The full set (~1,600 icons) is available three ways:
