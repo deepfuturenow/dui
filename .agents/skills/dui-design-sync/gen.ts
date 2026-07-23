@@ -126,8 +126,7 @@ function defaultExample(e: Entry): string {
 /* ── card (.html) ──────────────────────────────────────────────────── */
 const CARD_CSS = `
   body { margin:0; padding: var(--space-8,2rem); font-family: var(--font-sans, system-ui, sans-serif); background: var(--background,#f7f7f7); color: var(--text-1,#111); }
-  .dsc-eyebrow { font-family: var(--font-mono, monospace); font-size: var(--text-2xs,.625rem); text-transform: uppercase; letter-spacing:.12em; color: var(--text-3,#888); }
-  .dsc-title { font-size: var(--text-2xl,1.5rem); font-weight:600; margin:0 0 var(--space-1,.25rem); letter-spacing:-.01em; }
+  .dsc-eyebrow { font-family: var(--font-mono, monospace); font-size: var(--text-2xs,.625rem); text-transform: uppercase; letter-spacing:.12em; color: var(--text-3,#888); margin:0 0 var(--space-3,.75rem); }
   .dsc-sub { color: var(--text-2,#555); font-size: var(--text-sm,.875rem); margin:0 0 var(--space-6,1.5rem); max-width:46rem; }
   .dsc-demo { display:flex; gap: var(--space-3,.75rem); align-items:center; flex-wrap:wrap; }
   .dsc-demo.col { flex-direction:column; align-items:flex-start; }
@@ -148,8 +147,7 @@ function cardHtml(e: Entry): string {
 <style>${CARD_CSS}${e.cardCss ?? ""}</style>
 </head>
 <body>
-  <div class="dsc-eyebrow">Component · &lt;${e.tag}&gt; · LIVE</div>
-  <h1 class="dsc-title">${m.name}</h1>
+  <div class="dsc-eyebrow">&lt;${e.tag}&gt;</div>
   <p class="dsc-sub">${esc(m.description)}</p>
   ${demo}
 </body>
@@ -241,6 +239,18 @@ return <dui-select ref={ref} placeholder="Pick one..." />;
 \`\`\`
 
 Listen to component events with \`addEventListener\` on a ref (e.g. \`value-change\`, \`open-change\`).
+
+## Icons
+
+DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inherits size/color from \`--icon-size\` / \`--icon-color\` (or the parent component's icon tokens). **Source icons from [Lucide](https://lucide.dev)** — its 24×24 stroke icons match DUI's visual style and are MIT-licensed. Paste the icon's SVG markup (\`stroke="currentColor"\`, \`fill="none"\`, no hardcoded colors) into the element:
+
+\`\`\`jsx
+<dui-icon style={{ '--icon-size': 'var(--space-5)' }}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+</dui-icon>
+\`\`\`
+
+Icons compose inside other components: a leading icon in \`<dui-button>\`, \`<dui-toggle slot="icon">\`, menu items, etc. Keep \`stroke="currentColor"\` so the icon takes the surrounding text/intent color. Prefer Lucide names the user asks for; if unsure which icon, pick the closest Lucide equivalent.
 
 ## Tokens
 
