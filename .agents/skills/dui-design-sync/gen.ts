@@ -311,10 +311,47 @@ Before building **any** named pattern *or* small affordance, use the real DUI el
 - link / action / button → \`<dui-button>\`
 - text field → \`<dui-input>\` (multi-line → \`<dui-textarea>\`)
 - checkbox / toggle / radio / select → \`<dui-checkbox>\` / \`<dui-switch>\` / \`<dui-radio-group>\` / \`<dui-select>\`
-- key/value or grouped-content block → \`<dui-card>\`
-- avatar, progress, spinner, tooltip, menu, dialog, tabs, breadcrumb, … → the matching \`<dui-*>\` element (see the component list below)
+- divider / rule → \`<dui-separator>\` (not \`<hr>\` or a border div)
+- loading spinner → \`<dui-spinner>\`; progress bar → \`<dui-progress>\`
+- scrolling region → \`<dui-scroll-area>\` (not a bare \`overflow: auto\` div)
+- avatar, tooltip, menu, dialog, tabs, breadcrumb, … → the matching \`<dui-*>\` element (see the component list below)
 
-Restyle a real component through its \`::part(...)\` and CSS custom properties (e.g. \`--badge-bg\`) when you need to — that's supported. **Imitating** one with a plain element is not. The only spans/divs that stay plain are pure layout or prose wrappers, never affordances. If you're unsure whether something is a component, check the list below (or its \`.prompt.md\`) before hand-rolling.
+Restyle a real component through its \`::part(...)\` and CSS custom properties (e.g. \`--badge-bg\`) when you need to — that's supported. **Imitating** one with a plain element is not.
+
+**Where a plain element is right:** a simple content container — a stat tile, info box, or layout wrapper — is fine as a styled \`<div>\` (\`background: var(--surface-1)\`, \`border: var(--border-width-thin) solid var(--border)\`, \`border-radius: var(--radius-lg)\`). Reach for \`<dui-card>\` when the block has structured header / action / footer regions. Pure layout and prose wrappers stay plain divs — just never fake an *affordance* (something interactive, or a status signal) with one.
+
+## Layout, grid & density
+
+**Compose on the 4px grid.** DUI's spacing scale is Tailwind base-4: every margin, gap, and padding comes from \`--space-*\` (\`--space-1\` = 4px, \`--space-2\` = 8px, … plus half-steps like \`--space-1_5\` = 6px). Never hardcode \`px\`/\`rem\` for rhythm — use the tokens, and keep spacing on the grid so everything aligns. Build vertical rhythm with flex/grid \`gap\`, not default element margins (components manage their own internal spacing; lay them out with explicit gaps). Control heights sit on the same ladder (\`--component-height-*\`; use the \`size="sm | md | lg"\` prop rather than fixed heights). Type uses the paired scale (\`--text-*\` with its \`--text-*--line-height\`); constrain running prose to a comfortable measure (~\`48rem\`).
+
+**Density is a project choice — pick one and apply it consistently.** DUI doesn't prescribe how tight or airy a UI should be; it gives you the levers. Decide the density from the project (data-heavy tools lean dense; marketing/editorial leans spacious), then hold it across the surface:
+
+- **Dense** (dashboards, consoles, admin, data tools): \`size="sm"\` controls; gaps of \`--space-1\`–\`--space-3\`; card padding \`--space-3\`–\`--space-4\`; \`--text-xs\`/\`--text-sm\` body; surfaces separated by lightness (\`--surface-1\`/\`--surface-2\`) and thin borders rather than big whitespace.
+- **Spacious** (marketing, landing, editorial): default or \`size="lg"\` controls; section gaps of \`--space-8\`–\`--space-16\`; generous padding (\`--space-8\`+); larger display type (\`--text-2xl\`+ for headings) with \`--line-height-relaxed\`; let whitespace do the separating.
+
+Mix intentionally, not accidentally — a dense data table can live inside a spacious page, but a single component group should read at one density.
+
+## Choosing an overlay
+
+| Use case | Component |
+|---|---|
+| Focused task (form, settings, detail view) | \`<dui-dialog>\` — closes on backdrop click |
+| Destructive / irreversible confirmation | \`<dui-alert-dialog>\` — explicit action, no backdrop dismiss |
+| Small contextual content (date picker, filters) | \`<dui-popover>\` — anchored to trigger, click to toggle |
+| Brief hint on hover/focus | \`<dui-tooltip>\` — no interaction inside |
+| Rich preview on hover (profile / link card) | \`<dui-preview-card>\` — stays open when the cursor moves into it |
+| Action list (edit, delete, share) | \`<dui-menu>\` — keyboard-navigable, closes on selection |
+| Searchable command palette | \`<dui-command>\` inside \`<dui-dialog>\` |
+
+## Page shells
+
+Most app pages follow one of three shapes — compose them from real components:
+
+- **Dashboard** — a \`<dui-sidebar-provider>\` shell + a \`<dui-card-grid>\` of stat tiles + \`<dui-card>\`s wrapping a data table / chart.
+- **Settings** — sidebar shell + \`<dui-tabs>\` whose panels hold \`<dui-field>\`-wrapped form controls.
+- **List view** — sidebar shell + a filter bar (\`<dui-input>\` + \`<dui-select>\` + \`<dui-button>\`) above a \`<dui-data-table>\`.
+
+The sidebar shell is \`<dui-sidebar-provider>\` → \`<dui-sidebar>\` (header / content / footer) + \`<dui-sidebar-inset>\` (a top bar with \`<dui-sidebar-trigger>\`, then the main content). See the \`<dui-sidebar-provider>\` card + notes for the full structure.
 
 ## Icons
 
