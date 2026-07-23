@@ -16,7 +16,9 @@ This is a **tailored fork** of the bundled `/design-sync` skill. DUI is Deno + L
 `gen.ts` reads three things and emits the upload layout to `.design-sync/ds-bundle/`:
 1. `packages/docs/src/component-registry.ts` — the declarative API contract (props, events, slots, theme attrs).
 2. `dist/dui-cdn/dui.min.js` — the published self-registering bundle (from `deno task build:cdn`). Becomes `_ds_bundle.js` (header stamped).
-3. `packages/components/src/tokens/tokens.css` — design tokens → `tokens/tokens.css`, imported by `styles.css`.
+3. `packages/components/src/tokens/tokens.css` — design tokens → `tokens/tokens.css`, imported by `styles.css`. `transformTokens()` makes it legible to the Claude Design token compiler: rewrites the light-primitive scope `:root:not([data-theme="dark"])` → `:root` (so the base colors register as tokens; dark still wins by specificity) and adds `/* @kind spacing|font|other */` to time/easing/unitless/em tokens the compiler can't auto-classify.
+
+The generator also emits `thumbnail.html` (brand-mark homepage tile) and a PascalCase **Component names** line in `README.md` (the compiler matches built components by those names). These reproduce edits Claude Design's compiler makes on its own — reproduced here so a re-sync doesn't clobber them.
 
 Per component it emits `components/<Group>/<Name>/{<Name>.d.ts, .prompt.md, .jsx, .html}`:
 - **`.d.ts`** — `<Name>Props` interface from the registry (+ referenced type defs appended as a prelude).

@@ -187,6 +187,59 @@ function autoCard(e: Entry): string {
 }
 
 /* ── shared files ──────────────────────────────────────────────────── */
+/** Make DUI's canonical tokens.css legible to the Claude Design token compiler:
+ *  1. Light primitives live under `:root:not([data-theme="dark"])`, which the
+ *     compiler doesn't treat as a token scope — rewrite to plain `:root` (dark
+ *     under `:root[data-theme="dark"]` still wins by specificity).
+ *  2. Annotate tokens the compiler can't classify by name/value with `@kind`
+ *     (time/easing/unitless/em values) so they categorize. */
+function transformTokens(css: string): string {
+  css = css.replaceAll(':root:not([data-theme="dark"])', ":root");
+  const kind = (name: string): string | null => {
+    if (/^--(letter-spacing|font-weight|line-height)-/.test(name)) return "font";
+    if (/^--component-height-/.test(name) || /^--focus-ring-(width|offset)$/.test(name)) return "spacing";
+    if (/^--(z|duration|ease|filter|clip)-/.test(name) || /^--focus-ring-(duration|easing)$/.test(name)) return "other";
+    return null;
+  };
+  return css.split("\n").map((line) => {
+    if (line.includes("@kind")) return line;
+    const m = line.match(/^(\s*)(--[\w-]+)(:\s*[^;]+;)(.*)$/);
+    if (!m) return line;
+    const k = kind(m[2]);
+    return k ? `${m[1]}${m[2]}${m[3]} /* @kind ${k} */${m[4]}` : line;
+  }).join("\n");
+}
+
+/** Homepage tile — brand mark + value-ordered swatch strip. */
+const THUMBNAIL = `<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>DUI</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  html,body{margin:0;padding:0}
+  .tile{width:1280px;height:854px;display:flex;font-family:var(--font-sans,system-ui)}
+  .main{flex:0 0 75%;background:var(--brand);display:grid;place-items:center}
+  .mark{font-size:340px;font-weight:var(--font-weight-bold,700);letter-spacing:var(--letter-spacing-tightest,-0.02em);color:var(--brand-foreground);line-height:1}
+  .strip{flex:1;display:flex;flex-direction:column}
+  .strip>div{flex:1}
+</style>
+</head>
+<body>
+<div class="tile">
+  <div class="main"><div class="mark">DUI</div></div>
+  <div class="strip">
+    <div style="background:var(--warning)"></div>
+    <div style="background:var(--info)"></div>
+    <div style="background:var(--accent)"></div>
+    <div style="background:var(--destructive)"></div>
+  </div>
+</div>
+</body>
+</html>
+`;
+
 async function emitShared(entries: Entry[]) {
   // _ds_bundle.js = CDN registration bundle + stamped header
   const cdn = await Deno.readTextFile(CDN);
@@ -200,7 +253,8 @@ async function emitShared(entries: Entry[]) {
   const hdr = `/* @ds-bundle: ${JSON.stringify(header).replace(/\*\//g, "*\\/")} */\n`;
   await write("_ds_bundle.js", hdr + cdn);
 
-  await write("tokens/tokens.css", await Deno.readTextFile(TOKENS));
+  await write("tokens/tokens.css", transformTokens(await Deno.readTextFile(TOKENS)));
+  await write("thumbnail.html", THUMBNAIL);
 
   // Fonts (optional) — copy .design-sync/fonts-src/ → fonts/ if fetch-fonts.ts has run.
   let fontsImport = "";
@@ -276,6 +330,8 @@ Design tokens are CSS custom properties on \`:root\` (\`tokens/tokens.css\`, imp
 ## Components
 
 ${list}
+
+**Component names** (built): ${entries.map((e) => pascal(e.tag)).join(", ")}.
 
 Each component's API is in its \`.d.ts\` and \`.prompt.md\`.
 `;
