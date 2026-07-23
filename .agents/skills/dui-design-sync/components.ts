@@ -19,6 +19,8 @@ export interface Entry {
   /** Card demo body HTML. Overrides the generator's autoCard. */
   card?: string;
   cardCss?: string;
+  /** Extra prose appended to the component's .prompt.md (## Notes). */
+  notes?: string;
 }
 
 export const GROUP_ORDER = [
@@ -366,9 +368,21 @@ return <dui-select ref={ref} placeholder="Pick a fruit..." />;`,
   example: '<dui-trunc max-width="20rem">This is a long piece of text that will be truncated with an ellipsis.</dui-trunc>',
   card: '<div class="dsc-demo col" style="align-items:flex-start"><dui-trunc max-width="16rem">This single line of text is truncated with an ellipsis when it exceeds the max-width.</dui-trunc><dui-trunc max-lines="2" max-width="18rem">Multi-line clamping keeps up to two lines of this longer passage visible before adding a trailing ellipsis to indicate that the content continues beyond what is shown here.</dui-trunc></div>' },
 
-{ tag: "dui-icon", group: "Data Display", keywords: ["icon", "svg", "symbol", "glyph"], viewport: "1000x320",
-  example: '<dui-icon style="--icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h3v-6h6v6h3v-9l-6-4.5L6 10Zm-2 2V9l8-6 8 6v12h-7v-6h-2v6Z"/></svg></dui-icon>',
-  card: '<div class="dsc-demo" style="gap:var(--space-4);align-items:center"><dui-icon style="--icon-size: var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h3v-6h6v6h3v-9l-6-4.5L6 10Zm-2 2V9l8-6 8 6v12h-7v-6h-2v6Z"/></svg></dui-icon><dui-icon style="--icon-size: var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19Zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14Z"/></svg></dui-icon><dui-icon style="--icon-size: var(--space-6);--icon-color: var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21Z"/></svg></dui-icon><dui-icon style="--icon-size: var(--space-6);--icon-color: var(--destructive)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18Z"/></svg></dui-icon><dui-icon style="--icon-size: var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5Z"/></svg></dui-icon></div>' },
+{ tag: "dui-icon", group: "Data Display", keywords: ["icon", "svg", "symbol", "glyph", "lucide"],
+  example: `<dui-icon style="--icon-size: var(--space-5)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></dui-icon>`,
+  notes: `Source icons from **Lucide** (https://lucide.dev): paste the icon's 24×24 SVG — \`fill="none"\`, \`stroke="currentColor"\`, \`stroke-width="2"\`, round caps/joins — into the default slot. Size via \`--icon-size\`, color via \`--icon-color\` (defaults to \`currentColor\`, so an icon inherits the surrounding text or intent color). Icons compose inside other components too — a leading icon in \`<dui-button>\`, \`<dui-toggle slot="icon">\`, menu items, etc.`,
+  card: `<div class="dsc-demo col" style="gap:var(--space-3);align-items:flex-start">
+    <div class="dsc-demo" style="gap:var(--space-4);align-items:center">
+      <dui-icon style="--icon-size:var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></dui-icon>
+      <dui-icon style="--icon-size:var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></dui-icon>
+      <dui-icon style="--icon-size:var(--space-6)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></dui-icon>
+      <dui-icon style="--icon-size:var(--space-6);--icon-color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></dui-icon>
+      <dui-icon style="--icon-size:var(--space-6);--icon-color:var(--destructive)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></dui-icon>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--text-3)">Lucide icons (24×24, stroke=currentColor) slotted into &lt;dui-icon&gt;</div>
+  </div>`,
+  viewport: "760x300",
+},
 { tag: "dui-popover", group: "Overlays", keywords: ["popover", "popup", "overlay", "flyout"], viewport: "600x420",
   example: '<dui-popover><dui-popover-trigger><dui-button appearance="outline">Open</dui-button></dui-popover-trigger><dui-popover-popup>Popover content</dui-popover-popup></dui-popover>',
   card: '<div class="dsc-demo"><dui-popover><dui-popover-trigger><dui-button appearance="outline">Open popover</dui-button></dui-popover-trigger><dui-popover-popup><span style="display:flex;flex-direction:column;gap:var(--space-4);max-width:var(--space-72);"><strong style="font-size:var(--text-xs);font-weight:var(--font-weight-semibold);">Popover title</strong><span style="color:var(--text-2);font-size:var(--text-xs);line-height:var(--text-xs--line-height);">A real DUI popover. Click outside to close, or use the button below.</span><dui-popover-close><dui-button appearance="soft" size="sm">Close</dui-button></dui-popover-close></span></dui-popover-popup></dui-popover></div>' },

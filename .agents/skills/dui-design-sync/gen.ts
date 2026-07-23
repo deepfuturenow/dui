@@ -112,6 +112,7 @@ function promptMd(e: Entry): string {
       `React.useEffect(() => { if (ref.current) ref.current.${objProps[0]} = ${objProps[0] === "options" ? "myOptions" : "myData"}; }, []);\n` +
       `return <${e.tag} ref={ref} />;\n\`\`\`\n`;
   }
+  if (e.notes) md += `\n## Notes\n\n${e.notes}\n`;
   return md;
 }
 
