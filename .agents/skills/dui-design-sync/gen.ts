@@ -253,9 +253,9 @@ Listen to component events with \`addEventListener\` on a ref (e.g. \`value-chan
 
 DUI ships \`<dui-icon>\`, which renders whatever SVG you slot into it and inherits size/color from \`--icon-size\` / \`--icon-color\` (or the parent component's icon tokens). Source icons from **[Lucide](https://lucide.dev)** — its 24×24 stroke icons match DUI's visual style (open-source, ISC-licensed). The full set (~1,600 icons) is available three ways:
 
-1. **Browse names** at https://lucide.dev/icons — names are kebab-case (\`arrow-right\`, \`chevron-down\`, \`circle-check\`, \`trash-2\`, \`triangle-alert\`). Use exact existing names; don't invent them.
-2. **Fetch any icon's exact SVG** from its stable URL — \`https://unpkg.com/lucide-static/icons/<name>.svg\` (e.g. \`https://unpkg.com/lucide-static/icons/arrow-right.svg\`). This is the whole library, one predictable URL per icon.
-3. **Emit inline** the equivalent \`<svg>\` you already know for common icons.
+1. **Names** are kebab-case (\`arrow-right\`, \`chevron-down\`, \`circle-check\`, \`trash-2\`, \`triangle-alert\`); browse at https://lucide.dev/icons. Use exact existing names — don't invent them.
+2. **Common icons** (\`arrow-right\`, \`check\`, \`x\`, \`search\`, \`menu\`, \`bell\`, \`plus\`, \`trash-2\`, \`chevron-down\`, \`circle-check\`, \`triangle-alert\`, …) — inline the SVG from memory; these paths are stable.
+3. **Less-common icons, or when you need exact parity** — fetch the exact SVG from \`https://unpkg.com/lucide-static/icons/<name>.svg\` (one predictable URL per icon, the whole ~1,600-icon library) instead of guessing, since recalled paths for uncommon icons can be wrong or outdated.
 
 Whichever way, inline the SVG into \`<dui-icon>\` and keep \`fill="none" stroke="currentColor" stroke-width="2"\` with round caps/joins so it inherits the surrounding text/intent color:
 
