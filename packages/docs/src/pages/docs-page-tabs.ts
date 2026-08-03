@@ -29,6 +29,43 @@ export class DocsPageTabs extends LitElement {
         </dui-tabs>
       </dui-docs-demo>
 
+      <dui-docs-demo
+        label="Sizes"
+        description="The size attribute on dui-tabs scales tab-trigger height + font; the indicator stays fixed."
+        demo-width="26rem"
+      >
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <dui-tabs default-value="a" size="xs">
+            <dui-tabs-list>
+              <dui-tab value="a">Extra small</dui-tab>
+              <dui-tab value="b">Tab two</dui-tab>
+              <dui-tabs-indicator></dui-tabs-indicator>
+            </dui-tabs-list>
+          </dui-tabs>
+          <dui-tabs default-value="a" size="sm">
+            <dui-tabs-list>
+              <dui-tab value="a">Small</dui-tab>
+              <dui-tab value="b">Tab two</dui-tab>
+              <dui-tabs-indicator></dui-tabs-indicator>
+            </dui-tabs-list>
+          </dui-tabs>
+          <dui-tabs default-value="a" size="md">
+            <dui-tabs-list>
+              <dui-tab value="a">Medium (default)</dui-tab>
+              <dui-tab value="b">Tab two</dui-tab>
+              <dui-tabs-indicator></dui-tabs-indicator>
+            </dui-tabs-list>
+          </dui-tabs>
+          <dui-tabs default-value="a" size="lg">
+            <dui-tabs-list>
+              <dui-tab value="a">Large</dui-tab>
+              <dui-tab value="b">Tab two</dui-tab>
+              <dui-tabs-indicator></dui-tabs-indicator>
+            </dui-tabs-list>
+          </dui-tabs>
+        </div>
+      </dui-docs-demo>
+
       <dui-docs-demo label="With disabled tab" demo-width="26rem">
         <dui-tabs default-value="first">
           <dui-tabs-list>

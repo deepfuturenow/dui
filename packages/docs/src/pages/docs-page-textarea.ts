@@ -13,6 +13,15 @@ export class DocsPageTextarea extends LitElement {
         <dui-textarea placeholder="Type something..."></dui-textarea>
       </dui-docs-demo>
 
+      <dui-docs-demo label="Sizes">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <dui-textarea size="xs" resize="auto" placeholder="Extra small (xs)"></dui-textarea>
+          <dui-textarea size="sm" resize="auto" placeholder="Small (sm)"></dui-textarea>
+          <dui-textarea size="md" resize="auto" placeholder="Medium (md, default)"></dui-textarea>
+          <dui-textarea size="lg" resize="auto" placeholder="Large (lg)"></dui-textarea>
+        </div>
+      </dui-docs-demo>
+
       <dui-docs-demo label="With rows">
         <dui-textarea placeholder="5 rows visible" rows="5"></dui-textarea>
       </dui-docs-demo>

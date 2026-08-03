@@ -13,6 +13,15 @@ export class DocsPageInput extends LitElement {
         <dui-input placeholder="Enter text..."></dui-input>
       </dui-docs-demo>
 
+      <dui-docs-demo label="Sizes">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <dui-input size="xs" placeholder="Extra small (xs)"></dui-input>
+          <dui-input size="sm" placeholder="Small (sm)"></dui-input>
+          <dui-input size="md" placeholder="Medium (md, default)"></dui-input>
+          <dui-input size="lg" placeholder="Large (lg)"></dui-input>
+        </div>
+      </dui-docs-demo>
+
       <dui-docs-demo label="Types">
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <dui-input type="text" placeholder="Text"></dui-input>

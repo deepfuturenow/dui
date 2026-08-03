@@ -391,6 +391,9 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     slots: [],
     cssProperties: [],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
+    ],
   },
   {
     tagName: "dui-dialog",
@@ -492,6 +495,9 @@ export const componentRegistry: ComponentMeta[] = [
     cssProperties: [],
     cssParts: [
       { name: "root", description: "The menu popup panel" },
+    ],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size (scales item density)" },
     ],
   },
   {
@@ -728,6 +734,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "--tabs-panel-border-color", description: "Panel border color" },
       { name: "--tabs-panel-border-radius", description: "Panel border radius" },
     ],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size (scales tab height + font)" },
+    ],
   },
   {
     tagName: "dui-tabs-list",
@@ -828,6 +837,7 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     themeAttributes: [
       { name: "variant", values: '"default" | "ghost"', description: "Visual treatment" },
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
     events: [
       { name: "textarea-change", detail: "{ value: string }", description: "Fired when value changes" },
@@ -1202,6 +1212,9 @@ export const componentRegistry: ComponentMeta[] = [
     cssParts: [
       { name: "input", description: "The native input element" },
     ],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
+    ],
   },
   {
     tagName: "dui-radio-group",
@@ -1297,6 +1310,9 @@ export const componentRegistry: ComponentMeta[] = [
     cssParts: [
       { name: "trigger", description: "The select trigger button" },
       { name: "value", description: "The selected value display" },
+    ],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
   },
   {
@@ -1979,6 +1995,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "unit", description: "Unit suffix element" },
     ],
     themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size (default md)" },
       { name: "label-position", values: '"inside-left" | "above" | "below" | "outside-left"', description: "Label placement" },
       { name: "icon-position", values: '"inside-left" | "inside-right" | "outside-left"', description: "Icon placement" },
     ],
@@ -2026,6 +2043,9 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "input", description: "The numeric input element" },
       { name: "decrement", description: "The decrement button" },
       { name: "increment", description: "The increment button" },
+    ],
+    themeAttributes: [
+      { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
   },
   {

@@ -23,6 +23,38 @@ export class DocsPageMenu extends LitElement {
         </dui-menu>
       </dui-docs-demo>
 
+      <dui-docs-demo
+        label="Sizes"
+        description="The size attribute on dui-menu scales item density (height/font/icon). Open each to compare."
+      >
+        <docs-row>
+          <dui-menu size="xs">
+            <dui-button slot="trigger" size="xs" appearance="outline">XS</dui-button>
+            <dui-menu-item>Edit</dui-menu-item>
+            <dui-menu-item>Duplicate</dui-menu-item>
+            <dui-menu-item>Archive</dui-menu-item>
+          </dui-menu>
+          <dui-menu size="sm">
+            <dui-button slot="trigger" size="sm" appearance="outline">SM</dui-button>
+            <dui-menu-item>Edit</dui-menu-item>
+            <dui-menu-item>Duplicate</dui-menu-item>
+            <dui-menu-item>Archive</dui-menu-item>
+          </dui-menu>
+          <dui-menu size="md">
+            <dui-button slot="trigger" appearance="outline">MD</dui-button>
+            <dui-menu-item>Edit</dui-menu-item>
+            <dui-menu-item>Duplicate</dui-menu-item>
+            <dui-menu-item>Archive</dui-menu-item>
+          </dui-menu>
+          <dui-menu size="lg">
+            <dui-button slot="trigger" size="lg" appearance="outline">LG</dui-button>
+            <dui-menu-item>Edit</dui-menu-item>
+            <dui-menu-item>Duplicate</dui-menu-item>
+            <dui-menu-item>Archive</dui-menu-item>
+          </dui-menu>
+        </docs-row>
+      </dui-docs-demo>
+
       <dui-docs-demo label="With keyboard shortcuts and separator">
         <dui-menu popup-min-width="calc(var(--space-1) * 36)">
           <dui-button slot="trigger" appearance="outline">Edit</dui-button>

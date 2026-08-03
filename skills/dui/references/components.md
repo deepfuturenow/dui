@@ -11,7 +11,7 @@ Compact catalog of all 61 component families. Use the inspector (`__dui_inspect(
 
 ### dui-button `@dui/components/button`
 An interactive button. Renders as a native <button> by default, or <a> when href is set.
-**Theme:** `variant` ("neutral" | "primary" | "danger") · `appearance` ("filled" | "outline" | "ghost" | "soft" | "link") · `size` ("sm" | "md" | "lg")
+**Theme:** `variant` ("neutral" | "primary" | "danger") · `appearance` ("filled" | "outline" | "ghost" | "soft" | "link") · `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `disabled`, `focusableWhenDisabled`, `type`, `href`
 **Events:** `dui-navigate` → `{ href: string }`
 **Slots:** `default` (Button label content)
@@ -31,7 +31,7 @@ A button with an attached dropdown menu trigger. The action zone (left) performs
 
 ### dui-toggle `@dui/components/toggle`
 A two-state toggle button. Works standalone or inside a toggle group.
-**Theme:** `size` ("sm" | "md" | "lg")
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `pressed`, `defaultPressed`, `disabled`, `value`
 **Events:** `pressed-change` → `{ pressed: boolean }`
 **Slots:** `icon` (Optional leading icon)
@@ -46,22 +46,25 @@ Groups toggle buttons with shared single or multi selection state.
 
 ### dui-input `@dui/components/input`
 A native input element that integrates with dui-field for accessible labeling and validation.
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `type`, `value`, `placeholder`, `disabled`, `required`, `readonly`, `minLength`, `maxLength`, `pattern`, `name`, `autocomplete`, `autofocus`
 **Events:** `input-change` → `{ value: string }`
 
 ### dui-textarea `@dui/components/textarea`
 A multi-line text input with resize modes including auto-grow.
-**Theme:** `variant` ("default" | "ghost")
+**Theme:** `variant` ("default" | "ghost") · `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `value`, `placeholder`, `disabled`, `required`, `readonly`, `rows`, `minLength`, `maxLength`, `name`, `resize`, `maxHeight`
 **Events:** `textarea-change` → `{ value: string }`
 
 ### dui-select `@dui/components/select`
 A dropdown select for choosing from a list of predefined options.
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `options`, `value`, `placeholder`, `disabled`, `align-item-to-trigger`, `name`
 **Events:** `value-change` → `{ value: string; option: SelectOption }`
 
 ### dui-combobox `@dui/components/combobox`
 Searchable dropdown with single and multi-select modes.
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `options`, `value`, `values`, `multiple`, `placeholder`, `disabled`, `name`
 **Events:** `value-change` → `{ value: string; option: SelectOption }`, `values-change` → `{ value: string; selected: boolean; values: Set<string> }`
 
@@ -93,13 +96,14 @@ A slider for selecting numeric values within a range. Supports a field variant w
 
 ### dui-number-field `@dui/components/number-field`
 A numeric input with optional label, icon, unit suffix, drag-to-scrub, and precision formatting. For simple +/- stepping, use dui-stepper.
-**Theme:** `label-position` ("inside-left" | "above" | "below" | "outside-left") · `icon-position` ("inside-left" | "inside-right" | "outside-left")
+**Theme:** `size` ("xs" | "sm" | "md" | "lg") · `label-position` ("inside-left" | "above" | "below" | "outside-left") · `icon-position` ("inside-left" | "inside-right" | "outside-left")
 **Props:** `value`, `defaultValue`, `min`, `max`, `step`, `largeStep`, `disabled`, `readOnly`, `required`, `name`, `label`, `labelPosition`, `iconPosition`, `unit`, `precision`, `scrubLabel`, `scrubValue`, `scrubField`, `clickLabel`, `clickValue`, `clickField`
 **Events:** `value-change` → `{ value: number }`, `value-committed` → `{ value: number }`
 **Slots:** `icon` (Icon content (SVG, dui-icon, etc.), positioned by icon-position)
 
 ### dui-stepper `@dui/components/stepper`
 A simple numeric input with increment/decrement buttons. For labels, icons, scrubbing, and units, use dui-number-field.
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `value`, `defaultValue`, `min`, `max`, `step`, `largeStep`, `disabled`, `readOnly`, `required`, `name`
 **Events:** `value-change` → `{ value: number }`, `value-committed` → `{ value: number }`
 **Slots:** `decrement` (Custom decrement button content), `increment` (Custom increment button content)
@@ -186,6 +190,7 @@ A tooltip with hover/focus trigger and configurable delay.
 ### dui-menu `@dui/components/menu`
 A popup menu triggered by a slotted element with keyboard navigation.
 **Sub-components:** `dui-menu-item`
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `popup-min-width`
 **Slots:** `trigger` (The element that opens the menu on click)
 
@@ -225,6 +230,7 @@ Navigation breadcrumb trail showing the current page location.
 ### dui-tabs `@dui/components/tabs`
 A tabbed interface with animated indicator and keyboard navigation.
 **Sub-components:** `dui-tabs-list`, `dui-tab`, `dui-tabs-panel`, `dui-tabs-indicator`
+**Theme:** `size` ("xs" | "sm" | "md" | "lg")
 **Props:** `value`, `defaultValue`, `orientation`, `controls` · panel: `keepMounted`
 **Events:** `value-change` → `string`
 **Slots:** `default` (Tab list and tab panels)

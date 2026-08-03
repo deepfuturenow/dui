@@ -15,6 +15,17 @@ export class DocsPageNumberField extends LitElement {
           <dui-number-field default-value="100"></dui-number-field>
         </dui-docs-demo>
 
+        <!-- ── Sizes ────────────────────────────────────────── -->
+
+        <dui-docs-demo label="Sizes">
+          <docs-row>
+            <dui-number-field default-value="100" size="xs"></dui-number-field>
+            <dui-number-field default-value="100" size="sm"></dui-number-field>
+            <dui-number-field default-value="100" size="md"></dui-number-field>
+            <dui-number-field default-value="100" size="lg"></dui-number-field>
+          </docs-row>
+        </dui-docs-demo>
+
         <!-- ── Label positions ──────────────────────────────── -->
 
         <dui-docs-demo label="Label inside-left">

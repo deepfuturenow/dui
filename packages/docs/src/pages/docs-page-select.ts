@@ -77,6 +77,18 @@ export class DocsPageSelect extends LitElement {
           <dui-select placeholder="Pick a fruit..."></dui-select>
         </dui-docs-demo>
 
+        <dui-docs-demo
+          label="Sizes"
+          description="Trigger, chevron, and popup option rows all scale with size."
+        >
+          <docs-row>
+            <dui-select size="xs" value="apple"></dui-select>
+            <dui-select size="sm" value="apple"></dui-select>
+            <dui-select size="md" value="apple"></dui-select>
+            <dui-select size="lg" value="apple"></dui-select>
+          </docs-row>
+        </dui-docs-demo>
+
         <dui-docs-demo label="With pre-selected value" demo-width="var(--space-56)">
           <dui-select value="cherry" placeholder="Pick a fruit..."></dui-select>
         </dui-docs-demo>

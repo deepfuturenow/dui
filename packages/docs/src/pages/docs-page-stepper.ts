@@ -21,8 +21,13 @@ export class DocsPageStepper extends LitElement {
           <dui-stepper default-value="1.0" step="0.1" min="0" max="5"></dui-stepper>
         </dui-docs-demo>
 
-        <dui-docs-demo label="Small size">
-          <dui-stepper default-value="42" size="sm"></dui-stepper>
+        <dui-docs-demo label="Sizes">
+          <docs-row>
+            <dui-stepper default-value="42" size="xs"></dui-stepper>
+            <dui-stepper default-value="42" size="sm"></dui-stepper>
+            <dui-stepper default-value="42" size="md"></dui-stepper>
+            <dui-stepper default-value="42" size="lg"></dui-stepper>
+          </docs-row>
         </dui-docs-demo>
 
         <dui-docs-demo label="With Field Label">

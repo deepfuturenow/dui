@@ -40,6 +40,10 @@ export class DocsPageCombobox extends LitElement {
     if (single) single.options = frameworkOptions;
     if (multi) multi.options = languageOptions;
     if (disabled) disabled.options = frameworkOptions;
+    for (const id of ["combo-xs", "combo-sm", "combo-md", "combo-lg"]) {
+      const el = this.querySelector<HTMLElement & { options: unknown }>("#" + id);
+      if (el) el.options = frameworkOptions;
+    }
   }
 
   override render() {
@@ -48,6 +52,18 @@ export class DocsPageCombobox extends LitElement {
       <docs-page-layout tag="dui-combobox">
         <dui-docs-demo label="Single select" demo-width="var(--space-60)">
         <dui-combobox id="combo-single" placeholder="Select a framework..."></dui-combobox>
+      </dui-docs-demo>
+
+      <dui-docs-demo
+        label="Sizes"
+        description="Trigger, chevron, and popup option rows all scale with size."
+      >
+        <docs-row>
+          <dui-combobox id="combo-xs" size="xs" placeholder="xs"></dui-combobox>
+          <dui-combobox id="combo-sm" size="sm" placeholder="sm"></dui-combobox>
+          <dui-combobox id="combo-md" size="md" placeholder="md"></dui-combobox>
+          <dui-combobox id="combo-lg" size="lg" placeholder="lg"></dui-combobox>
+        </docs-row>
       </dui-docs-demo>
 
       <dui-docs-demo label="Multi select" demo-width="var(--space-60)">
