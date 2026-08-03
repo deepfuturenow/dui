@@ -98,7 +98,7 @@ const styles = css`
     --sb-action-padding-x: var(--space-1_5);
     --sb-trigger-padding-x: var(--space-1);
     --sb-gap: var(--space-1);
-    --sb-radius: calc(var(--radius-md) * 0.75);
+    --sb-radius: calc(var(--radius-md) * 0.8);
     --sb-font-size: var(--text-xs);
     --sb-icon-size: var(--space-3_5);
     --sb-trigger-icon-size: var(--space-3);

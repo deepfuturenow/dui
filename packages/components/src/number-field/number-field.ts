@@ -29,7 +29,7 @@ const styles = css`
 
   :host([size="xs"]) {
     --number-field-height: var(--component-height-xs);
-    --number-field-radius: calc(var(--radius-md) * 0.75);
+    --number-field-radius: calc(var(--radius-md) * 0.8);
     --number-field-font-size: var(--text-xs);
   }
 

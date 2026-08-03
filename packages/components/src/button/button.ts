@@ -98,7 +98,7 @@ const styles = css`
     --button-padding-y: var(--space-1);
     --button-padding-x: var(--space-1_5);
     --button-gap: var(--space-1);
-    --button-radius: calc(var(--radius-md) * 0.75);
+    --button-radius: calc(var(--radius-md) * 0.8);
     --button-font-size: var(--text-xs);
     --button-icon-size: var(--space-3_5);
   }
