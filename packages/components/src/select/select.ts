@@ -63,7 +63,7 @@ const styles = css`
   :host([size="xs"]) .Trigger {
     height: var(--component-height-xs);
     padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
-    border-radius: calc(var(--radius-md) * 0.75);
+    border-radius: calc(var(--radius-md) * 0.8);
     font-size: var(--text-xs);
   }
 

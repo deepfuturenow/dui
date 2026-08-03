@@ -38,7 +38,7 @@ const styles = css`
     height: var(--component-height-xs);
     padding: var(--space-1);
     font-size: var(--text-xs);
-    border-radius: calc(var(--radius-md) * 0.75);
+    border-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="sm"]) [part="input"] {

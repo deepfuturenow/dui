@@ -35,7 +35,7 @@ const styles = css`
   }
 
   :host([size="xs"]) [part="root"] {
-    border-radius: calc(var(--radius-md) * 0.75);
+    border-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="xs"]) [part="input"] {

@@ -74,13 +74,13 @@ const styles = css`
 
   :host([size="xs"]) .Chips {
     min-height: var(--component-height-xs);
-    border-radius: calc(var(--radius-md) * 0.75);
+    border-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="xs"]) .InputWrapper .Input {
     min-height: var(--component-height-xs);
     padding: var(--space-1) var(--space-8) var(--space-1) var(--space-1_5);
-    border-radius: calc(var(--radius-md) * 0.75);
+    border-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="sm"]) .Input {

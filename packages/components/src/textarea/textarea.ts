@@ -52,8 +52,8 @@ const styles = css`
    * height AND keeps one line vertically centered — min-height above is only
    * a floor. Scale padding, not just min-height, or the sizes look identical. */
   :host([size="xs"]) [part="textarea"] {
-    padding: var(--space-1);
-    border-radius: calc(var(--radius-md) * 0.75);
+    padding: var(--space-1) var(--space-1_5);
+    border-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="sm"]) [part="textarea"] {
