@@ -22,6 +22,7 @@ const styles = css`
     --toggle-padding-y: var(--space-1);
     --toggle-padding-x: var(--space-1_5);
     --toggle-gap: var(--space-1);
+    --toggle-radius: calc(var(--radius-md) * 0.75);
     --toggle-font-size: var(--text-xs);
     --toggle-icon-size: var(--space-3_5);
   }
