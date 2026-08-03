@@ -7,9 +7,9 @@ const styles = css`
     --number-field-bg: transparent;
     --number-field-fg: var(--text-1);
     --number-field-border: var(--border);
-    --number-field-height: var(--component-height-sm);
+    --number-field-height: var(--component-height-md);
     --number-field-radius: var(--radius-md);
-    --number-field-font-size: var(--text-xs);
+    --number-field-font-size: var(--text-sm);
     --number-field-value-align: center;
 
     /* Label tokens */
@@ -21,6 +21,26 @@ const styles = css`
     --_label-display: none;
     --_icon-display: none;
     --_unit-display: none;
+  }
+
+  /* -----------------------------------------------------------
+   * Sizes (swap the --number-field-* dimension vars)
+   * ----------------------------------------------------------- */
+
+  :host([size="xs"]) {
+    --number-field-height: var(--component-height-xs);
+    --number-field-radius: calc(var(--radius-md) * 0.75);
+    --number-field-font-size: var(--text-xs);
+  }
+
+  :host([size="sm"]) {
+    --number-field-height: var(--component-height-sm);
+    --number-field-font-size: var(--text-xs);
+  }
+
+  :host([size="lg"]) {
+    --number-field-height: var(--component-height-lg);
+    --number-field-font-size: var(--text-sm);
   }
 
   /* -----------------------------------------------------------
