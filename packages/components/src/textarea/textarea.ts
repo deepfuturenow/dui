@@ -7,6 +7,18 @@ const styles = css`
     --font-size: var(--text-sm);
   }
 
+  :host([size="xs"]) {
+    --font-size: var(--text-xs);
+  }
+
+  :host([size="sm"]) {
+    --font-size: var(--text-xs);
+  }
+
+  :host([size="lg"]) {
+    --font-size: var(--text-sm);
+  }
+
   [part="textarea"] {
     padding: var(--space-2);
     font-family: var(--font-sans);
@@ -22,6 +34,22 @@ const styles = css`
 
   [part="textarea"][data-resize="auto"] {
     min-height: var(--component-height-md);
+  }
+
+  :host([size="xs"]) [part="textarea"][data-resize="auto"] {
+    min-height: var(--component-height-xs);
+  }
+
+  :host([size="sm"]) [part="textarea"][data-resize="auto"] {
+    min-height: var(--component-height-sm);
+  }
+
+  :host([size="lg"]) [part="textarea"][data-resize="auto"] {
+    min-height: var(--component-height-lg);
+  }
+
+  :host([size="xs"]) [part="textarea"] {
+    border-radius: calc(var(--radius-md) * 0.75);
   }
 
   /* Scrollbar */

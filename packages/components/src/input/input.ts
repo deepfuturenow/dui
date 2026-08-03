@@ -34,10 +34,21 @@ const styles = css`
     border-color: var(--destructive);
   }
 
+  :host([size="xs"]) [part="input"] {
+    height: var(--component-height-xs);
+    padding: var(--space-1);
+    font-size: var(--text-xs);
+    border-radius: calc(var(--radius-md) * 0.75);
+  }
+
   :host([size="sm"]) [part="input"] {
     height: var(--component-height-sm);
     padding: var(--space-1_5);
     font-size: var(--text-xs);
+  }
+
+  :host([size="lg"]) [part="input"] {
+    height: var(--component-height-lg);
   }
 
   :host([aria-invalid="true"]) [part="input"]:focus-visible {
