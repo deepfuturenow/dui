@@ -65,6 +65,23 @@ const styles = css`
     transition-duration: var(--duration-fast);
   }
 
+  /* Optically center the default −/+ glyphs. Flexbox centers their line box,
+   * but the ink of these math symbols sits ~0.08em below the line-box center,
+   * so nudge the slot up. Custom slotted content (icons) is already centered,
+   * so cancel the nudge there. */
+  [part="decrement"] slot,
+  [part="increment"] slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-0.08em);
+  }
+
+  [part="decrement"] ::slotted(*),
+  [part="increment"] ::slotted(*) {
+    transform: translateY(0.08em);
+  }
+
   :host([size="xs"]) [part="decrement"],
   :host([size="xs"]) [part="increment"] {
     width: var(--component-height-xs);
