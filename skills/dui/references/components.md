@@ -124,8 +124,8 @@ Semantic grouping for related form fields using a native fieldset element.
 
 ### dui-data-table `@dui/components/data-table`
 A sortable, paginated data table with column definitions and custom cell renderers.
-**Props:** `columns`, `data`, `pageSize`, `rowKey`, `emptyText`
-**Events:** `sort-change` → `SortState | null`, `page-change` → `PageState`
+**Props:** `columns`, `data`, `pageSize`, `rowKey`, `emptyText`, `selectionMode`, `selectedKeys`, `filterValue`, `globalFilterFn`
+**Events:** `sort-change` → `SortState | null`, `page-change` → `PageState`, `selection-change` → `{ selectedKeys: string[]; selectedRows: T[] }`, `row-click` → `{ row: T; key: string | undefined }`
 
 ### dui-badge `@dui/components/badge`
 An inline status indicator element.
