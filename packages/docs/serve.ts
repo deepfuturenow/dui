@@ -307,7 +307,26 @@ if (buildMode) {
     nodePaths: [join(WORKSPACE_ROOT, "node_modules")],
     define: { __DUI_VERSION__: JSON.stringify(CORE_VERSION) },
     banner: {
-      js: `(() => { new EventSource("/esbuild").addEventListener("change", () => location.reload()); })();`,
+      // Live reload, but only the *visible* tab holds an SSE connection.
+      // esbuild's dev server is HTTP/1.1 and browsers cap concurrent
+      // connections at ~6 per host, so a persistent EventSource per tab
+      // exhausts the pool once ~6 docs tabs are open and new tabs hang.
+      // Each tab drops its connection when hidden and reconnects when shown;
+      // a BroadcastChannel relays the change so backgrounded tabs still
+      // reload without each holding a slot.
+      js: `(() => {
+        const channel = new BroadcastChannel("dui-docs-reload");
+        channel.onmessage = () => location.reload();
+        let es = null;
+        const connect = () => {
+          if (es) return;
+          es = new EventSource("/esbuild");
+          es.addEventListener("change", () => { channel.postMessage("change"); location.reload(); });
+        };
+        const disconnect = () => { es?.close(); es = null; };
+        document.addEventListener("visibilitychange", () => document.hidden ? disconnect() : connect());
+        if (!document.hidden) connect();
+      })();`,
     },
   });
 

@@ -87,12 +87,35 @@ export class DocsPageSplitButton extends LitElement {
       </dui-docs-demo>
 
       <dui-docs-demo label="With icon">
-        <dui-split-button variant="primary">
-          <dui-icon>${unsafeHTML(Save)}</dui-icon>
-          Save
-          <dui-menu-item slot="menu">Save As…</dui-menu-item>
-          <dui-menu-item slot="menu">Save Draft</dui-menu-item>
-        </dui-split-button>
+        <docs-row>
+          <dui-split-button variant="primary" size="xs">
+            <dui-icon>${unsafeHTML(Save)}</dui-icon>
+            Save
+            <dui-menu-item slot="menu">Save As…</dui-menu-item>
+            <dui-menu-item slot="menu">Save Draft</dui-menu-item>
+          </dui-split-button>
+
+          <dui-split-button variant="primary" size="sm">
+            <dui-icon>${unsafeHTML(Save)}</dui-icon>
+            Save
+            <dui-menu-item slot="menu">Save As…</dui-menu-item>
+            <dui-menu-item slot="menu">Save Draft</dui-menu-item>
+          </dui-split-button>
+
+          <dui-split-button variant="primary">
+            <dui-icon>${unsafeHTML(Save)}</dui-icon>
+            Save
+            <dui-menu-item slot="menu">Save As…</dui-menu-item>
+            <dui-menu-item slot="menu">Save Draft</dui-menu-item>
+          </dui-split-button>
+
+          <dui-split-button variant="primary" size="lg">
+            <dui-icon>${unsafeHTML(Save)}</dui-icon>
+            Save
+            <dui-menu-item slot="menu">Save As…</dui-menu-item>
+            <dui-menu-item slot="menu">Save Draft</dui-menu-item>
+          </dui-split-button>
+        </docs-row>
       </dui-docs-demo>
 
       <dui-docs-demo label="Icon Only">

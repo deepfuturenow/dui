@@ -10,6 +10,8 @@ import { parseOklch, formatOklch, type Oklch } from "./create/color-utils.ts";
 import { loadGoogleFont } from "./create/font-loader.ts";
 import { generateDesignMdFromEditor, downloadAsFile, copyToClipboard } from "./create/design-md-export.ts";
 import "./create/create-controls.ts";
+// The docs chrome dogfoods the styled DUI button (not the primitive).
+import "@dui/components/button";
 
 /** Sidebar navigation groups for the Components section. */
 const NAV_GROUPS: { label: string; slugs: string[] }[] = [
@@ -121,25 +123,18 @@ export class DocsApp extends LitElement {
       gap: var(--space-2);
     }
 
+    /* Search trigger: styled dui-button shaped like a search field
+       (left-aligned content, kbd hint pushed to the right edge). */
     .search-trigger {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-1_5, 0.375rem) var(--space-3, 0.75rem);
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-md, 0.5rem);
-      background: var(--surface-1);
-      color: var(--text-2);
-      font-size: var(--text-sm, 0.875rem);
-      font-family: inherit;
-      cursor: pointer;
       min-width: 200px;
-      transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
     }
 
-    .search-trigger:hover {
-      border-color: var(--text-2);
-      box-shadow: var(--shadow-xs);
+    .search-trigger::part(root) {
+      width: 100%;
+      justify-content: flex-start;
+      gap: var(--space-2);
+      color: var(--text-2);
+      font-weight: var(--font-weight-regular, 400);
     }
 
     .search-trigger kbd {
@@ -153,24 +148,13 @@ export class DocsApp extends LitElement {
       line-height: 1;
     }
 
+    /* Icon-only toggles: square via dui-button's own sizing vars
+       (width tracks height, padding zeroed) — same idiom as the
+       button docs' "Icon Only" example. */
     .icon-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-md, 0.5rem);
-      background: transparent;
-      color: var(--text-2);
-      cursor: pointer;
-      transition: color var(--duration-fast) ease, background var(--duration-fast) ease, border-color var(--duration-fast) ease;
-    }
-
-    .icon-btn:hover {
-      color: var(--foreground);
-      background: oklch(from var(--foreground) l c h / 0.05);
-      border-color: var(--text-2);
+      --button-width: var(--button-height);
+      --button-padding-x: 0;
+      --button-padding-y: 0;
     }
 
     /* ── Body ── */
@@ -319,37 +303,10 @@ export class DocsApp extends LitElement {
       font-family: var(--font-mono);
     }
 
+    /* Export buttons: full-width via dui-button's own width var
+       (drives both :host and the root). */
     .export-btn {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      border: var(--border-width-thin, 1px) solid var(--border);
-      border-radius: var(--radius-md, 0.5rem);
-      background: var(--accent);
-      color: var(--background);
-      font-size: var(--text-sm, 0.875rem);
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-
-    .export-btn:hover {
-      opacity: 0.9;
-    }
-
-    .export-btn--secondary {
-      background: transparent;
-      color: var(--text-1);
-      border-color: var(--border);
-    }
-
-    .export-btn--secondary:hover {
-      background: var(--surface-1);
-      opacity: 1;
+      --button-width: 100%;
     }
 
     /* ── Content ── */
@@ -528,10 +485,12 @@ export class DocsApp extends LitElement {
     this.#route = currentRoute();
     this.#sidebarClosed = this.#route.sidebarClosed ?? false;
     this.#syncSidebarAttr();
+    this.#updateTitle();
     this.#cleanup = onRouteChange((route) => {
       this.#route = route;
       this.#sidebarClosed = route.sidebarClosed ?? false;
       this.#syncSidebarAttr();
+      this.#updateTitle();
     });
     document.addEventListener("keydown", this.#handleGlobalKeydown);
     // Preload the default fonts for the Create page
@@ -551,6 +510,33 @@ export class DocsApp extends LitElement {
     super.disconnectedCallback();
     this.#cleanup?.();
     document.removeEventListener("keydown", this.#handleGlobalKeydown);
+  }
+
+  /** Set the document title to "<Page> - DUI" based on the active route. */
+  #updateTitle(): void {
+    const { section, component } = this.#route;
+    const titleCase = (slug: string) =>
+      slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+    let page: string;
+    if (section === "components" && component) {
+      page = componentRegistry.find((c) => c.tagName === `dui-${component}`)?.name ?? titleCase(component);
+    } else if (section === "templates" && component) {
+      page = templateRegistry.find((t) => t.tagName === `dui-${component}`)?.name ?? titleCase(component);
+    } else {
+      const SECTION_LABELS: Record<string, string> = {
+        components: "Components",
+        templates: "Templates",
+        styling: "Styling",
+        theming: "Theming",
+        typography: "Typography",
+        prose: "Prose",
+        create: "Create",
+      };
+      page = SECTION_LABELS[section] ?? titleCase(section);
+    }
+
+    document.title = `${page} - DUI`;
   }
 
   override updated(changed: Map<PropertyKey, unknown>): void {
@@ -810,23 +796,23 @@ export class DocsApp extends LitElement {
           </nav>
         </div>
         <div class="top-bar-right">
-          <button class="search-trigger" @click=${() => { this.#searchOpen = true; this.#searchQuery = ""; this.#activeIndex = 0; }}>
+          <dui-button appearance="outline" class="search-trigger" @click=${() => { this.#searchOpen = true; this.#searchQuery = ""; this.#activeIndex = 0; }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <span class="search-text">Search components…</span>
             <kbd>${navigator.platform.includes("Mac") ? "\u2318" : "Ctrl"}K</kbd>
-          </button>
-          <button class="icon-btn sidebar-toggle" @click=${this.#toggleSidebar} title="Toggle sidebar">
+          </dui-button>
+          <dui-button appearance="outline" class="icon-btn sidebar-toggle" @click=${this.#toggleSidebar} aria-label="Toggle sidebar" title="Toggle sidebar">
             ${this.#sidebarClosed
               ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>`
               : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>`
             }
-          </button>
-          <button class="icon-btn" @click=${this.#toggleTheme} title="Toggle theme">
+          </dui-button>
+          <dui-button appearance="outline" class="icon-btn" @click=${this.#toggleTheme} aria-label="Toggle theme" title="Toggle theme">
             ${document.documentElement.getAttribute("data-theme") === "dark"
               ? html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`
               : html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
             }
-          </button>
+          </dui-button>
         </div>
       </header>
 
@@ -854,14 +840,14 @@ export class DocsApp extends LitElement {
           ></create-controls>
           <div class="export-section">
             <label class="export-label">Export</label>
-            <button class="export-btn" @click=${this.#onExportDesignMd}>
+            <dui-button variant="primary" class="export-btn" @click=${this.#onExportDesignMd}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               Download DESIGN.md
-            </button>
-            <button class="export-btn export-btn--secondary" @click=${this.#onCopyDesignMd}>
+            </dui-button>
+            <dui-button appearance="outline" class="export-btn" @click=${this.#onCopyDesignMd}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
               ${this.#copyFeedback ? "Copied!" : "Copy to clipboard"}
-            </button>
+            </dui-button>
           </div>
         </nav>
       `;

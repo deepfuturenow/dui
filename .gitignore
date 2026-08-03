@@ -2,7 +2,12 @@
 node_modules/
 
 # Build artifacts
-dist/
+dist/*
+# ...but keep the CDN bundle committed — it's an input to the dui-claude-design-system
+# skill and is regenerated + committed on every DUI publish (publish-to-npm skill).
+!dist/dui-cdn/
+dist/dui-cdn/*
+!dist/dui-cdn/dui.min.js
 packages/docs/static/index.js
 packages/docs/static/theme-editor.js
 packages/docs/static/llms.txt
@@ -24,6 +29,9 @@ Thumbs.db
 .worktrees/
 plans/
 screenshots/
+
+# design-sync staging (regenerable via .agents/skills/dui-claude-design-system/gen.ts)
+.design-sync/
 
 # Environment
 .env
