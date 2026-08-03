@@ -3,6 +3,38 @@ import { DuiComboboxPrimitive } from "@dui/primitives/combobox";
 import "../_install.ts";
 
 const styles = css`
+  /* ---------------------------------------------------------------
+   * Size tokens. The trigger inputs + chevron live in this shadow
+   * root; the popup is portaled to a separate shadow root on <body>.
+   * The --combobox-item-* vars are forwarded onto the portal
+   * positioner by the primitive's FloatingPortalController
+   * (forwardProperties) so the option rows scale with size too.
+   * --------------------------------------------------------------- */
+
+  :host {
+    --combobox-item-font-size: var(--text-sm);
+    --combobox-item-padding-y: var(--space-2);
+    --combobox-item-icon-size: var(--space-3_5);
+  }
+
+  :host([size="xs"]) {
+    --combobox-item-font-size: var(--text-xs);
+    --combobox-item-padding-y: var(--space-1);
+    --combobox-item-icon-size: var(--space-3);
+  }
+
+  :host([size="sm"]) {
+    --combobox-item-font-size: var(--text-xs);
+    --combobox-item-padding-y: var(--space-1_5);
+    --combobox-item-icon-size: var(--space-3_5);
+  }
+
+  :host([size="lg"]) {
+    --combobox-item-font-size: var(--text-sm);
+    --combobox-item-padding-y: var(--space-2);
+    --combobox-item-icon-size: var(--space-4);
+  }
+
   /* ---- Chips (multi-select container) ---- */
 
   .Chips {
@@ -35,6 +67,22 @@ const styles = css`
     font-size: var(--text-sm); line-height: var(--text-sm--line-height);
   }
 
+  :host([size="xs"]) .Input {
+    height: var(--component-height-xs);
+    font-size: var(--text-xs);
+  }
+
+  :host([size="xs"]) .Chips {
+    min-height: var(--component-height-xs);
+    border-radius: calc(var(--radius-md) * 0.75);
+  }
+
+  :host([size="xs"]) .InputWrapper .Input {
+    min-height: var(--component-height-xs);
+    padding: var(--space-1) var(--space-8) var(--space-1) var(--space-1_5);
+    border-radius: calc(var(--radius-md) * 0.75);
+  }
+
   :host([size="sm"]) .Input {
     height: var(--component-height-sm);
     font-size: var(--text-xs);
@@ -47,6 +95,19 @@ const styles = css`
   :host([size="sm"]) .InputWrapper .Input {
     min-height: var(--component-height-sm);
     padding: var(--space-1_5) var(--space-8) var(--space-1_5) var(--space-1_5);
+  }
+
+  :host([size="lg"]) .Input {
+    height: var(--component-height-lg);
+    font-size: var(--text-sm);
+  }
+
+  :host([size="lg"]) .Chips {
+    min-height: var(--component-height-lg);
+  }
+
+  :host([size="lg"]) .InputWrapper .Input {
+    min-height: var(--component-height-lg);
   }
 
   .Input::placeholder {
@@ -79,6 +140,18 @@ const styles = css`
     --icon-size: var(--space-4);
     right: var(--space-3);
     color: var(--text-1);
+  }
+
+  :host([size="xs"]) .Arrow {
+    --icon-size: var(--space-3);
+  }
+
+  :host([size="sm"]) .Arrow {
+    --icon-size: var(--space-3_5);
+  }
+
+  :host([size="lg"]) .Arrow {
+    --icon-size: var(--space-4);
   }
 
   /* Multi-select input (inside chips) */
@@ -135,9 +208,11 @@ const styles = css`
 
   .Item {
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+    padding: var(--combobox-item-padding-y) var(--space-2)
+      var(--combobox-item-padding-y) var(--space-3);
     border-radius: var(--radius-sm);
-    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-size: var(--combobox-item-font-size);
+    line-height: var(--line-height-snug);
     font-family: var(--font-sans);
     color: var(--text-1);
   }
@@ -149,12 +224,13 @@ const styles = css`
   }
 
   .ItemIndicator {
-    --icon-size: var(--space-3_5);
+    --icon-size: var(--combobox-item-icon-size);
   }
 
   .Empty {
     padding: var(--space-3);
-    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-size: var(--combobox-item-font-size);
+    line-height: var(--line-height-snug);
     color: var(--text-2);
     text-align: center;
   }

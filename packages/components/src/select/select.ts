@@ -3,6 +3,38 @@ import { DuiSelectPrimitive } from "@dui/primitives/select";
 import "../_install.ts";
 
 const styles = css`
+  /* ---------------------------------------------------------------
+   * Size tokens. The trigger + chevron live in this shadow root, but
+   * the popup is portaled to a separate shadow root on <body>; the
+   * --select-item-* vars below are forwarded onto the portal
+   * positioner by the primitive's FloatingPortalController
+   * (forwardProperties) so the option rows scale with size too.
+   * --------------------------------------------------------------- */
+
+  :host {
+    --select-item-font-size: var(--text-sm);
+    --select-item-padding-y: var(--space-1_5);
+    --select-item-icon-size: var(--space-3_5);
+  }
+
+  :host([size="xs"]) {
+    --select-item-font-size: var(--text-xs);
+    --select-item-padding-y: var(--space-1);
+    --select-item-icon-size: var(--space-3);
+  }
+
+  :host([size="sm"]) {
+    --select-item-font-size: var(--text-xs);
+    --select-item-padding-y: var(--space-1_5);
+    --select-item-icon-size: var(--space-3_5);
+  }
+
+  :host([size="lg"]) {
+    --select-item-font-size: var(--text-sm);
+    --select-item-padding-y: var(--space-1_5);
+    --select-item-icon-size: var(--space-4);
+  }
+
   .Trigger {
     height: var(--component-height-md);
     gap: var(--space-2);
@@ -28,10 +60,22 @@ const styles = css`
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
   }
 
+  :host([size="xs"]) .Trigger {
+    height: var(--component-height-xs);
+    padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+    border-radius: calc(var(--radius-md) * 0.75);
+    font-size: var(--text-xs);
+  }
+
   :host([size="sm"]) .Trigger {
     height: var(--component-height-sm);
     padding: var(--space-1_5) var(--space-1_5) var(--space-1_5) var(--space-2_5);
     font-size: var(--text-xs);
+  }
+
+  :host([size="lg"]) .Trigger {
+    height: var(--component-height-lg);
+    font-size: var(--text-sm);
   }
 
   .Trigger:hover:not([data-disabled]) {
@@ -60,6 +104,18 @@ const styles = css`
     align-items: center;
     --icon-size: var(--space-4);
     color: var(--text-1);
+  }
+
+  :host([size="xs"]) .Icon {
+    --icon-size: var(--space-3);
+  }
+
+  :host([size="sm"]) .Icon {
+    --icon-size: var(--space-3_5);
+  }
+
+  :host([size="lg"]) .Icon {
+    --icon-size: var(--space-4);
   }
 
   /* ---- Popup (rendered in portal shadow root) ---- */
@@ -98,9 +154,10 @@ const styles = css`
 
   .Item {
     gap: var(--space-2);
-    padding: var(--space-1_5) var(--space-2);
+    padding: var(--select-item-padding-y) var(--space-2);
     border-radius: var(--radius-sm);
-    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-size: var(--select-item-font-size);
+    line-height: var(--line-height-snug);
     font-family: var(--font-sans);
     color: var(--text-1);
   }
@@ -120,11 +177,11 @@ const styles = css`
   }
 
   .ItemIndicator {
-    width: var(--space-3_5);
+    width: var(--select-item-icon-size);
   }
 
   .ItemIndicator dui-icon {
-    --icon-size: var(--space-3_5);
+    --icon-size: var(--select-item-icon-size);
   }
 `;
 
