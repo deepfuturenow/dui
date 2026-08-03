@@ -3,6 +3,32 @@ import { DuiMenuPrimitive } from "@dui/primitives/menu";
 import "../_install.ts";
 
 const styles = css`
+  /* ---------------------------------------------------------------
+   * Sizes. Menu items are relocated into the portal, so these vars are
+   * forwarded onto the positioner by the primitive (forwardProperties)
+   * and inherited by each <dui-menu-item>. md is the implicit default
+   * (fallbacks live in menu-item.ts's var() consumption). Scales item
+   * density: height / font-size / icon-size.
+   * --------------------------------------------------------------- */
+
+  :host([size="xs"]) {
+    --menu-item-height: var(--component-height-xs);
+    --menu-item-font-size: var(--text-xs);
+    --menu-item-icon-size: var(--space-3_5);
+  }
+
+  :host([size="sm"]) {
+    --menu-item-height: var(--component-height-sm);
+    --menu-item-font-size: var(--text-xs);
+    --menu-item-icon-size: var(--space-4);
+  }
+
+  :host([size="lg"]) {
+    --menu-item-height: var(--component-height-lg);
+    --menu-item-font-size: var(--text-sm);
+    --menu-item-icon-size: var(--space-4_5);
+  }
+
   .Popup {
     background: var(--surface-3);
     border: var(--border-width-thin) solid var(--border);

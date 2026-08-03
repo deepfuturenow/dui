@@ -3,15 +3,20 @@ import { DuiMenuItemPrimitive } from "@dui/primitives/menu";
 import "../_install.ts";
 
 const styles = css`
+  /* Height / font / icon read inheritable vars set by <dui-menu size=…>.
+   * The menu-items are relocated into the popup's portal, so these vars
+   * arrive via the primitive's forwardProperties (set on the positioner)
+   * rather than DOM inheritance. md defaults live in the var() fallbacks
+   * (NOT a :host declaration, which would shadow the forwarded value). */
   .Item {
-    --icon-size: var(--space-4);
+    --icon-size: var(--menu-item-icon-size, var(--space-4_5));
     --icon-color: var(--text-2);
     gap: var(--space-2);
     padding: 0 var(--space-2);
-    height: var(--component-height-sm);
+    height: var(--menu-item-height, var(--component-height-md));
     border-radius: var(--radius-sm);
-    font-size: var(--text-sm);
-    line-height: var(--text-sm--line-height);
+    font-size: var(--menu-item-font-size, var(--text-sm));
+    line-height: var(--line-height-snug);
     font-family: var(--font-sans);
     color: var(--text-1);
   }
