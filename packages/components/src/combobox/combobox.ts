@@ -138,7 +138,7 @@ const styles = css`
 
   .Arrow {
     --icon-size: var(--space-4);
-    right: var(--space-3);
+    right: var(--space-2);
     color: var(--text-1);
   }
 
@@ -152,6 +152,7 @@ const styles = css`
 
   :host([size="lg"]) .Arrow {
     --icon-size: var(--space-4);
+    right: var(--space-3);
   }
 
   /* Multi-select input (inside chips) */
