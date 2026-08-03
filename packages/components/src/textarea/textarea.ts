@@ -48,8 +48,16 @@ const styles = css`
     min-height: var(--component-height-lg);
   }
 
+  /* Symmetric padding is what drives (and differentiates) the single-line
+   * height AND keeps one line vertically centered — min-height above is only
+   * a floor. Scale padding, not just min-height, or the sizes look identical. */
   :host([size="xs"]) [part="textarea"] {
+    padding: var(--space-1);
     border-radius: calc(var(--radius-md) * 0.75);
+  }
+
+  :host([size="sm"]) [part="textarea"] {
+    padding: var(--space-1_5);
   }
 
   /* Scrollbar */
