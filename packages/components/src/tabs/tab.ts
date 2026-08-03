@@ -3,12 +3,16 @@ import { DuiTabPrimitive } from "@dui/primitives/tabs";
 import "../_install.ts";
 
 const styles = css`
+  /* Height + font-size read inheritable vars set by <dui-tabs size=…>.
+   * The md defaults live in the var() fallbacks (NOT a :host declaration
+   * here, which would shadow the value inherited from the container). */
   [part="tab"] {
     color: var(--text-2);
-    font-size: var(--text-sm); line-height: var(--line-height-snug);
+    font-size: var(--tab-font-size, var(--text-sm));
+    line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
     padding-inline: var(--space-2);
-    height: var(--component-height-md);
+    height: var(--tab-height, var(--component-height-md));
     transition-property: color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fast);
   }
