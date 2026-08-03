@@ -528,10 +528,12 @@ export class DocsApp extends LitElement {
     this.#route = currentRoute();
     this.#sidebarClosed = this.#route.sidebarClosed ?? false;
     this.#syncSidebarAttr();
+    this.#updateTitle();
     this.#cleanup = onRouteChange((route) => {
       this.#route = route;
       this.#sidebarClosed = route.sidebarClosed ?? false;
       this.#syncSidebarAttr();
+      this.#updateTitle();
     });
     document.addEventListener("keydown", this.#handleGlobalKeydown);
     // Preload the default fonts for the Create page
@@ -551,6 +553,33 @@ export class DocsApp extends LitElement {
     super.disconnectedCallback();
     this.#cleanup?.();
     document.removeEventListener("keydown", this.#handleGlobalKeydown);
+  }
+
+  /** Set the document title to "<Page> - DUI" based on the active route. */
+  #updateTitle(): void {
+    const { section, component } = this.#route;
+    const titleCase = (slug: string) =>
+      slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+    let page: string;
+    if (section === "components" && component) {
+      page = componentRegistry.find((c) => c.tagName === `dui-${component}`)?.name ?? titleCase(component);
+    } else if (section === "templates" && component) {
+      page = templateRegistry.find((t) => t.tagName === `dui-${component}`)?.name ?? titleCase(component);
+    } else {
+      const SECTION_LABELS: Record<string, string> = {
+        components: "Components",
+        templates: "Templates",
+        styling: "Styling",
+        theming: "Theming",
+        typography: "Typography",
+        prose: "Prose",
+        create: "Create",
+      };
+      page = SECTION_LABELS[section] ?? titleCase(section);
+    }
+
+    document.title = `${page} - DUI`;
   }
 
   override updated(changed: Map<PropertyKey, unknown>): void {
