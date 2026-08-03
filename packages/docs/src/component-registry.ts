@@ -723,7 +723,6 @@ export const componentRegistry: ComponentMeta[] = [
     ],
     cssProperties: [
       { name: "--tabs-indicator-bg", description: "Indicator background color" },
-      { name: "--tabs-indicator-height", description: "Indicator height" },
       { name: "--tabs-indicator-radius", description: "Indicator border radius" },
       { name: "--tabs-indicator-duration", description: "Indicator animation duration" },
       { name: "--tabs-indicator-easing", description: "Indicator animation easing" },
@@ -811,7 +810,6 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [],
     cssProperties: [
       { name: "--tabs-indicator-bg", description: "Indicator background color" },
-      { name: "--tabs-indicator-height", description: "Indicator height" },
       { name: "--tabs-indicator-radius", description: "Indicator border radius" },
       { name: "--tabs-indicator-duration", description: "Indicator animation duration" },
       { name: "--tabs-indicator-easing", description: "Indicator animation easing" },
