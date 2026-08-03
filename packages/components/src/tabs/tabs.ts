@@ -13,6 +13,7 @@ const styles = css`
   :host([size="xs"]) {
     --tab-height: var(--component-height-xs);
     --tab-font-size: var(--text-xs);
+    --tabs-indicator-radius: calc(var(--radius-md) * 0.8);
   }
 
   :host([size="sm"]) {
