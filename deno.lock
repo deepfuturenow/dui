@@ -1249,7 +1249,7 @@
           "npm:shiki@3"
         ]
       },
-      "jsr:@dui/primitives@1.11.0": {
+      "jsr:@dui/primitives@2.0.0": {
         "dependencies": [
           "npm:@floating-ui/dom@^1.7.4",
           "npm:@lit/context@^1.1.3",
