@@ -358,7 +358,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Properties: value (string | undefined), defaultValue (string | undefined), orientation ("horizontal" | "vertical", "horizontal"), controls ("header" | "footer", "header")
 - Events: value-change (string)
 - Slots: default (Tab list and tab panels)
-- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-height (Indicator height), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing), --tabs-list-justify (Tab list justify-content (e.g. start, center, stretch)), --tabs-panel-padding (Panel content padding), --tabs-panel-background (Panel background color), --tabs-panel-border-width (Panel border width), --tabs-panel-border-color (Panel border color), --tabs-panel-border-radius (Panel border radius)
+- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing), --tabs-list-justify (Tab list justify-content (e.g. start, center, stretch)), --tabs-panel-padding (Panel content padding), --tabs-panel-background (Panel background color), --tabs-panel-border-width (Panel border width), --tabs-panel-border-color (Panel border color), --tabs-panel-border-radius (Panel border radius)
 
 ### Tabs List
 - Tag: `<dui-tabs-list>`
@@ -393,7 +393,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Import: `@dui/components/tabs`
 - Description: Animated background indicator for the active tab.
 - Events: none
-- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-height (Indicator height), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing)
+- CSS Variables: --tabs-indicator-bg (Indicator background color), --tabs-indicator-radius (Indicator border radius), --tabs-indicator-duration (Indicator animation duration), --tabs-indicator-easing (Indicator animation easing)
 
 ### Textarea
 - Tag: `<dui-textarea>`
@@ -590,9 +590,10 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Tag: `<dui-data-table>`
 - Import: `@dui/components/data-table`
 - Description: A sortable, paginated data table with column definitions and custom cell renderers.
-- Properties: columns (ColumnDef<T>[], []), data (T[], []), pageSize (number, 10), rowKey (((row: T) => string) | undefined), emptyText (string, "No results.")
-- Events: sort-change (SortState | null), page-change (PageState)
-- CSS Parts: root (The outer data table container), table-window (The scrollable table wrapper), table (The native table element), pagination (The pagination controls)
+- Properties: columns (ColumnDef<T>[], []), data (T[], []), pageSize (number, 10), rowKey (((row: T) => string) | undefined), emptyText (string, "No results."), selectionMode ("none" | "single" | "multiple", "none"), selectedKeys (string[], []), filterValue (unknown), globalFilterFn (((row: T, filterValue: unknown) => boolean) | undefined)
+- Events: sort-change (SortState | null), page-change (PageState), selection-change ({ selectedKeys: string[]; selectedRows: T[] }), row-click ({ row: T; key: string | undefined })
+- CSS Variables: --data-table-selected-background (Background for selected rows)
+- CSS Parts: root (The outer data table container), table-window (The scrollable table wrapper), table (The native table element), header-row (The header <tr>), header-cell (Each header <th>), row (Each body <tr> (also carries selected when the row is selected)), cell (Each body <td> (selection cells also carry selection)), sort-icon (The sort indicator in a sortable header), checkbox (The selection checkbox box (forwarded from dui-checkbox)), checkbox-indicator (The selection checkbox check/dash indicator), pagination (The pagination controls)
 
 ### Command
 - Tag: `<dui-command>`
