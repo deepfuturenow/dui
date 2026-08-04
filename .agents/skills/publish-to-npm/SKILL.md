@@ -78,7 +78,29 @@ git status --short
 
 If there are uncommitted changes, stop and ask the user whether to commit or stash them first. A release should always start from a clean working tree.
 
-### 2. Read the current version
+### 2. Regenerate generated references (drift gate)
+
+The registry-derived reference files are **not** touched by the build or publish scripts,
+so they can silently drift from the source you're about to ship. Regenerate them and refuse
+to release if they were stale:
+
+```bash
+deno task gen:refs   # regenerates packages/docs/static/llms.txt + skills/dui/references/components.md
+git status --porcelain -- packages/docs/static/llms.txt skills/dui/references/components.md
+```
+
+- **Clean** → the committed references already match the source; continue.
+- **Dirty** → the references were **stale**. Do not proceed. Show the diff, commit them
+  (`git add packages/docs/static/llms.txt skills/dui/references/components.md && git commit -m "docs: regenerate generated references"`),
+  then re-run this skill from the top. A release must not ship stale references.
+  (`components.md` is also enforced by the `check-generated` CI drift check; `llms.txt` is
+  **not** gated in CI, which is exactly why this local step matters.)
+
+The hand-authored `component-catalog.md` / `component-selection.md` (in the create-template
+skill) are **not** generated — if this release **adds or removes components**, update those
+by hand; a prop-only change (like a new `size`) doesn't affect them.
+
+### 3. Read the current version
 
 ```bash
 grep '"version"' packages/components/deno.json
@@ -92,7 +114,7 @@ Tell the user the current version and ask what the new version should be. Offer 
 
 Wait for the user to confirm before proceeding.
 
-### 3. Bump version
+### 4. Bump version
 
 ```bash
 deno task version <patch|minor|major|X.Y.Z>
@@ -100,7 +122,7 @@ deno task version <patch|minor|major|X.Y.Z>
 
 This updates `version` in `packages/components/deno.json`, `packages/templates/deno.json`, and `packages/docs/deno.json`.
 
-### 4. Build
+### 5. Build
 
 ```bash
 deno task build
@@ -110,7 +132,7 @@ Verify the output shows `dist/dui-components/`, `dist/dui-templates/`, `dist/dui
 
 If the build fails, stop and fix the issue before continuing.
 
-### 5. Dry-run publish
+### 6. Dry-run publish
 
 ```bash
 deno task publish
@@ -122,7 +144,7 @@ Check that:
 - All packages show the correct new version
 - No errors (ignore the `repository.url` normalization warning)
 
-### 6. Publish for real
+### 7. Publish for real
 
 ```bash
 deno task publish:live
@@ -143,7 +165,7 @@ If it fails with a `401`/`E401`/OTP error, the token is invalid — go back to t
 and re-run after fixing auth; already-published versions will error as duplicates and
 can be skipped.
 
-### 7. Commit and tag
+### 8. Commit and tag
 
 ```bash
 git add -A
@@ -154,9 +176,9 @@ git tag vX.Y.Z
 
 Replace `X.Y.Z` with the actual version number.
 
-**Why the explicit `dist/dui-cdn/dui.min.js` add:** the rest of `dist/` is gitignored, but this one bundle is intentionally committed (un-ignored in `.gitignore`) because it's an input to the **`dui-claude-design-system`** skill, which grabs the committed bundle and trusts it's current. Step 5 (`deno task publish` → `build:cdn`) regenerates it, so committing it on every release keeps that skill's output in sync with the published components. `git add -A` already picks it up, but the explicit add makes the dependency intentional.
+**Why the explicit `dist/dui-cdn/dui.min.js` add:** the rest of `dist/` is gitignored, but this one bundle is intentionally committed (un-ignored in `.gitignore`) because it's an input to the **`dui-claude-design-system`** skill, which grabs the committed bundle and trusts it's current. Step 6 (`deno task publish` → `build:cdn`) regenerates it, so committing it on every release keeps that skill's output in sync with the published components. `git add -A` already picks it up, but the explicit add makes the dependency intentional.
 
-### 8. Push to GitHub
+### 9. Push to GitHub
 
 Push the release commit and the tag to the remote:
 
@@ -164,7 +186,7 @@ Push the release commit and the tag to the remote:
 git push && git push --tags
 ```
 
-### 9. Create the GitHub Release
+### 10. Create the GitHub Release
 
 Create a Release for the new tag with auto-generated notes:
 
@@ -176,9 +198,9 @@ gh release create vX.Y.Z --title "vX.Y.Z" --generate-notes
 Confirm the command prints the release URL. If `gh` reports the release already exists,
 skip (do not fail the whole flow).
 
-### 10. Summary
+### 11. Summary
 
 Tell the user:
 - The version that was published, and all five package names with the new version
 - The npm org: `https://www.npmjs.com/org/deepfuture`
-- The GitHub Release URL (from step 9)
+- The GitHub Release URL (from step 10)

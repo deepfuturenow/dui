@@ -93,6 +93,8 @@
     "publish": "deno run --allow-all scripts/publish.ts",
     "publish:live": "deno run --allow-all scripts/publish.ts --publish",
     "gen:skill-refs": "deno run --allow-read --allow-write scripts/generate-skill-refs.ts",
+    "gen:llms": "deno run --allow-read --allow-write scripts/generate-llms.ts",
+    "gen:refs": "deno task gen:skill-refs && deno task gen:llms",
     "design-md": "deno run --allow-read --allow-write --allow-run scripts/generate-design-md.ts",
     "import-design-md": "deno run --allow-read --allow-write scripts/import-design-md.ts",
     "translate-design-md": "deno run --allow-read --allow-write --allow-run --allow-net scripts/translate-design-md.ts"
