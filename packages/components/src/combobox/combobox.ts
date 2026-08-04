@@ -4,11 +4,9 @@ import "../_install.ts";
 
 const styles = css`
   /* ---------------------------------------------------------------
-   * Size tokens. The trigger inputs + chevron live in this shadow
-   * root; the popup is portaled to a separate shadow root on <body>.
-   * The --combobox-item-* vars are forwarded onto the portal
-   * positioner by the primitive's FloatingPortalController
-   * (forwardProperties) so the option rows scale with size too.
+   * Size tokens. The popup now renders in this same shadow root (native
+   * top-layer [popover]), so the --combobox-item-* vars set on the host
+   * inherit to the option rows directly — no forwarding needed.
    * --------------------------------------------------------------- */
 
   :host {
@@ -187,20 +185,26 @@ const styles = css`
     );
   }
 
-  /* ---- Popup (rendered in portal shadow root) ---- */
+  /* ---- Popup (native top-layer [popover]) ---- */
 
   .Popup {
     background: var(--surface-3);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
+    transform: translateY(calc(var(--space-1) * -1));
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
-  .Popup[data-starting-style],
-  .Popup[data-ending-style] {
-    transform: translateY(calc(var(--space-1) * -1));
+  .Popup:popover-open {
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .Popup:popover-open {
+      transform: translateY(calc(var(--space-1) * -1));
+    }
   }
 
   .List {
