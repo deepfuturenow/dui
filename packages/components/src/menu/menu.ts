@@ -4,11 +4,10 @@ import "../_install.ts";
 
 const styles = css`
   /* ---------------------------------------------------------------
-   * Sizes. Menu items are relocated into the portal, so these vars are
-   * forwarded onto the positioner by the primitive (forwardProperties)
-   * and inherited by each <dui-menu-item>. md is the implicit default
-   * (fallbacks live in menu-item.ts's var() consumption). Scales item
-   * density: height / font-size / icon-size.
+   * Sizes. Items stay slotted in the menu's light DOM, so these vars
+   * set on the host inherit to each <dui-menu-item> directly. md is the
+   * implicit default (fallbacks live in menu-item.ts's var() consumption).
+   * Scales item density: height / font-size / icon-size.
    * --------------------------------------------------------------- */
 
   :host([size="xs"]) {
@@ -34,13 +33,19 @@ const styles = css`
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
+    transform: translateY(calc(var(--space-1) * -1));
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
-  .Popup[data-starting-style],
-  .Popup[data-ending-style] {
-    transform: translateY(calc(var(--space-1) * -1));
+  .Popup:popover-open {
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .Popup:popover-open {
+      transform: translateY(calc(var(--space-1) * -1));
+    }
   }
 
   .Menu {
