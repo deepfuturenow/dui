@@ -4,11 +4,9 @@ import "../_install.ts";
 
 const styles = css`
   /* ---------------------------------------------------------------
-   * Size tokens. The trigger + chevron live in this shadow root, but
-   * the popup is portaled to a separate shadow root on <body>; the
-   * --select-item-* vars below are forwarded onto the portal
-   * positioner by the primitive's FloatingPortalController
-   * (forwardProperties) so the option rows scale with size too.
+   * Size tokens. The popup now renders in this same shadow root (native
+   * top-layer [popover]), so the --select-item-* vars set on the host
+   * inherit to the option rows directly — no forwarding needed.
    * --------------------------------------------------------------- */
 
   :host {
@@ -118,7 +116,7 @@ const styles = css`
     --icon-size: var(--space-4);
   }
 
-  /* ---- Popup (rendered in portal shadow root) ---- */
+  /* ---- Popup (native top-layer [popover]) ---- */
 
   .Popup {
     background: var(--surface-3);
@@ -126,25 +124,31 @@ const styles = css`
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     max-width: 320px;
+    transform: translateY(calc(var(--space-1) * -1));
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
-  .Popup[data-starting-style],
-  .Popup[data-ending-style] {
-    transform: translateY(calc(var(--space-1) * -1));
+  .Popup:popover-open {
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .Popup:popover-open {
+      transform: translateY(calc(var(--space-1) * -1));
+    }
   }
 
   /* When inner-aligned (macOS-style), appear/disappear instantly.
-     transition: none  — prevents the 200ms onTransitionEnd fallback delay.
-     transform: none   — prevents translateY flash and getBoundingClientRect distortion.
-     Structural opacity:0 on starting/ending-style hides the popup immediately on close. */
+     transition: none  — avoids animation distorting getBoundingClientRect
+                         while the alignInner middleware positions the popup.
+     transform: none   — prevents a translateY flash at the aligned spot. */
   .Popup[data-align-inner] {
+    transform: none;
     transition: none;
   }
 
-  .Popup[data-align-inner][data-starting-style],
-  .Popup[data-align-inner][data-ending-style] {
+  .Popup[data-align-inner]:popover-open {
     transform: none;
   }
 
