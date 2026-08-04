@@ -302,13 +302,19 @@ const styles = css`
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
+    transform: translateY(calc(var(--space-1) * -1));
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out-3);
   }
 
-  .Popup[data-starting-style],
-  .Popup[data-ending-style] {
-    transform: translateY(calc(var(--space-1) * -1));
+  .Popup:popover-open {
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .Popup:popover-open {
+      transform: translateY(calc(var(--space-1) * -1));
+    }
   }
 
   .Menu {
