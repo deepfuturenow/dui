@@ -211,7 +211,8 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Description: An inline status indicator element.
 - Events: none
 - Slots: default (Badge content)
-- CSS Parts: root (The badge element)
+- CSS Variables: --badge-max-width (When set, clamps the badge width and truncates overflowing content with an ellipsis. Unset by default (no truncation).)
+- CSS Parts: root (The badge element), label (The truncating text wrapper around the slotted content)
 
 ### Button
 - Tag: `<dui-button>`
