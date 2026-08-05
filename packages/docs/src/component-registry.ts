@@ -310,9 +310,12 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Badge content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--badge-max-width", description: "When set, clamps the badge width and truncates overflowing content with an ellipsis. Unset by default (no truncation)." },
+    ],
     cssParts: [
       { name: "root", description: "The badge element" },
+      { name: "label", description: "The truncating text wrapper around the slotted content" },
     ],
     themeAttributes: [
       { name: "variant", values: '"neutral" | "primary" | "danger"', description: "Semantic color intent" },

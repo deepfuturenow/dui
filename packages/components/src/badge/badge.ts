@@ -89,7 +89,6 @@ const styles = css`
   }
 
   [part="root"] {
-    gap: var(--badge-gap);
     height: var(--badge-height);
     padding: 0 var(--badge-padding-x);
     border-radius: var(--badge-radius);
@@ -100,8 +99,14 @@ const styles = css`
     letter-spacing: var(--letter-spacing-normal);
     line-height: 1em;
     font-weight: var(--font-weight-medium);
-    white-space: nowrap;
     border: var(--border-width-thin) solid var(--badge-border);
+  }
+
+  /* The content is wrapped in a single truncating [part="label"], so the flex
+    gap between a leading icon and the text is applied as an inline margin. */
+  ::slotted(dui-icon) {
+    margin-inline-end: var(--badge-gap);
+    vertical-align: middle;
   }
 `;
 

@@ -98,6 +98,16 @@ export class DocsPageBadge extends LitElement {
           <dui-badge style="--badge-bg: oklch(0.62 0.2 300); --badge-fg: white">Cupcake</dui-badge>
         </docs-row>
       </dui-docs-demo>
+
+      <dui-docs-demo label="Truncation">
+        <p style="margin: 0 0 var(--space-3); color: var(--text-2); font-family: var(--font-sans); font-size: var(--text-sm); max-width: 60ch;">
+          Badges size to their content by default. Set <code>--badge-max-width</code> to clamp the width — overflowing text is truncated with an ellipsis. A leading icon is preserved and never truncated.
+        </p>
+        <docs-row>
+          <dui-badge appearance="soft" style="--badge-max-width: 16rem">Skipped docs/put/technology/concept/collider/unauditable-routing-attribution-misalignment</dui-badge>
+          <dui-badge variant="primary" appearance="soft" style="--badge-max-width: 12rem"><dui-icon>${unsafeHTML(Info)}</dui-icon>Very long descriptive label that overflows its bounds</dui-badge>
+        </docs-row>
+      </dui-docs-demo>
       </docs-page-layout>
     `;
   }
