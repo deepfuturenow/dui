@@ -82,8 +82,8 @@ const styles = css`
   /* ── Backdrop ── */
 
   .Backdrop {
-    background: black;
-    opacity: 0.4;
+    background: var(--scrim);
+    transition: opacity var(--duration-normal) var(--ease-out-3);
   }
 
   .Backdrop[data-starting-style],
