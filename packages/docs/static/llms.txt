@@ -585,7 +585,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Properties: showArrow (boolean, true)
 - Events: none
 - Slots: default (Preview card content)
-- CSS Variables: --preview-card-popup-padding (Padding inside the popup)
+- CSS Variables: --preview-card-popup-padding (Padding inside the popup (default: var(--space-4)))
 
 ### Data Table
 - Tag: `<dui-data-table>`
@@ -978,7 +978,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Description: Chart component wrapping Observable Plot. Pass a Plot spec object to render SVG charts with automatic theming and responsive sizing.
 - Properties: spec (PlotOptions), variant (string, ""), tooltip (boolean, true), responsive (boolean, true)
 - Events: dui-chart-render ({ element: SVGElement | HTMLElement }), dui-chart-input ({ value: unknown })
-- CSS Variables: --chart-color-1 (Series color 1), --chart-color-2 (Series color 2), --chart-color-3 (Series color 3), --chart-color-4 (Series color 4), --chart-color-5 (Series color 5), --chart-color-6 (Series color 6), --chart-color-7 (Series color 7), --chart-color-8 (Series color 8), --chart-bg (Plot background), --chart-grid-color (Grid line color), --chart-axis-color (Axis text/line color), --chart-font-family (Chart text font), --chart-font-size (Axis/tick label size), --chart-tooltip-bg (Tooltip background), --chart-tooltip-color (Tooltip text color), --chart-tooltip-border (Tooltip border color), --chart-tooltip-radius (Tooltip corner radius), --chart-tooltip-padding (Tooltip padding), --chart-tooltip-font-size (Tooltip font size), --chart-tooltip-line-height (Tooltip line height)
+- CSS Variables: --chart-color-1 (Series color 1 (default: var(--accent))), --chart-color-2 (Series color 2), --chart-color-3 (Series color 3), --chart-color-4 (Series color 4), --chart-color-5 (Series color 5), --chart-color-6 (Series color 6), --chart-color-7 (Series color 7), --chart-color-8 (Series color 8), --chart-bg (Plot background (default: transparent)), --chart-grid-color (Grid line color (default: var(--border))), --chart-axis-color (Axis text/line color (default: var(--text-2))), --chart-font-family (Chart text font (default: var(--font-sans))), --chart-font-size (Axis/tick label size (default: var(--text-xs))), --chart-tooltip-bg (Tooltip background (default: var(--surface-1))), --chart-tooltip-color (Tooltip text color (default: var(--text-1))), --chart-tooltip-border (Tooltip border color (default: var(--border))), --chart-tooltip-radius (Tooltip corner radius (default: var(--radius-md))), --chart-tooltip-padding (Tooltip padding (default: 8px 12px)), --chart-tooltip-font-size (Tooltip font size (default: var(--chart-font-size))), --chart-tooltip-line-height (Tooltip line height (default: 1.5))
 - CSS Parts: root (The chart container div), tooltip (The HTML tooltip overlay)
 
 ### Field
