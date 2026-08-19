@@ -127,7 +127,7 @@ Semantic grouping for related form fields using a native fieldset element.
 ## Data Display
 
 ### dui-data-table `@dui/components/data-table`
-A sortable, paginated data table with column definitions and custom cell renderers.
+A sortable, paginated data table with column definitions, custom cell renderers, and Finder-style row selection — Cmd/Ctrl-click a row to toggle, Shift-click for a range, Escape to clear.
 **Props:** `columns`, `data`, `pageSize`, `rowKey`, `emptyText`, `selectionMode`, `selectedKeys`, `filterValue`, `globalFilterFn`
 **Events:** `sort-change` → `SortState | null`, `page-change` → `PageState`, `selection-change` → `{ selectedKeys: string[]; selectedRows: T[] }`, `row-click` → `{ row: T; key: string | undefined }`
 

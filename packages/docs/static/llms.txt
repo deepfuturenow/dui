@@ -590,7 +590,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 ### Data Table
 - Tag: `<dui-data-table>`
 - Import: `@dui/components/data-table`
-- Description: A sortable, paginated data table with column definitions and custom cell renderers.
+- Description: A sortable, paginated data table with column definitions, custom cell renderers, and Finder-style row selection — Cmd/Ctrl-click a row to toggle, Shift-click for a range, Escape to clear.
 - Properties: columns (ColumnDef<T>[], []), data (T[], []), pageSize (number, 10), rowKey (((row: T) => string) | undefined), emptyText (string, "No results."), selectionMode ("none" | "single" | "multiple", "none"), selectedKeys (string[], []), filterValue (unknown), globalFilterFn (((row: T, filterValue: unknown) => boolean) | undefined)
 - Events: sort-change (SortState | null), page-change (PageState), selection-change ({ selectedKeys: string[]; selectedRows: T[] }), row-click ({ row: T; key: string | undefined })
 - CSS Variables: --data-table-selected-background (Background for selected rows)

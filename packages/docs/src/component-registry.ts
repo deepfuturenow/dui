@@ -1370,7 +1370,7 @@ export const componentRegistry: ComponentMeta[] = [
   {
     tagName: "dui-data-table",
     name: "Data Table",
-    description: "A sortable, paginated data table with column definitions and custom cell renderers.",
+    description: "A sortable, paginated data table with column definitions, custom cell renderers, and Finder-style row selection — Cmd/Ctrl-click a row to toggle, Shift-click for a range, Escape to clear.",
     importPath: "@dui/components/data-table",
     properties: [
       { name: "columns", type: "ColumnDef<T>[]", default: "[]", description: "Column definitions" },
@@ -1378,7 +1378,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "pageSize", type: "number", default: "10", description: "Rows per page (0 = no pagination)" },
       { name: "rowKey", type: "((row: T) => string) | undefined", description: "Key function for row identity (required for selection)" },
       { name: "emptyText", type: "string", default: '"No results."', description: "Text when data is empty" },
-      { name: "selectionMode", type: '"none" | "single" | "multiple"', default: '"none"', description: "Row selection; renders a checkbox column when single/multiple" },
+      { name: "selectionMode", type: '"none" | "single" | "multiple"', default: '"none"', description: 'Row selection; renders a checkbox column when single/multiple. "multiple" also enables Cmd/Ctrl-click to toggle a row, Shift-click to select a range, and Escape to clear' },
       { name: "selectedKeys", type: "string[]", default: "[]", description: "Selected row keys (controlled; keys per rowKey)" },
       { name: "filterValue", type: "unknown", description: "Opaque filter state passed verbatim to globalFilterFn" },
       { name: "globalFilterFn", type: "((row: T, filterValue: unknown) => boolean) | undefined", description: "Predicate that filters rows before sort + paginate" },
@@ -1387,7 +1387,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "sort-change", detail: "SortState | null", description: "Fired when sort column/direction changes" },
       { name: "page-change", detail: "PageState", description: "Fired when page changes" },
       { name: "selection-change", detail: "{ selectedKeys: string[]; selectedRows: T[] }", description: "Fired with the proposed next selection" },
-      { name: "row-click", detail: "{ row: T; key: string | undefined }", description: "Fired when a body row is clicked (not on interactive cell content)" },
+      { name: "row-click", detail: "{ row: T; key: string | undefined }", description: "Fired when a body row is clicked — not on interactive cell content, and not while a selection modifier (Cmd/Ctrl or Shift) is held" },
     ],
     slots: [],
     cssProperties: [
@@ -1536,7 +1536,7 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "collapsible", type: '"offcanvas" | "icon" | "none" | "always"', default: '"offcanvas"', description: "How the sidebar collapses. 'always' forces the mobile overlay at all viewport sizes." },
     ],
     events: [
-      { name: "open-change", detail: "{ open: boolean }", description: "Fired when the sidebar opens or closes" },
+      { name: "open-change", detail: "{ open: boolean }", description: "Fired when the sidebar opens or closes — for both the desktop rail and the mobile overlay" },
     ],
     slots: [
       { name: "default", description: "Sidebar and content areas" },
