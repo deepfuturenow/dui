@@ -331,7 +331,6 @@ export class DocsPageChart extends LitElement {
                   sort: { x: "-y" },
                   tip: true,
                   r: 3,
-                  paddingInner: 10,
                 }),
                 Plot.ruleY([0], { strokeWidth: 0 }),
               ],

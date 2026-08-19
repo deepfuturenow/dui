@@ -1,3 +1,10 @@
+// @ts-nocheck — the `?raw` suffix is an esbuild convention implemented by
+// `rawTextPlugin` in packages/docs/serve.ts, which loads each module as a text
+// string. Deno has no such resolver: it strips nothing and type-checks the real
+// TS module, which exports a component class rather than a default string. A
+// `declare module "*.ts?raw"` ambient does not help, because TypeScript ignores
+// wildcard module declarations whenever the specifier resolves to a real file.
+
 import accordionSrc from "../../components/src/accordion/accordion.ts?raw";
 import chartSrc from "../../chart/src/chart/chart.ts?raw";
 import accordionItemSrc from "../../components/src/accordion/accordion-item.ts?raw";

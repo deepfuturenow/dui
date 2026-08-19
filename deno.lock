@@ -1222,6 +1222,7 @@
       },
       "packages/docs": {
         "dependencies": [
+          "npm:@observablehq/plot@0.6",
           "npm:esbuild@~0.27.2",
           "npm:lit@^3.3.2",
           "npm:shiki@3",

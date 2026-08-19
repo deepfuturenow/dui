@@ -290,21 +290,6 @@ async function compilePackage(
     JSON.stringify(packageJson, null, 2) + "\n",
   );
 
-  // Copy global.d.ts for primitives (HTMLElementTagNameMap)
-  if (pkg.srcDir === "packages/primitives") {
-    const globalDts = join(ROOT, pkg.srcDir, "src/global.d.ts");
-    if (await exists(globalDts)) {
-      let content = await Deno.readTextFile(globalDts);
-      // Rewrite .ts imports to .js for the declaration file
-      content = content.replace(
-        /(from\s+["'])(\.\.?\/[^"']*?)\.ts(["'])/g,
-        '$1$2.js$3',
-      );
-      await Deno.writeTextFile(join(outDir, "global.d.ts"), content);
-      console.log(`   \u2705 HTMLElementTagNameMap declarations included`);
-    }
-  }
-
   // Copy README into dist folder (npm displays it on the package page)
   const readmePath = join(ROOT, "README.md");
   if (await exists(readmePath)) {

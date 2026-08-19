@@ -6,6 +6,11 @@
     "./packages/templates",
     "./packages/docs"
   ],
+  "exclude": [
+    ".worktrees",
+    "dist",
+    ".design-sync"
+  ],
   "imports": {
     "lit": "npm:lit@^3.3.2",
     "lit/decorators.js": "npm:/lit@^3.3.2/decorators.js",

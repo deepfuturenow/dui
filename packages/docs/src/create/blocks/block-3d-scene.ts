@@ -180,7 +180,7 @@ export class Block3dScene extends LitElement {
     draco.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
     loader.setDRACOLoader(draco);
 
-    loader.load(MODEL_URL, (gltf) => {
+    loader.load(MODEL_URL, (gltf: { scene: THREE.Group }) => {
       const model = gltf.scene;
       // Sit the helmet on the grid — its center is at origin, radius ~1
       model.position.set(0, 1.0, 0);
@@ -194,11 +194,11 @@ export class Block3dScene extends LitElement {
         flatShading: false,
       });
 
-      model.traverse((child) => {
+      model.traverse((child: THREE.Object3D) => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh;
           if (Array.isArray(mesh.material)) {
-            mesh.material.forEach((m) => m.dispose());
+            mesh.material.forEach((m: THREE.Material) => m.dispose());
           } else {
             (mesh.material as THREE.Material).dispose();
           }
