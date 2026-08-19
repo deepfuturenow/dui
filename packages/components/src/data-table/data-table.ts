@@ -11,6 +11,18 @@ const styles = css`
       "selected" convention (see calendar's data-today). Consumers can
       override this property; :host lets an outer rule win over it. */
     --data-table-selected-background: var(--accent-subtle);
+
+    /* Density. Inline padding is deliberately one property shared by both
+      th and td: giving them separate knobs invites setting only one, which
+      misaligns every column against its own header. Block padding is body-
+      only, because header height is set outright rather than derived from
+      padding — see --data-table-header-height. */
+    --data-table-cell-padding-inline: var(--space-3);
+    --data-table-cell-padding-block: var(--space-2);
+    --data-table-header-height: var(--component-height-lg);
+    /* The checkbox column is sized by the primitive's width: 1%, so it takes
+      tighter inline padding than a content cell to avoid reading as overwide. */
+    --data-table-selection-padding-inline: var(--space-2);
   }
 
   .DataTable {
@@ -31,8 +43,8 @@ const styles = css`
   }
 
   th {
-    height: var(--component-height-lg);
-    padding: 0 var(--space-3);
+    height: var(--data-table-header-height);
+    padding: 0 var(--data-table-cell-padding-inline);
     font-weight: var(--font-weight-medium);
     font-size: var(--text-xs); line-height: var(--text-xs--line-height);
     color: var(--text-2);
@@ -86,14 +98,15 @@ const styles = css`
   }
 
   td {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--data-table-cell-padding-block)
+      var(--data-table-cell-padding-inline);
     vertical-align: middle;
   }
 
   /* Selection column: tighter inline padding so the narrow checkbox column
     doesn't read as over-wide (width comes from the primitive's width: 1%). */
   [part~="selection"] {
-    padding-inline: var(--space-2);
+    padding-inline: var(--data-table-selection-padding-inline);
   }
 
   .EmptyRow td {

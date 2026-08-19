@@ -1392,6 +1392,10 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [],
     cssProperties: [
       { name: "--data-table-selected-background", description: "Background for selected rows" },
+      { name: "--data-table-cell-padding-inline", description: "Horizontal padding for header and body cells alike — shared so columns stay aligned with their headers (default var(--space-3))" },
+      { name: "--data-table-cell-padding-block", description: "Vertical padding for body cells, which is what sets row height (default var(--space-2))" },
+      { name: "--data-table-header-height", description: "Header row height, set outright rather than derived from padding (default var(--component-height-lg))" },
+      { name: "--data-table-selection-padding-inline", description: "Horizontal padding for the checkbox column, tighter than a content cell (default var(--space-2))" },
     ],
     cssParts: [
       { name: "root", description: "The outer data table container" },
