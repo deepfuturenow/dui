@@ -8,7 +8,9 @@
 import "@dui/components/select";
 import "@dui/components/icon";
 import "@dui/components/scroll-area";
+import "@dui/components/tabs";
 import "./components/dui/select.ts";
+import "./components/dui/tabs.ts";
 
 import type { SelectOption } from "./select-controller.ts";
 

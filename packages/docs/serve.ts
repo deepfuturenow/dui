@@ -11,6 +11,7 @@ const DASHBOARD_EXEMPLAR_ENTRY = resolve(import.meta.dirname!, "src/dashboard-ex
 // Spike branch only: scratch consumer for the "eject select" experiment.
 const SPIKE_EJECT_ENTRY = resolve(import.meta.dirname!, "../spike-eject/src/spike-eject.ts");
 const SPIKE_HEADLESS_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/spike-headless.ts");
+const CONTEXT_ORDER_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/context-order-probe.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -157,6 +158,7 @@ const ENTRY_POINTS = [
   { in: DASHBOARD_EXEMPLAR_ENTRY, out: "dashboard-exemplar" },
   { in: SPIKE_EJECT_ENTRY, out: "spike-eject" },
   { in: SPIKE_HEADLESS_ENTRY, out: "spike-headless" },
+  { in: CONTEXT_ORDER_PROBE_ENTRY, out: "context-order-probe" },
 ];
 
 const buildMode = Deno.args.includes("--build");

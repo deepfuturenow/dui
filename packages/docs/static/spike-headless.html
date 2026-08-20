@@ -73,6 +73,66 @@
   </div>
   <p>The leading chevron is not a variant — the markup moved, so every instance has it.</p>
 
+  <h2>Tabs — compound component conversion</h2>
+  <div class="row" style="align-items: flex-start">
+    <div class="cell" style="width: 340px">
+      <span class="label">library</span>
+      <dui-tabs default-value="one" size="md">
+        <dui-tabs-list>
+          <dui-tab value="one">Overview</dui-tab>
+          <dui-tab value="two">Activity</dui-tab>
+          <dui-tab value="three" disabled>Archived</dui-tab>
+          <dui-tabs-indicator></dui-tabs-indicator>
+        </dui-tabs-list>
+        <dui-tabs-panel value="one">The overview panel.</dui-tabs-panel>
+        <dui-tabs-panel value="two">The activity panel.</dui-tabs-panel>
+        <dui-tabs-panel value="three">The archived panel.</dui-tabs-panel>
+      </dui-tabs>
+    </div>
+    <div class="cell" style="width: 340px">
+      <span class="label">headless</span>
+      <dui-tabs-h default-value="one" size="md">
+        <dui-tabs-list-h>
+          <dui-tab-h value="one">Overview</dui-tab-h>
+          <dui-tab-h value="two">Activity</dui-tab-h>
+          <dui-tab-h value="three" disabled>Archived</dui-tab-h>
+          <dui-tabs-indicator-h></dui-tabs-indicator-h>
+        </dui-tabs-list-h>
+        <dui-tabs-panel-h value="one">The overview panel.</dui-tabs-panel-h>
+        <dui-tabs-panel-h value="two">The activity panel.</dui-tabs-panel-h>
+        <dui-tabs-panel-h value="three">The archived panel.</dui-tabs-panel-h>
+      </dui-tabs-h>
+    </div>
+  </div>
+
+  <h2>Tabs — vertical</h2>
+  <div class="row" style="align-items: flex-start">
+    <div class="cell" style="width: 340px">
+      <span class="label">library</span>
+      <dui-tabs default-value="one" orientation="vertical">
+        <dui-tabs-list>
+          <dui-tab value="one">Overview</dui-tab>
+          <dui-tab value="two">Activity</dui-tab>
+          <dui-tabs-indicator></dui-tabs-indicator>
+        </dui-tabs-list>
+        <dui-tabs-panel value="one">The overview panel.</dui-tabs-panel>
+        <dui-tabs-panel value="two">The activity panel.</dui-tabs-panel>
+      </dui-tabs>
+    </div>
+    <div class="cell" style="width: 340px">
+      <span class="label">headless</span>
+      <dui-tabs-h default-value="one" orientation="vertical">
+        <dui-tabs-list-h>
+          <dui-tab-h value="one">Overview</dui-tab-h>
+          <dui-tab-h value="two">Activity</dui-tab-h>
+          <dui-tabs-indicator-h></dui-tabs-indicator-h>
+        </dui-tabs-list-h>
+        <dui-tabs-panel-h value="one">The overview panel.</dui-tabs-panel-h>
+        <dui-tabs-panel-h value="two">The activity panel.</dui-tabs-panel-h>
+      </dui-tabs-h>
+    </div>
+  </div>
+
   <h2>Form association</h2>
   <form id="probe-form" class="row">
     <div class="cell"><span class="label">library, name="fruit-lib"</span><dui-select name="fruit-lib" value="banana"></dui-select></div>

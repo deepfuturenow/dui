@@ -1,5 +1,9 @@
-import "./tab.ts";
+// `tabs` provides the context that `tab`, `tabs-list` and `tabs-panel` consume,
+// and a Lit context consumer requests its value exactly once, on connect.
+// Defining a consumer first upgrades those elements before a provider exists,
+// so the request goes unanswered and is never retried. Provider first.
 import "./tabs.ts";
+import "./tab.ts";
 import "./tabs-indicator.ts";
 import "./tabs-list.ts";
 import "./tabs-panel.ts";

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8" /><title>Library tabs, isolated</title>
+<script type="module" src="./tabs-isolated.js"></script>
+<style>body{font-family:system-ui;padding:2rem}</style></head>
+<body>
+  <dui-tabs default-value="one">
+    <dui-tabs-list>
+      <dui-tab value="one">Overview</dui-tab>
+      <dui-tab value="two">Activity</dui-tab>
+      <dui-tabs-indicator></dui-tabs-indicator>
+    </dui-tabs-list>
+    <dui-tabs-panel value="one">Panel one</dui-tabs-panel>
+    <dui-tabs-panel value="two">Panel two</dui-tabs-panel>
+  </dui-tabs>
+  <hr />
+  <dui-toggle-group default-value='["left"]'>
+    <dui-toggle value="left">Left</dui-toggle>
+    <dui-toggle value="center">Center</dui-toggle>
+    <dui-toggle value="right">Right</dui-toggle>
+  </dui-toggle-group>
+</body>
+</html>
