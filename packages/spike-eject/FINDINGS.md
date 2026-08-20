@@ -1,86 +1,145 @@
-# Spike: shadcn-style "eject" for DUI, via primitives (`select`)
+# Findings: copying DUI's styled components into an app
 
-Throwaway experiment. Branch: `claude/implement-attached-plan-is0bxg`.
-Everything below was measured in a browser, not reasoned about.
+This document reports the results of a throwaway experiment on the branch
+`claude/implement-attached-plan-is0bxg`. Every claim in it was measured in a
+browser against the running dev server. Nothing is estimated.
 
-**Verdict up front:** the eject works and is genuinely pleasant for *aesthetic*
-changes — but only because DUI's styled layer is already a shadcn-shaped file,
-so "ejecting" is a copy with no new capability. The moment a change touches the
-render tree, the model fails hard: every field the primitive's template binds is
-a native `#private`, so `render()` cannot be overridden at all. See §7.
+## Summary
 
----
+The experiment tested whether DUI could adopt shadcn's model: keep behavior as a
+dependency, and copy the styled layer into the app that uses it, where the app's
+developers own and edit it.
 
-## 1. Current-state summary
+**Recommendation: don't build an eject command yet. Fix a CSS bug first.**
 
-| | |
-|---|---|
-| Primitive | `dui-primitives/packages/primitives/src/select/select.ts`, 545 lines. **Separate repo**, not `packages/primitives/` as the brief assumed — reached through the root import map's `../dui-primitives/...` entries. |
-| Styled layer | `packages/components/src/select/select.ts`, 196 lines: 184 lines of CSS + `class DuiSelect extends DuiSelectPrimitive { static styles = [...DuiSelectPrimitive.styles, styles] }` + `customElements.define()`. That is the entire file. |
-| Composition | **Monolithic.** There is no `dui-select-trigger` / `-item` / `-popup`. One class renders trigger, popup, listbox and every option into **one shadow root**, from a single `render()` with a `repeat()` over `options`. So there were no sub-components to eject. |
-| Real dependencies | The primitive's template hardcodes `<dui-icon>` (chevron + check) and `<dui-scroll-area>` (popup scroller) **by tag name**. Not slots, not injectable. Those are the "sub-components" in practice. |
-| Parts exposed | `trigger, value, popup, listbox, item, item-selected, item-highlighted, item-disabled, item-indicator, item-text` — 10. The docs registry documents **2** (`trigger`, `value`). |
-| `size` | **Not a property.** Not on the primitive, not on `DuiSelect`. `size="xs\|sm\|md\|lg"` is a bare HTML attribute matched only by `:host([size="…"])` CSS in the styled layer. |
-| Registration | `static tagName = "dui-select"` lives on the **primitive**, so a subclass inherits the library's tag name for free. Registration is a bare module-level `customElements.define()`. |
-| `defineComponents` / `static dependencies` | **Do not exist** in this codebase. The brief assumed them. |
-| `floating-portal-controller.ts` | **Does not exist.** It is `FloatingTopLayerController`, and the popup renders in the component's *own* shadow root via native `[popover]`. No cross-root style lookup by tag name, so that entire risk class is absent. |
-| `applyTheme()` | Document-level adopted stylesheet of CSS custom properties. Completely class-agnostic — works identically for ejected classes. |
-| Docs | `packages/docs/src/index.ts` side-effect-imports `./pages/docs-page-select.ts`. Dev server is esbuild in `packages/docs/serve.ts`. |
+The experiment produced three results:
 
-**Case A applies.** A `DuiSelectPrimitive` exists, so the spike proceeded.
+1. **Copying works, and costs nothing in fidelity.** The copied select renders
+   identically to the library's. Behavior, keyboard support, and positioning all
+   still come from the dependency.
 
----
+2. **Copying doesn't help with the changes people actually want.** You can
+   restyle a copied component freely. You can't change its markup at all,
+   because the base class seals every value its template needs. The experiment
+   tried and failed to move a single icon.
 
-## 2. Inventory of the ejected layer
+3. **The problem that prompted the experiment isn't an ownership problem. It's a
+   two-line CSS bug.** One property in the styled layer is declared in a place
+   your app can't override. Move it, and apps can build the dense select
+   themselves, with no copying.
+
+Result 3 is the important one. It's covered in
+[Result 3: the dense select
+doesn't need copying at all](#result-3-the-dense-select-doesnt-need-copying-at-all).
+
+## Terms used in this document
+
+| Term         | Meaning                                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Primitive    | An unstyled base class in the `@dui/primitives` package. It supplies markup, keyboard handling, and positioning.         |
+| Styled layer | The subclass in `@dui/components` that adds appearance. It extends a primitive and appends a stylesheet.                 |
+| Eject        | Copy a styled component out of the library and into an app, so the app's developers own the file.                        |
+| Shadow DOM   | A component's private DOM tree. Your app's CSS selectors can't reach inside it.                                          |
+| Part         | An element a component explicitly publishes for outside styling, using `part="name"`. You target it with `::part(name)`. |
+| `:host`      | A selector for the component's own outer element, used from inside its stylesheet.                                       |
+
+## What the code looks like today
+
+### Select is one class, not a set of components
+
+The experiment expected to find `dui-select-trigger`, `dui-select-item`, and
+similar sub-components. There are none. `DuiSelectPrimitive` (545 lines) renders
+the trigger, the popup, the list, and every option into a single shadow DOM tree
+from one `render()` method.
+
+This means there was nothing to eject except select itself, plus the two
+components its template depends on.
+
+### The styled layer is already shaped like a shadcn file
+
+`packages/components/src/select/select.ts` is 196 lines. Of those, 184 are CSS.
+The remaining code is:
+
+```ts
+export class DuiSelect extends DuiSelectPrimitive {
+  static override styles = [...DuiSelectPrimitive.styles, styles];
+}
+
+customElements.define(DuiSelect.tagName, DuiSelect);
+```
+
+That's the whole file. Ejecting it is a copy-paste. It doesn't give an app
+anything it couldn't already do, which is why result 2 matters so much.
+
+### Other facts worth knowing before you read further
+
+| Topic                                          | What's true today                                                                                                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`                                         | Not a property. `size="xs"`, `size="sm"`, and so on are plain HTML attributes matched by `:host([size="..."])` CSS. Nothing declares or validates them. |
+| Tag names                                      | `static tagName = "dui-select"` is defined on the _primitive_, so any subclass inherits it.                                                             |
+| Hidden dependencies                            | The primitive's template writes `<dui-icon>` and `<dui-scroll-area>` directly. They aren't slots and can't be swapped.                                  |
+| Published parts                                | The primitive publishes 10 parts. The docs registry documents 2 of them.                                                                                |
+| `defineComponents()` and `static dependencies` | Don't exist in this codebase. Registration is a plain `customElements.define()` call.                                                                   |
+| `applyTheme()`                                 | Adds a document-level stylesheet of CSS variables. It never inspects classes or tag names, so it works with copied components unchanged.                |
+| Portal style lookup                            | Doesn't exist. The popup renders in the component's own shadow DOM using the native `popover` attribute, so no cross-tree style lookup is involved.     |
+
+## Result 1: the copy is faithful
+
+### What was copied
 
 ```
-packages/spike-eject/
-├── deno.json                              14
-├── src/
-│   ├── spike-eject.ts                    120   demo app + the Step 3 collision probe
-│   ├── external-compact.css               56   the *library* comparison path (§8)
-│   └── components/dui/
-│       ├── select.ts                     283   ← the ejected component
-│       ├── icon.ts                        12
-│       ├── scroll-area.ts                 49
-│       └── _install.ts                    17   token injection
-├── experiments/
-│   └── attempted-render-override.ts       67   does not compile, on purpose (§3)
-└── vendor/                                34   sandbox workaround, not part of the spike (§6)
+packages/spike-eject/src/components/dui/
+├── select.ts        283 lines   the copied component
+├── icon.ts           12 lines   required by select's template
+├── scroll-area.ts    49 lines   required by select's template
+└── _install.ts       17 lines   design token injection
 ```
 
-Plus `packages/docs/static/spike-eject.html` (83 lines) for the demo page.
+Breakdown of `select.ts`:
 
-**Breakdown of `select.ts`, the only file that matters:**
+| Category                                   |   Lines |
+| ------------------------------------------ | ------: |
+| CSS copied from `@dui/components`          |     187 |
+| New size variant added by the app          |      27 |
+| New icon-position variant added by the app |      40 |
+| Class declaration and registration         |       7 |
+| Imports and header comment                 |      20 |
+| **Total**                                  | **283** |
 
-| | lines |
-|---|---:|
-| (a) aesthetic CSS copied from `@dui/components` | **187** (184 library source lines, reflowed to 187 by `deno fmt`) |
-| (b) variant/size selectors added by the consumer | **67** — 27 for `size="compact"`, 40 for `leading-chevron` |
-| (c) render overrides duplicated from the primitive | **0** — not by choice; it is impossible (§3) |
-| (d) registration / glue | **7** (`export class` … `customElements.define`) |
-| header comment + imports | 20 |
-| **total** | **283** |
+Across all four files: **361 lines**, of which **236 are an unmodified copy**.
+The 78 lines in `icon.ts`, `scroll-area.ts`, and `_install.ts` are files the app
+now owns, will never edit, and has to keep in sync.
 
-Total ejected: **361 lines** across the four `components/dui/` files, of which
-**236 are a straight copy** of `@dui/components` and **67** are the consumer's
-own work. The remaining `icon.ts` / `scroll-area.ts` / `_install.ts` are pure
-copy — 78 lines the consumer now owns, will never edit, and must maintain.
+### How fidelity was verified
 
-**Fidelity check:** the ejected select was screenshotted against the library
-select under identical markup (same page, `?impl=library` switch) and pixel-
-diffed: **0 differing pixels** across the whole component region. Keyboard
-behaviour (ArrowDown → Enter → value change → popup close) verified in the
-browser. Screenshots `01-*`, `02-*`, `03-*` in `evidence/`.
+The demo page renders the copied select and the library select from identical
+markup, switched by a `?impl=library` URL parameter. Both were screenshotted and
+compared pixel by pixel.
 
----
+**Result: 0 differing pixels** across the whole component area.
 
-## 3. Ergonomics, as a consumer
+Keyboard behavior was also checked in the browser: <kbd>Down arrow</kbd> then
+<kbd>Enter</kbd> changes the value and closes the popup, exactly as before.
 
-### Change 1 — `size="compact"`, denser than the library's smallest
+### One bug this surfaced
 
-**27 lines, 4 hunks, 100% in the subclass, no primitive knowledge beyond three
-class names.**
+The library's styled select doesn't import `<dui-icon>` or `<dui-scroll-area>`,
+even though its primitive's template renders both. It only works today because
+apps happen to import them by other routes. Rendered on a page that imports
+nothing else, the library select's dropdown arrow doesn't upgrade and draws at
+the wrong size.
+
+The copied version imports both explicitly, so it doesn't have this bug.
+
+## Result 2: you can restyle a copy, but you can't reshape it
+
+The experiment made two changes to the copied file. The first went well. The
+second was impossible.
+
+### Change 1: add a denser size
+
+Adding `size="compact"`, smaller than the library's smallest size, took 27 lines
+in four blocks:
 
 ```css
 :host([size="compact"]) {
@@ -96,321 +155,123 @@ class names.**
   font-size: var(--text-2xs);
   line-height: var(--text-2xs--line-height);
 }
-:host([size="compact"]) .Icon    { --icon-size: var(--space-2_5); }
-:host([size="compact"]) .Listbox { padding: var(--space-0_5); }
+:host([size="compact"]) .Icon {
+  --icon-size: var(--space-2_5);
+}
+:host([size="compact"]) .Listbox {
+  padding: var(--space-0_5);
+}
 ```
 
-**Assessment: this genuinely feels like editing `select.tsx`.** No ceremony, no
-base class in the way, no new library knob. Open the file, add a selector, done.
+This was the good case. You open one file, add a selector, and you're done.
 
-But be honest about *why* it was this easy: `size` was never a declared
-property, only a CSS attribute selector, so adding a value required no schema
-change anywhere. The same edit against a component whose variants are a typed
-`@property` union would have needed the property widened too — in the
-primitive, which the consumer does not own.
+Two caveats, though:
 
-Note also that this change did **not** require ejecting. Three of its four
-hunks are reachable from outside via `::part()` and custom properties. Only the
-fourth (`.Icon`) is not. See §8.
+- It went this smoothly only because `size` isn't a declared property. If sizes
+  were a typed union, you'd also have to widen that type, in the primitive,
+  which the app doesn't own.
+- Three of the four blocks don't need a copy at all. You can write them in your
+  app's stylesheet today. Only the `.Icon` block requires one, and that's a bug.
+  See [Result 3](#result-3-the-dense-select-doesnt-need-copying-at-all).
 
-### Change 2 — `leading-chevron`: move the chevron and swap the glyph
+### Change 2: move the dropdown arrow to the left
 
-**This is where the model breaks.**
+This change requires editing markup, not CSS. In shadcn, you'd move a JSX
+element. Here, you can't.
 
-The intended implementation is an override of `render()`. It does not compile.
-`experiments/attempted-render-override.ts` is the attempt, kept verbatim;
-`deno check` on it produces **11 errors for the trigger half alone**:
+To emit different markup, you override `render()`. But `render()` in Lit is
+all-or-nothing: you can't re-emit one branch and inherit the rest. And every
+value the primitive's template uses is a JavaScript private field, which
+subclasses can't access.
+
+`experiments/attempted-render-override.ts` contains the attempt. Running
+`deno check` on it produces **11 errors, and that's only for the trigger half of
+the template**:
 
 ```
-TS18013: Property '#selectedOption' is not accessible outside class 'DuiSelectPrimitive' …
-TS18013: Property '#triggerId' …
-TS18013: Property '#popup' …            (×2)
-TS18013: Property '#listboxId' …        (×2)
-TS18013: Property '#highlightedIndex' … (×2)
-TS18013: Property '#onTriggerClick' …
-TS18013: Property '#onTriggerKeyDown' …
-TS18013: Property '#displayValue' …
+TS18013: Property '#selectedOption' is not accessible outside class 'DuiSelectPrimitive'
+TS18013: Property '#triggerId' ...
+TS18013: Property '#popup' ...            (x2)
+TS18013: Property '#listboxId' ...        (x2)
+TS18013: Property '#highlightedIndex' ... (x2)
+TS18013: Property '#onTriggerClick' ...
+TS18013: Property '#onTriggerKeyDown' ...
+TS18013: Property '#displayValue' ...
 ```
 
-The popup half would add `#renderItem`, `#itemPart`, `#onListMouseDown` and
-`#popup.handleToggle`. `render()` is all-or-nothing in Lit: you cannot re-emit
-one branch of the template and inherit the rest.
+Reproducing the popup half would add four more.
 
-`DuiSelectPrimitive` has exactly **six** public members (`options`, `value`,
-`placeholder`, `disabled`, `alignItemToTrigger`, `name`) and **17 `#private`
-fields**, including all of its state, all of its handlers, its
-`FloatingTopLayerController`, its `ElementInternals` and both generated IDs.
-There is not a single `protected`. Reimplementing `render()` therefore means
-reimplementing the other 539 lines of the primitive — at which point "behavior
-stays a dependency" is no longer true and the whole premise collapses.
+`DuiSelectPrimitive` has **6 public members** and **17 private fields**. The
+private ones include all of its state, all of its event handlers, its
+positioning controller, its form-association object, and both generated element
+IDs. None are `protected`.
 
-**What was shipped instead**, because it is what a real consumer would do:
+So overriding `render()` means reimplementing the other 539 lines of the
+primitive. At that point behavior is no longer a dependency, and the whole model
+stops making sense.
+
+#### What was implemented instead
+
+A CSS workaround, because that's what an app developer would actually do:
 
 ```css
 :host([leading-chevron]) .Trigger {
   flex-direction: row-reverse;
   padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
 }
-/* hide the primitive's hardcoded chevron … */
-:host([leading-chevron]) .Icon svg { display: none; }
-/* … and repaint the <dui-icon> box with a masked data URI */
+/* Hide the primitive's arrow ... */
+:host([leading-chevron]) .Icon svg {
+  display: none;
+}
+/* ... and repaint the box with a masked data URI. */
 :host([leading-chevron]) .Icon dui-icon {
   background-color: currentColor;
-  mask-image: url("data:image/svg+xml,%3Csvg …%3E");
-  mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+  mask-image: url("data:image/svg+xml,%3Csvg ...%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 ```
 
-18 CSS rule lines and 19 lines of comment explaining why it looks like that.
-It works (screenshot `02-consumer-changes.png`), but:
+It works. It's also harder to read than the `::part()` code an app would write
+without copying anything, which defeats the purpose of copying.
 
-- Reordering via `row-reverse` is a legitimate layout tool. Fine.
-- Replacing the glyph is not. The chevron `<svg>` is hardcoded in the
-  primitive's template, so the only route is to hide it and mask-paint over it.
-  The one piece of luck: the `<svg>` is a *light* child of `<dui-icon>` living
-  in select's own shadow root, so a rule in the subclass's own stylesheet can
-  reach it. Had the primitive put the SVG inside `dui-icon`'s shadow DOM, there
-  would have been no route at all.
-- The data URI contains `stroke='black'` — not a rendered color (a mask reads
-  alpha only), but still a hardcoded literal in a codebase whose stated rule is
-  "never hardcode color values". A fair signal of how far outside the intended
-  path this sits.
+Reordering with `row-reverse` is legitimate. Replacing the icon isn't: the SVG
+is hardcoded in the primitive's template, so the only option is to hide it and
+paint over it. That worked only because of an implementation detail. The SVG is
+a light-DOM child of `<dui-icon>`, so it sits in select's own shadow tree where
+the copied stylesheet can reach it. If the primitive had put the SVG inside
+`<dui-icon>`'s shadow DOM, there'd be no way to do this at all.
 
-**Assessment: this is fighting a base class, not editing `select.tsx`.** In
-shadcn, moving an icon is moving a JSX element. Here it is a CSS workaround with
-a paragraph of justification, and the consumer ends up with a *worse* artifact
-than the `::part()` approach they were trying to escape.
+### Other friction worth recording
 
-### Named friction points
+| Issue                                                 | Effect                                                                                                                                                                                                                                                       |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Copied CSS targets undocumented class names           | `.Trigger`, `.Icon`, `.Listbox`, `.Value`, `.Item`, `.Popup`, and `.ItemIndicator` are internal names in someone else's shadow DOM. They aren't parts and aren't documented.                                                                                 |
+| `:host([attr])` repetition                            | Each variant needs the prefix repeated once per element. One density change took four blocks.                                                                                                                                                                |
+| Tag names collide by inheritance                      | See [Registering a copied component](#registering-a-copied-component).                                                                                                                                                                                       |
+| Backticks are illegal inside a `css` template literal | You can't reference code identifiers in comments the normal way. This broke one build during the experiment.                                                                                                                                                 |
+| `deno fmt` rewrites copied CSS                        | Running the formatter once changed 9 lines of the copied block: comment indentation, one split declaration pair, one rewrapped `box-shadow`. Appearance is unaffected, but the copy no longer matches upstream byte for byte, which diff tooling would need. |
 
-1. **`#private` closes the render tree completely.** The single biggest finding.
-2. **`render()` is all-or-nothing.** No `renderTrigger()` / `renderPopup()`
-   seam, so partial reuse is impossible even in principle.
-3. **Copied CSS couples to undocumented internals.** `.Trigger`, `.Icon`,
-   `.Listbox`, `.Item`, `.Popup`, `.Value`, `.ItemIndicator` are private class
-   names in someone else's shadow root. They are not parts, not documented,
-   not versioned (§5, probe B).
-4. **`:host([attr])` ceremony.** Every variant needs its own `:host([…]) .X`
-   prefix repeated per element — 4 hunks for one density. In `select.tsx` this
-   is one `cva` entry.
-5. **Tag collision is structural**, because `tagName` is inherited from the
-   primitive (§4).
-6. **Backticks are illegal in comments inside a `` css`` `` template.** The
-   ejected file cannot reference code identifiers in comments the way normal
-   TS comments do. Cost me one build.
-7. **`deno fmt` and "verbatim copy" are in direct conflict.** Running the
-   consumer's own formatter once rewrote 9 lines of the copied CSS (comment
-   indentation, one `font-size; line-height` pair split across lines, one
-   `box-shadow` rewrapped). Semantically identical — still 0 pixel diff — but
-   the byte-level correspondence to upstream is gone after the first commit,
-   which is exactly what diff tooling would need (§5).
+## Result 3: the dense select doesn't need copying at all
 
----
+This section covers the change that prompted the whole investigation.
 
-## 4. Registration and the tag-name problem
+### What you can do from an app today
 
-Answers to the three questions, measured in-browser by the probe at the bottom
-of the demo page (`spike-eject.ts` → `probeDoubleRegistration`):
-
-**Does importing anything from `@dui/components` cause a double registration
-error?** **Yes, a hard one.** Verbatim output from the running page:
-
-```
-tag "dui-select" owned by the ejected class before the import: true
-import("@dui/components/select") -> DOMException: Failed to execute 'define' on
-  'CustomElementRegistry': the name "dui-select" has already been used with this registry
-library module finished evaluating: false
-tag "dui-select" still owned by the ejected class after: true
-```
-
-The important line is the third. The ejected class **wins** the tag (first
-define holds), but the throw happens at module-evaluation time and **aborts the
-importing module**. Anything downstream of that import in the same module never
-runs. So a consumer who ejects `select` and then imports `@dui/components`
-(the `all.ts` barrel), or any template that transitively pulls select in, takes
-out their whole module graph — not just select.
-
-There is no opt-out. `customElements.define` has no "replace" mode, and the
-library's define is unconditional at module scope.
-
-**Does `defineComponents()` / `applyTheme()` work with ejected classes?**
-`defineComponents()` does not exist in this codebase, so the question is moot —
-registration is already a raw `customElements.define()` and the ejected file
-does exactly the same thing, one line, no glue. `applyTheme()` works unchanged:
-it appends a document-level adopted stylesheet of custom properties and never
-looks at classes or tag names.
-
-**Does the floating/portal controller look up styles by tag name?** No.
-`floating-portal-controller.ts` does not exist; it is `FloatingTopLayerController`,
-and since the popup renders in the component's own shadow root via native
-`[popover]`, the ejected styles apply to it directly with no lookup involved.
-Verified: the compact popup opens with correctly-scaled option rows and
-macOS-style selected-item alignment (`03-compact-popup-open.png`).
-
-**Judgment call taken:** registered as `dui-select`, per the brief. The
-alternative a cautious consumer would pick is a prefixed tag (`app-select`),
-which sidesteps the collision entirely but means every call site changes and
-the ejected component is no longer a drop-in — you cannot eject one component
-of a template's internals that way, only components you instantiate yourself.
-
----
-
-## 5. Update behavior
-
-### Upstream primitive change — additive
-
-Added `aria-required` to the primitive's trigger. **The ejected subclass picked
-it up with zero changes.** Verified in the DOM (`aria-required: "true"` on the
-ejected component's trigger), 0 pixel diff, `deno check` clean.
-
-This is the model working exactly as advertised, and it is a real advantage
-over vendoring the whole component: accessibility and behaviour fixes flow
-through the dependency.
-
-### Upstream primitive change — a rename
-
-Renamed the primitive's internal `.Trigger` class and its `trigger` part.
-
-**It broke silently and totally.** `deno check` clean. `deno lint` clean. Zero
-console errors. The ejected select simply lost its border, background, padding,
-height, focus ring and *every* size variant at once, rendering as an unstyled
-span (`04-after-upstream-rename.png`). All four sizes became indistinguishable.
-
-Two details that make it worse than "loud breakage":
-
-- **It is partial.** The `leading-chevron` glyph swap survived (it targets
-  `.Icon`, not renamed) while the reordering died (it targets `.Trigger`). A
-  half-styled component is harder to diagnose than a fully broken one.
-- **Nothing in the type system or the toolchain can catch it.** The coupling is
-  string-to-string across a repo boundary, through class names that are not
-  part of any documented contract.
-
-The primitive edit was reverted; restoration verified (0 pixel diff against the
-pre-change screenshot).
-
-### Library-side aesthetic change — what a `dui diff` would need
-
-Made a realistic 4-line polish edit to `@dui/components/select`: softened the
-hover background `0.05 → 0.04`, tightened the default trigger's left padding
-one step, added a resting inset highlight.
-
-A naive two-way diff (library-now vs the consumer's file) prints **75 changed
-lines — of which 4 are the actual upstream change.** The other 71 are the
-consumer's own `size="compact"` and `leading-chevron` work, rendered as
-deletions the consumer is invited to "restore". That output is worse than
-useless; a consumer would learn to ignore it.
-
-**A useful `dui diff` needs three inputs, not two:**
-
-1. **library-now** — the current `@dui/components/select` styles.
-2. **library-at-eject-time** — the exact version copied. This is the input that
-   does not exist today. It has to be recorded at eject time: a version pin
-   plus a content hash of the copied CSS block, written into the ejected file
-   (a header comment) or a lockfile (`dui.eject.json`).
-3. **consumer-now** — the ejected file as it stands.
-
-Then the diff to present is `library-at-eject → library-now`, offered as a
-patch to apply onto `consumer-now`, with conflicts surfaced only where the
-consumer edited the same rule. That is a three-way merge, i.e. what `git
-merge-file` does — the CLI would not need to invent anything, but it *does*
-need input 2 to exist from day one.
-
-Two further inputs it would need that are less obvious:
-
-- **A CSS-aware normalizer**, because of friction point 7: the consumer's
-  formatter rewrites the copied block on first commit, so a line-based diff
-  produces phantom hunks. Diffing at the level of CSS rules and declarations,
-  not lines, is required for the output to be readable.
-- **A primitive version, separately pinned.** The rename in probe B is invisible
-  to any diff of the *styled* layer — the breakage lives in `@dui/primitives`,
-  which the consumer still tracks as an ordinary dependency. Ejecting does not
-  free them from primitive upgrades; it just removes the one layer that used to
-  absorb them.
-
----
-
-## 6. Blockers and hacks
-
-Two are environment-only and unrelated to the spike's substance:
-
-1. **`jsr.io` is blocked by this sandbox's egress policy**, so
-   `jsr:@std/path` / `@std/fs` — imported by `packages/docs/serve.ts` and every
-   `scripts/*` build tool — cannot resolve, and neither `deno check` nor the
-   dev server would start at all. Worked around with `vendor/std-path.ts` and
-   `vendor/std-fs.ts` (thin re-exports of `node:path` and Deno's own FS API),
-   mapped over the `jsr:` specifiers by two entries in the root `deno.json`
-   import map. **Delete those two entries and `vendor/` on any machine that can
-   reach jsr.io.** Deno was also not installed; installed via the `deno` npm
-   package.
-2. **The primitives repo was not present.** `dui-primitives` is a separate repo
-   the import map reaches at `../dui-primitives`; cloned there.
-
-One is a real change to shared code, and would be needed on any machine:
-
-3. **`packages/docs/serve.ts` entry points now carry explicit `out` names.**
-   Adding a single entry point outside `packages/docs/src` moved esbuild's
-   computed `outbase` and renamed **every** existing bundle — `/index.js`
-   became `/docs/src/index.js`, 404-ing the entire docs site. Naming the
-   outputs pins them regardless of outbase; all six URLs verified unchanged.
-   This is a genuine (small) bug the spike surfaced rather than caused: any
-   future entry point outside `src/` would hit it.
-   *Alternative considered:* a standalone esbuild server inside
-   `packages/spike-eject`, touching zero existing files, at the cost of
-   duplicating ~70 lines of the `@dui/*` resolver plugin. Rejected as more
-   total code for a throwaway branch, and the brief asked to reuse the docs
-   dev server.
-
-Nothing in `@dui/primitives` or `@dui/core` was modified except the two
-deliberate Step 5 probes, both reverted.
-
-The `experiments/` directory is excluded from type-checking via the spike
-package's `deno.json`, since it contains a file that is *supposed* not to
-compile. `deno check` passes at the repo root; `deno task dev` starts and
-serves all six pages.
-
----
-
-## 7. Leakage
-
-To make the two changes, the consumer had to know, and permanently depend on:
-
-| What they needed | Documented? |
-|---|---|
-| Internal class names `.Trigger`, `.Icon`, `.Listbox`, `.Value`, `.Item`, `.Popup`, `.ItemIndicator` | **No.** Not parts, not in the registry, not in `docs/`. Only readable from the primitive's source. |
-| That `--select-item-font-size` / `-padding-y` / `-icon-size` are the item-density convention, set on `:host` and inherited | **No.** Zero `cssProperties` in the select registry entry. Discoverable only from a comment in the styled layer's source. |
-| That `size` is a bare attribute, not a property, so a new value needs no schema change | Partially — `themeAttributes` in the registry lists `size` with its four values, but not that it is unenumerated CSS. |
-| That the primitive renders `<dui-icon>` and `<dui-scroll-area>` by tag name and they must be registered | **No.** And the library's own styled select **does not import them** — it works today only because apps pull them in by other routes. Rendered in isolation, the library select's chevron is un-upgraded and mis-sized. The ejected copy imports them explicitly, which is strictly better. |
-| That the chevron `<svg>` is a light child of `<dui-icon>`, hence reachable from select's own stylesheet | **No.** This is the load-bearing fact behind change 2, and it is an accident of implementation. |
-| Which parts exist | **Mostly not.** The primitive exposes 10; the docs registry documents 2. |
-| That `render()` is unoverridable | **No.** Nothing warns you before you write the file. |
-
-Only two facts a consumer needs are documented anywhere: the six public
-properties, and the two parts in the registry. **Everything an ejected file
-actually depends on is undocumented**, which means today an eject would ship a
-file whose entire coupling surface is unspecified — and, per §5 probe B, can
-change in a patch release without anything noticing.
-
----
-
-## 8. Side-by-side: a denser select, both ways
-
-Same visual target, both code paths in full.
-
-### (a) The library way today — tokens + `::part()` from a consuming app
-
-No eject. `src/external-compact.css`, applied from the app's own stylesheet to
-`<dui-select data-density="compact">`:
+Without copying anything, an app can style select from outside using CSS
+variables and `::part()`. Here's the complete stylesheet, from
+`src/external-compact.css`:
 
 ```css
-/* Option rows. These land: the styled layer declares them in a :host rule, and
-   an outer-tree declaration outranks a :host declaration on the same element. */
+/* Menu rows. These work. */
 dui-select[data-density="compact"] {
   --select-item-font-size: var(--text-2xs);
   --select-item-padding-y: var(--space-0_5);
   --select-item-icon-size: var(--space-2_5);
 }
 
-/* Trigger box. Lands: `trigger` is an exported part. */
+/* The trigger box. This works, because `trigger` is a published part. */
 dui-select[data-density="compact"]::part(trigger) {
   height: var(--component-height-xxs);
   gap: var(--space-1);
@@ -420,122 +281,63 @@ dui-select[data-density="compact"]::part(trigger) {
   line-height: var(--text-2xs--line-height);
 }
 
-/* Popup padding. Lands: `listbox` is an exported part. */
+/* Menu padding. This works, because `listbox` is a published part. */
 dui-select[data-density="compact"]::part(listbox) {
   padding: var(--space-0_5);
 }
 
-/* No effect — see below. */
-dui-select[data-density="compact"] { --icon-size: var(--space-2_5); }
+/* This one does nothing. See below. */
+dui-select[data-density="compact"] {
+  --icon-size: var(--space-2_5);
+}
 ```
 
-**This does not reach the same visual result.** The trigger's chevron cannot be
-shrunk from outside, by any of the three available routes:
+Everything works except the last rule. The trigger shrinks. The arrow doesn't.
 
-1. `.Icon` carries no `part` attribute — there is nothing to select.
-2. `--icon-size` set on the host *does* inherit inwards, but the styled layer
-   declares `.Icon { --icon-size: var(--space-4) }` on an **inner** element.
-   That is not a `:host` rule, so the outer-tree cascade exception does not
-   apply and the inner declaration wins.
-3. `::part(trigger) dui-icon` is not a valid selector — no descendant
-   combinator may follow `::part()`.
+### Why you can't resize the dropdown arrow
 
-Result: a compact trigger with a full-size chevron crowding it. All three
-routes were measured in the browser rather than assumed:
+The arrow's size comes from a CSS variable named `--icon-size`. The styled layer
+sets it like this:
 
-| measured on the library + `::part()` path | value | meaning |
-|---|---|---|
-| `::part(trigger)` computed height | `20px` | the part rule lands (`--component-height-xxs`) |
-| `--select-item-font-size` on the host | `0.625rem` | outer-tree declaration **beats** the `:host` declaration |
-| resulting `.Item` font-size inside the shadow root | `10px` | …and actually takes effect on the option rows |
-| `--icon-size` on the host | `0.625rem` | the consumer's value is there… |
-| `--icon-size` on the inner `.Icon` span | `1rem` | …and is **shadowed** by the inner rule |
-| chevron box | `16px` | unchanged — the gap |
+```css
+.Icon {
+  --icon-size: var(--space-4);
+}
+```
 
-`evidence/06-compact-library-vs-ejected.png`: top row is this path, bottom
-row is the ejected one, both at 4× device pixel ratio.
+`.Icon` is an element _inside_ the component's shadow DOM.
 
-Closing that last gap requires a change to `@dui/components`: a new exported
-part, a new `--dui-select-icon-size` property, or a new value in the size enum.
-**That is the "every unanticipated need becomes a new knob" problem in one
-screenshot**, and it is the strongest single argument the eject model has.
+CSS variables you set from outside a component do inherit into its shadow DOM.
+But a value set directly on an inner element always beats an inherited one. So
+your app's `--icon-size` reaches the component and is then overridden before it
+gets to the arrow.
 
-### (b) The ejected way
+There's no other way in. The `.Icon` element publishes no part, so `::part()`
+can't select it. And `::part(trigger) dui-icon` isn't valid CSS, because you
+can't put a descendant selector after `::part()`.
 
-`packages/spike-eject/src/components/dui/select.ts`, 27 lines, quoted in full
-in §3. Reaches the target exactly, including the chevron, and lives next to the
-rest of the component's styles rather than in a stylesheet three directories
-away.
+These are the values measured in the browser on the external-CSS path:
 
-### The honest comparison
+| Measurement                                | Value      | What it shows                               |
+| ------------------------------------------ | ---------- | ------------------------------------------- |
+| `::part(trigger)` height                   | `20px`     | The part rule works.                        |
+| `--select-item-font-size` on the component | `0.625rem` | An app's value beats a `:host` declaration. |
+| Menu row font size inside the shadow DOM   | `10px`     | And it reaches the elements that use it.    |
+| `--icon-size` on the component             | `0.625rem` | The app's value arrives...                  |
+| `--icon-size` on the inner `.Icon` element | `1rem`     | ...and is overridden here.                  |
+| Arrow width                                | `16px`     | Unchanged. This is the gap.                 |
 
-| | library way | ejected way |
-|---|---|---|
-| Lines the consumer writes | 24 | 27 |
-| Reaches the target | **No** — chevron unreachable | **Yes** |
-| Locality | app stylesheet, far from the component | in the component file |
-| Requires a library change | Yes, to finish | No |
-| Survives a primitive-internals rename | **Yes** for `::part(trigger)`; no for the custom properties | **No** — silent total breakage (§5) |
-| Survives a library style upgrade | Automatically | Only with three-way diff tooling that does not exist (§5) |
-| Cost to adopt | 24 lines | 361 lines copied, 78 of them permanently owned dead weight |
+Compare rows 2 and 4. The same technique works for one variable and fails for
+the other. The only difference is where the styled layer declares them: one on
+`:host`, one on an inner element.
 
-Note the row that cuts the other way: `::part(trigger)` is a **published
-contract** and survives the rename that destroyed the ejected file. Ejecting
-trades a small, documented, stable surface for a large, undocumented, unstable
-one.
+`evidence/06-compact-library-vs-ejected.png` shows the visible result at 4x
+zoom. The top row is the external-CSS path, with an oversized arrow crowding a
+shrunken box. The bottom row is the copied component.
 
----
+### The fix
 
-## 9. Verdict and recommendation
-
-**Do not build `dui add --eject` as it stands** — and before building it at
-all, apply the two-line cascade fix at the end of this section, which closes
-the gap that motivated the whole investigation. The locality win is real but
-small, and it is bought at a price the spike measured precisely.
-
-The win: change 1 was a pleasure, and §8 shows a real need the external API
-genuinely cannot serve. Locality is not nothing — the ejected file is where you
-look for the component's appearance, and adding a density there felt like
-`select.tsx`.
-
-The loss: for the class of change that motivates ejecting in the first place —
-*"I need the component shaped slightly differently"* — the shadow-DOM subclass
-model eats the entire benefit. `render()` is a sealed, all-or-nothing method
-over 17 private fields. A consumer who ejects to gain control over the markup
-gains none, discovers this only after writing the file, and lands on a CSS
-workaround uglier than the `::part()` code they were escaping. Meanwhile they
-have taken on 361 lines, 78 of which they will never touch, coupled to seven
-undocumented class names that a patch release can rename with no warning from
-any tool (§5, §7). shadcn's copied `select.tsx` has none of these properties:
-it is the markup, its dependency surface (Radix's props) is public and typed,
-and its formatter-normalized diff is a solved problem.
-
-**What would make it viable**, in the order I would do them:
-
-1. **Split `render()` into protected seams** — `renderTrigger()`,
-   `renderValue()`, `renderIcon()`, `renderPopup()`, `renderItem(option, i)` —
-   and promote the handful of fields those need (`selectedOption`,
-   `displayValue`, `isOpen`, `highlightedIndex`, `triggerId`, `listboxId`, the
-   trigger handlers) from `#private` to `protected`. This is the one change
-   that turns a "no" into a "yes"; without it nothing else matters. It is also
-   the change with real cost: those seams become API, and `#private` is
-   currently doing genuine work keeping the primitives refactorable.
-2. **Make the styling contract explicit and versioned.** Either promote the
-   internal class names to documented, frozen part names, or have the primitive
-   expose `data-*` hooks it commits to. Today's ejected file couples to
-   implementation details by accident.
-3. **Record the eject base at eject time** — version pin plus a content hash of
-   the copied block — so a three-way `dui diff` is possible at all (§5). Cheap,
-   and worth doing even if nothing else here happens.
-4. Only then, the CLI. And scope it to components whose primitives have the
-   seams from (1); an eject of a sealed primitive should be refused, not
-   shipped.
-
-**A cheaper alternative, which I tested rather than merely proposed.** Given
-that §8 is the one place the external API demonstrably fails, I moved the
-styled layer's `--icon-size` declaration off the inner `.Icon` element and onto
-`:host`, where — as the table in §8 proves for `--select-item-font-size` — an
-outer-tree declaration wins:
+Move the declaration from the inner element to `:host`:
 
 ```diff
    :host {
@@ -550,47 +352,263 @@ outer-tree declaration wins:
    }
 ```
 
-With that applied, the library + `::part()` path reproduces the ejected result
-**exactly: 0 differing pixels** at 4× DPR, chevron included
-(`evidence/07-onelinefix-library-vs-ejected.png` — both rows now identical;
-compare `06`, which is the same comparison before the fix). Reverted afterwards.
+This was applied and measured, not just proposed. With it in place, the arrow
+drops from `16px` to `10px`, and the external-CSS path matches the copied
+component at **0 differing pixels**.
 
-So the entire motivating gap — the one thing that justified 361 copied lines —
-closes with a **two-line move in the styled layer**. No CLI, no primitive
-refactor, no diff tooling, no tag collision, nothing for the consumer to
-maintain. That reframes the diagnosis: the problem is not *"consumers need to
-own the file"*, it is *"the styled layer declares its knobs at the wrong
-cascade level"* — an inner-element declaration is unreachable, a `:host`
-declaration is a public knob for free.
+`evidence/07-onelinefix-library-vs-ejected.png` is the same comparison after the
+fix. Both rows are now identical. The change was reverted afterwards.
 
-I would audit three or four more components for the same mistake before
-committing anything to the eject model. If the pattern holds — and the fact
-that select's *item* variables are already correctly declared on `:host`, while
-its *trigger* icon is not, suggests it is an inconsistency rather than a design
-— then most of the "unanticipated need" pressure is a cascade bug, and the CLI
-is solving a problem the library gave itself.
+### What this means
 
----
+The one thing that justified copying 361 lines is a misplaced CSS declaration.
+Fixing it costs two lines and requires no command-line tool, no changes to the
+primitives, no diff tooling, and nothing for app developers to maintain.
 
-## Running it
+It also suggests a different diagnosis. The problem may not be _"apps need to
+own the file."_ It may be _"the styled layer declares some of its adjustable
+values where apps can't reach them."_ Select's menu-row variables are already
+declared correctly on `:host`. Its trigger icon isn't. That looks like an
+oversight, not a design decision.
 
-```bash
-deno task dev                                   # from the repo root
-open http://localhost:4040/spike-eject.html               # the ejected select
-open http://localhost:4040/spike-eject.html?impl=library  # the library + ::part() path
+## Registering a copied component
+
+A copied component registers under the same tag name as the library's, because
+`tagName` is inherited from the primitive.
+
+### Importing the library version afterwards throws an error
+
+The demo page tests this at runtime. Output from the running page:
+
 ```
+tag "dui-select" owned by the copied class before the import: true
+import("@dui/components/select") -> DOMException: Failed to execute 'define' on
+  'CustomElementRegistry': the name "dui-select" has already been used with this registry
+library module finished evaluating: false
+tag "dui-select" still owned by the copied class after: true
+```
+
+The copied class keeps the tag, because the first registration wins. But the
+error is thrown while the library's module is evaluating, which **stops that
+module from finishing**. Anything after the import statement never runs.
+
+So if an app copies select and then imports `@dui/components` anywhere, through
+the `all.ts` barrel file or through a template that uses select, the failure
+breaks the entire module, not just select.
+
+There's no way to opt out. `customElements.define()` has no replace mode, and
+the library calls it unconditionally.
+
+### The alternative
+
+Register under a different tag name, such as `app-select`. This avoids the
+collision, but every call site has to change, and the copied component is no
+longer a drop-in replacement. You also can't replace select inside a template
+that renders it internally.
+
+The experiment used `dui-select`, as the brief specified.
+
+## What happens when the library updates
+
+### Adding something to a primitive is safe
+
+The experiment added an `aria-required` attribute to the primitive's trigger.
+
+**The copied component picked it up with no changes.** This was verified in the
+DOM, with 0 differing pixels and a clean type check. Accessibility and behavior
+fixes flow through the dependency as intended. This is a real advantage over
+copying the whole component.
+
+### Renaming something in a primitive breaks copies silently
+
+The experiment renamed the primitive's internal `.Trigger` class and its
+`trigger` part.
+
+Nothing reported a problem. `deno check` passed. `deno lint` passed. The browser
+console was empty. The copied select simply lost its border, background,
+padding, height, focus ring, and every size variant at once, rendering as
+unstyled text. See `evidence/04-after-upstream-rename.png`.
+
+Two details make this worse than a clean break:
+
+- **The breakage was partial.** The icon-replacement CSS survived, because it
+  targets `.Icon`, which wasn't renamed. The repositioning CSS died, because it
+  targets `.Trigger`. A half-styled component is harder to diagnose than a fully
+  broken one.
+- **No tool can catch it.** The dependency is one string matching another string
+  across a repository boundary, through class names that no contract covers.
+
+The primitive was reverted, and restoration was confirmed with a 0-pixel diff.
+
+### What a diff command would need
+
+The experiment made a realistic 4-line polish change to the library's select
+styles: a softer hover color, one padding step, and an inset highlight.
+
+A plain two-way diff between the library's current file and the app's copy
+prints **75 changed lines, only 4 of which are the actual update**. The other 71
+are the app's own work, shown as deletions the app is invited to undo. That
+output is actively misleading.
+
+A useful diff command needs three inputs:
+
+1. The library's current styles.
+2. **The library's styles at the moment the app copied them.** This doesn't
+   exist today. It has to be recorded at copy time as a version and a content
+   hash, either in the copied file's header or in a lockfile.
+3. The app's copy as it stands now.
+
+It would then show the difference between inputs 1 and 2, offered as a patch to
+apply to input 3, flagging conflicts only where the app edited the same rules.
+That's a three-way merge, so no new algorithm is needed. But input 2 has to
+exist from the first day.
+
+Two less obvious requirements:
+
+- **Rule-level diffing, not line-level.** The app's formatter rewrites the
+  copied block on its first commit, so a line-based diff shows changes that
+  aren't real.
+- **A separate version pin for the primitive.** The rename described above is
+  invisible to any diff of the styled layer, because the break lives in
+  `@dui/primitives`. Copying the styled layer doesn't insulate an app from
+  primitive updates. It removes the layer that used to absorb them.
+
+## What app developers had to learn that isn't documented
+
+To make the two changes, the app had to depend on the following. Only the last
+row is documented.
+
+| Knowledge required                                                                                                | Documented?                                                                             |
+| ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Internal class names: `.Trigger`, `.Icon`, `.Listbox`, `.Value`, `.Item`, `.Popup`, `.ItemIndicator`              | No                                                                                      |
+| That `--select-item-font-size`, `--select-item-padding-y`, and `--select-item-icon-size` control menu row density | No. The select registry entry lists no CSS properties at all.                           |
+| That the primitive renders `<dui-icon>` and `<dui-scroll-area>` by tag name, and that both must be registered     | No. The library's own styled select doesn't import them either.                         |
+| That the arrow's SVG is a light-DOM child, and therefore reachable from the component's stylesheet                | No. This is what made change 2 possible at all, and it's an accident of implementation. |
+| That `render()` can't be overridden                                                                               | No. Nothing warns you before you write the file.                                        |
+| Which parts exist                                                                                                 | Partly. The primitive publishes 10; the registry documents 2.                           |
+| The six public properties, and the `size` attribute values                                                        | Yes                                                                                     |
+
+Almost everything a copied file depends on is undocumented. Combined with the
+silent-breakage result above, that means an eject command would ship files whose
+entire dependency surface is unspecified and can change in a patch release.
+
+## Recommendation
+
+Don't build an eject command yet. Do these in order.
+
+1. **Fix the `--icon-size` declaration.** Two lines. This closes the gap that
+   prompted the investigation and needs nothing else built.
+
+2. **Audit other components for the same mistake.** Look for adjustable values
+   declared on inner elements rather than `:host`. If this pattern is common,
+   most of the pressure to copy files disappears, and no command-line tool is
+   needed.
+
+3. **If you still want copying after that, add render hooks to the primitives
+   first.** Split `render()` into `renderTrigger()`, `renderValue()`,
+   `renderIcon()`, `renderPopup()`, and `renderItem(option, index)`, and change
+   the fields those need from private to protected: `selectedOption`,
+   `displayValue`, `isOpen`, `highlightedIndex`, `triggerId`, `listboxId`, and
+   the trigger event handlers.
+
+   This is the change that decides whether copying is viable. Without it,
+   copying gives an app no control over markup, which is the main thing people
+   copy files to get. It also has a real cost: those hooks become public API,
+   and the current private fields are doing useful work keeping primitives easy
+   to refactor.
+
+4. **Publish the styling contract.** Either promote the internal class names to
+   documented, frozen part names, or have primitives expose `data-*` hooks they
+   commit to keeping.
+
+5. **Record the copy source at copy time.** A version and a content hash, so a
+   three-way diff is possible. This is cheap and worth doing regardless.
+
+6. **Only then, build the command.** Restrict it to components whose primitives
+   have the hooks from step 3. Copying a sealed primitive should be refused, not
+   shipped.
+
+### Comparing the two approaches
+
+Both produce the same dense select. The external-CSS column assumes the two-line
+fix from step 1.
+
+|                                 | Styling from your app                       | Copying the file                                |
+| ------------------------------- | ------------------------------------------- | ----------------------------------------------- |
+| Lines you write                 | 24                                          | 27                                              |
+| Reaches the target              | Yes, after the two-line fix. No, before it. | Yes                                             |
+| Where the code lives            | Your app's stylesheet                       | Alongside the component's other styles          |
+| Needs a library change          | Two lines, once, for everyone               | No                                              |
+| Survives a primitive rename     | Yes for `::part()`; no for CSS variables    | No. Silent, total breakage.                     |
+| Gets library style improvements | Automatically                               | Only with diff tooling that doesn't exist       |
+| Ongoing cost                    | 24 lines                                    | 361 lines copied, 78 of them permanently unused |
+
+Note the fifth row. `::part(trigger)` is a published contract and survived the
+rename that destroyed the copied file. Copying trades a small, documented,
+stable dependency for a large, undocumented, unstable one.
+
+## Known problems with this experiment
+
+Two are specific to the sandbox it ran in and don't affect the conclusions:
+
+- **`jsr.io` is blocked by network policy**, so `jsr:@std/path` and
+  `jsr:@std/fs` can't be fetched. Both are imported by `packages/docs/serve.ts`
+  and the build scripts, so neither `deno check` nor the dev server would start.
+  `vendor/std-path.ts` and `vendor/std-fs.ts` work around this by re-exporting
+  `node:path` and Deno's filesystem API, mapped over the `jsr:` specifiers by
+  two entries in the root `deno.json`. **Delete those two entries and the
+  `vendor/` directory on any machine that can reach jsr.io.** Deno itself also
+  wasn't installed and was installed from npm.
+- **The `dui-primitives` repository wasn't present.** The import map expects it
+  at `../dui-primitives`, so it was cloned there.
+
+One is a real change that any machine needs:
+
+- **`packages/docs/serve.ts` now names its bundle outputs explicitly.** Adding
+  an entry point outside `packages/docs/src` changed the directory esbuild
+  computes paths from, which renamed every existing bundle. `/index.js` became
+  `/docs/src/index.js`, and every docs URL returned 404. Naming the outputs pins
+  them. All six URLs were verified unchanged.
+
+  This is a latent bug the experiment surfaced rather than caused. Any future
+  entry point outside `src/` hits it.
+
+  The alternative was a separate dev server inside `packages/spike-eject`, which
+  touches no existing files but duplicates about 70 lines of the import
+  resolver. It was rejected as more code for a throwaway branch, and the brief
+  asked to reuse the docs dev server.
+
+No files in `@dui/primitives` or `@dui/core` were changed, apart from the two
+deliberate update probes, both reverted.
+
+The `experiments/` directory is excluded from type checking in the package's
+`deno.json`, because it contains a file that's supposed to fail. `deno check`
+passes at the repository root, and `deno task dev` starts and serves all six
+pages.
 
 ## Evidence
 
-All screenshots are in `evidence/`, produced by the running dev server via
-headless Chromium at the viewport the repo conventions specify (1280×1000).
+Screenshots are in `evidence/`, captured from the running dev server with
+headless Chromium at 1280x1000.
 
-| file | what it shows |
-|---|---|
-| `01-ejected-verbatim.png` / `01-library-baseline.png` | the ejected select and the library select under identical markup; 0 differing pixels |
-| `02-consumer-changes.png` | both Step 4 changes live — `size="compact"` and `leading-chevron` |
-| `03-compact-popup-open.png` | the compact popup open, option rows scaled, selected item aligned to the trigger |
-| `04-after-upstream-rename.png` | §5 probe B — the silent, total, *partial* breakage after the primitive renamed `.Trigger` |
-| `05-library-external-part-way.png` | the library + `::part()` path |
-| `06-compact-library-vs-ejected.png` | §8, 4× DPR. Top: library + `::part()`. Bottom: ejected. The chevron is the gap. |
-| `07-onelinefix-library-vs-ejected.png` | the same comparison after the two-line cascade fix in §9 — 0 differing pixels |
+| File                                                 | What it shows                                                                         |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `01-ejected-verbatim.png`, `01-library-baseline.png` | The copied and library selects under identical markup. 0 differing pixels.            |
+| `02-consumer-changes.png`                            | Both app changes working: the denser size and the repositioned arrow.                 |
+| `03-compact-popup-open.png`                          | The compact menu open, with scaled rows and the selected item aligned to the trigger. |
+| `04-after-upstream-rename.png`                       | The silent, partial breakage after the primitive renamed `.Trigger`.                  |
+| `05-library-external-part-way.png`                   | The external-CSS path.                                                                |
+| `06-compact-library-vs-ejected.png`                  | 4x zoom. Top: external CSS. Bottom: copied component. The arrow is the gap.           |
+| `07-onelinefix-library-vs-ejected.png`               | The same comparison after the two-line fix. 0 differing pixels.                       |
+
+## Running the demo
+
+```bash
+deno task dev
+```
+
+Then open:
+
+- `http://localhost:4040/spike-eject.html` for the copied select.
+- `http://localhost:4040/spike-eject.html?impl=library` for the library select
+  styled from outside with `::part()`.
