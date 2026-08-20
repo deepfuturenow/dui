@@ -1241,6 +1241,12 @@
           "npm:lit@^3.3.2"
         ]
       },
+      "packages/spike-headless": {
+        "dependencies": [
+          "npm:@floating-ui/dom@^1.7.4",
+          "npm:lit@^3.3.2"
+        ]
+      },
       "packages/templates": {
         "dependencies": [
           "npm:lit@^3.3.2"

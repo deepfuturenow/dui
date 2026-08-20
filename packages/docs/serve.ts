@@ -10,6 +10,7 @@ const PREVIEW_TEMPLATE_ENTRY = resolve(import.meta.dirname!, "src/preview-templa
 const DASHBOARD_EXEMPLAR_ENTRY = resolve(import.meta.dirname!, "src/dashboard-exemplar.ts");
 // Spike branch only: scratch consumer for the "eject select" experiment.
 const SPIKE_EJECT_ENTRY = resolve(import.meta.dirname!, "../spike-eject/src/spike-eject.ts");
+const SPIKE_HEADLESS_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/spike-headless.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -155,6 +156,7 @@ const ENTRY_POINTS = [
   { in: PREVIEW_TEMPLATE_ENTRY, out: "preview-template" },
   { in: DASHBOARD_EXEMPLAR_ENTRY, out: "dashboard-exemplar" },
   { in: SPIKE_EJECT_ENTRY, out: "spike-eject" },
+  { in: SPIKE_HEADLESS_ENTRY, out: "spike-headless" },
 ];
 
 const buildMode = Deno.args.includes("--build");

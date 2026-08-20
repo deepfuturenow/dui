@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spike — headless select controller</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="module" src="./spike-headless.js"></script>
+  <style>
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    body { margin: 0; padding: var(--space-8); background-color: var(--background); color: var(--foreground); font-family: var(--font-sans); }
+    h1 { font-size: var(--text-2xl); margin: 0 0 var(--space-2); }
+    h2 { font-size: var(--text-base); margin: var(--space-8) 0 var(--space-3); color: var(--text-2); }
+    p  { color: var(--text-2); font-size: var(--text-sm); max-width: 66ch; }
+    .row { display: flex; align-items: flex-end; gap: var(--space-4); flex-wrap: wrap; }
+    .cell { display: flex; flex-direction: column; gap: var(--space-1_5); width: 220px; }
+    .label { font-size: var(--text-xs); color: var(--text-3); font-family: var(--font-mono); }
+    pre { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--surface-2); border: var(--border-width-thin) solid var(--border); border-radius: var(--radius-md); padding: var(--space-3); color: var(--text-1); }
+  </style>
+</head>
+<body>
+  <h1>Headless <code>SelectController</code></h1>
+  <p>
+    Each row pairs the library <code>&lt;dui-select&gt;</code> with
+    <code>&lt;dui-select-h&gt;</code>, which renders its own markup and gets all
+    behaviour from <code>SelectController</code>. Identical attributes on both.
+  </p>
+
+  <h2>Closed state</h2>
+  <div class="row">
+    <div class="cell"><span class="label">library</span><dui-select value="apple"></dui-select></div>
+    <div class="cell"><span class="label">headless</span><dui-select-h value="apple"></dui-select-h></div>
+    <div class="cell"><span class="label">library placeholder</span><dui-select></dui-select></div>
+    <div class="cell"><span class="label">headless placeholder</span><dui-select-h></dui-select-h></div>
+  </div>
+  <div class="row" style="margin-top: var(--space-4)">
+    <div class="cell"><span class="label">library disabled</span><dui-select disabled value="apple"></dui-select></div>
+    <div class="cell"><span class="label">headless disabled</span><dui-select-h disabled value="apple"></dui-select-h></div>
+    <div class="cell"><span class="label">library size=xs</span><dui-select size="xs" value="apple"></dui-select></div>
+    <div class="cell"><span class="label">headless size=xs</span><dui-select-h size="xs" value="apple"></dui-select-h></div>
+  </div>
+
+  <h2>Open state — short list (inner alignment)</h2>
+  <div class="row">
+    <div class="cell"><span class="label">library</span><dui-select id="lib-open" value="cherry"></dui-select></div>
+    <div class="cell"><span class="label">headless</span><dui-select-h id="h-open" value="cherry"></dui-select-h></div>
+  </div>
+
+  <h2>Open state — long list (falls back to anchored positioning)</h2>
+  <div class="row">
+    <div class="cell"><span class="label">library</span><dui-select id="lib-long" data-options="many" value="mango"></dui-select></div>
+    <div class="cell"><span class="label">headless</span><dui-select-h id="h-long" data-options="many" value="mango"></dui-select-h></div>
+  </div>
+
+  <h2>Disabled options</h2>
+  <div class="row">
+    <div class="cell"><span class="label">library</span><dui-select data-options="disabled" value="a"></dui-select></div>
+    <div class="cell"><span class="label">headless</span><dui-select-h data-options="disabled" value="a"></dui-select-h></div>
+  </div>
+
+  <h2>Form association</h2>
+  <form id="probe-form" class="row">
+    <div class="cell"><span class="label">library, name="fruit-lib"</span><dui-select name="fruit-lib" value="banana"></dui-select></div>
+    <div class="cell"><span class="label">headless, name="fruit-h"</span><dui-select-h name="fruit-h" value="cherry"></dui-select-h></div>
+  </form>
+  <pre id="formdata">(not submitted)</pre>
+
+  <h2>Last value-change event</h2>
+  <pre id="events">(none)</pre>
+</body>
+</html>

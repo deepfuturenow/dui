@@ -1,0 +1,337 @@
+/**
+ * COPIED from `@dui/core/floating-popup-utils` for this spike, with ONE change,
+ * marked SPIKE CHANGE below. `dui-primitives` is not modified.
+ *
+ * The change: `resolveScrollContainer()` finds the popup's scroller by the
+ * hardcoded class name `.Popup`. A consumer who owns their own markup names
+ * their elements themselves, so that lookup returns null and two things go
+ * wrong silently — see FINDINGS question 2. Both call sites now take an
+ * injectable getter and fall back to the original behaviour.
+ */
+/**
+ * Shared utilities for floating popup components (popover, tooltip).
+ * Provides animation lifecycle helpers, arrow rendering, and a centralized
+ * Floating UI positioning wrapper.
+ */
+
+import { html, type TemplateResult } from "lit";
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  type Middleware,
+  offset,
+  type Placement,
+  platform,
+  shift,
+  size,
+} from "@floating-ui/dom";
+
+export type FloatingPopupSide = "top" | "bottom";
+
+/** Double-rAF to ensure CSS starting-style is applied then removed. */
+export const waitForAnimationFrame = (): Promise<void> =>
+  new Promise<void>((r) =>
+    requestAnimationFrame(() => requestAnimationFrame(() => r()))
+  );
+
+/** Listen for transitionend with a fallback timeout. Guards against double-fire. */
+export const onTransitionEnd = (
+  el: Element,
+  callback: () => void,
+  fallbackMs = 200,
+): void => {
+  let called = false;
+  const done = (): void => {
+    if (called) return;
+    called = true;
+    el.removeEventListener("transitionend", onEnd);
+    clearTimeout(timer);
+    callback();
+  };
+  const onEnd = (): void => done();
+  el.addEventListener("transitionend", onEnd);
+  const timer = setTimeout(done, fallbackMs);
+};
+
+/**
+ * Guards the `popover="auto"` trigger-click reopen race: clicking a trigger
+ * while its popover is open makes the platform light-dismiss on pointerdown,
+ * and the trigger's own click would then reopen it in the same gesture. A
+ * component feeds `noteClose()` on every close and gates its open-on-click
+ * path behind `allowOpen()`, so an open landing within the window is swallowed.
+ */
+export class ReopenGuard {
+  #lastCloseAt = -Infinity;
+  #windowMs: number;
+
+  constructor(windowMs = 150) {
+    this.#windowMs = windowMs;
+  }
+
+  noteClose(): void {
+    this.#lastCloseAt = performance.now();
+  }
+
+  allowOpen(): boolean {
+    return performance.now() - this.#lastCloseAt >= this.#windowMs;
+  }
+}
+
+/** Render an arrow SVG pointing at the trigger. */
+export const renderArrow = (side: FloatingPopupSide): TemplateResult =>
+  html`
+    <svg class="Arrow" part="arrow" viewBox="0 0 10 6" data-side="${side}">
+      <polygon class="arrow-fill" points="0,0 5,6 10,0" />
+      <path class="arrow-stroke" d="M 0,0 L 5,6 L 10,0" />
+    </svg>
+  `;
+
+// ---------------------------------------------------------------------------
+// Centralized Floating UI positioning
+// ---------------------------------------------------------------------------
+
+/**
+ * Shared platform override that forces Floating UI to resolve offsets relative
+ * to the viewport. Without this, popups inside `container-type: size` ancestors
+ * compute incorrect positions because the container becomes the offset parent.
+ */
+const fixedPlatform = {
+  ...platform,
+  getOffsetParent: (): typeof window => window,
+};
+
+/**
+ * Find the element that actually scrolls inside a floating popup.
+ *
+ * A popup either scrolls itself (`.Popup` with `overflow-y: auto`) or delegates
+ * to a nested `<dui-scroll-area>`. Anything that measures overflow or drives
+ * `scrollTop` has to target the real scroller: assume `.Popup` on a delegating
+ * popup and you silently read `scrollHeight === clientHeight`, i.e. "nothing
+ * overflows", no matter how long the list is.
+ *
+ * Duck-typed on `scrollViewport` rather than importing the scroll-area class,
+ * so core utils don't pull a component into every popup's bundle.
+ *
+ * Returns null when there is no `.Popup` to resolve; callers decide the
+ * fallback.
+ */
+export const resolveScrollContainer = (
+  floating: HTMLElement,
+): HTMLElement | null => {
+  const popup = floating.classList.contains("Popup")
+    ? floating
+    : floating.shadowRoot?.querySelector<HTMLElement>(".Popup") ??
+      floating.querySelector<HTMLElement>(".Popup");
+  if (!popup) return null;
+
+  const scrollArea = popup.querySelector<
+    HTMLElement & { scrollViewport?: HTMLElement | null }
+  >("dui-scroll-area");
+
+  // `scrollViewport` is null until the scroll-area has rendered; fall back to
+  // the popup rather than reporting "no scroller".
+  return scrollArea?.scrollViewport ?? popup;
+};
+
+// ---------------------------------------------------------------------------
+// alignInner — macOS-style "selected item overlays trigger" positioning
+// ---------------------------------------------------------------------------
+
+export type AlignInnerOptions = {
+  /** Returns the inner element to align with the reference. null = use normal positioning. */
+  getElement: () => HTMLElement | null;
+  /**
+   * Returns a sub-element inside the reference to align against.
+   * When set, the middleware aligns the vertical center of `getElement()`
+   * with this element's vertical center instead of the full reference rect.
+   * Use this to align text-to-text (e.g. `.ItemText` ↔ `.Value`).
+   */
+  getReferenceInner?: () => HTMLElement | null;
+  /** Minimum px from viewport edge. Default: 8. */
+  padding?: number;
+  /**
+   * SPIKE CHANGE. Returns the element that actually scrolls the popup. Without
+   * this the scroller is found by the class name `.Popup`, which only exists in
+   * markup the library wrote.
+   */
+  getScrollContainer?: () => HTMLElement | null;
+};
+
+/**
+ * Custom Floating UI middleware that positions the floating element so a
+ * specific inner element (e.g. the selected option) vertically aligns with
+ * the reference element (e.g. the trigger). This is the macOS-style select
+ * pattern. Equivalent to `@floating-ui/react`'s `inner()` middleware.
+ *
+ * When `getElement()` returns null, the middleware is a no-op and normal
+ * positioning (offset/flip/shift) takes over.
+ */
+export const alignInner = (options: AlignInnerOptions): Middleware => ({
+  name: "alignInner",
+  fn(state) {
+    const innerEl = options.getElement();
+    if (!innerEl) return {};
+
+    const padding = options.padding ?? 8;
+    const { rects } = state;
+    const floatingEl = state.elements.floating;
+    const floatingRect = floatingEl.getBoundingClientRect();
+    const innerRect = innerEl.getBoundingClientRect();
+
+    // How far the inner element's vertical center is from the floating top
+    const innerOffsetY = (innerRect.top - floatingRect.top) +
+      innerRect.height / 2;
+
+    // Determine the target Y center to align against. If a reference inner
+    // element is provided, use its center (text-to-text alignment).
+    // Otherwise fall back to the full reference rect center.
+    const refInnerEl = options.getReferenceInner?.();
+    const refCenterY = refInnerEl
+      ? refInnerEl.getBoundingClientRect().top +
+        refInnerEl.getBoundingClientRect().height / 2
+      : rects.reference.y + rects.reference.height / 2;
+    let y = refCenterY - innerOffsetY;
+
+    // Clamp to viewport
+    const viewportH = globalThis.innerHeight;
+    const floatingH = floatingRect.height;
+    const minY = padding;
+    const maxY = viewportH - floatingH - padding;
+    const clampedY = Math.max(minY, Math.min(y, maxY));
+
+    // If we clamped, scroll the popup so the selected item stays visible.
+    const scrollContainer = options.getScrollContainer
+      ? options.getScrollContainer()
+      : resolveScrollContainer(floatingEl); // SPIKE CHANGE
+    if (scrollContainer && clampedY !== y) {
+      const scrollDelta = y - clampedY; // negative = we pushed down, positive = pushed up
+      scrollContainer.scrollTop = Math.max(
+        0,
+        scrollContainer.scrollTop - scrollDelta,
+      );
+    }
+
+    y = clampedY;
+
+    // Align X so inner text left edge matches reference text left edge
+    const innerLeftOffset = innerRect.left - floatingRect.left;
+    const x = refInnerEl
+      ? refInnerEl.getBoundingClientRect().left - innerLeftOffset
+      : rects.reference.x;
+
+    return { x, y, reset: false };
+  },
+});
+
+export type ComputeFixedPositionOptions = {
+  placement?: Placement;
+  offsetPx?: number;
+  matchWidth?: boolean;
+  /** Set `min-width` to the anchor width instead of fixing `width`. */
+  minMatchWidth?: boolean;
+  padding?: number;
+  /** When set, uses inner-alignment positioning instead of offset/flip/shift. */
+  alignToInner?: AlignInnerOptions;
+};
+
+/**
+ * Compute a fixed-strategy position using Floating UI with the viewport
+ * override baked in.
+ */
+export const computeFixedPosition = (
+  anchor: HTMLElement,
+  floating: HTMLElement,
+  options: ComputeFixedPositionOptions = {},
+): Promise<{ x: number; y: number; placement: Placement }> => {
+  const {
+    placement = "bottom-start",
+    offsetPx = 4,
+    matchWidth = false,
+    minMatchWidth = false,
+    padding = 8,
+  } = options;
+
+  // Inner-alignment (macOS "selected item overlays the trigger") is only stable
+  // when the whole list fits without scrolling. Once the list overflows and
+  // becomes scrollable, the alignment math is unstable and pins the popup to a
+  // viewport edge, detached from the trigger — so fall back to normal
+  // offset/flip/shift positioning, which keeps the popup anchored to the
+  // trigger and lets the list scroll internally.
+  const innerEl = options.alignToInner?.getElement() ?? null;
+  const scrollContainer = // SPIKE CHANGE
+    (options.alignToInner?.getScrollContainer?.() ??
+      resolveScrollContainer(floating)) ?? floating;
+  const listFits =
+    scrollContainer.scrollHeight <= scrollContainer.clientHeight + 1;
+  const useInnerAlign = innerEl != null && listFits;
+
+  const middleware: Middleware[] = useInnerAlign
+    ? [alignInner(options.alignToInner!)]
+    : [offset(offsetPx), flip(), shift({ padding })];
+
+  // A single `size` pass handles both width matching and publishing the
+  // available height. Two `size` middlewares would each re-measure and the
+  // second would clobber the first's `apply`.
+  middleware.push(
+    size({
+      padding,
+      apply({ rects, elements, availableHeight }) {
+        if (matchWidth) {
+          elements.floating.style.width = `${rects.reference.width}px`;
+        } else if (minMatchWidth) {
+          elements.floating.style.minWidth = `${rects.reference.width}px`;
+        }
+
+        // Publish the space between the anchor and the viewport edge so popups
+        // can cap themselves against the viewport rather than a magic number:
+        //
+        //   max-height: var(--dui-available-height, 240px);
+        //
+        // Read-only from a consumer's perspective — recomputed on every
+        // reposition — but a consumer may override it to impose a smaller cap.
+        // Set on the floating element so it inherits to descendants, including
+        // across shadow boundaries (e.g. a nested `<dui-scroll-area>`).
+        elements.floating.style.setProperty(
+          "--dui-available-height",
+          `${Math.max(0, Math.round(availableHeight))}px`,
+        );
+      },
+    }),
+  );
+
+  return computePosition(anchor, floating, {
+    placement,
+    strategy: "fixed",
+    middleware,
+    platform: fixedPlatform,
+  });
+};
+
+/**
+ * Start Floating UI `autoUpdate` + `computeFixedPosition` in one call.
+ * Returns a cleanup function to stop tracking.
+ */
+export const startFixedAutoUpdate = (
+  anchor: HTMLElement,
+  floating: HTMLElement,
+  options: ComputeFixedPositionOptions & {
+    onPosition?: (result: {
+      x: number;
+      y: number;
+      placement: Placement;
+    }) => void;
+  } = {},
+): () => void => {
+  const { onPosition, ...positionOptions } = options;
+
+  return autoUpdate(anchor, floating, () => {
+    computeFixedPosition(anchor, floating, positionOptions).then((result) => {
+      Object.assign(floating.style, {
+        left: `${result.x}px`,
+        top: `${result.y}px`,
+      });
+      onPosition?.(result);
+    });
+  });
+};

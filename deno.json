@@ -5,7 +5,8 @@
     "./packages/chart",
     "./packages/templates",
     "./packages/docs",
-    "./packages/spike-eject"
+    "./packages/spike-eject",
+    "./packages/spike-headless"
   ],
   "exclude": [
     ".worktrees",

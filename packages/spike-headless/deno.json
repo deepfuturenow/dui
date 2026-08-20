@@ -1,0 +1,13 @@
+{
+  "name": "@dui/spike-headless",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/spike-headless.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2",
+    "lit/decorators.js": "npm:/lit@^3.3.2/decorators.js",
+    "lit/directive.js": "npm:/lit@^3.3.2/directive.js",
+    "@floating-ui/dom": "npm:@floating-ui/dom@^1.7.4"
+  }
+}
