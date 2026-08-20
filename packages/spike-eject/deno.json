@@ -1,0 +1,11 @@
+{
+  "name": "@dui/spike-eject",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/spike-eject.ts"
+  },
+  "imports": {
+    "lit": "npm:lit@^3.3.2",
+    "lit/decorators.js": "npm:/lit@^3.3.2/decorators.js"
+  }
+}

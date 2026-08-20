@@ -4,7 +4,8 @@
     "./packages/map",
     "./packages/chart",
     "./packages/templates",
-    "./packages/docs"
+    "./packages/docs",
+    "./packages/spike-eject"
   ],
   "exclude": [
     ".worktrees",
@@ -12,6 +13,8 @@
     ".design-sync"
   ],
   "imports": {
+    "jsr:@std/path@^1": "./packages/spike-eject/vendor/std-path.ts",
+    "jsr:@std/fs@^1": "./packages/spike-eject/vendor/std-fs.ts",
     "lit": "npm:lit@^3.3.2",
     "lit/decorators.js": "npm:/lit@^3.3.2/decorators.js",
     "lit/directives/unsafe-html.js": "npm:/lit@^3.3.2/directives/unsafe-html.js",

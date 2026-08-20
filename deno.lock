@@ -1236,6 +1236,11 @@
           "npm:maplibre-gl@^5.15.0"
         ]
       },
+      "packages/spike-eject": {
+        "dependencies": [
+          "npm:lit@^3.3.2"
+        ]
+      },
       "packages/templates": {
         "dependencies": [
           "npm:lit@^3.3.2"
@@ -1250,7 +1255,7 @@
           "npm:shiki@3"
         ]
       },
-      "jsr:@dui/primitives@2.3.1": {
+      "jsr:@dui/primitives@2.3.2": {
         "dependencies": [
           "npm:@floating-ui/dom@^1.7.4",
           "npm:@lit/context@^1.1.3",

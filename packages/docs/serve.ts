@@ -8,6 +8,8 @@ const THEME_EDITOR_ENTRY = resolve(import.meta.dirname!, "src/theme-editor.ts");
 const INSPECTOR_ENTRY = resolve(import.meta.dirname!, "src/inspector.ts");
 const PREVIEW_TEMPLATE_ENTRY = resolve(import.meta.dirname!, "src/preview-template.ts");
 const DASHBOARD_EXEMPLAR_ENTRY = resolve(import.meta.dirname!, "src/dashboard-exemplar.ts");
+// Spike branch only: scratch consumer for the "eject select" experiment.
+const SPIKE_EJECT_ENTRY = resolve(import.meta.dirname!, "../spike-eject/src/spike-eject.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -139,11 +141,27 @@ const skillRefsPath = join(WORKSPACE_ROOT, "skills", "dui", "references", "compo
 await Deno.writeTextFile(skillRefsPath, generateComponentsMd());
 console.log("Generated skills/dui/references/components.md");
 
+/**
+ * Explicit `out` names rather than a bare path list. esbuild derives `outbase`
+ * from the entry points' common ancestor directory, so a single entry outside
+ * `packages/docs/src` (SPIKE_EJECT_ENTRY) would push every bundle down a
+ * directory — `/index.js` would become `/docs/src/index.js` and every existing
+ * docs URL would 404. Naming the outputs pins them regardless of outbase.
+ */
+const ENTRY_POINTS = [
+  { in: DOCS_ENTRY, out: "index" },
+  { in: THEME_EDITOR_ENTRY, out: "theme-editor" },
+  { in: INSPECTOR_ENTRY, out: "inspector" },
+  { in: PREVIEW_TEMPLATE_ENTRY, out: "preview-template" },
+  { in: DASHBOARD_EXEMPLAR_ENTRY, out: "dashboard-exemplar" },
+  { in: SPIKE_EJECT_ENTRY, out: "spike-eject" },
+];
+
 const buildMode = Deno.args.includes("--build");
 
 if (buildMode) {
   await esbuild.build({
-    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY, PREVIEW_TEMPLATE_ENTRY, DASHBOARD_EXEMPLAR_ENTRY],
+    entryPoints: ENTRY_POINTS,
     bundle: true,
     format: "esm",
     target: "es2022",
@@ -158,7 +176,7 @@ if (buildMode) {
   esbuild.stop();
 } else {
   const ctx = await esbuild.context({
-    entryPoints: [DOCS_ENTRY, THEME_EDITOR_ENTRY, INSPECTOR_ENTRY, PREVIEW_TEMPLATE_ENTRY, DASHBOARD_EXEMPLAR_ENTRY],
+    entryPoints: ENTRY_POINTS,
     bundle: true,
     format: "esm",
     target: "es2022",
