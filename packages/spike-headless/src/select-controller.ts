@@ -122,6 +122,60 @@ export class SelectController implements ReactiveController {
     this.#itemEls.clear();
   }
 
+  /**
+   * Dev-mode spread check.
+   *
+   * Under this model the consumer owns the markup, so ARIA correctness depends
+   * on them spreading the right bag on the right element. A forgotten
+   * `${spread(c.listboxProps)}` costs `role="listbox"` and
+   * `aria-activedescendant` and shows no visible symptom.
+   *
+   * This is the cheap version: after the first update, check that the elements
+   * the controller needs got attached, and that one sentinel attribute from
+   * each bag actually landed. Roughly 25 lines, runs once, and would be
+   * stripped in a production build.
+   *
+   * What it does NOT catch: a bag spread on the *wrong* element, or the
+   * controller itself putting a handler in the wrong bag (Step 5 probe 3).
+   * Those need tests, not assertions.
+   */
+  hostUpdated(): void {
+    if (this.#checked) return;
+    this.#checked = true;
+
+    const problems: string[] = [];
+    if (!this.#triggerEl) problems.push("triggerProps was never spread");
+    if (!this.#popupEl) problems.push("popupProps was never spread");
+    if (!this.#valueEl) {
+      problems.push(
+        "valueProps was never spread (inner alignment will be off)",
+      );
+    }
+    if (!this.#scrollerHostEl) {
+      problems.push(
+        "scrollerProps was never spread (long lists will mis-position)",
+      );
+    }
+    if (this.#triggerEl?.getAttribute("role") !== "combobox") {
+      problems.push("the element with triggerProps has no role=combobox");
+    }
+    const listbox = this.#popupEl?.querySelector("[role='listbox']");
+    if (!listbox) problems.push("listboxProps was never spread");
+    if (this.options.length > 0 && this.#itemEls.size === 0) {
+      problems.push("itemProps(index) was never spread on any option");
+    }
+
+    if (problems.length) {
+      console.warn(
+        `[SelectController] on <${this.#host.localName}>:\n  - ${
+          problems.join("\n  - ")
+        }`,
+      );
+    }
+  }
+
+  #checked = false;
+
   // ---- Read-only state -----------------------------------------------------
 
   get isOpen(): boolean {
