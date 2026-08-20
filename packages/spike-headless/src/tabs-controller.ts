@@ -265,11 +265,62 @@ export class TabsController implements ReactiveController {
     disabled: boolean,
   ): void => {
     if (disabled) return;
+
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       this.select(value);
+      return;
     }
+
+    // Roving focus, per the W3C APG tabs pattern.
+    //
+    // The library has none. `tabindex` is 0 on the active tab and -1 on the
+    // rest, which is the roving-tabindex SHAPE, but nothing ever moves focus.
+    // So a keyboard user can Tab onto the active tab and cannot reach any other
+    // tab at all. That is not a stylistic gap; the other tabs are unreachable.
+    //
+    // It is short here because the controller knows the whole tab set from
+    // registration. In the library the only element that can see the set is
+    // dui-tabs-list, via slot.assignedElements() filtered by tag name — the
+    // exact coupling this model removes.
+    const forward = this.orientation === "vertical"
+      ? "ArrowDown"
+      : "ArrowRight";
+    const back = this.orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+
+    let target: RegisteredTab | undefined;
+    if (event.key === forward) target = this.#step(value, 1);
+    else if (event.key === back) target = this.#step(value, -1);
+    else if (event.key === "Home") target = this.#edge(1);
+    else if (event.key === "End") target = this.#edge(-1);
+    else return;
+
+    if (!target) return;
+    event.preventDefault();
+    target.element.focus();
   };
+
+  /** Next enabled tab in `direction`, wrapping, skipping disabled ones. */
+  #step(from: string, direction: 1 | -1): RegisteredTab | undefined {
+    const tabs = this.#tabs;
+    const start = tabs.findIndex((t) => t.value === from);
+    if (start < 0 || tabs.length === 0) return undefined;
+    for (let i = 1; i <= tabs.length; i++) {
+      const index = (start + direction * i + tabs.length * tabs.length) %
+        tabs.length;
+      const candidate = tabs[index];
+      if (candidate && !candidate.disabled && candidate.value !== from) {
+        return candidate;
+      }
+    }
+    return undefined;
+  }
+
+  /** First (1) or last (-1) enabled tab. */
+  #edge(direction: 1 | -1): RegisteredTab | undefined {
+    const tabs = direction === 1 ? this.#tabs : [...this.#tabs].reverse();
+    return tabs.find((t) => !t.disabled);
+  }
 
   #requestUpdateEverywhere(): void {
     this.#host.requestUpdate();

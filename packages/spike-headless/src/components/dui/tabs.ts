@@ -204,6 +204,17 @@ export class DuiTabsListH extends LitElement {
 
 export class DuiTabH extends LitElement {
   static tagName = "dui-tab-h" as const;
+
+  /**
+   * The controller moves focus by calling `focus()` on this host, because the
+   * host element is all it has — the button is inside a shadow root the
+   * controller knows nothing about. `delegatesFocus` forwards that to the
+   * button. One more thing the consumer has to get right.
+   */
+  static override shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
   static override styles = [
     base,
     css`
