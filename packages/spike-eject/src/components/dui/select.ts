@@ -31,6 +31,16 @@ const styles = css`
     --select-item-icon-size: var(--space-3_5);
   }
 
+  /* ---- CONSUMER CHANGE 1: size="compact" ----------------------------
+   * A density below the library's smallest (xs). Nothing here needed the
+   * primitive's cooperation: the size attribute was never a declared property
+   * in the first place, so a new value is just a new :host([size]) selector. */
+  :host([size="compact"]) {
+    --select-item-font-size: var(--text-2xs);
+    --select-item-padding-y: var(--space-0_5);
+    --select-item-icon-size: var(--space-2_5);
+  }
+
   :host([size="xs"]) {
     --select-item-font-size: var(--text-xs);
     --select-item-padding-y: var(--space-1);
@@ -72,6 +82,15 @@ const styles = css`
     box-shadow:
       0 0 0 var(--focus-ring-offset) var(--background),
       0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+  }
+
+  :host([size="compact"]) .Trigger {
+    height: var(--component-height-xxs);
+    gap: var(--space-1);
+    padding: var(--space-0_5) var(--space-0_5) var(--space-0_5) var(--space-1_5);
+    border-radius: calc(var(--radius-md) * 0.6);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
   }
 
   :host([size="xs"]) .Trigger {
@@ -118,6 +137,10 @@ const styles = css`
     align-items: center;
     --icon-size: var(--space-4);
     color: var(--text-1);
+  }
+
+  :host([size="compact"]) .Icon {
+    --icon-size: var(--space-2_5);
   }
 
   :host([size="xs"]) .Icon {
@@ -172,6 +195,10 @@ const styles = css`
     padding: var(--space-1);
   }
 
+  :host([size="compact"]) .Listbox {
+    padding: var(--space-0_5);
+  }
+
   .Item {
     gap: var(--space-2);
     padding: var(--select-item-padding-y) var(--space-2);
@@ -202,6 +229,47 @@ const styles = css`
 
   .ItemIndicator dui-icon {
     --icon-size: var(--select-item-icon-size);
+  }
+
+  /* ---- CONSUMER CHANGE 2: leading-chevron ----------------------------
+   * Move the chevron to the leading edge and swap it for a stacked
+   * up/down glyph.
+   *
+   * This is a render-tree change, and the render tree is closed: every value
+   * the primitive's template binds is a #private field, so overriding
+   * render() does not compile (see ../experiments/attempted-render-override.ts
+   * — 11 errors for the trigger half alone). What is left is to fake it from
+   * the stylesheet.
+   *
+   * Reordering is honest enough — row-reverse is a real layout tool.
+   * Replacing the glyph is not: the chevron <svg> is hardcoded inside the
+   * primitive's template, so the only way to change it is to hide it and
+   * repaint the <dui-icon> box with a masked data URI. The black in that
+   * URI is not a color — a mask reads alpha only — but it is still a literal
+   * in a codebase whose rule is "no hardcoded colors", which is a fair sign of
+   * how far outside the intended path this sits. */
+  :host([leading-chevron]) .Trigger {
+    flex-direction: row-reverse;
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  }
+
+  :host([leading-chevron][size="compact"]) .Trigger {
+    padding: var(--space-0_5) var(--space-1_5) var(--space-0_5) var(--space-0_5);
+  }
+
+  /* Hide the primitive's chevron. The <svg> is a light child of <dui-icon>
+     inside *this* shadow root, so it is reachable from here — the one piece
+     of luck in the whole change. */
+  :host([leading-chevron]) .Icon svg {
+    display: none;
+  }
+
+  :host([leading-chevron]) .Icon dui-icon {
+    background-color: currentColor;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 15 5 5 5-5'/%3E%3Cpath d='m7 9 5-5 5 5'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
   }
 `;
 

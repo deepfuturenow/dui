@@ -63,6 +63,20 @@
     <div class="cell"><span class="label">15 options</span><dui-select data-options="many" value="mango"></dui-select></div>
   </div>
 
+  <h2>Step 4, change 1 — <code>size="compact"</code>, denser than the library's smallest</h2>
+  <div class="row">
+    <div class="cell"><span class="label">size="compact"</span><dui-select size="compact" value="apple"></dui-select></div>
+    <div class="cell"><span class="label">size="xs" (library's smallest)</span><dui-select size="xs" value="apple"></dui-select></div>
+    <div class="cell"><span class="label">(default)</span><dui-select value="apple"></dui-select></div>
+  </div>
+
+  <h2>Step 4, change 2 — <code>leading-chevron</code>, a render-tree change faked in CSS</h2>
+  <div class="row">
+    <div class="cell"><span class="label">leading-chevron</span><dui-select leading-chevron value="apple"></dui-select></div>
+    <div class="cell"><span class="label">leading-chevron size="compact"</span><dui-select leading-chevron size="compact" value="apple"></dui-select></div>
+    <div class="cell"><span class="label">unmodified</span><dui-select value="apple"></dui-select></div>
+  </div>
+
   <h2>Step 3 — tag collision probe</h2>
   <pre id="collision">running…</pre>
 </body>
