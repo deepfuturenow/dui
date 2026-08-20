@@ -7,6 +7,12 @@ the type checker. `dui-primitives` and `@dui/core` are unmodified.
 Read `packages/spike-eject/FINDINGS.md` first. This spike exists because that
 one failed at exactly one thing: the template wasn't in the copied file.
 
+This document covers two conversions: **select** (one element) and **tabs**
+(five elements coordinated through `@lit/context`). Sections 1–7 and 9–10 were
+written from select and still hold;
+[section 8](#8-converting-a-compound-component-tabs) is the tabs conversion and
+replaces the estimate that used to be there.
+
 ## Summary
 
 **The model works, and it delivers the thing the previous spike couldn't.**
@@ -18,6 +24,15 @@ one failed at exactly one thing: the template wasn't in the copied file.
 | Add a compact size                | 27 lines of CSS                                                                        | 20 lines of CSS                      |
 | Rename something upstream         | **Silent** total breakage, clean type check                                            | **Compile error at the spread site** |
 | Visual fidelity                   | 0 differing pixels                                                                     | 0 differing pixels, closed and open  |
+
+Tabs then answered the question select couldn't: a compound component works too,
+but it costs **two registration protocols**, and the second one is not obvious
+until something breaks silently. See
+[section 8](#8-converting-a-compound-component-tabs).
+
+Converting tabs also turned up **two shipped components that are completely
+non-functional** — unrelated to this model, fixed in a separate commit. See
+[section 8.5](#85-two-library-bugs-found-on-the-way).
 
 Two costs, both real and neither fatal:
 
@@ -538,43 +553,181 @@ compile error. It would not help probe 3.
 
 ---
 
-## 8. What this model costs the library
+## 8. Converting a compound component: tabs
 
-The library still ships a ready-to-use `<dui-select>`, and under this model that
-is the same file the CLI emits. So the cost is not duplication — it's that
-**every primitive has to be turned inside out once.**
+Select is one element. Tabs is five — `dui-tabs`, `dui-tabs-list`, `dui-tab`,
+`dui-tabs-panel`, `dui-tabs-indicator` — **composed by the consuming app in its
+own light DOM** and coordinated through `@lit/context`. This is the case that
+decides whether the model scales, so it was converted rather than estimated.
 
-From what select showed, per component:
+**It works. Parity is exact.** Measured against the library under identical
+markup:
 
-- Delete `render()`, move it to the styled file. Mechanical.
-- Convert every attribute in that template into a named prop-bag entry. This is
-  the real work and the real API decision: bag boundaries are a public contract
-  from then on.
-- Replace every `querySelector` with a ref, and audit each one for the
-  resolve-too-early hazard from [break 2](#break-2-refs-resolve-too-early).
-- Keep form association on the element. `attachInternals()` is element-only, so
-  it cannot move to a controller. Five lines per component in the owned file,
-  which is fine — the owned file _is_ a custom element.
+| State                                      | Differing pixels |
+| ------------------------------------------ | ---------------: |
+| Horizontal, initial                        | **0** of 106,080 |
+| Horizontal, after selecting the second tab | **0** of 106,080 |
+| Vertical, initial                          |  **0** of 97,920 |
 
-Select took roughly a day and is a **single-element** component. The three I'd
-expect to be hardest:
+Panel switching, click, <kbd>Enter</kbd>, <kbd>Space</kbd>, and disabled-tab
+handling all match. So does the library's _absence_ of arrow-key navigation —
+deliberately, at that point, to keep the comparison honest.
 
-1. **`sidebar` — 14 elements, coordinated by `@lit/context`.** The context
-   provider is an element today. Under a controller model you have to decide
-   whether context stays element-to-element (so the owned files must render
-   provider elements in the right nesting) or moves into the controller (so one
-   controller serves many owned files and has to be shared — a much bigger API
-   question than anything select raised).
+### The design decision: the context payload is the controller
+
+Two ways to wire a compound controller:
+
+| Approach                                                                               | Verdict                                                                                                                                                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Keep a plain `{value, orientation, select}` context; give each part its own controller | Rejected. The interesting logic — which tab is active, where the indicator goes, where focus moves — is about the **set** of tabs, and no per-part controller can see the set. |
+| **Provide the controller instance itself through context**                             | Chosen. One controller on the root; every part pulls its own bag.                                                                                                              |
+
+That choice is what makes the good results below possible. It also has a price,
+paid twice, and both instalments were discovered by something breaking rather
+than by design.
+
+### Cost 1: tabs must register themselves
+
+The controller cannot find the tabs. They are consumer-authored elements, in
+light DOM, named whatever the owned file names them. So each tab announces
+itself on connect and withdraws on disconnect.
+
+What this replaces is worth quoting, because it is the same disease the previous
+spike diagnosed, one layer deeper:
+
+```ts
+// dui-tabs-list, in the library
+const activeTab = slottedElements.find(
+  (el) =>
+    el.tagName === "DUI-TAB" && el.getAttribute("value") === this._ctx?.value,
+);
+```
+
+A **tag name hardcoded into the behaviour layer**. An app that owns its tabs
+file and calls the element anything else loses the indicator, silently.
+Registration removes the guess entirely.
+
+### Cost 2: _every_ part must register — and this one is nasty
+
+`@consume` re-renders a consumer when the context value changes **identity**.
+The library rebuilds its plain context object on every change:
+
+```ts
+override willUpdate(): void {
+  this._ctx = this.#buildContext();   // new object every time
+}
+```
+
+so its consumers re-render for free. A controller instance is deliberately
+**stable**, so nothing propagates. Selecting a tab updated the tabs (they were
+registered) and updated nothing else: the list never re-rendered, so the
+indicator never moved.
+
+There was no error. No warning. `deno check` clean. The only symptom was
+**17,805 differing pixels** in the after-selection screenshot.
+
+The fix is a second registration protocol: list and panel join an update set the
+controller drives by hand.
+
+**This is the finding select could not have produced.** Making the controller
+the context payload means giving up Lit's propagation semantics and
+reimplementing the part of them you gave up. Any conversion of a context-using
+family will hit it. It is not hard — it is just invisible until you diff pixels.
+
+### The payoff: an accessibility gap the library structurally cannot close
+
+The library's tabs have **no arrow-key navigation at all**. `tabindex` is 0 on
+the active tab and −1 on the rest — the roving-tabindex _shape_ — but nothing
+ever moves focus. A keyboard user can Tab onto the active tab and reach **no
+other tab**. Those are unreachable controls, not a styling nit.
+
+Adding it to the controller took ~45 lines. Verified: wraps, skips the disabled
+tab in both directions, <kbd>Home</kbd>/<kbd>End</kbd> land on the first and
+last _enabled_ tab, and orientation picks the axis.
+
+The point isn't the feature, it's **where it can live**. The controller already
+knows the whole tab set from registration, so this is local and obvious. In the
+library the only element that can see the set is `dui-tabs-list`, through
+`slot.assignedElements()` filtered by tag name — so the library would have to
+_extend_ the exact coupling this model exists to remove.
+
+One cost recorded: the controller holds host elements, not the buttons inside
+their shadow roots, so it moves focus with `host.focus()` and the owned file
+must set `delegatesFocus`. Another entry for
+[the ownership table](#7-what-the-consumer-now-owns).
+
+### Size
+
+|                                                     | Lines |
+| --------------------------------------------------- | ----: |
+| Library tabs (5 primitives + 5 styled files)        |   599 |
+| `tabs-controller.ts`                                |   278 |
+| owned `tabs.ts` (all five elements, styles, wiring) |   481 |
+
+The owned file is **one file, not five**, matching the analogue — shadcn ships a
+single `tabs.tsx` exporting Tabs, TabsList, TabsTrigger and TabsContent. The
+parts are meaningless apart, and splitting them would put the composition
+contract back into import paths.
+
+### What this implies for the rest of the library
+
+Tabs took about half of what select took, because the pattern was known. The
+scope number is not "16 primitives use `@lit/context`" — several of those only
+provide. The ones still genuinely unknown:
+
+1. **`sidebar` — 14 elements.** Untouched by this conversion, and the largest.
 2. **`toast` — 7 elements plus a global queue and swipe gestures.** State
-   outlives any single element, so "the host" is ambiguous. Whose
+   outlives any single element, so "the host" is ambiguous: whose
    `ReactiveControllerHost` owns the queue?
-3. **`data-table`** — not context-heavy, but its state (sorting, selection,
-   column sizing, virtualisation) is large enough that the prop-bag surface may
-   be bigger than the component. The bag-per-cell cost is unproven and
-   `itemProps(index)` already hints at the shape of that problem.
+3. **`data-table`** — not context-heavy, but sorting, selection, column sizing
+   and virtualisation may make the prop-bag surface larger than the component.
 
-Sixteen of the primitives use `@lit/context`. That's the real scope number, not
-the component count.
+Tabs makes me more confident about 1 and less worried in general: the two
+registration protocols are the whole pattern, and they generalise.
+
+---
+
+## 8.5 Two library bugs found on the way
+
+Neither is related to this model. Both are one-line import-order fixes,
+committed separately (`8da9dad`) so they can be cherry-picked.
+
+A Lit `ContextConsumer` dispatches its `context-request` **exactly once**, in
+`hostConnected()`, and never retries — that is what `ContextRoot` is for, and
+DUI doesn't use one. `customElements.define()` upgrades every matching element
+in the document immediately. So whichever family member `index.ts` imports first
+upgrades first, and if that is a _consumer_, it connects and asks for a context
+whose provider is still an undefined element. **The answer never comes.**
+
+**`tabs`** imported `tab.ts` before `tabs.ts`. Measured in isolation, importing
+nothing but `@dui/components/tabs`:
+
+```
+before:  one:sel=false,ti=-1   two:sel=false,ti=-1
+after:   one:sel=true,ti=0     two:sel=false,ti=-1
+```
+
+Before the fix, clicking a tab did nothing and panels never switched. With
+`tabindex="-1"` on every tab, the tab list could not be reached by keyboard at
+all. This wasn't obvious because the _indicator still highlighted the right tab_
+— `dui-tabs-list` and `dui-tabs-panel` are imported after `dui-tabs` and were
+fine. Only `dui-tab` was starved.
+
+**`toggle`** has the same shape, `toggle.ts` before `toggle-group.ts`. A/B'd
+with identical valid markup (`default-value='["left"]'`):
+
+```
+before:  initial selection ignored; single-select never deselected, so
+         "center" and "right" were both pressed at once
+after:   initial selection honoured; single-select deselects correctly
+```
+
+I swept every family in `packages/components` whose primitive provides a
+context. These two are the only ones affected.
+`packages/docs/static/context-order-probe.html` reproduces both in isolation.
+
+Worth adding a regression test that asserts `aria-selected` on first paint.
+Neither bug is visible to a type checker, a linter, or a screenshot.
 
 ---
 
@@ -602,18 +755,31 @@ rename — because the styles would still be targeting someone else's markup.
 Hooks fix the _sealed template_; only this model fixes the _split between markup
 and styles_, which is what the previous spike identified as the root cause.
 
+**Tabs did not change this verdict; it strengthened it.** The compound case was
+the open question, and it converted to exact pixel parity with two registration
+protocols and no architectural surprises. The second protocol — every part must
+register, because a stable controller instance never triggers `@consume` — is a
+genuine trap, but it is one pattern, learned once, and it announces itself the
+moment you diff pixels.
+
 If this proceeds, the order I'd suggest: fix the two `@dui/core` class-name
 couplings first (they are bugs regardless), brand the prop-bag types, then
-convert one compound context-using component — `tabs` or `menu`, not `sidebar` —
-because that, not select, is where this model's real cost is still unknown.
+convert `toast` — not `sidebar`. Sidebar is the biggest but it is more of what
+tabs already proved. Toast is the one with state that outlives any element, and
+that is the last question this spike hasn't answered.
 
 ---
 
 ## 10. Known problems with this experiment
 
-- **One component, and the easy structural case.** Select is a single element.
-  Every question about compound components coordinating via context — 16 of the
-  primitives — is untouched. Section 8 is an estimate, not a measurement.
+- **Two components, not the hardest ones.** Select is one element; tabs is five
+  but its state is small and entirely local. `toast` (a queue outliving any
+  element) and `data-table` (state larger than the component) are untouched, and
+  section 8's read on them is inference, not measurement.
+- **Tabs' parity was measured against a library I had just fixed.** The
+  import-order bugs in section 8.5 meant the library's tabs were non-functional
+  when the comparison began. The fix is one line and independently A/B'd, but
+  the baseline is not the code as it shipped.
 - **The controller is a copy, so the update probes are simulated.** Probes 1–3
   edited the spike's own copy, not a published package. A real upgrade also
   carries version resolution and lockfiles, which this can't model.
@@ -636,11 +802,12 @@ because that, not select, is where this model's real cost is still unknown.
 
 ## Evidence
 
-| File                                | What it shows                                                       |
-| ----------------------------------- | ------------------------------------------------------------------- |
-| `evidence/01-closed-comparison.png` | Library and owned selects paired under identical markup             |
-| `evidence/02-step4-changes.png`     | The three consumer changes live                                     |
-| `evidence/03-three-approaches.png`  | 4x. Top: external CSS. Middle: copied subclass. Bottom: owned file. |
+| File                                | What it shows                                                           |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| `evidence/01-closed-comparison.png` | Library and owned selects paired under identical markup                 |
+| `evidence/02-step4-changes.png`     | The three consumer changes live                                         |
+| `evidence/03-three-approaches.png`  | 4x. Top: external CSS. Middle: copied subclass. Bottom: owned file.     |
+| `evidence/04-tabs-comparison.png`   | Library and owned tabs, horizontal and vertical, under identical markup |
 
 Measured parity, from commit `3cd852e`:
 
@@ -658,5 +825,7 @@ Measured parity, from commit `3cd852e`:
 deno task dev
 ```
 
-- `http://localhost:4040/spike-headless.html` — this spike
+- `http://localhost:4040/spike-headless.html` — this spike: select and tabs
 - `http://localhost:4040/spike-eject.html` — the previous spike, for comparison
+- `http://localhost:4040/context-order-probe.html` — reproduces the two library
+  bugs from section 8.5 in isolation (revert commit `8da9dad` to see them fail)
