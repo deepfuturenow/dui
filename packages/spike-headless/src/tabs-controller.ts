@@ -72,6 +72,20 @@ export class TabsController implements ReactiveController {
    * told, and never guesses.
    */
   #tabs: RegisteredTab[] = [];
+
+  /**
+   * Every part element, for update propagation.
+   *
+   * This is the second half of the price of making the controller itself the
+   * context payload. `@consume` re-renders a consumer when the context VALUE
+   * changes identity. The library rebuilds its plain `{value, orientation,
+   * select}` object on every change, so consumers re-render for free. A
+   * controller instance is deliberately stable, so nothing propagates and the
+   * parts silently keep rendering stale state — the indicator simply never
+   * moved. Every part therefore has to register so the controller can update
+   * it by hand. See FINDINGS.
+   */
+  #parts = new Set<ReactiveControllerHost>();
   #listEl: HTMLElement | null = null;
   #resizeObserver: ResizeObserver | null = null;
 
@@ -93,6 +107,7 @@ export class TabsController implements ReactiveController {
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = null;
     this.#tabs = [];
+    this.#parts.clear();
     this.#listEl = null;
   }
 
@@ -118,6 +133,15 @@ export class TabsController implements ReactiveController {
 
   // ---- Registration --------------------------------------------------------
 
+  /** Any part element joins the update set. Returns its unregister function. */
+  registerPart(part: ReactiveControllerHost): () => void {
+    this.#parts.add(part);
+    part.requestUpdate();
+    return () => {
+      this.#parts.delete(part);
+    };
+  }
+
   /**
    * Called by each tab element on connect. Returns its unregister function.
    *
@@ -125,20 +149,26 @@ export class TabsController implements ReactiveController {
    * position rather than by registration order — upgrade order is not DOM
    * order when elements are defined lazily.
    */
-  registerTab(element: HTMLElement, value: string, disabled: boolean): () => void {
+  registerTab(
+    element: HTMLElement,
+    value: string,
+    disabled: boolean,
+  ): () => void {
     this.#tabs = [...this.#tabs.filter((t) => t.element !== element), {
       element,
       value,
       disabled,
     }].sort((a, b) =>
       a.element.compareDocumentPosition(b.element) &
-          Node.DOCUMENT_POSITION_FOLLOWING
+        Node.DOCUMENT_POSITION_FOLLOWING
         ? -1
         : 1
     );
+    this.#parts.add(element as unknown as ReactiveControllerHost);
     this.#host.requestUpdate();
     return () => {
       this.#tabs = this.#tabs.filter((t) => t.element !== element);
+      this.#parts.delete(element as unknown as ReactiveControllerHost);
     };
   }
 
@@ -186,7 +216,8 @@ export class TabsController implements ReactiveController {
       "@click": () => {
         if (!disabled) this.select(value);
       },
-      "@keydown": (event: KeyboardEvent) => this.#onTabKeyDown(event, value, disabled),
+      "@keydown": (event: KeyboardEvent) =>
+        this.#onTabKeyDown(event, value, disabled),
     };
   }
 
@@ -219,13 +250,20 @@ export class TabsController implements ReactiveController {
 
     const listRect = list.getBoundingClientRect();
     const tabRect = active.element.getBoundingClientRect();
-    list.style.setProperty("--active-tab-left", `${tabRect.left - listRect.left}px`);
+    list.style.setProperty(
+      "--active-tab-left",
+      `${tabRect.left - listRect.left}px`,
+    );
     list.style.setProperty("--active-tab-width", `${tabRect.width}px`);
   }
 
   // ---- Handlers ------------------------------------------------------------
 
-  #onTabKeyDown = (event: KeyboardEvent, value: string, disabled: boolean): void => {
+  #onTabKeyDown = (
+    event: KeyboardEvent,
+    value: string,
+    disabled: boolean,
+  ): void => {
     if (disabled) return;
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -235,9 +273,6 @@ export class TabsController implements ReactiveController {
 
   #requestUpdateEverywhere(): void {
     this.#host.requestUpdate();
-    for (const tab of this.#tabs) {
-      (tab.element as HTMLElement & { requestUpdate?: () => void })
-        .requestUpdate?.();
-    }
+    for (const part of this.#parts) part.requestUpdate();
   }
 }
