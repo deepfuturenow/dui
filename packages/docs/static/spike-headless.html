@@ -64,6 +64,15 @@
     <div class="cell"><span class="label">headless</span><dui-select-h data-options="disabled" value="a"></dui-select-h></div>
   </div>
 
+  <h2>Step 4 — the three consumer changes, made only in select.ts</h2>
+  <div class="row">
+    <div class="cell"><span class="label">compact</span><dui-select-h size="compact" value="apple"></dui-select-h></div>
+    <div class="cell"><span class="label">xs (for scale)</span><dui-select-h size="xs" value="apple"></dui-select-h></div>
+    <div class="cell"><span class="label">badge</span><dui-select-h badge value="cherry"></dui-select-h></div>
+    <div class="cell"><span class="label">badge + compact</span><dui-select-h badge size="compact" data-options="many" value="mango"></dui-select-h></div>
+  </div>
+  <p>The leading chevron is not a variant — the markup moved, so every instance has it.</p>
+
   <h2>Form association</h2>
   <form id="probe-form" class="row">
     <div class="cell"><span class="label">library, name="fruit-lib"</span><dui-select name="fruit-lib" value="banana"></dui-select></div>

@@ -141,6 +141,28 @@ const styles = css`
     --select-item-icon-size: var(--space-3_5);
   }
 
+  /* ---- CONSUMER CHANGE 3: count badge in the trigger ---- */
+  .badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--space-1_5);
+    height: var(--space-4);
+    border-radius: var(--radius-full);
+    background: oklch(from var(--foreground) l c h / 0.08);
+    color: var(--text-2);
+    font-size: var(--text-2xs);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- CONSUMER CHANGE 1: size="compact" ---- */
+  :host([size="compact"]) {
+    --select-item-font-size: var(--text-2xs);
+    --select-item-padding-y: var(--space-0_5);
+    --select-item-icon-size: var(--space-2_5);
+  }
+
   :host([size="xs"]) {
     --select-item-font-size: var(--text-xs);
     --select-item-padding-y: var(--space-1);
@@ -162,7 +184,8 @@ const styles = css`
   .trigger {
     height: var(--component-height-md);
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+    /* CONSUMER CHANGE 2: was 2/2/2/3, flipped now the icon leads. */
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
     border: var(--border-width-thin) solid var(--border);
     border-radius: var(--radius-md);
     background: transparent;
@@ -186,9 +209,18 @@ const styles = css`
       var(--focus-ring-color);
   }
 
+  :host([size="compact"]) .trigger {
+    height: var(--component-height-xxs);
+    gap: var(--space-1);
+    padding: var(--space-0_5) var(--space-1_5) var(--space-0_5) var(--space-0_5);
+    border-radius: calc(var(--radius-md) * 0.6);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+  }
+
   :host([size="xs"]) .trigger {
     height: var(--component-height-xs);
-    padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+    padding: var(--space-1) var(--space-2) var(--space-1) var(--space-1);
     border-radius: calc(var(--radius-md) * 0.8);
     font-size: var(--text-xs);
   }
@@ -230,6 +262,10 @@ const styles = css`
     align-items: center;
     --icon-size: var(--space-4);
     color: var(--text-1);
+  }
+
+  :host([size="compact"]) .icon {
+    --icon-size: var(--space-2_5);
   }
 
   :host([size="xs"]) .icon {
@@ -282,6 +318,10 @@ const styles = css`
 
   .listbox {
     padding: var(--space-1);
+  }
+
+  :host([size="compact"]) .listbox {
+    padding: var(--space-0_5);
   }
 
   .item {
@@ -357,6 +397,10 @@ export class DuiSelectH extends LitElement {
   @property({ type: String })
   accessor name = "";
 
+  /** Show a "position of total" badge in the trigger. */
+  @property({ type: Boolean, reflect: true })
+  accessor badge = false;
+
   #select = new SelectController(this, {
     getOptions: () => this.options,
     getValue: () => this.value,
@@ -375,14 +419,22 @@ export class DuiSelectH extends LitElement {
     },
   });
 
+  /**
+   * The controller exposes `options`, `selectedOption`, `displayValue`,
+   * `hasValue`, `highlightedIndex` and `isOpen` — but not `selectedIndex`, which
+   * it keeps private for its own alignment maths. Recomputing it here from
+   * public state is one line and needs nothing private, but the controller
+   * should just expose it. See FINDINGS step 4, change 3.
+   */
+  get #selectedIndex(): number {
+    return this.#select.options.findIndex((o) => o.value === this.value);
+  }
+
   override render(): TemplateResult {
     const c = this.#select;
 
     return html`
       <div class="trigger" part="trigger" ${spread(c.triggerProps)}>
-        <span class="value" part="value" ${spread(c.valueProps)}>
-          ${c.hasValue ? c.displayValue : this.placeholder}
-        </span>
         <span class="icon">
           <dui-icon>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -392,6 +444,14 @@ export class DuiSelectH extends LitElement {
             </svg>
           </dui-icon>
         </span>
+        <span class="value" part="value" ${spread(c.valueProps)}>
+          ${c.hasValue ? c.displayValue : this.placeholder}
+        </span>
+        ${this.badge && c.hasValue
+          ? html`<span class="badge" part="badge">${
+            this.#selectedIndex + 1
+          }/${c.options.length}</span>`
+          : nothing}
       </div>
 
       <div class="popup" part="popup" ${spread(c.popupProps)}>
