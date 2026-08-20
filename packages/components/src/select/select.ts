@@ -10,24 +10,28 @@ const styles = css`
    * --------------------------------------------------------------- */
 
   :host {
+    --select-icon-size: var(--space-4);
     --select-item-font-size: var(--text-sm);
     --select-item-padding-y: var(--space-1_5);
     --select-item-icon-size: var(--space-3_5);
   }
 
   :host([size="xs"]) {
+    --select-icon-size: var(--space-3);
     --select-item-font-size: var(--text-xs);
     --select-item-padding-y: var(--space-1);
     --select-item-icon-size: var(--space-3);
   }
 
   :host([size="sm"]) {
+    --select-icon-size: var(--space-3_5);
     --select-item-font-size: var(--text-xs);
     --select-item-padding-y: var(--space-1_5);
     --select-item-icon-size: var(--space-3_5);
   }
 
   :host([size="lg"]) {
+    --select-icon-size: var(--space-4);
     --select-item-font-size: var(--text-sm);
     --select-item-padding-y: var(--space-1_5);
     --select-item-icon-size: var(--space-4);
@@ -100,20 +104,8 @@ const styles = css`
   .Icon {
     display: flex;
     align-items: center;
-    --icon-size: var(--space-4);
+    --icon-size: var(--select-icon-size);
     color: var(--text-1);
-  }
-
-  :host([size="xs"]) .Icon {
-    --icon-size: var(--space-3);
-  }
-
-  :host([size="sm"]) .Icon {
-    --icon-size: var(--space-3_5);
-  }
-
-  :host([size="lg"]) .Icon {
-    --icon-size: var(--space-4);
   }
 
   /* ---- Popup (native top-layer [popover]) ---- */

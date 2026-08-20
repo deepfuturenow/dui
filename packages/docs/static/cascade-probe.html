@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cascade reachability probe</title>
+  <script type="module" src="./cascade-probe.js"></script>
+  <style>
+    body { margin: 0; padding: 24px; background: var(--background); color: var(--foreground); font-family: system-ui; }
+    h2 { font-size: 13px; margin: 20px 0 6px; color: var(--text-2); font-family: ui-monospace, monospace; }
+    .grid { display: grid; grid-template-columns: 260px 260px; gap: 16px 32px; align-items: start; }
+    .col-head { font: 11px ui-monospace, monospace; color: var(--text-3); }
+
+    /* The consumer override, applied only to the right column. */
+    .override dui-select        { --select-icon-size: 10px; }
+    .override dui-combobox      { --combobox-icon-size: 10px; --combobox-chip-icon-size: 10px; }
+    .override dui-breadcrumb-separator { --breadcrumb-separator-icon-size: 10px; }
+    .override dui-command-item  { --command-item-icon-size: 10px; }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <span class="col-head">unmodified</span><span class="col-head">with consumer override</span>
+  </div>
+
+  <h2>dui-select (trigger chevron)</h2>
+  <div class="grid">
+    <div><dui-select value="apple"></dui-select></div>
+    <div class="override"><dui-select value="apple"></dui-select></div>
+  </div>
+
+  <h2>dui-combobox (arrow)</h2>
+  <div class="grid">
+    <div><dui-combobox value="apple"></dui-combobox></div>
+    <div class="override"><dui-combobox value="apple"></dui-combobox></div>
+  </div>
+
+  <h2>dui-breadcrumb (separator)</h2>
+  <div class="grid">
+    <div><dui-breadcrumb><dui-breadcrumb-item href="#">Home</dui-breadcrumb-item><dui-breadcrumb-separator><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></dui-icon></dui-breadcrumb-separator><dui-breadcrumb-item href="#">Docs</dui-breadcrumb-item></dui-breadcrumb></div>
+    <div class="override"><dui-breadcrumb><dui-breadcrumb-item href="#">Home</dui-breadcrumb-item><dui-breadcrumb-separator><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></dui-icon></dui-breadcrumb-separator><dui-breadcrumb-item href="#">Docs</dui-breadcrumb-item></dui-breadcrumb></div>
+  </div>
+
+  <h2>dui-command-item (slotted icon)</h2>
+  <div class="grid">
+    <div><dui-command-item><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></dui-icon>Open file</dui-command-item></div>
+    <div class="override"><dui-command-item><dui-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></dui-icon>Open file</dui-command-item></div>
+  </div>
+</body>
+</html>

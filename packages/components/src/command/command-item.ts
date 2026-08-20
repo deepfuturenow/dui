@@ -3,6 +3,10 @@ import { DuiCommandItemPrimitive } from "@dui/primitives/command";
 import "../_install.ts";
 
 const styles = css`
+  :host {
+    --command-item-icon-size: var(--space-4);
+  }
+
   .Item {
     gap: var(--space-2);
     border-radius: var(--radius-sm);
@@ -21,7 +25,7 @@ const styles = css`
   }
 
   ::slotted(dui-icon) {
-    --icon-size: var(--space-4);
+    --icon-size: var(--command-item-icon-size);
     color: var(--text-2);
   }
 `;

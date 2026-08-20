@@ -170,6 +170,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Description: Visual separator between breadcrumb items. Defaults to "/".
 - Events: none
 - Slots: default (Custom separator content (defaults to "/"))
+- CSS Variables: --breadcrumb-separator-icon-size (Size of a slotted icon separator)
 
 ### Breadcrumb Ellipsis
 - Tag: `<dui-breadcrumb-ellipsis>`
@@ -229,6 +230,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Description: Searchable dropdown with single and multi-select modes.
 - Properties: options (SelectOption[], []), value (string, ""), values (Set<string>, new Set()), multiple (boolean, false), placeholder (string, "Search..."), disabled (boolean, false), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption }), values-change ({ value: string; selected: boolean; values: Set<string> })
+- CSS Variables: --combobox-icon-size (Trigger arrow size (follows size; override to decouple)), --combobox-chip-icon-size (Chip remove-button icon size (multi-select)), --combobox-item-font-size (Option row font size), --combobox-item-padding-y (Option row vertical padding), --combobox-item-icon-size (Option row check-mark size)
 
 ### Dialog
 - Tag: `<dui-dialog>`
@@ -561,6 +563,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Description: A dropdown select for choosing from a list of predefined options.
 - Properties: options (SelectOption[], []), value (string, ""), placeholder (string, "Select..."), disabled (boolean, false), align-item-to-trigger (boolean, true), name (string, "")
 - Events: value-change ({ value: string; option: SelectOption })
+- CSS Variables: --select-icon-size (Trigger chevron size (follows size; override to decouple)), --select-item-font-size (Option row font size), --select-item-padding-y (Option row vertical padding), --select-item-icon-size (Option row check-mark size)
 - CSS Parts: trigger (The select trigger button), value (The selected value display)
 
 ### Preview Card
@@ -633,6 +636,7 @@ If the project has a DESIGN.md, extract the OKLCH values and pass them to `apply
 - Properties: value (string, ""), keywords (string[], []), disabled (boolean, false)
 - Events: none
 - Slots: default (Item content)
+- CSS Variables: --command-item-icon-size (Size of a slotted leading icon)
 
 ### Command Empty
 - Tag: `<dui-command-empty>`

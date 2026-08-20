@@ -10,24 +10,29 @@ const styles = css`
    * --------------------------------------------------------------- */
 
   :host {
+    --combobox-icon-size: var(--space-4);
+    --combobox-chip-icon-size: var(--space-3_5);
     --combobox-item-font-size: var(--text-sm);
     --combobox-item-padding-y: var(--space-2);
     --combobox-item-icon-size: var(--space-3_5);
   }
 
   :host([size="xs"]) {
+    --combobox-icon-size: var(--space-3);
     --combobox-item-font-size: var(--text-xs);
     --combobox-item-padding-y: var(--space-1);
     --combobox-item-icon-size: var(--space-3);
   }
 
   :host([size="sm"]) {
+    --combobox-icon-size: var(--space-3_5);
     --combobox-item-font-size: var(--text-xs);
     --combobox-item-padding-y: var(--space-1_5);
     --combobox-item-icon-size: var(--space-3_5);
   }
 
   :host([size="lg"]) {
+    --combobox-icon-size: var(--space-4);
     --combobox-item-font-size: var(--text-sm);
     --combobox-item-padding-y: var(--space-2);
     --combobox-item-icon-size: var(--space-4);
@@ -135,21 +140,12 @@ const styles = css`
   }
 
   .Arrow {
-    --icon-size: var(--space-4);
+    --icon-size: var(--combobox-icon-size);
     right: var(--space-2);
     color: var(--text-1);
   }
 
-  :host([size="xs"]) .Arrow {
-    --icon-size: var(--space-3);
-  }
-
-  :host([size="sm"]) .Arrow {
-    --icon-size: var(--space-3_5);
-  }
-
   :host([size="lg"]) .Arrow {
-    --icon-size: var(--space-4);
     right: var(--space-3);
   }
 
@@ -174,7 +170,7 @@ const styles = css`
     padding: var(--space-0_5);
     color: inherit;
     border-radius: var(--radius-sm);
-    --icon-size: var(--space-3_5);
+    --icon-size: var(--combobox-chip-icon-size);
   }
 
   .ChipRemove:hover {

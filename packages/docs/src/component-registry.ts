@@ -206,7 +206,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Custom separator content (defaults to \"/\")" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--breadcrumb-separator-icon-size", description: "Size of a slotted icon separator" },
+    ],
   },
   {
     tagName: "dui-breadcrumb-ellipsis",
@@ -393,7 +395,13 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "values-change", detail: "{ value: string; selected: boolean; values: Set<string> }", description: "Fired on multi-select change" },
     ],
     slots: [],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--combobox-icon-size", description: "Trigger arrow size (follows size; override to decouple)" },
+      { name: "--combobox-chip-icon-size", description: "Chip remove-button icon size (multi-select)" },
+      { name: "--combobox-item-font-size", description: "Option row font size" },
+      { name: "--combobox-item-padding-y", description: "Option row vertical padding" },
+      { name: "--combobox-item-icon-size", description: "Option row check-mark size" },
+    ],
     themeAttributes: [
       { name: "size", values: '"xs" | "sm" | "md" | "lg"', description: "Component size" },
     ],
@@ -1307,7 +1315,12 @@ export const componentRegistry: ComponentMeta[] = [
       { name: "value-change", detail: "{ value: string; option: SelectOption }", description: "Fired when the selected value changes" },
     ],
     slots: [],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--select-icon-size", description: "Trigger chevron size (follows size; override to decouple)" },
+      { name: "--select-item-font-size", description: "Option row font size" },
+      { name: "--select-item-padding-y", description: "Option row vertical padding" },
+      { name: "--select-item-icon-size", description: "Option row check-mark size" },
+    ],
     cssParts: [
       { name: "trigger", description: "The select trigger button" },
       { name: "value", description: "The selected value display" },
@@ -1488,7 +1501,9 @@ export const componentRegistry: ComponentMeta[] = [
     slots: [
       { name: "default", description: "Item content" },
     ],
-    cssProperties: [],
+    cssProperties: [
+      { name: "--command-item-icon-size", description: "Size of a slotted leading icon" },
+    ],
   },
   {
     tagName: "dui-command-empty",

@@ -12,6 +12,7 @@ const DASHBOARD_EXEMPLAR_ENTRY = resolve(import.meta.dirname!, "src/dashboard-ex
 const SPIKE_EJECT_ENTRY = resolve(import.meta.dirname!, "../spike-eject/src/spike-eject.ts");
 const SPIKE_HEADLESS_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/spike-headless.ts");
 const CONTEXT_ORDER_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/context-order-probe.ts");
+const CASCADE_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/cascade-probe.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -159,6 +160,7 @@ const ENTRY_POINTS = [
   { in: SPIKE_EJECT_ENTRY, out: "spike-eject" },
   { in: SPIKE_HEADLESS_ENTRY, out: "spike-headless" },
   { in: CONTEXT_ORDER_PROBE_ENTRY, out: "context-order-probe" },
+  { in: CASCADE_PROBE_ENTRY, out: "cascade-probe" },
 ];
 
 const buildMode = Deno.args.includes("--build");
