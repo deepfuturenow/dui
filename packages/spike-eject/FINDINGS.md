@@ -227,15 +227,73 @@ two components, a coordinated change in another repository, and a docs tax. See
 [What an unanticipated adjustment costs
 today](#what-an-unanticipated-adjustment-costs-today).
 
-Two honest caveats:
+One honest caveat: you're still writing `:host([size="compact"]) .Trigger`
+selectors, not editing a class string. Locality improves. The amount of CSS
+architecture you have to know does not. This is the Tailwind half of shadcn's
+advantage, and copying files doesn't reproduce it.
 
-- It went this smoothly partly because `size` isn't a declared property, just an
-  attribute matched by CSS. If sizes were a typed union you'd also have to widen
-  that type, in the primitive, which the app doesn't own.
-- You're still writing `:host([size="compact"]) .Trigger` selectors, not editing
-  a class string. Locality improves. The amount of CSS architecture you have to
-  know does not. This is the Tailwind half of shadcn's advantage, and copying
-  files doesn't reproduce it.
+### A typed property is usually a speed bump, not a wall
+
+Select was a favourable case in one respect: `size` isn't a declared property at
+all, just an attribute matched by CSS, so a new value needs no schema change
+anywhere. Some DUI properties do declare a fixed list of allowed values. For
+example, in `sidebar-provider`:
+
+```ts
+@property({ reflect: true })
+accessor variant: "sidebar" | "floating" | "inset" = "sidebar";
+```
+
+An app that wants a fourth variant might expect to be blocked. Measured, the
+picture is narrower than that:
+
+| What the app writes                        | Result                                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `el.variant = "compact"`                   | `TS2322` — rejected at compile time                                                         |
+| `el.setAttribute("variant", "compact")`    | Passes. HTML attributes aren't type-checked.                                                |
+| `<dui-sidebar-provider variant="compact">` | Passes. Lit doesn't validate string properties at runtime, so the value lands and reflects. |
+
+So the union guards the typed assignment path only. What an app loses by routing
+around it is type safety and autocomplete, not the capability.
+
+**The line that decides whether a value is genuinely closed is different: does
+any behavior read it?** Sidebar's `variant` is read by nothing. It's set,
+reflected, copied onto the child's `data-variant`, and matched by CSS. A new
+variant is entirely a styling problem, which an ejected file can own.
+
+Compare `orientation` on menubar, splitter, and toggle-group:
+
+```ts
+const isHorizontal = this.orientation === "horizontal"; // decides arrow-key handling
+```
+
+A new value there needs new behavior, which lives in the primitive. No
+distribution model helps; that's
+[result 3](#result-3-you-cannot-change-the-markup-at-all) again.
+
+Sweeping the primitives for comparison sites against each union-typed property:
+
+| Property                                                           | Sites that branch on the value | Verdict    |
+| ------------------------------------------------------------------ | -----------------------------: | ---------- |
+| `orientation`                                                      |                             11 | Behavioral |
+| `selectionMode`                                                    |                              7 | Behavioral |
+| `collapsible`                                                      |                              4 | Behavioral |
+| `type`                                                             |                              4 | Behavioral |
+| `side`, `priority`, `targetRoot`                                   |                         1 each | Behavioral |
+| `variant`, `controls`, `resize`, `sortDirection`, `swipeDirection` |                              0 | Cosmetic   |
+
+Read this carefully, because the raw split is misleading. Most of the behavioral
+properties describe genuinely closed sets — there is no third `orientation`, no
+third `sortDirection`. Extending them isn't something a consumer would want.
+
+The properties where a consumer _would_ plausibly want a new value are the
+open-ended aesthetic ones: `size` (untyped, so already open), `variant`
+(cosmetic, so extendable via markup today), and `collapsible` (behavioral, so
+genuinely closed).
+
+The practical conclusion is that typed unions are a smaller obstacle to ejecting
+than they first appear. Worth running the same sweep before any schema-loosening
+work, so effort goes to the properties that are actually closed.
 
 ## Result 3: you cannot change the markup at all
 
@@ -592,7 +650,12 @@ larger question is settled.
 
 - **It tested one component and two changes.** Select turned out to be
   monolithic, which is favourable to copying — there was nothing to compose. A
-  component built from several elements might behave differently.
+  component built from several elements might behave differently. Select is also
+  favourable in a second way: its `size` is untyped, so the first change needed
+  no schema work. The
+  [union sweep](#a-typed-property-is-usually-a-speed-bump-not-a-wall) suggests
+  this matters less than expected, but it wasn't tested end to end on a
+  component with a typed variant.
 - **It can't tell you how often you need markup changes**, which is the number
   the recommendation actually turns on. See step 2.
 - **The cost comparison isn't perfectly like-for-like.** The 31-file size
