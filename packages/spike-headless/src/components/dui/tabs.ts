@@ -18,7 +18,7 @@
  * ---------------------------------------------------------------------------
  */
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume, provide } from "@lit/context";
 import { base } from "@dui/core/base";
 import { spread } from "../../spread.ts";

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Light DOM probe</title>
+  <script type="module" src="./light-dom-probe.js"></script>
+  <style>
+    body { margin:0; padding:24px; background:var(--background); color:var(--foreground); font-family:system-ui; }
+    h2 { font-size:13px; margin:22px 0 8px; color:var(--text-2); font-family:ui-monospace,monospace; }
+    .row { display:grid; grid-template-columns:repeat(3,220px); gap:28px; align-items:start; }
+    .lbl { font:11px ui-monospace,monospace; color:var(--text-3); display:block; margin-bottom:6px; }
+    /* Consumer restyle, written three ways for the same visual result. */
+    .restyle dui-select::part(trigger)   { border-color: #c0392b; border-radius: 0; }
+    .restyle dui-select-h::part(trigger) { border-color: #c0392b; border-radius: 0; }
+    .restyle dui-select-l .trigger       { border-color: #c0392b; border-radius: 0; }
+  </style>
+</head>
+<body>
+  <h2>default</h2>
+  <div class="row">
+    <div><span class="lbl">dui-select (library)</span><dui-select value="apple"></dui-select></div>
+    <div><span class="lbl">dui-select-h (owned, shadow)</span><dui-select-h value="apple"></dui-select-h></div>
+    <div><span class="lbl">dui-select-l (owned, light)</span><dui-select-l value="apple"></dui-select-l></div>
+  </div>
+
+  <h2>size=xs</h2>
+  <div class="row">
+    <div><span class="lbl">library</span><dui-select size="xs" value="apple"></dui-select></div>
+    <div><span class="lbl">shadow</span><dui-select-h size="xs" value="apple"></dui-select-h></div>
+    <div><span class="lbl">light</span><dui-select-l size="xs" value="apple"></dui-select-l></div>
+  </div>
+
+  <h2>disabled / placeholder</h2>
+  <div class="row">
+    <div><span class="lbl">library</span><dui-select disabled value="apple"></dui-select></div>
+    <div><span class="lbl">shadow</span><dui-select-h disabled value="apple"></dui-select-h></div>
+    <div><span class="lbl">light</span><dui-select-l disabled value="apple"></dui-select-l></div>
+  </div>
+
+  <h2>consumer restyle — ::part() vs plain selector</h2>
+  <div class="row restyle">
+    <div><span class="lbl">::part(trigger)</span><dui-select value="apple"></dui-select></div>
+    <div><span class="lbl">::part(trigger)</span><dui-select-h value="apple"></dui-select-h></div>
+    <div><span class="lbl">.trigger</span><dui-select-l value="apple"></dui-select-l></div>
+  </div>
+</body>
+</html>
