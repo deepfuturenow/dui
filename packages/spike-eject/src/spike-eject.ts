@@ -11,6 +11,7 @@
  * itself the Step 3 finding.
  */
 import type { SelectOption } from "@dui/primitives/select";
+import externalCompactCss from "./external-compact.css" with { type: "text" };
 
 const impl = new URLSearchParams(location.search).get("impl") === "library"
   ? "library"
@@ -80,7 +81,9 @@ async function probeDoubleRegistration(): Promise<void> {
     sideEffectsRan = mod.DuiSelect != null;
     result = "no error thrown";
   } catch (error) {
-    result = `${(error as Error).constructor.name}: ${(error as Error).message}`;
+    result = `${(error as Error).constructor.name}: ${
+      (error as Error).message
+    }`;
   }
 
   const after = customElements.get("dui-select");
@@ -97,5 +100,21 @@ async function probeDoubleRegistration(): Promise<void> {
   ].join("\n");
 }
 
+/**
+ * The library-side half of the side-by-side. With `?impl=library`, apply the
+ * external stylesheet a consuming app would write today and re-point the
+ * `size="compact"` demos at it, so the two code paths can be screenshotted
+ * under identical markup and diffed.
+ */
+function applyExternalCompact(): void {
+  const sheet = new CSSStyleSheet();
+  sheet.replaceSync(externalCompactCss);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  for (const el of document.querySelectorAll('dui-select[size="compact"]')) {
+    el.setAttribute("data-density", "compact");
+  }
+}
+
 hydrate();
+if (impl === "library") applyExternalCompact();
 if (impl === "ejected") queueMicrotask(() => void probeDoubleRegistration());

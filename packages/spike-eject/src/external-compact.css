@@ -1,0 +1,56 @@
+/* ---------------------------------------------------------------------------
+ * The LIBRARY way to get a denser select — no eject.
+ *
+ * This is the whole code path a consuming app writes today: an external
+ * stylesheet reaching into <dui-select> through the two surfaces the library
+ * offers, custom properties and ::part(). Applied to
+ * <dui-select data-density="compact"> from the outside.
+ * ------------------------------------------------------------------------- */
+
+/* Option rows. These land, because the styled layer declares them in a :host
+   rule, and an outer-tree declaration outranks a :host declaration on the same
+   element regardless of specificity. */
+dui-select[data-density="compact"] {
+  --select-item-font-size: var(--text-2xs);
+  --select-item-padding-y: var(--space-0_5);
+  --select-item-icon-size: var(--space-2_5);
+}
+
+/* Trigger box. Lands: `trigger` is an exported part. */
+dui-select[data-density="compact"]::part(trigger) {
+  height: var(--component-height-xxs);
+  gap: var(--space-1);
+  padding: var(--space-0_5) var(--space-0_5) var(--space-0_5) var(--space-1_5);
+  border-radius: calc(var(--radius-md) * 0.6);
+  font-size: var(--text-2xs);
+  line-height: var(--text-2xs--line-height);
+}
+
+/* Popup padding. Lands: `listbox` is an exported part. */
+dui-select[data-density="compact"]::part(listbox) {
+  padding: var(--space-0_5);
+}
+
+/* --- AND HERE IT STOPS. -----------------------------------------------------
+ * The trigger's chevron cannot be shrunk from outside, by any of the three
+ * routes available:
+ *
+ *   1. It carries no `part` attribute, so there is nothing to select. The
+ *      `.Icon` span is internal.
+ *   2. `--icon-size` set on the host does inherit inwards, but the styled
+ *      layer declares `.Icon { --icon-size: var(--space-4) }` on an *inner*
+ *      element. That is not a :host rule, so the outer-tree exception does not
+ *      apply and the inner declaration wins. Uncommenting the rule below
+ *      changes nothing.
+ *   3. `::part(trigger) dui-icon` is not a valid selector — a descendant
+ *      combinator may not follow ::part().
+ *
+ * So the library path gets a compact trigger with a full-size chevron in it.
+ * Closing that last gap requires a change to @dui/components: either a new
+ * exported part, a new --dui-select-icon-size custom property, or a new value
+ * in the size enum. That is the "every unanticipated need becomes a new knob"
+ * problem this spike exists to test.
+ */
+dui-select[data-density="compact"] {
+  --icon-size: var(--space-2_5); /* no effect — see (2) above */
+}

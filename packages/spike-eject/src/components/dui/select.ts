@@ -20,10 +20,10 @@ import "./scroll-area.ts";
 
 const styles = css`
   /* ---------------------------------------------------------------
-   * Size tokens. The popup now renders in this same shadow root (native
-   * top-layer [popover]), so the --select-item-* vars set on the host
-   * inherit to the option rows directly — no forwarding needed.
-   * --------------------------------------------------------------- */
+  * Size tokens. The popup now renders in this same shadow root (native
+  * top-layer [popover]), so the --select-item-* vars set on the host
+  * inherit to the option rows directly — no forwarding needed.
+  * --------------------------------------------------------------- */
 
   :host {
     --select-item-font-size: var(--text-sm);
@@ -32,9 +32,9 @@ const styles = css`
   }
 
   /* ---- CONSUMER CHANGE 1: size="compact" ----------------------------
-   * A density below the library's smallest (xs). Nothing here needed the
-   * primitive's cooperation: the size attribute was never a declared property
-   * in the first place, so a new value is just a new :host([size]) selector. */
+  * A density below the library's smallest (xs). Nothing here needed the
+  * primitive's cooperation: the size attribute was never a declared property
+  * in the first place, so a new value is just a new :host([size]) selector. */
   :host([size="compact"]) {
     --select-item-font-size: var(--text-2xs);
     --select-item-padding-y: var(--space-0_5);
@@ -68,7 +68,8 @@ const styles = css`
     background: transparent;
     color: var(--text-1);
     font-family: var(--font-sans);
-    font-size: var(--text-sm); line-height: var(--text-sm--line-height);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     transition-property: border-color, box-shadow, background, filter, transform;
     transition-duration: var(--duration-fastest);
   }
@@ -81,7 +82,8 @@ const styles = css`
     outline: none;
     box-shadow:
       0 0 0 var(--focus-ring-offset) var(--background),
-      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+      0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width))
+      var(--focus-ring-color);
   }
 
   :host([size="compact"]) .Trigger {
@@ -179,9 +181,9 @@ const styles = css`
   }
 
   /* When inner-aligned (macOS-style), appear/disappear instantly.
-     transition: none  — avoids animation distorting getBoundingClientRect
-                         while the alignInner middleware positions the popup.
-     transform: none   — prevents a translateY flash at the aligned spot. */
+    transition: none  — avoids animation distorting getBoundingClientRect
+                        while the alignInner middleware positions the popup.
+    transform: none   — prevents a translateY flash at the aligned spot. */
   .Popup[data-align-inner] {
     transform: none;
     transition: none;
@@ -232,22 +234,22 @@ const styles = css`
   }
 
   /* ---- CONSUMER CHANGE 2: leading-chevron ----------------------------
-   * Move the chevron to the leading edge and swap it for a stacked
-   * up/down glyph.
-   *
-   * This is a render-tree change, and the render tree is closed: every value
-   * the primitive's template binds is a #private field, so overriding
-   * render() does not compile (see ../experiments/attempted-render-override.ts
-   * — 11 errors for the trigger half alone). What is left is to fake it from
-   * the stylesheet.
-   *
-   * Reordering is honest enough — row-reverse is a real layout tool.
-   * Replacing the glyph is not: the chevron <svg> is hardcoded inside the
-   * primitive's template, so the only way to change it is to hide it and
-   * repaint the <dui-icon> box with a masked data URI. The black in that
-   * URI is not a color — a mask reads alpha only — but it is still a literal
-   * in a codebase whose rule is "no hardcoded colors", which is a fair sign of
-   * how far outside the intended path this sits. */
+  * Move the chevron to the leading edge and swap it for a stacked
+  * up/down glyph.
+  *
+  * This is a render-tree change, and the render tree is closed: every value
+  * the primitive's template binds is a #private field, so overriding
+  * render() does not compile (see ../experiments/attempted-render-override.ts
+  * — 11 errors for the trigger half alone). What is left is to fake it from
+  * the stylesheet.
+  *
+  * Reordering is honest enough — row-reverse is a real layout tool.
+  * Replacing the glyph is not: the chevron <svg> is hardcoded inside the
+  * primitive's template, so the only way to change it is to hide it and
+  * repaint the <dui-icon> box with a masked data URI. The black in that
+  * URI is not a color — a mask reads alpha only — but it is still a literal
+  * in a codebase whose rule is "no hardcoded colors", which is a fair sign of
+  * how far outside the intended path this sits. */
   :host([leading-chevron]) .Trigger {
     flex-direction: row-reverse;
     padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
@@ -258,8 +260,8 @@ const styles = css`
   }
 
   /* Hide the primitive's chevron. The <svg> is a light child of <dui-icon>
-     inside *this* shadow root, so it is reachable from here — the one piece
-     of luck in the whole change. */
+    inside *this* shadow root, so it is reachable from here — the one piece
+    of luck in the whole change. */
   :host([leading-chevron]) .Icon svg {
     display: none;
   }
