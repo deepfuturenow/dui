@@ -58,6 +58,13 @@ export class CompoundController<D = void> extends Controller {
     return this.#parts;
   }
 
+  /** Re-renders every registered part, but not the root. For use from the
+   * root's own updated hook, where notify() would loop. */
+  notifyParts(): void {
+    for (const { part } of this.#parts) part.requestUpdate();
+    for (const part of this.#aux) part.requestUpdate();
+  }
+
   /** Re-renders the root and every registered part. */
   notify(): void {
     this.host.requestUpdate();

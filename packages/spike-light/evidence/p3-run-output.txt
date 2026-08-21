@@ -1,0 +1,63 @@
+FormData dui: [["project","alpha"],["sync","yes"]]
+FormData bui: [["project","alpha"],["sync","yes"]]
+byte-equal: true
+after toggle equal: true bui: [["project","alpha"],["sync","yes"],["beta","on"]]
+label click toggles checkbox: true -> false
+host :invalid / :user-invalid / form blocked: {"invalid":true,"userInvalid":false,"formInvalid":true}
+AX textbox  name="" desc=""
+AX checkbox name="" desc=""
+AX switch   name="" desc=""
+AX textbox  name="Project name" desc="Shown everywhere."
+AX checkbox name="Enable sync" desc=""
+AX switch   name="Beta features" desc=""
+errors: none
+{
+  labelDisabled: true,
+  errorShown: 'block',
+  inputAriaInvalid: 'true',
+  describedByNowIncludesError: 'bui-field-1-desc bui-field-1-error'
+}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#b-name input')[22m
+[2m    - locator resolved to <input disabled type="text" required="" aria-invalid="true" data-bui-bag="input:input" aria-labelledby="bui-field-1-label" aria-describedby="bui-field-1-desc bui-field-1-error"/>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    58 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not enabled[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+
+    at /tmp/p3c.mjs:19:9 {
+  log: [
+    "  - waiting for locator('#b-name input')",
+    '    - locator resolved to <input disabled type="text" required="" aria-invalid="true" data-bui-bag="input:input" aria-labelledby="bui-field-1-label" aria-describedby="bui-field-1-desc bui-field-1-error"/>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    58 × waiting for element to be visible, enabled and stable',
+    '       - element is not enabled',
+    '     - retrying click action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.2

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>P3 — forms and field</title>
+  <script type="module" src="./bui-p3.js"></script>
+  <style>
+    body { background: var(--background); color: var(--foreground); font-family: system-ui; padding: 24px; display: flex; gap: 48px; }
+    form { display: flex; flex-direction: column; gap: 16px; width: 280px; }
+  </style>
+</head>
+<body>
+  <form id="dui-form">
+    <h3>DUI</h3>
+    <dui-field>
+      <span slot="label">Project name</span>
+      <dui-input id="d-name" name="project" value="alpha"></dui-input>
+      <span slot="description">Shown everywhere.</span>
+      <span slot="error">Required.</span>
+    </dui-field>
+    <dui-field>
+      <span slot="label">Enable sync</span>
+      <dui-checkbox id="d-check" name="sync" value="yes" checked></dui-checkbox>
+    </dui-field>
+    <dui-field>
+      <span slot="label">Beta features</span>
+      <dui-switch id="d-switch" name="beta" value="on"></dui-switch>
+    </dui-field>
+    <button id="d-submit" type="submit">Submit</button>
+  </form>
+
+  <form id="bui-form">
+    <h3>BUI</h3>
+    <bui-field>
+      <bui-field-label>Project name</bui-field-label>
+      <bui-input id="b-name" name="project" value="alpha"></bui-input>
+      <bui-field-description>Shown everywhere.</bui-field-description>
+      <bui-field-error>Required.</bui-field-error>
+    </bui-field>
+    <bui-field>
+      <bui-field-label>Enable sync</bui-field-label>
+      <bui-checkbox id="b-check" name="sync" value="yes" checked></bui-checkbox>
+    </bui-field>
+    <bui-field>
+      <bui-field-label>Beta features</bui-field-label>
+      <bui-switch id="b-switch" name="beta" value="on"></bui-switch>
+    </bui-field>
+    <button id="b-submit" type="submit">Submit</button>
+  </form>
+</body>
+</html>
