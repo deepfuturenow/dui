@@ -1,0 +1,24 @@
+== D7 editor tooling check: does lit-plugin complete --space-*/--text-* from tokens.css inside css`` blocks? ==
+
+Environment: typescript@5.9.3 tsserver + ts-lit-plugin@2.0.2 (lit-analyzer), driven over the tsserver stdio protocol.
+Plugin liveness confirmed: 757 CSS property-name completions inside the css block, lit CSS diagnostics active.
+Project: component.ts with css`` importing from lit; tokens.css alongside defining --space-1..3, --text-sm, --text-base.
+
+-- test 1: css block that only USES var(--space-1), completion inside empty var() --
+[after var(--sp] total entries: 0, custom-property entries: 0
+[inside empty var(] total entries: 757, custom-property entries: 0  (all standard property names, no custom properties)
+
+-- test 2: css block that DEFINES --locally-defined and uses var(--space-1), completion inside empty var() --
+[inside empty var(] total entries: 1, custom-property entries: 1
+custom props: --locally-defined
+
+RESULT: FAIL as specified in D7. lit-plugin completes only custom properties
+defined in the SAME css template literal. Nothing reads tokens.css: the CSS
+document analyzer instantiates vscode-css-languageservice per template with
+no cross-file custom-property data, and ts-lit-plugin 2.0.2 exposes no
+customData configuration surface. D7 says to revisit the decision in this case.
+
+Untested mitigations to evaluate in Phase 1: workspace CSS-variable indexer
+extensions (e.g. 'CSS Var Complete' / cssvar) that scan configured files like
+tokens.css and complete in .ts; or generating an editor snippet/custom-data
+artifact from tokens.css at build time.
