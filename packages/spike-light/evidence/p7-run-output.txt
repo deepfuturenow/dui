@@ -1,0 +1,37 @@
+=== initial (account active) ===
+horizontal: MATCH (all parts within 1px)
+vertical: MATCH (all parts within 1px)
+pixel initial: 0 differing of 131040
+
+=== after selecting 'password' ===
+horizontal: MATCH (all parts within 1px)
+pixel selected: 0 differing of 131040
+disabled click ignored (password still active): {"dui":true,"bui":true}
+
+=== keyboard ===
+bui roving: ArrowRight->billing ArrowRight->account ArrowLeft->billing End->billing Home->account
+Enter selects focused tab: true
+bui aria: {
+ "list": "tablist/horizontal",
+ "tabs": "account[sel=false,ti=-1,ctl=true] password[sel=true,ti=0,ctl=true] settings[sel=false,ti=-1,ctl=true] billing[sel=false,ti=-1,ctl=true]",
+ "panel": "tabpanel labelledby=true"
+}
+dui ArrowRight from active tab -> focus: password (library has no roving focus)
+bui vertical ArrowDown -> password
+bui vertical ArrowRight (should not move) -> password
+
+== pass-criteria greps ==
+--- lit imports in controllers/tabs.ts:
+0
+0 (none)
+--- @lit/context as a dependency in spike-light src (imports only):
+absent
+--- requestUpdate occurrences in components/tabs.ts (all are PartHost adapter plumbing, no fan-out):
+267:      requestUpdate: () => this.requestUpdate(),
+326:      { element: this, requestUpdate: () => this.requestUpdate() },
+347:        requestUpdate: () => this.requestUpdate(),
+--- line counts (Experiment 2 controller vs P7 controller + shared base):
+  329 packages/spike-headless/src/tabs-controller.ts
+  259 packages/spike-light/src/controllers/tabs.ts
+   74 packages/spike-light/src/core/compound-controller.ts
+  662 total
