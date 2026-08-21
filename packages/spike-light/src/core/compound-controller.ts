@@ -17,6 +17,18 @@ export interface PartHost {
 
 export class CompoundController<D = void> extends Controller {
   #parts: Array<{ part: PartHost; data: D }> = [];
+  #aux = new Set<PartHost>();
+
+  /**
+   * Registers a non-item part (a trigger, a popup) that must re-render on
+   * state changes but does not belong in the ordered item list.
+   */
+  registerAux(part: PartHost): () => void {
+    this.#aux.add(part);
+    return () => {
+      this.#aux.delete(part);
+    };
+  }
 
   /** Registers a part. Returns its unregister function. */
   register(part: PartHost, data: D): () => void {
@@ -50,5 +62,6 @@ export class CompoundController<D = void> extends Controller {
   notify(): void {
     this.host.requestUpdate();
     for (const { part } of this.#parts) part.requestUpdate();
+    for (const part of this.#aux) part.requestUpdate();
   }
 }

@@ -1,0 +1,22 @@
+select plain     dui rel(-22,-37) 200x478.75 | bui rel(-22,-37) 200x478.75 | MATCH
+tooltip plain     dui open=true gap=6 dx=-29.64 | bui open=true gap=6 dx=-37.23 | MATCH
+select transform dui rel(-22,-138) 200x478.75 | bui rel(-22,-138) 200x478.75 | MATCH
+tooltip transform dui open=true gap=6 dx=-44.44 | bui open=true gap=6 dx=-52.02 | MATCH
+select overflow  dui rel(-22,-233) 200x478.75 | bui rel(-22,-233) 200x478.75 | MATCH
+tooltip overflow  dui open=true gap=6 dx=-40.75 | bui open=true gap=6 dx=-48.34 | MATCH
+select fixed     dui rel(-22,-393.75) 200x478.75 | bui rel(-22,-393.75) 200x478.75 | MATCH
+tooltip fixed     dui open=true gap=6 dx=-29.66 | bui open=true gap=6 dx=-61.48 | MATCH
+select contain   dui rel(0,36) 200x329 | bui rel(0,36) 200x329 | MATCH
+tooltip contain   dui open=true gap=6 dx=-37.3 | bui open=true gap=6 dx=-44.88 | MATCH
+select dialog    dui tw=376 rel(0,36) | bui tw=376 open=true rel(0,36) | MATCH
+P6 runtime (align-inner, long list): {"scrollable":false,"selectedVisible":true,"popupOnScreen":true,"scrollTop":0}
+keyboard commit -> mango
+P6 runtime (short viewport): {
+  scrollable: true,
+  selectedVisible: true,
+  popupOnScreen: true,
+  scrollTop: 229,
+  dataSelectedCount: 1
+}
+DUI same: { selectedVisible: true, popupOnScreen: true, scrollTop: 212 }
+keyboard: mango -> ArrowDown -> Enter = nectarine | popup closed: true
