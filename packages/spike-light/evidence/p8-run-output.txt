@@ -1,0 +1,35 @@
+== P8-A: Tailwind v4 utilities on the P1 page ==
+-- generated sheet: packages/docs/static/bui-p1-tw.css (tailwindcss@4.3.3 compile(), utilities in @layer utilities as real Tailwind emits) --
+trigger with utilities: {
+ "display": "flex",
+ "padInline": "12px",
+ "padBlock": "6px",
+ "radius": "8px",
+ "border": "1px oklch(0.869 0.022 252.894)",
+ "bg": "rgb(255, 255, 255)",
+ "font": "14px/20px w500",
+ "color": "oklch(0.372 0.044 257.287)",
+ "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+ "cursor": "pointer"
+}
+colliding vars as resolved on the page: {"--radius-md":"0.5rem","--text-sm":"0.875rem","--font-weight-medium":"500","--spacing":"0.25rem"}
+tailwind's own values: --radius-md: 0.375rem, --text-sm: 0.875rem, --font-weight-medium: 500, --spacing: 0.25rem
+dui token values:      --radius-md: 0.5rem,   --text-sm: 0.875rem, --font-weight-medium: 500  (no --spacing)
+boundary none -> none+tw: no BUI style changed
+dialog pixels with/without tailwind: 0 differing of 219648
+
+-- utility vs bui.components on the SAME property (dialog title font-size; utility text-sm added to h2) --
+utility vs bui.components on same property: {"before":"16px","after":"16px","utilityWins":false}
+-- same, with the mitigation: '@layer bui.reset, bui.components;' declared FIRST in the page (top of consumer CSS entry) --
+with bui layers declared first: {"first":"@layer bui.reset, bui.components;\n\n    /","before":"16px","after":"14px","utilityWins":true}
+-- utility on a property bui.components does NOT declare (px-3 on bui-dialog-body) + established layer order --
+{
+ "before": "0px",
+ "after": "12px",
+ "utilityWins": true,
+ "layers": [
+  "properties",
+  "theme,base,components,utilities",
+  "(adopted) bui.reset,bui.components"
+ ]
+}

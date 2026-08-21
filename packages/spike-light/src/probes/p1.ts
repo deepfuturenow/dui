@@ -64,6 +64,22 @@ if (cssMode === "hostile") {
   document.head.appendChild(s);
 }
 
+// ---- P8: Tailwind v4 utilities on the trigger (?tw=1) -----------------------
+// bui-p1-tw.css is the static output of Tailwind v4's compile() for the
+// candidate list on the button below — what a consumer's Tailwind build step
+// emits. The trigger is restyled with utilities in the markup, no CSS block.
+if (params.get("tw") === "1") {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "./bui-p1-tw.css";
+  document.head.appendChild(link);
+  const trigger = document.getElementById("open-bui")!;
+  trigger.className =
+    "inline-flex items-center gap-2 px-3 py-1.5 rounded-md border " +
+    "border-slate-300 bg-white text-sm font-medium text-slate-700 " +
+    "shadow-sm hover:bg-slate-50 cursor-pointer";
+}
+
 // ---- wire the open buttons --------------------------------------------------
 
 const bui = document.querySelector("bui-dialog.popup") as HTMLElement & {
