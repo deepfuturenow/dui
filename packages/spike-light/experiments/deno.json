@@ -1,0 +1,17 @@
+{
+  "imports": {
+    "lit": "npm:lit@^3.3.2",
+    "lit/directive.js": "npm:/lit@^3.3.2/directive.js",
+    "lit-html": "npm:lit-html@^3.3.2",
+    "@lit/reactive-element": "npm:@lit/reactive-element@^2.1.1",
+    "@floating-ui/dom": "npm:@floating-ui/dom@^1.7.4"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns"
+    ]
+  }
+}
