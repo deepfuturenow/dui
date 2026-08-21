@@ -17,6 +17,8 @@ const LIGHT_DOM_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/s
 const TOAST_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/toast-probe.ts");
 const BUI_P1_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p1.ts");
 const BUI_P4_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p4.ts");
+const BUI_P2_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p2.ts");
+const BUI_P2_REACT_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p2-react.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -169,6 +171,8 @@ const ENTRY_POINTS = [
   { in: TOAST_PROBE_ENTRY, out: "toast-probe" },
   { in: BUI_P1_ENTRY, out: "bui-p1" },
   { in: BUI_P4_ENTRY, out: "bui-p4" },
+  { in: BUI_P2_ENTRY, out: "bui-p2" },
+  { in: BUI_P2_REACT_ENTRY, out: "bui-p2-react" },
 ];
 
 const buildMode = Deno.args.includes("--build");

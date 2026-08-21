@@ -1,0 +1,24 @@
+{
+ "focusKept": true,
+ "videoTime": 4.3,
+ "videoRestarts": 0,
+ "order": "1,2,3,4,5",
+ "midInsertBetween": "[\"bui-dialog-header-2\",\"mid-insert\",\"bui-dialog-body\",\"bui-dialog-footer\",\"bui-dialog-close\"]",
+ "condPresent": true,
+ "tick": "50",
+ "dialogOpen": true
+}
+tab cycle: ok > BUTTON > item-1 > item-2 > item-3 > item-4 > item-5 > keep-focus > ok
+vanilla open: true | close button renders: true
+vanilla esc closed: true
+errors: none
+{
+  open: true,
+  focusKept: true,
+  tick: '50',
+  order: '1,2,3,4,5',
+  cond: true,
+  closeRenders: true
+}
+esc closed: true
+errors: none
