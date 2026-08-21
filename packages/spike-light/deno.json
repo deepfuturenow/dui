@@ -2,7 +2,8 @@
   "name": "@dui/spike-light",
   "version": "0.0.0",
   "exclude": [
-    "experiments"
+    "experiments",
+    "src/probes/p2-react.ts"
   ],
   "exports": {
     ".": "./src/mod.ts"
