@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Headless toast probe</title>
+  <script type="module" src="./toast-probe.js"></script>
+  <style>
+    body { margin:0; padding:32px; background:var(--background); color:var(--foreground); font-family:system-ui; }
+    h1 { font-size:18px; margin:0 0 6px; }
+    p { color:var(--text-2); font-size:13px; max-width:60ch; }
+    .btns { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+    button { font:13px system-ui; padding:7px 12px; border:1px solid var(--border);
+             border-radius:6px; background:var(--surface-1); color:var(--text-1); cursor:pointer; }
+    button:hover { background:var(--surface-2); }
+    #count { margin-top:16px; font:12px ui-monospace,monospace; color:var(--text-3); }
+  </style>
+</head>
+<body>
+  <h1>Headless toast</h1>
+  <p>Same <code>toast()</code> call sites as the library API. What arrives is a data record; the owned region component renders it. Hover the stack to expand it and pause the timers.</p>
+  <div class="btns">
+    <button id="plain">toast()</button>
+    <button id="desc">with description</button>
+    <button id="success">success</button>
+    <button id="error">error + close</button>
+    <button id="action">with action</button>
+    <button id="sticky">duration 0</button>
+    <button id="burst">burst of 5</button>
+    <button id="clear">clear</button>
+  </div>
+  <div id="count">0 in queue</div>
+  <dui-toast-region-h data-position="bottom-right" max-visible="3"></dui-toast-region-h>
+</body>
+</html>

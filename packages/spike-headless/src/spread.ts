@@ -20,6 +20,13 @@
  *   ?name      →  boolean attribute    present when truthy
  *   @name      →  event listener       addEventListener(name, value)
  *   ref        →  callback invoked with the element (or null on detach)
+ *   style      →  object of CSS declarations, applied with setProperty
+ *
+ * `style` earns a special case because of custom properties. A controller that
+ * publishes layout state does it through `--toast-index`, `--toasts-before-height`
+ * and friends, and neither an attribute nor `element.style = {...}` can carry
+ * those: the former is not a style, and the latter stringifies to
+ * "[object Object]". Found while converting toast — see FINDINGS.
  */
 import { nothing } from "lit";
 import {
@@ -66,6 +73,7 @@ class SpreadDirective extends Directive {
     for (const [key, value] of Object.entries(props)) {
       const previous = this.#applied[key];
       if (previous === value && key !== "ref") continue;
+      if (key === "style" && shallowEqual(previous, value)) continue;
       this.#unset(element, key, previous);
       this.#set(element, key, value);
     }
@@ -93,6 +101,15 @@ class SpreadDirective extends Directive {
           (value as (el: Element | null) => void)(element);
           return;
         }
+        if (key === "style" && typeof value === "object") {
+          const style = (element as HTMLElement).style;
+          for (
+            const [prop, v] of Object.entries(value as Record<string, string>)
+          ) {
+            style.setProperty(prop, v);
+          }
+          return;
+        }
         if (value === false) return;
         element.setAttribute(key, value === true ? "" : String(value));
     }
@@ -112,9 +129,24 @@ class SpreadDirective extends Directive {
         return;
       default:
         if (key === "ref") return;
+        if (key === "style" && typeof value === "object") {
+          const style = (element as HTMLElement).style;
+          for (const prop of Object.keys(value as Record<string, string>)) {
+            style.removeProperty(prop);
+          }
+          return;
+        }
         element.removeAttribute(key);
     }
   }
+}
+
+/** Style bags are rebuilt every render; compare by value, not identity. */
+function shallowEqual(a: unknown, b: unknown): boolean {
+  if (typeof a !== "object" || typeof b !== "object" || !a || !b) return false;
+  const A = a as Record<string, string>, B = b as Record<string, string>;
+  const ak = Object.keys(A), bk = Object.keys(B);
+  return ak.length === bk.length && ak.every((k) => A[k] === B[k]);
 }
 
 export const spread = directive(SpreadDirective);

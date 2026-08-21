@@ -14,6 +14,7 @@ const SPIKE_HEADLESS_ENTRY = resolve(import.meta.dirname!, "../spike-headless/sr
 const CONTEXT_ORDER_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/context-order-probe.ts");
 const CASCADE_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/cascade-probe.ts");
 const LIGHT_DOM_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/light-dom-probe.ts");
+const TOAST_PROBE_ENTRY = resolve(import.meta.dirname!, "../spike-headless/src/toast-probe.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -163,6 +164,7 @@ const ENTRY_POINTS = [
   { in: CONTEXT_ORDER_PROBE_ENTRY, out: "context-order-probe" },
   { in: CASCADE_PROBE_ENTRY, out: "cascade-probe" },
   { in: LIGHT_DOM_PROBE_ENTRY, out: "light-dom-probe" },
+  { in: TOAST_PROBE_ENTRY, out: "toast-probe" },
 ];
 
 const buildMode = Deno.args.includes("--build");
