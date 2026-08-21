@@ -1,4 +1,4 @@
-# Findings: a headless `SelectController` and an owned single-file select
+# Findings: headless controllers and app-owned components
 
 Throwaway experiment on the branch `claude/implement-attached-plan-is0bxg`, in
 `packages/spike-headless/`. Everything here was measured in a browser or from
@@ -7,11 +7,16 @@ the type checker. `dui-primitives` and `@dui/core` are unmodified.
 Read `packages/spike-eject/FINDINGS.md` first. This spike exists because that
 one failed at exactly one thing: the template wasn't in the copied file.
 
-This document covers two conversions: **select** (one element) and **tabs**
-(five elements coordinated through `@lit/context`). Sections 1–7 and 9–10 were
-written from select and still hold;
-[section 8](#8-converting-a-compound-component-tabs) is the tabs conversion and
-replaces the estimate that used to be there.
+This document covers three conversions and one variant:
+
+|                                                                           | What it tested                                                                          |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **select** (sections 1–7)                                                 | One element. Does the model work at all?                                                |
+| **tabs** ([section 8](#8-converting-a-compound-component-tabs))           | Five elements coordinated through `@lit/context`. Does a compound component work?       |
+| **light DOM** ([section 9](#9-light-dom--does-dropping-shadow-dom-help))  | The same select without a shadow root. Is shadow DOM worth keeping?                     |
+| **toast** ([section 10](#10-toast--the-case-expected-to-break-the-model)) | A queue outliving every element, plus an imperative API. The case expected to break it. |
+
+Sections 1–7 were written from select and still hold.
 
 ## Summary
 
@@ -33,6 +38,18 @@ until something breaks silently. See
 Converting tabs also turned up **two shipped components that are completely
 non-functional** — unrelated to this model, fixed in a separate commit. See
 [section 8.5](#85-two-library-bugs-found-on-the-way).
+
+**Toast, the case expected to break the model, converted and got smaller doing
+it** — 696 lines against the library's 3,028, with the imperative DOM-building
+layer not relocated but eliminated. The obstacle was not the queue outliving
+elements, which was never hard; it was that `toast()` is a markup generator, and
+markup is exactly what the owned file is supposed to own. See
+[section 10](#10-toast--the-case-expected-to-break-the-model).
+
+**Light DOM is a real improvement and costs less than expected.** The stylesheet
+conversion was fully mechanical, parity was exact, and the leakage it admits has
+a boundary that favours the component on ties. See
+[section 9](#9-light-dom--does-dropping-shadow-dom-help).
 
 Two costs, both real and neither fatal:
 
@@ -731,7 +748,170 @@ Neither bug is visible to a type checker, a linter, or a screenshot.
 
 ---
 
-## 9. Verdict
+## 9. Light DOM — does dropping shadow DOM help?
+
+Both spikes kept hitting shadow-DOM tax: the `--icon-size` cascade trap, the
+`.Popup` class lookup in `@dui/core`, `::part()` export ceremony. This section
+tests whether the owned-file model is better without a shadow root at all.
+`<dui-select-l>` is the same file as `<dui-select-h>` with two changes:
+`createRenderRoot()` returns `this`, and the stylesheet is adopted into the
+document instead of the shadow root.
+
+### The conversion is mechanical
+
+A script rewrote the stylesheet: `:host` → `dui-select-l`, everything else → a
+descendant selector. **51 selector lines rewritten, zero needing hand editing**,
+no `:host` left behind. All **8 `part=` attributes deleted** — they do nothing
+outside a shadow root, which is the point: a consumer writes
+`dui-select-l .trigger` instead of `::part(trigger)`, so there is nothing to
+export and nothing to publish.
+
+### Parity
+
+**0 differing pixels** against the shadow-DOM owned select across default,
+`size="xs"`, disabled, and restyled rows. The popup opens in the light DOM,
+positions correctly, and keyboard selection works. Form association survives. A
+consumer restyle written as `dui-select-l .trigger` produced exactly the same
+computed result as `::part(trigger)` did on the other two.
+
+### What it costs, measured
+
+Style leakage is **one-directional**. Tag-prefixed selectors stop the component
+polluting the page — a plain `.trigger` div elsewhere on the page was untouched.
+Nothing stops the page reaching in, but there is a real boundary:
+
+| Page rule             | Specificity | Result                                   |
+| --------------------- | ----------- | ---------------------------------------- |
+| `.trigger`            | (0,1,0)     | no effect — component's (0,1,1) wins     |
+| `div .trigger`        | (0,1,1)     | no effect — ties go to the adopted sheet |
+| `.row .trigger`       | (0,2,0)     | **overrides**                            |
+| `.trigger !important` | —           | **overrides**                            |
+
+Note the inversion, which is the interesting part. In shadow DOM an outer-tree
+rule **beats** a `:host` rule on a tie. In light DOM with adopted stylesheets
+the **component** wins ties, so an app must out-specify it deliberately.
+Accidental collisions lose; intentional overrides win. That is a better default
+than either "sealed" or "wide open".
+
+Two other costs:
+
+- **The shared `base` reset cannot come along.** It contains
+  `* { box-sizing: border-box }`, and adopting that document-wide from inside a
+  component is an unacceptable side effect. Each light-DOM component needs a
+  scoped stand-in, which is four lines but has to be remembered.
+- **`::part()` consumers break.** Anyone already styling through parts has to
+  rewrite to plain selectors. For an app that owns the file this is a one-time
+  edit; for the library's own ready-made components it would be a breaking
+  change.
+
+### The `--icon-size` trap changes character rather than disappearing
+
+The declaration is still on an inner element, so a host-level override still
+fails. But `.row dui-select-l .icon` reaches it, which no selector could do
+through a shadow root. **Escapable rather than absent.** Light DOM does not
+remove the need for the cascade fix in `packages/spike-eject/FINDINGS.md`; it
+removes the need for the library to have anticipated it.
+
+### Read
+
+Light DOM is a real improvement to this model and costs less than expected. It
+is not free, and the encapsulation it gives up matters most for the embedding
+story rather than for ordinary app use. If the inversion proceeds, this is worth
+deciding early — converting to light DOM later means rewriting every stylesheet
+again, even if that rewrite is scriptable.
+
+---
+
+## 10. Toast — the case expected to break the model
+
+Toast was named at the end of section 9's predecessor as the last open question:
+a queue that outlives any element. It converted, and got smaller doing it, but
+it needed a different move than select or tabs.
+
+### The obstacle was not what was predicted
+
+"State that outlives an element" was never the problem. The queue is module
+state today and stays module state; nothing about that is hard.
+
+The actual obstacle is that **toast's imperative API is a markup generator**.
+`toast("Saved")` calls `document.createElement(DuiToastPrimitive.tagName)`,
+wraps the description in a `<span slot="description">`, builds a
+`<dui-toast-action>` containing a `<button>`, force-registers four primitive
+classes, and appends the result to an auto-created `<dui-toast-region>`. Roughly
+**150 lines of `toast-imperative.ts` are DOM plumbing of that kind**.
+
+That is fatal to an owned file. The imperative API would keep producing the
+library's elements and slot names, silently bypassing whatever the app wrote —
+the deepest coupling found anywhere in either spike, because it is not a class
+name or a part name but whole elements.
+
+### The fix is to invert the API
+
+`toast()` pushes a plain record into a store; the app's own region component
+renders the records with `repeat()`. Call sites do not move: `toast()`,
+`toast.success()`, `toast.dismiss(id)` all keep their shape.
+
+The DOM plumbing does not relocate to the app. **It stops existing.** So do
+three coordination mechanisms:
+
+| Library mechanism                                                                                                                                                        | Why it existed                                              | What replaces it                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- | ---------------------------------------------------------------- |
+| `registerToast` / `unregisterToast` and a `Map<string, HTMLElement>`                                                                                                     | The region had to find children it did not render           | Refs from `toastProps`, still needed only for height measurement |
+| `toastItemContext` — a second context, provided per toast                                                                                                                | So a close button could learn its own toast's id            | `closeProps(id)` closes over the id                              |
+| `#applyMirroredState` / `#updateIndices` — imperative writes of `--toast-index`, `--toasts-total`, `data-front`, `data-overflow` onto children, outside the render cycle | The children were slotted, so they were not template output | Return values from `toastProps(record, index)`                   |
+
+### Size
+
+|                                                    | Files |   Lines |
+| -------------------------------------------------- | ----: | ------: |
+| Library primitives (`dui-primitives/src/toast/`)   |     8 |   2,040 |
+| Library styled (`packages/components/src/toast/`)  |     6 |     988 |
+| **Headless: store + controller + owned component** | **3** | **696** |
+
+Not a like-for-like ratio — see what was skipped below — but the direction is
+the opposite of what was expected of the hardest component.
+
+### Verified in the browser
+
+- A burst of five stacks with correct indices (0 at the front, 4 at the back),
+  cumulative before-heights of 0/20/40/60/80px, `data-front` on the front toast
+  and `data-overflow` past `max-visible`.
+- Hover expands the stack and pauses every timer: a 4s toast survives 5s of
+  hover and dismisses 4.2s after the pointer leaves.
+- `duration: 0` never dismisses. Action buttons fire their handler and dismiss.
+  Close buttons dismiss. Type variants render their icon and colour.
+
+### Not converted, and deliberately so
+
+Swipe-to-dismiss (`toast-swipe-controller.ts`, 263 lines), the region hotkey and
+focus-restore machinery, and `toast.promise()`. None of them look structurally
+different from what did convert — swipe is pointer events on an element the
+controller already has a ref to — but none of them were measured, so the 696
+figure is not the finished number.
+
+### One change the shared spread directive needed
+
+Prop bags have to carry CSS custom properties, and until toast nothing did. A
+custom property cannot ride on an attribute, and `element.style = {...}`
+stringifies to `"[object Object]"`. The directive gained a `style` key that
+takes an object and applies it with `setProperty`, compared by value rather than
+identity because the bag is rebuilt every render. Twenty lines, and it is the
+only change any of the four conversions forced on shared code.
+
+### Two self-inflicted bugs worth recording
+
+- **The fan-out silently did not apply.** `data-expanded` is published by
+  `regionProps` onto the list element, and the CSS targeted `:host`. Right bag,
+  wrong element, no error, feature quietly absent. This is precisely the failure
+  mode [section 7](#7-what-the-consumer-now-owns) says the dev-mode check cannot
+  catch, encountered for real rather than hypothesised.
+- **Backticks in a comment inside a `css` template literal broke the build** —
+  the same trap already recorded for select, walked into again while writing a
+  comment about a different bug.
+
+---
+
+## 11. Verdict
 
 **Yes, this delivers what the previous spike couldn't, at a cost I'd accept —
 but the cost is a library-wide inversion, not a CLI.** The template really does
@@ -762,20 +942,46 @@ register, because a stable controller instance never triggers `@consume` — is 
 genuine trap, but it is one pattern, learned once, and it announces itself the
 moment you diff pixels.
 
+**Toast was the last open question, and it closed favourably.** The prediction
+in an earlier draft of this section — that toast was hard because its state
+outlives any element — was wrong. Module state stays module state; that part is
+trivial. The real obstacle was that its imperative API builds DOM, which is a
+worse coupling than anything select or tabs had, and the fix inverts the API
+rather than porting the plumbing. The result is smaller than what it replaces.
+Nothing in the four conversions produced a structural surprise the model could
+not absorb.
+
+**Light DOM sharpens the recommendation rather than changing it.** It is the
+same model with less ceremony, and the decision is worth making early: switching
+later means rewriting every stylesheet, even scriptably.
+
 If this proceeds, the order I'd suggest: fix the two `@dui/core` class-name
-couplings first (they are bugs regardless), brand the prop-bag types, then
-convert `toast` — not `sidebar`. Sidebar is the biggest but it is more of what
-tabs already proved. Toast is the one with state that outlives any element, and
-that is the last question this spike hasn't answered.
+couplings first (they are bugs regardless), decide shadow versus light DOM
+before converting anything else, brand the prop-bag types, then work through the
+remaining components. `data-table` is now the only one whose shape is still
+unmeasured — its prop-bag surface may exceed the component, and nothing in these
+four conversions predicts that either way.
 
 ---
 
-## 10. Known problems with this experiment
+## 12. Known problems with this experiment
 
-- **Two components, not the hardest ones.** Select is one element; tabs is five
-  but its state is small and entirely local. `toast` (a queue outliving any
-  element) and `data-table` (state larger than the component) are untouched, and
-  section 8's read on them is inference, not measurement.
+- **Three components, and `data-table` is still untouched.** Select, tabs and
+  toast are converted and measured. `data-table` — state larger than the
+  component, and a prop-bag surface that may exceed it — is inference, not
+  measurement.
+- **Toast is not finished.** Swipe-to-dismiss (263 lines), the region hotkey and
+  focus-restore machinery, and `toast.promise()` were not converted, so the
+  696-line figure understates the real total. None of them look structurally
+  different from what did convert, but that is a judgement, not a result.
+- **Toast has no pixel-parity number**, unlike the other conversions. The two
+  implementations generate different DOM by design — that is the whole point of
+  the inversion — so an identical-markup comparison is not available. Its
+  verification is behavioural: stack indices, before-heights, timer pause and
+  resume, dismissal reasons.
+- **The light-DOM variant was tested on select only**, and only for the states
+  the probe page renders. A component that slots consumer content would exercise
+  the leakage question much harder than select does.
 - **Tabs' parity was measured against a library I had just fixed.** The
   import-order bugs in section 8.5 meant the library's tabs were non-functional
   when the comparison began. The fix is one line and independently A/B'd, but
@@ -802,12 +1008,17 @@ that is the last question this spike hasn't answered.
 
 ## Evidence
 
-| File                                | What it shows                                                           |
-| ----------------------------------- | ----------------------------------------------------------------------- |
-| `evidence/01-closed-comparison.png` | Library and owned selects paired under identical markup                 |
-| `evidence/02-step4-changes.png`     | The three consumer changes live                                         |
-| `evidence/03-three-approaches.png`  | 4x. Top: external CSS. Middle: copied subclass. Bottom: owned file.     |
-| `evidence/04-tabs-comparison.png`   | Library and owned tabs, horizontal and vertical, under identical markup |
+| File                                  | What it shows                                                                           |
+| ------------------------------------- | --------------------------------------------------------------------------------------- |
+| `evidence/01-closed-comparison.png`   | Library and owned selects paired under identical markup                                 |
+| `evidence/02-step4-changes.png`       | The three consumer changes live                                                         |
+| `evidence/03-three-approaches.png`    | 4x. Top: external CSS. Middle: copied subclass. Bottom: owned file.                     |
+| `evidence/04-tabs-comparison.png`     | Library and owned tabs, horizontal and vertical, under identical markup                 |
+| `evidence/05-cascade-fix.png`         | The unreachable-knob fix: each component plain, and with a consumer override            |
+| `evidence/06-light-dom-three-way.png` | Library, owned-shadow and owned-light selects, plus the same restyle written three ways |
+| `evidence/07-toast-collapsed.png`     | Five toasts stacked, two past `max-visible` faded out                                   |
+| `evidence/08-toast-expanded.png`      | The same stack fanned out on hover, timers paused                                       |
+| `evidence/09-toast-types.png`         | Type icon, description and close button on an error toast                               |
 
 Measured parity, from commit `3cd852e`:
 
@@ -819,13 +1030,28 @@ Measured parity, from commit `3cd852e`:
 - A control run of the library against itself confirmed the harness is
   deterministic before those zeros were trusted
 
+Light DOM, from commit `8471b6f`:
+
+- Owned-light against owned-shadow, 4 rows at 3x: **0 differing pixels** each
+
+Toast has no pixel number by design — the two implementations generate different
+DOM, which is the point of the inversion. It was verified behaviourally instead;
+see [section 10](#10-toast--the-case-expected-to-break-the-model).
+
 ## Running the demo
 
 ```bash
 deno task dev
 ```
 
-- `http://localhost:4040/spike-headless.html` — this spike: select and tabs
+- `http://localhost:4040/spike-headless.html` — select and tabs, paired against
+  the library versions
+- `http://localhost:4040/light-dom-probe.html` — library, owned-shadow and
+  owned-light selects side by side
+- `http://localhost:4040/toast-probe.html` — the headless toast; buttons post
+  records, hover the stack to expand and pause
+- `http://localhost:4040/cascade-probe.html` — the unreachable-knob fix, each
+  component plain and with a consumer override
 - `http://localhost:4040/spike-eject.html` — the previous spike, for comparison
 - `http://localhost:4040/context-order-probe.html` — reproduces the two library
   bugs from section 8.5 in isolation (revert commit `8da9dad` to see them fail)
