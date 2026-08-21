@@ -21,6 +21,7 @@ const BUI_P2_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p2
 const BUI_P2_REACT_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p2-react.ts");
 const BUI_P3_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p3.ts");
 const BUI_P7_ENTRY = resolve(import.meta.dirname!, "../spike-light/src/probes/p7.ts");
+const BUI_SCRATCH_ENTRY = resolve(import.meta.dirname!, "../spike-light/scratch-app/app.ts");
 const WORKSPACE_ROOT = resolve(import.meta.dirname!, "../..");
 const PRIMITIVES_ROOT = resolve(WORKSPACE_ROOT, "../dui-primitives");
 const CORE_VERSION: string = JSON.parse(
@@ -177,6 +178,7 @@ const ENTRY_POINTS = [
   { in: BUI_P2_REACT_ENTRY, out: "bui-p2-react" },
   { in: BUI_P3_ENTRY, out: "bui-p3" },
   { in: BUI_P7_ENTRY, out: "bui-p7" },
+  { in: BUI_SCRATCH_ENTRY, out: "bui-scratch" },
 ];
 
 const buildMode = Deno.args.includes("--build");

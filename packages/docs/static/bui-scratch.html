@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scratch app — consuming BUI</title>
+  <script type="module" src="./bui-scratch.js"></script>
+  <style>
+    /* Consumer styles: tokens are just custom properties, so the app uses
+       them directly; unlayered rules win over bui.components by design. */
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: system-ui;
+      padding: 48px;
+    }
+    .card {
+      max-width: 420px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-4);
+    }
+    .card h1 { font-size: var(--text-lg); margin: 0; }
+    label { font-size: var(--text-sm); display: grid; gap: var(--space-1_5); }
+    /* consumer override: this app wants a hairline-free, filled trigger */
+    bui-select-trigger > button { background: var(--surface-2); }
+    #status { font-size: var(--text-sm); color: var(--text-3); min-height: 1.2em; }
+    .danger-zone { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Project settings</h1>
+
+    <label>
+      Environment
+      <bui-select id="env" value="staging">
+        <bui-select-trigger></bui-select-trigger>
+        <bui-select-popup>
+          <bui-select-option value="dev">Development</bui-select-option>
+          <bui-select-option value="staging">Staging</bui-select-option>
+          <bui-select-option value="prod">Production</bui-select-option>
+        </bui-select-popup>
+      </bui-select>
+    </label>
+
+    <div class="danger-zone">
+      <span id="status"></span>
+      <bui-button variant="outline"><button id="delete-btn">Delete project…</button></bui-button>
+    </div>
+  </div>
+
+  <bui-dialog id="confirm-dialog">
+    <bui-dialog-header>
+      <h2>Delete project?</h2>
+      <p>This cannot be undone.</p>
+    </bui-dialog-header>
+    <bui-dialog-body>
+      <p style="margin:0">The project and its history will be removed.</p>
+    </bui-dialog-body>
+    <bui-dialog-footer>
+      <bui-button variant="outline"><button id="cancel-btn">Cancel</button></bui-button>
+      <bui-button><button id="confirm-btn">Delete</button></bui-button>
+    </bui-dialog-footer>
+    <bui-dialog-close></bui-dialog-close>
+  </bui-dialog>
+</body>
+</html>

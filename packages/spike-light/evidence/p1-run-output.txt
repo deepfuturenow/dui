@@ -58,3 +58,18 @@ after backdrop click open: false
 Δ content-pre: box-sizing: content-box -> border-box | margin-top: 13px -> 0px | font-family: monospace -> system-ui, -apple-system, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" | font-size: 13px -> 16px | line-height: normal -> 24px | border-top-style: none -> solid
 Δ bui-footer: line-height: normal -> 24px | border-top-style: none -> solid
 Δ bui-close: border-top-style: none -> solid
+
+== Addendum (recorded during FINDINGS write-up) ==
+Q: are the preflight-LAYERED chrome diffs (line-height normal->24px on
+containers, 0-width border-style solid) visually real?
+Pixel check, #bui-parity none vs preflight-layered: the dialog grows
+143.875 -> 153.875 (10px). Cause isolated by per-element rect diff:
+  bui-dialog-body: 38 -> 48
+  p (CONSUMER paragraph in the body): 38 -> 48
+The growth is the consumer's own <p> picking up preflight's
+html { line-height: 1.5 } — consumer content styled by the page
+stylesheet, which is the intended light-DOM behavior and P1's
+"attributable to the page stylesheet" case. Chrome elements (header,
+title, description, footer, close) are pixel-unchanged; the 0-width
+border-style flips are inert. DUI behaves the same way for slotted
+light-DOM children, which also receive page styles.
