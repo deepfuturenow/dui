@@ -6,7 +6,8 @@
     "./packages/templates",
     "./packages/docs",
     "./packages/spike-eject",
-    "./packages/spike-headless"
+    "./packages/spike-headless",
+    "./packages/spike-light"
   ],
   "exclude": [
     ".worktrees",

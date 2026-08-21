@@ -1,0 +1,47 @@
+/*
+ * BUI layer order. Must be adopted before any component stylesheet so that
+ * `@layer bui.reset, bui.components;` is the first declaration the browser
+ * sees for these names — later component sheets then append into an order
+ * that is already fixed.
+ *
+ * Unlayered page styles beat everything in bui.*: that is the deterministic
+ * override rule that replaces the specificity tie-breaking Experiment 2
+ * observed with adopted shadow-free sheets.
+ */
+@layer bui.reset, bui.components;
+
+@layer bui.reset {
+  /*
+   * The reset covers only what BUI itself renders. DUI's shadow base sheet
+   * applied `* { box-sizing: border-box }` per shadow root; adopting that
+   * document-wide from a library is unacceptable, and a subtree reset like
+   * `[data-bui] *` would reach consumer content inside wrapping parts (the
+   * leak P1 forbids). So: the elements BUI marks, and the native elements
+   * BUI parts render — at zero specificity, so layer order governs.
+   */
+  :where([data-bui]) {
+    box-sizing: border-box;
+  }
+
+  :where(bui-button) > button,
+  :where(bui-select-trigger) > button,
+  :where(bui-dialog-close) > button,
+  :where(bui-popover-trigger) > button,
+  :where(bui-tooltip-trigger) > button {
+    appearance: none;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :where(bui-input) > input,
+  :where(bui-combobox-input) > input {
+    appearance: none;
+    border: 0;
+    font: inherit;
+    box-sizing: border-box;
+  }
+}

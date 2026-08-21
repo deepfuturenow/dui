@@ -8,9 +8,11 @@
     "npm:@deepfuture/dui-inspector@^0.0.22": "0.0.22",
     "npm:@floating-ui/dom@^1.7.4": "1.7.5",
     "npm:@lit/context@^1.1.3": "1.1.6",
+    "npm:@lit/reactive-element@^2.1.1": "2.1.2",
     "npm:@observablehq/plot@0.6": "0.6.17",
     "npm:esbuild@0.25.2": "0.25.2",
     "npm:esbuild@~0.27.2": "0.27.3",
+    "npm:lit-html@^3.3.2": "3.3.2",
     "npm:lit@^3.3.2": "3.3.2",
     "npm:lucide-static@*": "1.11.0",
     "npm:maplibre-gl@^5.15.0": "5.21.0",
@@ -1244,6 +1246,14 @@
       "packages/spike-headless": {
         "dependencies": [
           "npm:@floating-ui/dom@^1.7.4",
+          "npm:lit@^3.3.2"
+        ]
+      },
+      "packages/spike-light": {
+        "dependencies": [
+          "npm:@floating-ui/dom@^1.7.4",
+          "npm:@lit/reactive-element@^2.1.1",
+          "npm:lit-html@^3.3.2",
           "npm:lit@^3.3.2"
         ]
       },
