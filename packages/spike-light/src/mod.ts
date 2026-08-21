@@ -10,5 +10,8 @@ export {
   type LifecycleHooks,
 } from "./core/controller-host.ts";
 export { attach } from "./core/lit.ts";
-export { CompoundController, type PartHost } from "./core/compound-controller.ts";
+export {
+  CompoundController,
+  type PartHost,
+} from "./core/compound-controller.ts";
 export { type BagExpectation, DevCheck } from "./core/dev-check.ts";

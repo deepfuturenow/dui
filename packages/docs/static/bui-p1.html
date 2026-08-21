@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>P1 — style boundary</title>
+  <script type="module" src="./bui-p1.js"></script>
+  <style>
+    /* page chrome only — intentionally minimal and unhostile */
+    body { background: var(--background); color: var(--foreground); font-family: system-ui; padding: 24px; }
+    .controls { display: flex; gap: 8px; margin-bottom: 16px; }
+  </style>
+</head>
+<body class="page">
+  <div class="controls">
+    <button id="open-dui">open dui-dialog</button>
+    <button id="open-bui">open bui-dialog</button>
+    <span id="mode"></span>
+  </div>
+
+  <!-- ══ DUI side: parity baseline ══ -->
+  <dui-dialog>
+    <dui-dialog-popup>
+      <span slot="title">Rename project</span>
+      <span slot="description">This changes the name everywhere it appears.</span>
+      <p style="margin:0">The project keeps its history and its collaborators.</p>
+    </dui-dialog-popup>
+  </dui-dialog>
+
+  <!-- ══ BUI parity twin: content identical to the DUI side ══ -->
+  <bui-dialog id="bui-parity">
+    <bui-dialog-header>
+      <h2>Rename project</h2>
+      <p>This changes the name everywhere it appears.</p>
+    </bui-dialog-header>
+    <bui-dialog-body>
+      <p style="margin:0">The project keeps its history and its collaborators.</p>
+    </bui-dialog-body>
+  </bui-dialog>
+
+  <!-- ══ BUI side: same content, compound form, rich consumer body ══ -->
+  <bui-dialog class="popup">
+    <bui-dialog-header data-probe="bui-header">
+      <h2 data-probe="bui-title">Rename project</h2>
+      <p data-probe="bui-description">This changes the name everywhere it appears.</p>
+    </bui-dialog-header>
+    <bui-dialog-body class="body" data-probe="bui-body">
+      <p data-probe="content-p" style="margin:0">The project keeps its history and its collaborators.</p>
+      <h2 data-probe="content-h2">Consumer heading</h2>
+      <form data-probe="content-form">
+        <input data-probe="content-input" name="project" value="alpha" />
+        <button data-probe="content-native-button" type="button">Native button</button>
+      </form>
+      <bui-button data-probe="content-bui-button-host"><button data-probe="content-bui-button">Nested BUI</button></bui-button>
+      <table data-probe="content-table"><tr><td data-probe="content-td">cell</td></tr></table>
+      <pre data-probe="content-pre">preformatted</pre>
+    </bui-dialog-body>
+    <bui-dialog-footer data-probe="bui-footer">
+      <bui-button variant="outline"><button>Cancel</button></bui-button>
+      <bui-button><button>Rename</button></bui-button>
+    </bui-dialog-footer>
+    <bui-dialog-close data-probe="bui-close"></bui-dialog-close>
+  </bui-dialog>
+
+  <script>document.getElementById("mode").textContent = location.search;</script>
+</body>
+</html>

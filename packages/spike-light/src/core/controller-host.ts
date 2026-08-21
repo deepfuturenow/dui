@@ -34,7 +34,9 @@ export abstract class Controller {
 
   /** Called by an adapter exactly once. */
   attachTo(host: ControllerHost): void {
-    if (this.#host) throw new Error(`[bui] ${this.constructor.name} attached twice`);
+    if (this.#host) {
+      throw new Error(`[bui] ${this.constructor.name} attached twice`);
+    }
     this.#host = host;
     this.onAttach?.();
   }

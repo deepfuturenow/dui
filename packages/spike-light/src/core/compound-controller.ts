@@ -25,7 +25,7 @@ export class CompoundController<D = void> extends Controller {
       { part, data },
     ].sort((a, b) =>
       a.part.element.compareDocumentPosition(b.part.element) &
-          Node.DOCUMENT_POSITION_FOLLOWING
+        Node.DOCUMENT_POSITION_FOLLOWING
         ? -1
         : 1
     );

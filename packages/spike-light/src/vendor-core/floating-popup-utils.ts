@@ -78,7 +78,6 @@ export class ReopenGuard {
   }
 }
 
-
 // ---------------------------------------------------------------------------
 // Centralized Floating UI positioning
 // ---------------------------------------------------------------------------
@@ -92,7 +91,6 @@ const fixedPlatform = {
   ...platform,
   getOffsetParent: (): typeof window => window,
 };
-
 
 // ---------------------------------------------------------------------------
 // alignInner — macOS-style "selected item overlays trigger" positioning
@@ -216,7 +214,8 @@ export const computeFixedPosition = (
   // offset/flip/shift positioning, which keeps the popup anchored to the
   // trigger and lets the list scroll internally.
   const innerEl = options.alignToInner?.getElement() ?? null;
-  const scrollContainer = options.alignToInner?.getScrollContainer() ?? floating;
+  const scrollContainer = options.alignToInner?.getScrollContainer() ??
+    floating;
   const listFits =
     scrollContainer.scrollHeight <= scrollContainer.clientHeight + 1;
   const useInnerAlign = innerEl != null && listFits;

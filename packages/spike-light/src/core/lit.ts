@@ -6,7 +6,10 @@
 import type { ReactiveElement } from "@lit/reactive-element";
 import { Controller, type LifecycleHooks } from "./controller-host.ts";
 
-export function attach<C extends Controller>(el: ReactiveElement, controller: C): C {
+export function attach<C extends Controller>(
+  el: ReactiveElement,
+  controller: C,
+): C {
   const hooks: LifecycleHooks[] = [];
   el.addController({
     hostConnected: () => hooks.forEach((h) => h.connected?.()),

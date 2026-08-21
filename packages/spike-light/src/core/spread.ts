@@ -37,7 +37,9 @@ function setEntry(el: Element, key: string, value: unknown): void {
       }
       if (key === "style" && typeof value === "object") {
         const style = (el as HTMLElement).style;
-        for (const [prop, v] of Object.entries(value as Record<string, string>)) {
+        for (
+          const [prop, v] of Object.entries(value as Record<string, string>)
+        ) {
           style.setProperty(prop, v);
         }
         return;
