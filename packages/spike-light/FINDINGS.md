@@ -304,6 +304,32 @@ price of light-DOM label ownership; Phase 1 should document the rationale where
 consumers will see it, and consider whether `bui-button` is worth shipping at
 all versus a documented class recipe.
 
+## Cross-browser verification (post-Phase 0)
+
+Phase 0's numbers were all Chromium. A follow-up smoke re-asserted the
+load-bearing claims per engine:
+
+- **WebKit: pass on everything probed.** WebKitGTK 2.52 (AppleWebKit 605.1.15,
+  current Safari-class engine), driven through WebKitWebDriver
+  (`runners/webkit-smoke.mjs`, raw W3C WebDriver, no client library). Every
+  feature the architecture leans on is supported (`popover`, `@scope`,
+  `@starting-style`, `@layer`, adopted stylesheets, `ElementInternals`, `oklch`,
+  `text-box`). P1: DUI/BUI geometry parity, title weight preserved under layered
+  preflight, consumer content untouched by BUI, hostile page rules win as
+  designed, Esc and backdrop-click dismiss with real input. P4: all five select
+  contexts match DUI exactly (including flip and contained cases; the `overflow`
+  context picks the anchored fallback in WebKit where Chromium inner-aligned —
+  both engines agree DUI ↔ BUI, which is the criterion); tooltips open at the 6
+  px gap under real pointer hover. P7: tabs geometry matches before and after
+  selection. Evidence: `evidence/webkit-smoke-output.txt`.
+- **Firefox: not runnable in this environment.** The network policy blocks every
+  delivery route (Playwright CDN, `@playwright/browser-*` postinstall, Mozilla
+  apt, Launchpad PPAs, Debian archive; Ubuntu's `firefox` package is a snap
+  stub). The smoke must run locally: `runners/webkit-smoke.mjs` documents the
+  assertions to replicate, or re-run the Playwright runners with
+  `browserType: firefox`. Until then, Gecko support is asserted from
+  feature-support data, not measured.
+
 ## Spec-convention deltas Phase 0 produced
 
 Findings that should be folded back into the spec rather than left here:

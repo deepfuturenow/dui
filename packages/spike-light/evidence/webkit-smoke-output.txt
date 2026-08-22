@@ -1,0 +1,15 @@
+features: {"elementInternals":true,"ua":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15","anchorCenter":true,"scopeRule":true,"layerRule":true,"textBox":true,"startingStyle":true,"oklch":true,"popover":true,"adoptedSheets":true}
+P1 geometry parity: dui 384x144 bui 384x144 -> MATCH
+P1 boundary: css=none title-weight=600 (expect 600), consumer h2 24px/700 (expect UA 24px/700 — BUI must not touch it)
+P1 boundary: preflight-LAYERED title-weight=600 (expect 600 — layered page reset must lose)
+P1 boundary: hostile title-color=rgb(255, 0, 0) bodyBg=rgb(128, 0, 128) (expect red / purple — unlayered page rules must win)
+P1 behavior: open=true afterEsc=false afterBackdropClick=false (expect true/false/false)
+P4 select plain     dui rel(-22,-37) 200x475 | bui rel(-22,-37) 200x475 | MATCH
+P4 select transform dui rel(-22,-138) 200x475 | bui rel(-22,-138) 200x475 | MATCH
+P4 select overflow  dui rel(0,36) 200x445 | bui rel(0,36) 200x445 | MATCH
+P4 select fixed     dui rel(-22,-390) 200x475 | bui rel(-22,-390) 200x475 | MATCH
+P4 select contain   dui rel(0,36) 200x259 | bui rel(0,36) 200x259 | MATCH
+P4 tooltip dui (real hover): gap=6 (expect 6)
+P4 tooltip bui (real hover): gap=6 (expect 6)
+P7 initial: MATCH (all parts within 1px)
+P7 after select: MATCH (all parts within 1px)
