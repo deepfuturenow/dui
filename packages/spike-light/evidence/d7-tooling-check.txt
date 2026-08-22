@@ -22,3 +22,26 @@ Untested mitigations to evaluate in Phase 1: workspace CSS-variable indexer
 extensions (e.g. 'CSS Var Complete' / cssvar) that scan configured files like
 tokens.css and complete in .ts; or generating an editor snippet/custom-data
 artifact from tokens.css at build time.
+
+== Follow-up: mitigation verified ==
+css-variables-language-server@2.8.4 (the LSP behind the "CSS Var Complete"
+VS Code extension, vunguyentuan.vscode-css-variables) driven over stdio
+(evidence/d7/drive-lsp.mjs), workspace = the same test project, settings
+lookupFiles: ["**/*.css"], document opened as languageId "typescript":
+
+[inside empty var(]      items: 5, labels: --space-1 --space-2 --space-3 --text-sm --text-base
+[mid-identifier var(--sp] items: 5, labels: --space-1 --space-2 --space-3 --text-sm --text-base
+
+All token names from tokens.css complete inside the css`` template in a
+.ts file. Caveats: completion is context-blind (the server offers
+variables at any position in the file, not only inside css``), and this
+is a second tool alongside lit-plugin, which still supplies property-name
+completion and CSS diagnostics inside the template. Being a standard LSP
+server it can be wired into any LSP-capable editor, which partially
+restores D7's editor-agnosticism claim.
+
+Driver notes for reruns: the server requires client capabilities
+workspace.configuration AND workspace.workspaceFolders, and it awaits
+server->client requests (workspace/workspaceFolders, workspace/configuration,
+client/registerCapability) — a driver that leaves those unanswered gets an
+empty index and zero completions.
