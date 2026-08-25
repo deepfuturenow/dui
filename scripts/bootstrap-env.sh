@@ -12,4 +12,7 @@ if [ ! -d /home/user/dui-primitives/packages/primitives/src ]; then
   GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 \
     https://github.com/deepfuturenow/dui-primitives /home/user/dui-primitives >/dev/null 2>&1
 fi
-echo "bootstrap: deno=$("$HOME/bin/deno" --version 2>/dev/null | head -1 | cut -d' ' -f2), primitives=$([ -d /home/user/dui-primitives/packages/primitives/src ] && echo ok || echo MISSING)"
+if [ ! -d /home/user/bui/.git ]; then
+  git clone https://github.com/deepfuturenow/bui /home/user/bui >/dev/null 2>&1
+fi
+echo "bootstrap: deno=$("$HOME/bin/deno" --version 2>/dev/null | head -1 | cut -d' ' -f2), primitives=$([ -d /home/user/dui-primitives/packages/primitives/src ] && echo ok || echo MISSING), bui=$([ -d /home/user/bui/.git ] && echo ok || echo MISSING)"
